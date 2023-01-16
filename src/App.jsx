@@ -6,8 +6,8 @@ import WithNav from "./routes/nav-controller/with-nav/with-nav.component";
 import WithOutNav from "./routes/nav-controller/without-nav/without-nav.component";
 import SignUp from "./routes/authentication/sign-up/sign-up.component";
 import { createContext, useState, useEffect } from "react";
-import Auction from "./routes/auction/auction.component";
-import Market from "./routes/market/market.component";
+import { Auction } from "./routes/auction/auction.component";
+import { Market } from "./routes/market/market.component";
 import { Feeds } from "./routes/feeds/feeds.component";
 
 
