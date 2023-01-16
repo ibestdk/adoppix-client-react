@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import { authenicate } from "../../../services/authorize";
 import { useNavigate } from "react-router-dom";
 
-
-
 const LoginCard = () => {
   const navigate = useNavigate();
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,8 +34,8 @@ const LoginCard = () => {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")
-          authenicate(res, ()=> navigate('/'));
-          
+          authenicate(res, () => navigate("/"));
+
           // localStorage.setItem("ut", res.data);
         }
       })
@@ -76,12 +74,18 @@ const LoginCard = () => {
             <div className="mb-2 block">
               <Label htmlFor="password" value="รหัสผ่าน" />
             </div>
-            <TextInput
-              id="password"
-              name="password"
-              type="password"
-              required={true}
-            />
+            <div className="flex">
+              <TextInput
+                className="w-[90%]"
+                id="password"
+                name="password"
+                type="password"
+                required={true}
+              />
+              <div className="m-auto">
+                <input className="rounded-full" type="checkbox" />
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <input className="rounded-md" type="checkbox" name="" id="" />

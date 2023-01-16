@@ -110,16 +110,16 @@ const OwlAuction = () => {
   };
 
   return (
-    <div className=" mt-5 p-5 container m-auto bg-adoplight rounded-lg">
+    <div className=" mt-5 p-5 container m-auto bg-adoplight dark:bg-adopsoftdark rounded-lg">
       <div>
-        <h2 className="text-adopsoftdark text-center text-2xl font-bold">Pending Auction</h2>
+        <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">Pending Auction</h2>
       </div>
       <div className="mt-3">
         <OwlCarousel {...options}>
           {pendingLists.map((card, cardIndex) => (
             <div key={cardIndex} className="item m-3  w-[260px] ">
               <img className="w-[250px] h-[300px] object-cover rounded-lg shadow-lg" src={card.image} />
-              <h4 className="text-adopsoftdark">{card.title}</h4>
+              <h4 className="text-adopsoftdark dark:text-adoplight duration-300">{card.title}</h4>
             </div>
           ))}
         </OwlCarousel>

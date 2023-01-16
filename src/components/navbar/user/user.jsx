@@ -51,7 +51,7 @@ function UserDropDown() {
           <div>
             <img
               className="rounded-full border-2 p-1 border-adoppix outline-adoppix"
-              src="https://scontent.fbkk5-7.fna.fbcdn.net/v/t39.30808-6/324412699_1199299450681684_3832415891113419099_n.jpg?stp=dst-jpg_p526x296&_nc_cat=107&ccb=1-7&_nc_sid=8bfeb9&_nc_eui2=AeETzVCVvVdW4VEI0WJNTAFeeNn_4WZ8T8542f_hZnxPzo04Dd1_wO7h1TRr3SLI_ZLgbgaeAkbKWEYpYGzRdH_w&_nc_ohc=z5tAJpeJ2R8AX8mWuDH&_nc_oc=AQmsY6oZ1qtyCHynSYbzLBP4P5kMe4RYYs6Z5SoCHdD1Oh50ef_3E1dhdchq5Bn9WXI&_nc_ht=scontent.fbkk5-7.fna&oh=00_AfCV-OjC7cv85FyXGBYELfOihdj4Nda70H03Uca7pkNfvg&oe=63BE0739"
+              src="https://pix.adoppix.com/public/1f535da9-d0ae-4519-b513-26e29c7cfde2.jpg"
             ></img>
           </div>
         </div>
