@@ -1,7 +1,18 @@
-import shadows from "@mui/material/styles/shadows";
-import { margin, rgbToHex } from "@mui/system";
+import { useState } from "react";
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+
+function valuetext(value) {
+    return `${value}°C`;
+  }
 
 const MarketFilter = () => {
+    const [value, setValue] = useState([200,1000]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
     const gridStyle = {
         margin: "1rem 0",
         boxShadow: "0 0 5px lightgray",
@@ -42,7 +53,7 @@ const MarketFilter = () => {
             <div className="row">
                 <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md" style={gridStyle}>
                     <div className="mt-2">
-                        <h5>
+                        <h5 className="text-adopdark dark:text-adoplight">
                             ชื่อสินค้า
                         </h5>
                         <hr />
@@ -53,7 +64,7 @@ const MarketFilter = () => {
                         </form>
                     </div>
                     <div className="mt-2">
-                        <h5>
+                        <h5 className="text-adopdark dark:text-adoplight">
                             ชื่อศิลปิน
                         </h5>
                         <hr />
@@ -64,7 +75,7 @@ const MarketFilter = () => {
                         </form>
                     </div>
                     <div className="mt-2">
-                        <h5>
+                        <h5 className="text-adopdark dark:text-adoplight">
                             แท็ก
                         </h5>
                         <hr />
@@ -72,38 +83,49 @@ const MarketFilter = () => {
                             <div className="flex mt-3">
                                 <input type="text" className="shadow-md ml-2 mr-1 mb-1 mt-1 inline-block rounded-md text-adopdark" style={inputTextStyle} />
                             </div>
-                            <h5 className="mt-2">
+                            <h5 className="mt-2 text-adopdark dark:text-adoplight">
                                 แท็กที่ถูกค้นหาบ่อย
                             </h5>
                             <hr />
                             <div className="flex">
-                                <input type="radio" name="tag" className="shadow-md m-1  inline-block rounded-md" style={inputRadioStyle} />
-                                <label className="flex shadow-md"> Cat</label>
+                                <input type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md" style={inputRadioStyle} />
+                                <label className="flex text-adopdark dark:text-adoplight"> Cat</label>
                             </div>
                         </form>
                     </div>
                     <div className="mt-2">
-                        <h5>
+                        <h5 className="text-adopdark dark:text-adoplight">
                             ความใหม่ของสินค้า
                         </h5>
                         <hr />
                         <form action="">
                             <div className="flex">
                                 <input type="radio" style={inputRadioStyle} name="productLife" className="shadow-md m-1 inline-block rounded-md" />
-                                <label className="flex shadow-md">ใหม่</label>
+                                <label className="flex text-adopdark dark:text-adoplight">ใหม่</label>
                             </div>
                             <div className="flex">
                                 <input type="radio" style={inputRadioStyle} name="productLife" className="shadow-md m-1 inline-block rounded-md" />
-                                <label className="flex shadow-md">เก่า</label>
+                                <label className="flex text-adopdark dark:text-adoplight">เก่า</label>
                             </div>
                         </form>
                     </div>
                     <div className="mt-2">
-                        <h5>
+                        <h5 className="text-adopdark dark:text-adoplight">
                             ราคา
                         </h5>
                         <hr />
-                    </div>
+                        <Box className="text-adopdark dark:text-adoplight mt-10 mx-5">
+                            <Slider 
+                                getAriaLabel={() => 'Temperature range'}
+                                value={value}
+                                onChange={handleChange}
+                                valueLabelDisplay="on"
+                                getAriaValueText={valuetext}
+                                max="5000"
+                                step={50}
+                            ></Slider>
+                        </Box>
+                    </div> 
                     <div className="mt-2 w-full">
                         <button type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
                             <p className="mb-0"> <i className=""></i> ค้นหา</p>
