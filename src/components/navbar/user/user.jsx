@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
 import { logout } from "../../../services/authorize";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
 
 function UserDropDown() {
-  const { darkToggle , setDarkToggle} = useContext(DarkContext);
+  const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
   const setDarkMode = (darkMode) => {
-    console.log("loaded theme before change Ss : " + sessionStorage.getItem("theme"));
+    console.log(
+      "loaded theme before change Ss : " + sessionStorage.getItem("theme")
+    );
     console.log("loaded theme before change Ss : " + darkToggle);
-    console.log("theme will change to : " + darkMode)
-    setDarkToggle(darkMode)
-    sessionStorage.setItem("theme" , darkMode)
-    console.log("set theme to session"+ darkToggle && darkToggle);
+    console.log("theme will change to : " + darkMode);
+    setDarkToggle(darkMode);
+    sessionStorage.setItem("theme", darkMode);
+    console.log("set theme to session" + darkToggle && darkToggle);
   };
 
   const [open, setOpen] = useState(false);
@@ -38,10 +40,7 @@ function UserDropDown() {
 
   return (
     <div className={`App`}>
-      <div
-        className="menu-container"
-        ref={menuRef}
-      >
+      <div className="menu-container" ref={menuRef}>
         <div
           className="menu-trigger"
           onClick={() => {
@@ -63,7 +62,9 @@ function UserDropDown() {
             <span>Website Designer</span>
           </h3>
           <ul>
-            <DropdownItem text={"Settings"} />
+         
+              <DropdownItem click={() => navigate("/setting") } text={"Settings"} />
+       
 
             <li className="dropdownItem">
               <Switch onClick={() => setDarkMode(!darkToggle)} />
@@ -91,7 +92,7 @@ function DropdownItem(props) {
 function DropdownTheme() {
   return (
     <li className="dropdownItem">
-      <Switch checked={checked}  onClick={setDarkMode} />
+      <Switch checked={checked} onClick={setDarkMode} />
     </li>
   );
 }
