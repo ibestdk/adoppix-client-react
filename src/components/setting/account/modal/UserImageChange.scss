@@ -1,0 +1,51 @@
+.animation-custom{
+    animation: fade-in-out .2s ease-in-out forwards;
+    -webkit-animation: fade-in-out .2s ease-in-out forwards;
+    -moz-animation: fade-in-out .2s ease-in-out forwards;
+    -o-animation: fade-in-out .2s ease-in-out forwards;
+    // animation-name: fade-in;
+    // animation-duration: .2s;
+    // animation-timing-function: linear ;
+    // -webkit-animation-timing-function: ease-in-out;
+}
+
+
+@keyframes fade-in-out{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+
+}
+
+
+  @-moz-keyframes fade-in-out {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+  }
+  
+  @-webkit-keyframes fade-in-out {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+  }
+  
+  @-o-keyframes fade-in-out {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+  }
+
+
+
+
+// @keyframes fade-in{
+//     0%{opacity: 0;}
+//     25%{opacity: .3;}
+//     50%{opacity: .6;}
+//     75%{opacity: .8;}
+//     100%{opacity: 1;}
+// }
+// @keyframes fade-out {
+//     100%{opacity: 1;}
+//     75%{opacity: .8;}
+//     50%{opacity: .6;}
+//     25%{opacity: .3;}
+//     0%{opacity: 0;}
+// }
