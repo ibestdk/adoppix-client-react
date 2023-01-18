@@ -42,7 +42,7 @@ function CreateDropDown() {
           </div>
         </div>
 
-        <div className={`dropdown-menu-create ${open ? "active" : "inactive"}`}>
+        <div className={`dropdown-menu-create ${open ? "active" : "inactive"} dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg `}>
           <h3>
             Create
             <br />
@@ -61,8 +61,9 @@ function CreateDropDown() {
 
 function DropdownItem(props) {
   return (
-    <li className="dropdownItem">
-      <a onClick={props.click}> {props.text} </a>
+    <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
+    
+      <a className="dark:text-adoplight"  onClick={props.click}> {props.text} </a>
     </li>
   );
 }

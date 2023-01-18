@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
 import { logout } from "../../../services/authorize";
-import { useNavigate , Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
+import {
+  BsFillGearFill,
+  BsFillQuestionCircleFill,
+  BsMoonFill,
+  BsSun,
+} from "react-icons/bs";
+import { MdLogout } from "react-icons/md";
 
 function UserDropDown() {
   const { darkToggle, setDarkToggle } = useContext(DarkContext);
@@ -55,23 +62,39 @@ function UserDropDown() {
           </div>
         </div>
 
-        <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
-          <h3>
+        <div
+          className={`dropdown-menu ${
+            open ? "active" : "inactive"
+          }  dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg`}
+        >
+          <h3 className="dark:text-adoplight">
             The Kiet
-            <br />
-            <span>Website Designer</span>
+            <br className="dark:text-adoplight" />
+            <span className="dark:text-adoplight">Website Designer</span>
           </h3>
           <ul>
-         
-              <DropdownItem click={() => navigate("/setting") } text={"Settings"} />
-       
+            <DropdownItem
+              click={() => navigate("/setting")}
+              icon={
+                <BsFillGearFill className="dark:text-adoplight  ml-3 mt-[4px]" />
+              }
+              text={"Settings"}
+            />
 
             <li className="dropdownItem">
+              <BsMoonFill className="dark:text-adoplight  ml-3 mr-2 mt-2 text-xl" />
               <Switch onClick={() => setDarkMode(!darkToggle)} />
+              <BsSun className="dark:text-adoplight  ml-2 mt-2 text-xl"/>
             </li>
 
-            <DropdownItem text={"Helps"} />
             <DropdownItem
+              icon={
+                <BsFillQuestionCircleFill className="dark:text-adoplight  ml-3 mt-[4px]" />
+              }
+              text={"Helps"}
+            />
+            <DropdownItem
+              icon={<MdLogout className="dark:text-adoplight  ml-3 mt-[4px]" />}
               click={() => logout(() => navigate("/"))}
               text={"Logout"}
             />
@@ -84,8 +107,12 @@ function UserDropDown() {
 
 function DropdownItem(props) {
   return (
-    <li className="dropdownItem">
-      <a onClick={props.click}> {props.text} </a>
+    <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
+      {props.icon}
+      <a className="dark:text-adoplight" onClick={props.click}>
+        {" "}
+        {props.text}{" "}
+      </a>
     </li>
   );
 }
