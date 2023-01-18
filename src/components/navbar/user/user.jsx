@@ -74,7 +74,7 @@ function UserDropDown() {
           </h3>
           <ul>
             <DropdownItem
-              click={() => navigate("/setting")}
+              click={() => navigate("/setting/account")}
               icon={
                 <BsFillGearFill className="dark:text-adoplight  ml-3 mt-[4px]" />
               }
