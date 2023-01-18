@@ -39,7 +39,7 @@ export default function ModalBannerChange({ visible, onClose }) {
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
-  const [aspect, setAspect] = useState<number | undefined>(1 / 1);
+  const [aspect, setAspect] = useState<number | undefined>(3.76 / 1);
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -102,7 +102,7 @@ export default function ModalBannerChange({ visible, onClose }) {
       onClick={handleOnClose}
       className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300"
     >
-      <div className=" dark:bg-adopsoftdark bg-adoplight w-[800px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
+      <div className=" dark:bg-adopsoftdark bg-adoplight w-[1200px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
         <div className="py-2 border-b-4 dark:border-adopdark border-adoplighticon">
           <h2 className="dark:text-adoplight text-adopdark text-2xl p-2">
             เปลี่ยนรูปภาพปก
@@ -114,23 +114,24 @@ export default function ModalBannerChange({ visible, onClose }) {
         >
           <div className="mt-2">
             <div className="Crop-Controls">
-              <input type="file" accept="image/*" onChange={onSelectFile} />
+              <input className="rounded-lg bg-adoplighticon" type="file"  accept="image/*" onChange={onSelectFile} />
             </div>
             <div className="flex mt-6">
               <div className="mr-8 w-[450px] ">
                 <div className="mb-4">
                   <h2 className="text-2xl">Crop Image</h2>
                 </div>
-                <div className="shadow-lg border-2 min-h-[200px] rounded-lg">
+                <div className=" min-h-[200px] rounded-lg">
                   {!!imgSrc && (
                     <ReactCrop
+                    className="rounded-lg"
                       crop={crop}
                       onChange={(_, percentCrop) => setCrop(percentCrop)}
                       onComplete={(c) => setCompletedCrop(c)}
                       aspect={aspect}
                     >
                       <img
-                        className="rounded-lg"
+                        className="rounded-lg shadow-lg "
                         ref={imgRef}
                         alt="Crop me"
                         src={imgSrc}
@@ -143,19 +144,19 @@ export default function ModalBannerChange({ visible, onClose }) {
                   )}
                 </div>
               </div>
-              <div className="mx-5 w-[250px] h-[250px] rounded-full">
+              <div className="mx-5">
                 <div className="mb-4">
-                  <h2 className="text-2xl">Preview Image</h2>
+                  <h2 className="text-2xl">รูปปกตัวอย่าง</h2>
                 </div>
                 <div>
                   {!!completedCrop && (
                     <canvas
-                      className="rounded-full w-[250px] h-[250px] "
+                      className=" w-[600px] h-[160px] rounded-lg border-none shadow-lg "
                       ref={previewCanvasRef}
                       style={{
                         border: "1px solid black",
                         objectFit: "contain",
-                        width: completedCrop.width,
+                        width: "100%",
                         height: completedCrop.height,
                       }}
                     />

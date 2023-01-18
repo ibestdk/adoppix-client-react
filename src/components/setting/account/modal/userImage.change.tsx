@@ -145,7 +145,7 @@ export default function ModalChangeImage({ visible, onClose }) {
               </div>
               <div className="mx-5 w-[250px] h-[250px] rounded-full">
                 <div className="mb-4">
-                  <h2 className="text-2xl">Preview Image</h2>
+                  <h2 className="text-2xl">รูปตัวอย่างโปรไฟล์</h2>
                 </div>
                 <div>
                   {!!completedCrop && (
