@@ -11,7 +11,7 @@ import {
   BsSun,
   BsImages,
   BsFillCreditCard2FrontFill,
-  BsBank2
+  BsBank2,
 } from "react-icons/bs";
 
 import { MdLogout } from "react-icons/md";
@@ -71,36 +71,54 @@ function UserDropDown() {
             open ? "active" : "inactive"
           }  dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg`}
         >
-          <div
-            className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 object-contain bg-repeat-round bg-center"
-            style={{ backgroundImage: "url(" + "https://pix.adoppix.com/public/368443ba-e19e-4207-85b3-d51bb8c5d401.jpg" + ")" }}
-          >
-            <p className="text-center pt-2 ">
-              <img
-                className="rounded-full w-[60px] border-4  border-adoppix outline-adoppix mx-auto shadow-lg"
-                src="https://pix.adoppix.com/public/1f535da9-d0ae-4519-b513-26e29c7cfde2.jpg"
-              ></img>
-            </p>
-            <h3 className="text-adoplight pt-0 shadow-lg">
-              ibestdk
-              <br className="dark:text-adoplight" />
-              <span className="dark:text-adoplight shadow-xl">Artist</span>
-            </h3>
-          </div>
+          <Link to="ibestdk">
+            <div
+              className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 object-contain bg-repeat-round bg-center"
+              style={{
+                backgroundImage:
+                  "url(" +
+                  "https://pix.adoppix.com/public/368443ba-e19e-4207-85b3-d51bb8c5d401.jpg" +
+                  ")",
+              }}
+            >
+              <p className="text-center pt-2 ">
+                <img
+                  className="rounded-full w-[60px] border-4  border-adoppix outline-adoppix mx-auto shadow-lg"
+                  src="https://pix.adoppix.com/public/1f535da9-d0ae-4519-b513-26e29c7cfde2.jpg"
+                ></img>
+              </p>
+              <h3 className="text-adoplight pt-0 shadow-lg">
+                ibestdk
+                <br className="dark:text-adoplight" />
+                <span className="dark:text-adoplight shadow-xl">Artist</span>
+              </h3>
+            </div>
+          </Link>
           <div className="text-right p-4">
             <div className="mt-2">
-              <h4 className="text-[.75rem] duration-300  text-adopdark dark:text-adoplight">เงินคงเหลือ</h4>
+              <h4 className="text-[.75rem] duration-300  text-adopdark dark:text-adoplight">
+                เงินคงเหลือ
+              </h4>
             </div>
             <div>
-              <h5 className="text-xl duration-300 text-adopdark dark:text-adoplight font-bold">3650.34</h5>
+              <h5 className="text-xl duration-300 text-adopdark dark:text-adoplight font-bold">
+                3650.34
+              </h5>
             </div>
           </div>
           <div className="flex mt-1">
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex"> <BsFillCreditCard2FrontFill className="m-1"/>เติมเงิน</a>
+              <a className="flex">
+                {" "}
+                <BsFillCreditCard2FrontFill className="m-1" />
+                เติมเงิน
+              </a>
             </div>
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex "><BsBank2 className="m-1" />ถอนเงิน</a>
+              <a className="flex ">
+                <BsBank2 className="m-1" />
+                ถอนเงิน
+              </a>
             </div>
           </div>
           <ul>

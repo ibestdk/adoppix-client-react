@@ -54,7 +54,7 @@ function App() {
               <Route path="bank" element={<Bank/>}></Route>
             </Route>
             <Route path=":userprofile" element={<UserProfile />} />
-            <Route path=":userprofile" element={<UserProfile />} />
+   
           </Route>
           <Route element={<WithOutNav />}>
             <Route path="login" element={<SignIn />} />
