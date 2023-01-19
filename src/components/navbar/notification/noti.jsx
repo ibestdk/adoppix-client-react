@@ -40,18 +40,18 @@ function NotiDropDown() {
           </div>
         </div>
 
-        <div className={`dropdown-menu-noti ${open ? "active" : "inactive"}`}>
-          <h3>
+        <div className={`dropdown-menu-noti ${open ? "active" : "inactive"} dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg`}>
+          <h3 className="dark:text-adoplight">
             Notification
           </h3>
           <ul>
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
-            <DropdownItem text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+            <DropdownItem className="dark:text-adoplight" text={"แจ้งเตือน"} />
+
 
           </ul>
         </div>
@@ -62,8 +62,8 @@ function NotiDropDown() {
 
 function DropdownItem(props) {
   return (
-    <li className="dropdownItem">
-      <a onClick={props.click}> {props.text} </a>
+    <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
+      <a className="dark:text-adoplight" onClick={props.click}> {props.text} </a>
     </li>
   );
 }

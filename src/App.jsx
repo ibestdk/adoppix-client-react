@@ -9,7 +9,12 @@ import { createContext, useState, useEffect } from "react";
 import { Auction } from "./routes/auction/auction.component";
 import { Market } from "./routes/market/market.component";
 import { Feeds } from "./routes/feeds/feeds.component";
-
+import UserProfile from "./routes/profile/user-profile.component";
+import Setting from "./routes/setting/setting.component";
+import Account from "./routes/setting/account/account.component";
+import Security from "./routes/setting/security/security.component";
+import Payment from "./routes/setting/payment/payment.component";
+import Bank from "./routes/setting/bank/bank.component";
 
 export const DarkContext = createContext();
 
@@ -30,7 +35,6 @@ function App() {
       }
     };
 
-
     loadedTheme();
   }, []);
 
@@ -43,6 +47,14 @@ function App() {
             <Route path="auction" element={<Auction />} />
             <Route path="market" element={<Market />} />
             <Route path="feeds" element={<Feeds />} />
+            <Route path="setting/" element={<Setting />}>
+              <Route path="account" element={<Account/>}></Route>
+              <Route path="security" element={<Security/>}></Route>
+              <Route path="payment" element={<Payment/>}></Route>
+              <Route path="bank" element={<Bank/>}></Route>
+            </Route>
+            <Route path=":userprofile" element={<UserProfile />} />
+   
           </Route>
           <Route element={<WithOutNav />}>
             <Route path="login" element={<SignIn />} />
