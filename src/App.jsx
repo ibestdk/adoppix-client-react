@@ -17,6 +17,8 @@ import Payment from "./routes/setting/payment/payment.component";
 import Bank from "./routes/setting/bank/bank.component";
 import { AuctionItem } from "./routes/auction/auction-item/auction-item.component";
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
+import { MarketIndex } from "./routes/market/market-index/market-index.component";
+import { MarketItem } from "./routes/market/market-item/market-item.component";
 
 export const DarkContext = createContext();
 
@@ -50,7 +52,10 @@ function App() {
               <Route index element={<AuctionIndex />} />
               <Route path=":auctionId" element={<AuctionItem />} />
             </Route>
-            <Route path="market" element={<Market />} />
+            <Route path="market/" element={<Market />} >
+              <Route index element={<MarketIndex/>} />
+              <Route path=":marketId" element={<MarketItem/>} />
+            </Route>
             <Route path="feeds" element={<Feeds />} />
             <Route path="setting/" element={<Setting />}>
               <Route path="account" element={<Account />}></Route>
