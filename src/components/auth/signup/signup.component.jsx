@@ -48,7 +48,7 @@ const SignUpCard = () => {
 
   return (
     <div className="max-w-sm m-auto flex items-center justify-center h-screen ">
-      <Card className="w-[350px]">
+      <div className="w-[350px] dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
         <div>
           <Link to='/'>
             <div className="logo text-adoppix font-bold text-3xl text-center">
@@ -56,7 +56,7 @@ const SignUpCard = () => {
             </div>
           </Link>
         </div>
-        <div className="text-center text-adopsoftdark">
+        <div className="text-center text-adopsoftdark dark:text-adoplight">
           <h1 className="text-lg">มาเป็นส่วนหนึ่งกับพวกเรา</h1>
           <h2 className="text-[13px]">
             สมัครมาชิกเพื่อเพลิดเพลินกับผลงานศิลปะที่พวกเรารัก
@@ -99,16 +99,16 @@ const SignUpCard = () => {
           </div>
           <Button type="submit">Sign Up</Button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
-            <a
-              href="#"
+            จำรหัสผ่านของคุณได้เเล้ว?{" "}
+            <Link
+              to="/login"
               className="text-blue-700 hover:underline dark:text-blue-500"
             >
-              Create account
-            </a>
+              กลับหน้าเข้าสู่ระบบ
+            </Link>
           </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };

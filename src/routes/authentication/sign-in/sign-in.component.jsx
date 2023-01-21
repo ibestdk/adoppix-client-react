@@ -2,7 +2,7 @@ import LoginCard from "../../../components/auth/login/login.component";
 
 const SignIn = () => {
     return (
-      <div>
+      <div className="dark:bg-adopdark">
        <LoginCard/>
       </div>
     );

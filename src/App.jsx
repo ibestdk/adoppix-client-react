@@ -17,6 +17,10 @@ import Payment from "./routes/setting/payment/payment.component";
 import Bank from "./routes/setting/bank/bank.component";
 import { AuctionItem } from "./routes/auction/auction-item/auction-item.component";
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
+import ForgetPassword from "./routes/authentication/forget-password/forget-password.component";
+import MailPasswordSended from "./components/auth/forget-password/mailsended";
+import ResetPassword from "./routes/authentication/reset-password/reset-password.component";
+import ResetPasswordCard from "./components/auth/reset-password/reset-password";
 
 export const DarkContext = createContext();
 
@@ -63,6 +67,9 @@ function App() {
           <Route element={<WithOutNav />}>
             <Route path="login" element={<SignIn />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="forgetpassword" element={<ForgetPassword />} />
+            <Route path="forgetpassword/mailsended" element={<MailPasswordSended />} />
+            <Route path="password/reset" element={<ResetPasswordCard />} />
           </Route>
         </Routes>
       </div>

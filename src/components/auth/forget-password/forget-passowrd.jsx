@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { authenicate } from "../../../services/authorize";
 import { useNavigate } from "react-router-dom";
 
-const LoginCard = () => {
+const ForgetPasswordCard = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -11,30 +11,29 @@ const LoginCard = () => {
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
-      password: data.get("password"),
     });
-
+    
     const jsonData = {
-      email: data.get("email"),
-      password: data.get("password"),
+        email: data.get("email"),
     };
 
-    fetch("https://testapi.adoppix.com/api/Auth/Login", {
-      method: "POST",
+//https://api.adoppix.com/api/Auth/f53493d7-78e1-4261-8b5c-fa4c6ce8da0c/forget-password  PUT METHOD  RESET PASSWORD Pess New Password Two Time
+    // console.log(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`)
+    fetch(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(jsonData),
     })
       .then((response) => response.json())
       .then((res) => {
         console.log("Success:", res);
-        if (res.successful) {
+        if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")
-          authenicate(res, () => navigate("/"));
+          navigate("/forgetpassword/mailsended");
 
           // localStorage.setItem("ut", res.data);
         }
@@ -49,16 +48,17 @@ const LoginCard = () => {
       <div className="w-[350px] dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
         <div>
           <Link to="/">
-            <div className="logo text-adoppix font-bold text-3xl text-center cursor-pointer">
+            <div className="logo pb-3 text-adoppix font-bold text-3xl text-center cursor-pointer">
               AdopPix
             </div>
           </Link>
         </div>
-        <div>
-          <h1 className="text-center text-adopsoftdark text-lg">เข้าสู่ระบบ</h1>
+        <div className="pb-8">
+
+          <h1 className="text-center text-adopsoftdark dark:text-adoplight text-lg">กรุณากรอกอีเมลเพื่อส่งลิงค์สำหรับรีเซ็ตรหัสผ่านไปยังอีเมลของคุณ</h1>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
+          <div className="pb-5">
             <div className="mb-2 block">
               <Label htmlFor="email" value="อีเมล" />
             </div>
@@ -70,38 +70,16 @@ const LoginCard = () => {
               required={true}
             />
           </div>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password" value="รหัสผ่าน" />
-            </div>
-            <div className="flex">
-              <TextInput
-                className="w-[90%]"
-                id="password"
-                name="password"
-                type="password"
-                required={true}
-              />
-              <div className="m-auto">
-                <input className="rounded-full" type="checkbox" />
-              </div>
-            </div>
-          </div>
-          <div >
-            <Link to="/forgetpassword" className="float-right">ลืมรหัสผ่าน?</Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <input className="rounded-md" type="checkbox" name="" id="" />
-            <Label htmlFor="remember">Remember me</Label>
-          </div>
-          <Button type="submit">Login</Button>
+          
+
+          <Button className="bg-adoppix" type="submit">ส่ง</Button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
+            จำรหัสผ่านของคุณได้เเล้ว?{" "}
             <Link
-              to="/signup"
+              to="/login"
               className="text-blue-700 hover:underline dark:text-blue-500"
             >
-              Create account
+              กลับหน้าเข้าสู่ระบบ
             </Link>
           </div>
         </form>
@@ -110,4 +88,4 @@ const LoginCard = () => {
   );
 };
 
-export default LoginCard;
+export default ForgetPasswordCard;
