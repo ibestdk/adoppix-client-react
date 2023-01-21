@@ -21,6 +21,8 @@ import ForgetPassword from "./routes/authentication/forget-password/forget-passw
 import MailPasswordSended from "./components/auth/forget-password/mailsended";
 import ResetPassword from "./routes/authentication/reset-password/reset-password.component";
 import ResetPasswordCard from "./components/auth/reset-password/reset-password";
+import { MarketIndex } from "./routes/market/market-index/market-index.component";
+import { MarketItem } from "./routes/market/market-item/market-item.component";
 
 export const DarkContext = createContext();
 
@@ -54,7 +56,10 @@ function App() {
               <Route index element={<AuctionIndex />} />
               <Route path=":auctionId" element={<AuctionItem />} />
             </Route>
-            <Route path="market" element={<Market />} />
+            <Route path="market/" element={<Market />} >
+              <Route index element={<MarketIndex/>} />
+              <Route path=":marketId" element={<MarketItem/>} />
+            </Route>
             <Route path="feeds" element={<Feeds />} />
             <Route path="setting/" element={<Setting />}>
               <Route path="account" element={<Account />}></Route>
