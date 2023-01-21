@@ -19,6 +19,7 @@ import { AuctionItem } from "./routes/auction/auction-item/auction-item.componen
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
 import { MarketIndex } from "./routes/market/market-index/market-index.component";
 import { MarketItem } from "./routes/market/market-item/market-item.component";
+import { MarketCreate } from "./routes/market/market-create/market-create.component";
 
 export const DarkContext = createContext();
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="market/" element={<Market />} >
               <Route index element={<MarketIndex/>} />
               <Route path=":marketId" element={<MarketItem/>} />
+              <Route path="create" element={<MarketCreate/>} />
             </Route>
             <Route path="feeds" element={<Feeds />} />
             <Route path="setting/" element={<Setting />}>
