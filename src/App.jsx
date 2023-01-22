@@ -23,6 +23,7 @@ import ResetPassword from "./routes/authentication/reset-password/reset-password
 import ResetPasswordCard from "./components/auth/reset-password/reset-password";
 import { MarketIndex } from "./routes/market/market-index/market-index.component";
 import { MarketItem } from "./routes/market/market-item/market-item.component";
+import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 
 export const DarkContext = createContext();
 
@@ -74,7 +75,8 @@ function App() {
             <Route path="signup" element={<SignUp />} />
             <Route path="forgetpassword" element={<ForgetPassword />} />
             <Route path="forgetpassword/mailsended" element={<MailPasswordSended />} />
-            <Route path="password/reset" element={<ResetPasswordCard />} />
+            <Route path="password/reset/:token" element={<ResetPasswordCard />} />
+            <Route path="verify/emailaddress/:token" element={<VerifyEmail />} />
           </Route>
         </Routes>
       </div>
