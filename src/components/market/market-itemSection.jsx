@@ -269,8 +269,8 @@ const MarketItemSection = () => {
     }
 
     return(
-        <div className="container">
-            <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md text-adopdark m-[1rem_0] p-4 shadow-[0_0_5px_lightgray] rounded-[.5rem]">
+        <div className="container" draggable="false">
+            <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md text-adopdark m-[1rem_0] p-4 shadow-[0_0_5px_lightgray] rounded-[.5rem]" draggable="false">
                 <div className="pb-5">
                     ผลลัพธ์การค้นหา {dataCard.length} รายการ
                 </div>
