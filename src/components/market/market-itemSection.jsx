@@ -278,7 +278,7 @@ const MarketItemSection = () => {
                 <div className="grid grid-cols-8 gap-2 py-8">
                     {categoryData.map((data, dataIndex) => (
                         <div key={dataIndex} className="relative bg-adoppix rounded-md h-16 flex justify-center cursor-pointer hover:scale-105 duration-300">
-                            <img className="rounded-md flex-shrink-0 min-w-full min-h-full object-cover" src={data.img} alt="" />
+                            <img className="rounded-md flex-shrink-0 min-w-full min-h-full object-cover" src={data.img} alt="" draggable="false" />
                             <p className="absolute text-2xl shadow-lg top-1/4 border-separate" style={textBorderStyle}>{data.title}</p>
                         </div>
                     ))}
@@ -289,7 +289,7 @@ const MarketItemSection = () => {
                     {dataCard.map((data, dataIndex) => (
                         <div className="relative">
                             <div key={dataIndex} className="dark:shadow-md shadow-[0_0_5px_lightgray] rounded-md h-72 bg-adopdark relative overflow-hidden">
-                                <img className="flex-shrink-0 min-w-full min-h-full object-cover rounded-md" src={data.img} alt="" />
+                                <img className="flex-shrink-0 min-w-full min-h-full object-cover rounded-md" src={data.img} alt="" draggable="false" />
                                 <FaStar className="text-yellow-400 h-6 w-6 absolute top-2 right-2 hover:text-yellow-300 cursor-pointer"/>
                                 <div className="h-16 hover:h-36 absolute w-full bottom-0 duration-300">
                                     <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 right-1 top-[-30px] absolute"/>
@@ -299,7 +299,7 @@ const MarketItemSection = () => {
                                         </b>
                                     </div>
                                     <div className="flex relative z-50 top-8 cursor-pointer">
-                                        <img className="rounded-full h-6 w-6 outline outline-offset-0 outline-2 outline-adoppix absolute left-3" src={data.profileImg} alt="" />
+                                        <img className="rounded-full h-6 w-6 outline outline-offset-0 outline-2 outline-adoppix absolute left-3" src={data.profileImg} alt="" draggable="false" />
                                         <div className="absolute left-11 max-w-[80px] truncate">
                                             {data.username} 
                                         </div>
