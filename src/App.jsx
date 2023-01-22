@@ -51,32 +51,32 @@ function App() {
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
       <div className={`App ${darkToggle && "dark"}`}>
         <Routes>
-          <Route path="/" element={<WithNav />}>
-            <Route index element={<Home />} />
-            <Route path="auction/" element={<Auction />}>
-              <Route index element={<AuctionIndex />} />
-              <Route path=":auctionId" element={<AuctionItem />} />
+          <Route exact path="/" element={<WithNav />}>
+            <Route exact index element={<Home />} />
+            <Route exact path="auction/" element={<Auction />}>
+              <Route exact index element={<AuctionIndex />} />
+              <Route exact path=":auctionId"  element={<AuctionItem />} />
             </Route>
-            <Route path="market/" element={<Market />} >
-              <Route index element={<MarketIndex/>} />
-              <Route path=":marketId" element={<MarketItem/>} />
+            <Route exact path="market/" element={<Market />} >
+              <Route exact index element={<MarketIndex/>} />
+              <Route exact path=":marketId" element={<MarketItem/>} />
             </Route>
-            <Route path="feeds" element={<Feeds />} />
-            <Route path="setting/" element={<Setting />}>
-              <Route path="account" element={<Account />}></Route>
-              <Route path="security" element={<Security />}></Route>
-              <Route path="payment" element={<Payment />}></Route>
-              <Route path="bank" element={<Bank />}></Route>
+            <Route exact path="feeds" element={<Feeds />} />
+            <Route exact path="setting/" element={<Setting />}>
+              <Route exact path="account" element={<Account />}></Route>
+              <Route exact path="security" element={<Security />}></Route>
+              <Route exact path="payment" element={<Payment />}></Route>
+              <Route exact path="bank" element={<Bank />}></Route>
             </Route>
-            <Route path=":userprofile" element={<UserProfile />} />
+            <Route exact path=":userprofile" element={<UserProfile />} />
           </Route>
-          <Route element={<WithOutNav />}>
-            <Route path="login" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="forgetpassword" element={<ForgetPassword />} />
-            <Route path="forgetpassword/mailsended" element={<MailPasswordSended />} />
-            <Route path="password/reset/:token" element={<ResetPasswordCard />} />
-            <Route path="verify/emailaddress/:token" element={<VerifyEmail />} />
+          <Route exact element={<WithOutNav />}>
+            <Route exact path="login" element={<SignIn />} />
+            <Route exact path="signup" element={<SignUp />} />
+            <Route exact path="forgetpassword" element={<ForgetPassword />} />
+            <Route exact path="forgetpassword/mailsended" element={<MailPasswordSended />} />
+            <Route exact path="password/reset/:token" element={<ResetPasswordCard />} />
+            <Route exact path="verify/emailaddress/:token" element={<VerifyEmail />} />
           </Route>
         </Routes>
       </div>

@@ -19,7 +19,7 @@ const LoginCard = () => {
       password: data.get("password"),
     };
 
-    fetch("https://testapi.adoppix.com/api/Auth/Login", {
+    fetch("https://api.adoppix.com/api/Auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const LoginCard = () => {
       .then((response) => response.json())
       .then((res) => {
         console.log("Success:", res);
-        if (res.successful) {
+        if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")

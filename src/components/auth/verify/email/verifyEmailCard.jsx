@@ -22,7 +22,7 @@ const VerifyEmailCard = () => {
       .then((response) => response.json())
       .then((res) => {
         console.log("Success:", res);
-        if (res.successful) {
+        if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")
@@ -60,7 +60,6 @@ const VerifyEmailCard = () => {
               AdopPix
             </div>
           </Link>
-          <p>param is : {token}</p>
         </div>
         <div>
           <h1 className="pb-6 text-center text-adopsoftdark dark:text-adoplight text-lg">ยืนยันอีเมล</h1>

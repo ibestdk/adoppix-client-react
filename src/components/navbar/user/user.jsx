@@ -17,6 +17,8 @@ import {
 import { MdLogout } from "react-icons/md";
 
 function UserDropDown() {
+
+  // const {userData } = sessionStorage.getItem("user");
   const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
@@ -64,6 +66,7 @@ function UserDropDown() {
               src="https://pix.adoppix.com/public/1f535da9-d0ae-4519-b513-26e29c7cfde2.jpg"
             ></img>
           </div>
+        
         </div>
 
         <div
