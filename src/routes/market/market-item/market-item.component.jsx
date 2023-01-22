@@ -98,7 +98,7 @@ export const MarketItem = () => {
                     </div>
                     <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
                         <div className='col-span-3'>
-                            <div className='leading-5'>
+                            <div className='leading-6 text-sm'>
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos officia, aliquid nam maxime ducimus voluptas, cumque voluptatum atque eaque, praesentium a libero accusamus? Suscipit temporibus obcaecati illum odit vero at.
                             </div>
                             <div className='mt-3'>
