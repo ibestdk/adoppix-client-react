@@ -17,8 +17,13 @@ import Payment from "./routes/setting/payment/payment.component";
 import Bank from "./routes/setting/bank/bank.component";
 import { AuctionItem } from "./routes/auction/auction-item/auction-item.component";
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
+import ForgetPassword from "./routes/authentication/forget-password/forget-password.component";
+import MailPasswordSended from "./components/auth/forget-password/mailsended";
+import ResetPassword from "./routes/authentication/reset-password/reset-password.component";
+import ResetPasswordCard from "./components/auth/reset-password/reset-password";
 import { MarketIndex } from "./routes/market/market-index/market-index.component";
 import { MarketItem } from "./routes/market/market-item/market-item.component";
+import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
 
 export const DarkContext = createContext();
@@ -47,29 +52,33 @@ function App() {
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
       <div className={`App ${darkToggle && "dark"}`}>
         <Routes>
-          <Route path="/" element={<WithNav />}>
-            <Route index element={<Home />} />
-            <Route path="auction/" element={<Auction />}>
-              <Route index element={<AuctionIndex />} />
-              <Route path=":auctionId" element={<AuctionItem />} />
+          <Route exact path="/" element={<WithNav />}>
+            <Route exact index element={<Home />} />
+            <Route exact path="auction/" element={<Auction />}>
+              <Route exact index element={<AuctionIndex />} />
+              <Route exact path=":auctionId"  element={<AuctionItem />} />
             </Route>
             <Route path="market/" element={<Market />} >
               <Route index element={<MarketIndex/>} />
               <Route path=":marketId" element={<MarketItem/>} />
               <Route path="create" element={<MarketCreate/>} />
             </Route>
-            <Route path="feeds" element={<Feeds />} />
-            <Route path="setting/" element={<Setting />}>
-              <Route path="account" element={<Account />}></Route>
-              <Route path="security" element={<Security />}></Route>
-              <Route path="payment" element={<Payment />}></Route>
-              <Route path="bank" element={<Bank />}></Route>
+            <Route exact path="feeds" element={<Feeds />} />
+            <Route exact path="setting/" element={<Setting />}>
+              <Route exact path="account" element={<Account />}></Route>
+              <Route exact path="security" element={<Security />}></Route>
+              <Route exact path="payment" element={<Payment />}></Route>
+              <Route exact path="bank" element={<Bank />}></Route>
             </Route>
-            <Route path=":userprofile" element={<UserProfile />} />
+            <Route exact path=":userprofile" element={<UserProfile />} />
           </Route>
-          <Route element={<WithOutNav />}>
-            <Route path="login" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
+          <Route exact element={<WithOutNav />}>
+            <Route exact path="login" element={<SignIn />} />
+            <Route exact path="signup" element={<SignUp />} />
+            <Route exact path="forgetpassword" element={<ForgetPassword />} />
+            <Route exact path="forgetpassword/mailsended" element={<MailPasswordSended />} />
+            <Route exact path="password/reset/:token" element={<ResetPasswordCard />} />
+            <Route exact path="verify/emailaddress/:token" element={<VerifyEmail />} />
           </Route>
         </Routes>
       </div>

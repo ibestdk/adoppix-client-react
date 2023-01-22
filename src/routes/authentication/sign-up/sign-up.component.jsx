@@ -2,7 +2,7 @@ import SignUpCard from "../../../components/auth/signup/signup.component";
 
 const SignUp = () => {
   return (
-    <div>
+    <div className="dark:bg-adopdark">
       <SignUpCard />
     </div>
   );
