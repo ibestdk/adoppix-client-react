@@ -24,6 +24,7 @@ import ResetPasswordCard from "./components/auth/reset-password/reset-password";
 import { MarketIndex } from "./routes/market/market-index/market-index.component";
 import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
+import { MarketCreate } from "./routes/market/market-create/market-create.component";
 
 export const DarkContext = createContext();
 
@@ -57,9 +58,10 @@ function App() {
               <Route exact index element={<AuctionIndex />} />
               <Route exact path=":auctionId"  element={<AuctionItem />} />
             </Route>
-            <Route exact path="market/" element={<Market />} >
-              <Route exact index element={<MarketIndex/>} />
-              <Route exact path=":marketId" element={<MarketItem/>} />
+            <Route path="market/" element={<Market />} >
+              <Route index element={<MarketIndex/>} />
+              <Route path=":marketId" element={<MarketItem/>} />
+              <Route path="create" element={<MarketCreate/>} />
             </Route>
             <Route exact path="feeds" element={<Feeds />} />
             <Route exact path="setting/" element={<Setting />}>
