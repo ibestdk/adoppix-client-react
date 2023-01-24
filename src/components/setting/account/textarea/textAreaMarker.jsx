@@ -14,7 +14,7 @@ function TextAreaMaker(props, { onClose }) {
       {
         // Use JavaScript's ternary operator to specify <span>'s inner content
         props.showInputEle ? (
-          <div className="relative"  onBlur={props.handleBlur}>
+          <div className="relative" onBlur={props.handleBlur}>
             <div>
               <textarea
                 id="text-area"
@@ -23,17 +23,18 @@ function TextAreaMaker(props, { onClose }) {
                 value={props.value}
                 onChange={props.handleChange}
                 autoFocus
-                className="text-adopdark rounded-lg dark:bg-adopsoftdark dark:text-adoplight border-none outline-none ml-3 w-[600px] min-h-[100px] max-h-[250px]"
-              />
-            </div>
-            <div className="absolute right-2 bottom-5 text-xl">
-              <BsFillEmojiSmileFill  className="hover:opacity-60 duration-200 cursor-pointer"/>
+                className="text-adopdark rounded-lg relative dark:bg-adopsoftdark dark:text-adoplight border-none outline-none ml-3 w-[600px] min-h-[100px] max-h-[250px]"
+              >
+                <div className="absolute right-2 bottom-5 text-xl">
+                  <BsFillEmojiSmileFill className="hover:opacity-60 duration-200 cursor-pointer" />
+                </div>
+              </textarea>
             </div>
           </div>
         ) : (
           <span
             onDoubleClick={props.handleDoubleClick}
-            className="ml-5 w-[600px]"
+            className="ml-5 w-[600px] text-sm whitespace-pre-wrap"
             style={{
               display: "inline-block",
               height: "25px",

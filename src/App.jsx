@@ -34,14 +34,14 @@ function App() {
 
   useEffect(() => {
     const loadedTheme = async () => {
-      if (sessionStorage.getItem("theme")) {
+      if (localStorage.getItem("theme")) {
         console.log("loaded theme");
-        setDarkToggle(sessionStorage.getItem("theme"));
-        console.log("theme is : " + sessionStorage.getItem("theme"));
+        setDarkToggle(localStorage.getItem("theme"));
+        console.log("theme is : " + localStorage.getItem("theme"));
       } else {
         console.log("set new theme");
         setDarkToggle(false);
-        sessionStorage.setItem("theme", false);
+        localStorage.setItem("theme", false);
       }
     };
 

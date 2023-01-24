@@ -1,11 +1,19 @@
-import { Card, Label, TextInput, Checkbox, Button } from "flowbite-react";
+import { Card, Label, TextInput, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
+import {BsEyeFill ,BsEyeSlashFill } from "react-icons/bs"
+
 import { authenicate } from "../../../services/authorize";
 import { useNavigate } from "react-router-dom";
-
+import { useState, useEffect } from "react";
 const LoginCard = () => {
   const navigate = useNavigate();
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const handleCheck = () => {
+    setIsShowPassword(!isShowPassword);
+  };
 
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,7 +43,7 @@ const LoginCard = () => {
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")
           authenicate(res, () => navigate("/"));
-
+       
           // localStorage.setItem("ut", res.data);
         }
       })
@@ -79,16 +87,23 @@ const LoginCard = () => {
                 className="w-[90%]"
                 id="password"
                 name="password"
-                type="password"
+                type={isShowPassword ? "text" : "password"}
                 required={true}
               />
-              <div className="m-auto">
-                <input className="rounded-full" type="checkbox" />
-              </div>
+              <Checkbox
+                
+                className="dark:text-adoplight  text-adopsoftdark"
+                icon={<BsEyeFill />}
+                checkedIcon={<BsEyeSlashFill />}
+                onChange={handleCheck}
+              />
+             
             </div>
           </div>
-          <div >
-            <Link to="/forgetpassword" className="float-right">ลืมรหัสผ่าน?</Link>
+          <div>
+            <Link to="/forgetpassword" className="float-right text-sm">
+              ลืมรหัสผ่าน?
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <input className="rounded-md" type="checkbox" name="" id="" />

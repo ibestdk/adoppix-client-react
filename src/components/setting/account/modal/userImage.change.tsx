@@ -20,7 +20,7 @@ function centerAspectCrop(
     makeAspectCrop(
       {
         unit: "%",
-        width: 90,
+        width: 100,
       },
       aspect,
       mediaWidth,
@@ -31,7 +31,10 @@ function centerAspectCrop(
   );
 }
 
-export default function ModalChangeImage({ visible, onClose }) {
+
+
+
+export default function ModalChangeImage({ visible, onClose ,setProfileImage,setProfileImage64}) {
   const [imgSrc, setImgSrc] = useState("");
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -40,6 +43,34 @@ export default function ModalChangeImage({ visible, onClose }) {
   const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
   const [aspect, setAspect] = useState<number | undefined>(1 / 1);
+
+  const canvasToBase64 = () => {
+    const base64 = previewCanvasRef.current?.toDataURL("image/jpeg");
+    // const canvas = document.createElement("canvas");
+    console.log(base64);
+    // const base64Image = canvas.toDataURL("image/jpeg");
+    // setImageOutput(canvas);
+    // console.log(base64Image);
+    const file = dataURLtoFile(base64, "test.jpg");
+    setProfileImage(file);
+    setProfileImage64(base64);
+    console.log(file);
+    onClose();
+  };
+
+  function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = window.atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -175,7 +206,7 @@ export default function ModalChangeImage({ visible, onClose }) {
             </button>
             <button
               className="mx-2 bg-adoppix py-2 px-4 rounded-lg"
-              onClick={onClose}
+              onClick={canvasToBase64}
             >
               บันทึก
             </button>
