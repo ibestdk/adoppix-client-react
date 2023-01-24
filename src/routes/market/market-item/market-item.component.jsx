@@ -108,14 +108,14 @@ export const MarketItem = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className='mt-5 cursor-default'>
+                            <div className='my-5 cursor-default'>
                                 <div className='text-xl my-3 dark:text-adoplight text-adopsoftdark'>
                                     <b>
                                         ศิลปิน
                                     </b>
                                 </div>
                                 <div className='pl-3'>
-                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/e67f0b11-854a-4e46-b6fb-5bfa78c3a89bfile_2822005.webp" alt="" />
+                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/e67f0b11-854a-4e46-b6fb-5bfa78c3a89bfile_2822005.webp" alt="" draggable="false" />
                                     <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
                                         <b className=''>
                                             Username Goes here
