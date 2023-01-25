@@ -27,6 +27,7 @@ import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
 import { ProtectedRoute } from "./routes/denied/denied.component";
+import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
 
 export const DarkContext = createContext();
 
@@ -39,13 +40,13 @@ function App() {
       if (!localStorage.getItem("theme") && localStorage.getItem("user")) {
         console.log("โหลดธีมใหม่จากผู้ใช้ เนื่องจากยังไม่มีธีมใน local");
         const userData = JSON.parse(localStorage.getItem("user"));
-        localStorage.setItem("theme" ,userData.isDark )
+        localStorage.setItem("theme", userData.isDark);
         setDarkToggle(userData.isDark);
         console.log("theme is : " + userData.isDark);
         console.log("======================================");
         console.log(1);
       } else if (localStorage.getItem("theme")) {
-        console.log("โหลดธีมจาก local")
+        console.log("โหลดธีมจาก local");
         const theme = JSON.parse(localStorage.getItem("theme"));
         console.log(theme);
         setDarkToggle(theme);
@@ -68,6 +69,15 @@ function App() {
             <Route exact path="auction/" element={<Auction />}>
               <Route exact index element={<AuctionIndex />} />
               <Route exact path=":auctionId" element={<AuctionItem />} />
+              <Route
+                exact
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <AuctionCreate />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
             <Route path="market/" element={<Market />}>
               <Route index element={<MarketIndex />} />

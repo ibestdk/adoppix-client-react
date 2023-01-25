@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./create.scss";
 import { logout } from "../../../services/authorize";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToggleSwitch } from "flowbite-react";
 import { BsBrushFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,7 +50,7 @@ function CreateDropDown() {
           </h3>
           <ul>
             <DropdownItem text={"Auction"} />
-            <DropdownItem text={"Market"} />
+            <DropdownItem route={"market/create"} text={"Market"} />
             <DropdownItem text={"Post"} />
           </ul>
         </div>
@@ -63,7 +63,7 @@ function DropdownItem(props) {
   return (
     <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
     
-      <a className="dark:text-adoplight"  onClick={props.click}> {props.text} </a>
+      <Link to={props.route} className="dark:text-adoplight"  onClick={props.click}> {props.text} </Link>
     </li>
   );
 }
