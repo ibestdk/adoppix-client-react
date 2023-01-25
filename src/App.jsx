@@ -6,6 +6,7 @@ import WithNav from "./routes/nav-controller/with-nav/with-nav.component";
 import WithOutNav from "./routes/nav-controller/without-nav/without-nav.component";
 import SignUp from "./routes/authentication/sign-up/sign-up.component";
 import { createContext, useState, useEffect } from "react";
+import React from "react";
 import { Auction } from "./routes/auction/auction.component";
 import { Market } from "./routes/market/market.component";
 import { Feeds } from "./routes/feeds/feeds.component";
@@ -25,23 +26,32 @@ import { MarketIndex } from "./routes/market/market-index/market-index.component
 import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
+import { ProtectedRoute } from "./routes/denied/denied.component";
 
 export const DarkContext = createContext();
 
 function App() {
   // const [darkToggle, setDarkToggle] = React.useState(false);
-  const [darkToggle, setDarkToggle] = useState();
+  const [darkToggle, setDarkToggle] = useState(false);
 
   useEffect(() => {
     const loadedTheme = async () => {
-      if (localStorage.getItem("theme")) {
-        console.log("loaded theme");
-        setDarkToggle(localStorage.getItem("theme"));
-        console.log("theme is : " + localStorage.getItem("theme"));
+      if (localStorage.getItem("token")) {
+        console.log("loaded theme from user");
+        const userData = JSON.parse(localStorage.getItem("user"));
+        setDarkToggle(userData.isDark);
+        console.log("theme is : " + userData.isDark);
+        console.log("======================================");
+        // console.log(1);
+      } else if (localStorage.getItem("token")) {
+        const theme = JSON.parse(localStorage.getItem("theme"));
+        console.log(theme);
+        setDarkToggle(theme);
+        // console.log(2);
       } else {
-        console.log("set new theme");
+        console.log("หาไม่เจอ เซ็ตธีมใหม่แปป");
         setDarkToggle(false);
-        localStorage.setItem("theme", false);
+        // console.log(3);
       }
     };
 
@@ -50,35 +60,57 @@ function App() {
 
   return (
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
-      <div className={`App ${darkToggle && "dark"}`}>
+      <div className={`App ${darkToggle ? "dark" : ""}`}>
         <Routes>
           <Route exact path="/" element={<WithNav />}>
             <Route exact index element={<Home />} />
             <Route exact path="auction/" element={<Auction />}>
               <Route exact index element={<AuctionIndex />} />
-              <Route exact path=":auctionId"  element={<AuctionItem />} />
+              <Route exact path=":auctionId" element={<AuctionItem />} />
             </Route>
-            <Route path="market/" element={<Market />} >
-              <Route index element={<MarketIndex/>} />
-              <Route path=":marketId" element={<MarketItem/>} />
-              <Route path="create" element={<MarketCreate/>} />
+            <Route path="market/" element={<Market />}>
+              <Route index element={<MarketIndex />} />
+              <Route path=":marketId" element={<MarketItem />} />
+              <Route path="create" element={<MarketCreate />} />
             </Route>
             <Route exact path="feeds" element={<Feeds />} />
-            <Route exact path="setting/" element={<Setting />}>
+
+            <Route
+              exact
+              path="setting/"
+              element={
+                <ProtectedRoute>
+                  <Setting />
+                </ProtectedRoute>
+              }
+            >
               <Route exact path="account" element={<Account />}></Route>
               <Route exact path="security" element={<Security />}></Route>
               <Route exact path="payment" element={<Payment />}></Route>
               <Route exact path="bank" element={<Bank />}></Route>
             </Route>
+
             <Route exact path=":userprofile" element={<UserProfile />} />
           </Route>
           <Route exact element={<WithOutNav />}>
             <Route exact path="login" element={<SignIn />} />
             <Route exact path="signup" element={<SignUp />} />
             <Route exact path="forgetpassword" element={<ForgetPassword />} />
-            <Route exact path="forgetpassword/mailsended" element={<MailPasswordSended />} />
-            <Route exact path="password/reset/:token" element={<ResetPasswordCard />} />
-            <Route exact path="verify/emailaddress/:token" element={<VerifyEmail />} />
+            <Route
+              exact
+              path="forgetpassword/mailsended"
+              element={<MailPasswordSended />}
+            />
+            <Route
+              exact
+              path="password/reset/:token"
+              element={<ResetPasswordCard />}
+            />
+            <Route
+              exact
+              path="verify/emailaddress/:token"
+              element={<VerifyEmail />}
+            />
           </Route>
         </Routes>
       </div>

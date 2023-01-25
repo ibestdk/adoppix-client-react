@@ -60,7 +60,7 @@ function UserDropDown() {
     return () => {
       document.removeEventListener("mousedown", handler);
     };
-  }, [localStorage.getItem('user')]);
+  }, []);
 
   return (
     <div className={`App`}>
@@ -121,14 +121,14 @@ function UserDropDown() {
           </div>
           <div className="flex mt-1">
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
-              
+              <a className="flex">
+                {" "}
                 <BsFillCreditCard2FrontFill className="m-1" />
                 เติมเงิน
               </a>
             </div>
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
+              <a className="flex ">
                 <BsBank2 className="m-1" />
                 ถอนเงิน
               </a>
@@ -176,8 +176,9 @@ function DropdownItem(props) {
   return (
     <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
       {props.icon}
-      <a className="dark:text-adoplight text-lg" onClick={props.click}>
-        {props.text}
+      <a className="dark:text-adoplight" onClick={props.click}>
+        {" "}
+        {props.text}{" "}
       </a>
     </li>
   );
