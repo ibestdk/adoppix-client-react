@@ -42,6 +42,7 @@ export const logout = (next) => {
   if (window !== undefined) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("theme");
   }
   next();
 };

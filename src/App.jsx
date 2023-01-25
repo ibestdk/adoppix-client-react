@@ -36,25 +36,26 @@ function App() {
 
   useEffect(() => {
     const loadedTheme = async () => {
-      if (localStorage.getItem("token")) {
-        console.log("loaded theme from user");
+      if (!localStorage.getItem("theme") && localStorage.getItem("user")) {
+        console.log("โหลดธีมใหม่จากผู้ใช้ เนื่องจากยังไม่มีธีมใน local");
         const userData = JSON.parse(localStorage.getItem("user"));
+        localStorage.setItem("theme" ,userData.isDark )
         setDarkToggle(userData.isDark);
         console.log("theme is : " + userData.isDark);
         console.log("======================================");
-        // console.log(1);
-      } else if (localStorage.getItem("token")) {
+        console.log(1);
+      } else if (localStorage.getItem("theme")) {
+        console.log("โหลดธีมจาก local")
         const theme = JSON.parse(localStorage.getItem("theme"));
         console.log(theme);
         setDarkToggle(theme);
-        // console.log(2);
+        console.log(2);
       } else {
         console.log("หาไม่เจอ เซ็ตธีมใหม่แปป");
         setDarkToggle(false);
-        // console.log(3);
+        console.log(3);
       }
     };
-
     loadedTheme();
   }, []);
 
