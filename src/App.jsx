@@ -25,6 +25,7 @@ import { MarketIndex } from "./routes/market/market-index/market-index.component
 import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
+import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
 
 export const DarkContext = createContext();
 
@@ -59,6 +60,7 @@ function App() {
               <Route exact path=":auctionId"  element={<AuctionItem />} />
             </Route>
             <Route path="market/" element={<Market />} >
+              <Route path="wishlist" element={<MarketWishList/>}/>
               <Route index element={<MarketIndex/>} />
               <Route path=":marketId" element={<MarketItem/>} />
               <Route path="create" element={<MarketCreate/>} />
