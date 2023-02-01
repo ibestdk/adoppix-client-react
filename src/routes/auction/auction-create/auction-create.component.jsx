@@ -105,51 +105,32 @@ export const AuctionCreate = () => {
   }
 
 
-  const handleSubmit = () => {
-    const fromdata = {};
+  const handleSubmit = async () => {
+    const bodyData = new FormData()
 
-    if (images) {
-      console.log(images)
-      fromdata.Images = images.map(image => image.file)
-    }
-    if (title) {
-      fromdata.Title = title;
-    }
-    if (description) {
-      fromdata.Description = description;
-    }
-    if (hourCount) {
-      fromdata.HourCount = hourCount;
-    }
-    if (openPrice) {
-      fromdata.OpenPrice = openPrice;
-    }
-    if (minimumBid) {
-      fromdata.MinimumBid = minimumBid;
-    }
-    if (hotClose) {
-      fromdata.HotClose = hotClosePrice;
-    }
-    if (tagsData) {
-      fromdata.Tags = tagsData;
-    }
-    console.log(fromdata);
+    if (images) images.forEach((image) => bodyData.append("Images", image.file))
+    if (title) bodyData.append("Title", title)
+    if (description) bodyData.append("Description", description)
+    if (hourCount) bodyData.append("HourCount", hourCount)
+    if (openPrice) bodyData.append("OpenPrice", openPrice)
+    if (minimumBid) bodyData.append("MinimumBid", minimumBid)
+    if (hotClose) bodyData.append("HotClose", hotClosePrice)
+    if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag))
+
     const token = getToken();
-    console.log(token);
-    // const fromData = fromdata;
-    // console.log(fromData);
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     };
-    axios.post("https://api.adoppix.com/api/Auction", fromdata, { headers })
-      .then(response => {
-        console.log(response);
-      }).catch(err => {
-        console.log(err.response);
-      })
 
+    // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
+    let result = await axios({ method: "post",
+                               url: "https://api.adoppix.com/api/Auction", 
+                               data: bodyData, 
+                               headers: headers 
+                            }).catch(err => console.log(err.response))
+    console.log(result)
   };
 
 
