@@ -11,6 +11,7 @@ const LoginCard = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const handleCheck = () => {
     setIsShowPassword(!isShowPassword);
+    console.log(isShowPassword)
   };
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };

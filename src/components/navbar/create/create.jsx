@@ -49,9 +49,9 @@ function CreateDropDown() {
             <span>Make your illustration to public</span>
           </h3>
           <ul>
-            <DropdownItem text={"Auction"} />
+            <DropdownItem route={"auction/create"} text={"Auction"} />
             <DropdownItem route={"market/create"} text={"Market"} />
-            <DropdownItem text={"Post"} />
+            <DropdownItem route={""} text={"Post"} />
           </ul>
         </div>
       </div>
