@@ -1,6 +1,7 @@
 import { TextInput } from "flowbite-react";
 import { BsSearch } from "react-icons/bs";
 import Pagination from '@mui/material/Pagination';
+import { CardFeed } from "../../../components/auction/auction-index-card-feed/card-feed";
 export const AuctionIndex = () => {
   return (
     <div className="bg-adoplight dark:bg-adopdark min-h-screen">
@@ -28,7 +29,7 @@ export const AuctionIndex = () => {
               </div>
             </div>
             <div className="bg-adopsoftdark mr-5 col-span-9 h-[1000px] w-full rounded-lg">
-            <Pagination count={10} variant="outlined" shape="rounded" sx={"white"} />
+           <CardFeed/>
             
             </div>
           </div>

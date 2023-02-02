@@ -23,44 +23,7 @@ export const AuctionCreate = () => {
   const [tagsData, setTagsData] = useState([]);
 
 
-  function dataURLtoFile(dataurl) {
-    var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = window.atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
 
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], generateRandomString(), { type: mime });
-  }
-
-  function base64ArrayToFiles(base64DataArray) {
-    return base64DataArray.map((base64Data, i) => {
-      const arr = base64Data.split(',');
-      const mime = arr[0].match(/:(.*?);/)[1];
-      const bstr = atob(arr[1]);
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], `file-${i}.jpeg`, { type: mime });
-    });
-  }
-
-
-  function generateRandomString() {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < 10; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
