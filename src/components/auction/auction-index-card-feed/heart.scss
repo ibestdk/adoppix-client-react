@@ -1,0 +1,123 @@
+body {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    color: #555;
+    font-weight: normal;
+}
+
+
+
+$total-buttons: 10;
+
+@for $index from 0 through $total-buttons {
+    #btn-#{$index} {
+        position: absolute;
+        left: -100%;
+        top: -100%;
+        opacity: 0;
+        z-index: 20;
+
+    
+    }
+    #btn-#{$index}:checked+.btn-love:after {
+        position: absolute;
+        left: -100%;
+        top: -100%;
+        opacity: 0;
+        z-index: 20;
+
+      
+    }
+
+
+    .btn-love-#{$index} {
+        position: absolute;
+        z-index: 20;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+    
+    .btn-love-#{$index}:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100px;
+        margin: 0 auto;
+        background: url(https://abs.twimg.com/a/1446862637/img/t1/web_heart_animation.png) 0 0 no-repeat;
+        background-size: 2900%;
+        height: 100px;
+        width: 100px;
+    }
+
+}
+
+
+// #btn {
+//     position: absolute;
+//     left: -100%;
+//     top: -100%;
+//     opacity: 0;
+//     z-index: 20;
+// }
+
+// #btn:checked+.btn-love:after {
+//     -webkit-animation: heart-burst steps(28) 0.8s 1 both;
+//     animation: heart-burst steps(28) 0.8s 1 both;
+// }
+
+// .btn-love {
+//     position: absolute;
+//     z-index: 20;
+//     left: 0;
+//     right: 0;
+//     top: 0;
+//     bottom: 0;
+//     margin: auto;
+//     height: 100%;
+//     width: 100%;
+//     cursor: pointer;
+// }
+
+// .btn-love:after {
+//     content: "";
+//     position: absolute;
+//     left: 0;
+//     right: 0;
+//     top: 100px;
+//     margin: 0 auto;
+//     background: url(https://abs.twimg.com/a/1446862637/img/t1/web_heart_animation.png) 0 0 no-repeat;
+//     background-size: 2900%;
+//     height: 100px;
+//     width: 100px;
+// }
+
+
+@-webkit-keyframes heart-burst {
+    0% {
+        background-position: left;
+    }
+
+    100% {
+        background-position: right;
+    }
+}
+
+@keyframes heart-burst {
+    0% {
+        background-position: left;
+    }
+
+    100% {
+        background-position: right;
+    }
+}

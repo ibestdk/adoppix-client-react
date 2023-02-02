@@ -19,7 +19,7 @@ export const AuctionIndex = () => {
                     <div className="mb-2 block"></div>
                     <div className="flex border-2 m-4 rounded-lg py-2 px-4">
                       <BsSearch className="text-white m-2" />
-                      <input className="w-full"/>
+                      <input className="w-full" />
                     </div>
                   </div>
                 </div>
@@ -28,9 +28,9 @@ export const AuctionIndex = () => {
                 <div></div>
               </div>
             </div>
-            <div className="bg-adopsoftdark mr-5 col-span-9 h-[1000px] w-full rounded-lg">
-           <CardFeed/>
-            
+            <div className="bg-adopsoftdark mr-5 p-10 col-span-9 h-[1000px] w-full rounded-lg">
+              <CardFeed />
+
             </div>
           </div>
         </div>
