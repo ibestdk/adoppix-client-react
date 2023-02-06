@@ -59,31 +59,31 @@ function App() {
     };
     loadedTheme();
 
-    // block right click
-    document.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-    });
+    // // block right click
+    // document.addEventListener("contextmenu", function (event) {
+    //   event.preventDefault();
+    // });
 
-    // block F12
-    document.addEventListener("keydown", function (event) {
-      if (event.keyCode === 123) {
-        event.preventDefault();
-      }
-    });
+    // // block F12
+    // document.addEventListener("keydown", function (event) {
+    //   if (event.keyCode === 123) {
+    //     event.preventDefault();
+    //   }
+    // });
 
-    // block Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + Shift + C
-    document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey && event.shiftKey) && (event.key === "I" || event.key === "J" || event.key === "C")) {
-        event.preventDefault();
-      }
-    });
+    // // block Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + Shift + C
+    // document.addEventListener("keydown", function (event) {
+    //   if ((event.ctrlKey && event.shiftKey) && (event.key === "I" || event.key === "J" || event.key === "C")) {
+    //     event.preventDefault();
+    //   }
+    // });
 
-    // block Ctrl + U
-    document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey) && (event.key === "U")) {
-        event.preventDefault();
-      }
-    });
+    // // block Ctrl + U
+    // document.addEventListener("keydown", function (event) {
+    //   if ((event.ctrlKey) && (event.key === "U")) {
+    //     event.preventDefault();
+    //   }
+    // });
   }, []);
 
   return (

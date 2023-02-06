@@ -7,7 +7,9 @@ import { BsImage, BsTrash, BsPencil } from 'react-icons/bs';
 import Chips from "../../../components/input/chips/chips";
 import { getToken } from "../../../services/authorize";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export const AuctionCreate = () => {
+  const navigate = useNavigate();
   //froms states
   const [hotClose, setHotClose] = useState(false);
 
@@ -21,7 +23,7 @@ export const AuctionCreate = () => {
   const [minimumBid, setMinimumBid] = useState();
   const [hotClosePrice, setHotClosePrice] = useState();
   const [tagsData, setTagsData] = useState([]);
-
+  const [FileList, setFileList] = useState([]);
 
 
 
@@ -88,12 +90,14 @@ export const AuctionCreate = () => {
     };
 
     // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
-    let result = await axios({ method: "post",
-                               url: "https://api.adoppix.com/api/Auction", 
-                               data: bodyData, 
-                               headers: headers 
-                            }).catch(err => console.log(err.response))
+    let result = await axios({
+      method: "post",
+      url: "https://api.adoppix.com/api/Auction",
+      data: bodyData,
+      headers: headers
+    }).catch(err => console.log(err.response))
     console.log(result)
+    navigate(`${result.data}`)
   };
 
 
@@ -210,6 +214,28 @@ export const AuctionCreate = () => {
                     )}
                   </ImageUploading>
                 </div>
+                <div className="mt-14">
+                  <div className="mt-4">
+                    <label htmlFor="">ไฟล์งานที่ผู้ประมูลจะได้รับ</label>
+
+                    <div className="border-dashed border-[2px] rounded-lg mt-2">
+                      <div className="p-4">
+                        <div className="border-dashed border-[2px] rounded-lg p-3">
+                          <div className="flex">
+                            <input type="file" className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5 dark:bg-adopsoftdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400" />
+                            <input type="text" className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5 dark:bg-adopsoftdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400" />
+                            <BsTrash className="text-5xl mx-2" />
+                          </div>
+                        </div>
+                        <div className="p-5">
+                          <p className="text-lg ml-3 text-center cursor-pointer">เพิ่มไฟล์</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
                 <div className="mt-14">
                   <div className="mt-4">
                     <label htmlFor="">ชื่อการประมูล</label>
