@@ -334,7 +334,7 @@ const MarketItemSection = () => {
                                     <div className="text-xs px-2 py-[4px] w-[80] bg-yellow-400 rounded-md absolute z-50 right-3 top-24 cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
                                         เพิ่มลงตะกร้า
                                     </div>
-                                    <div className="bg-adopsoftdark opacity-40 w-full h-full"></div>
+                                    <div className="bg-adopsoftdark opacity-40 w-full h-full hover:brightness-50 duration-300"></div>
                                 </div>
                             </div>
 

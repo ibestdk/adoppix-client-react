@@ -33,32 +33,32 @@ export const MarketWishList = () => {
     return(
         <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
             <div className="container m-auto px-80">
-                <div className="text-3xl">
+                <div className="text-3xl dark:text-adoplight text-adopdark">
                     <b>
                         รายการที่อยากได้
                     </b>
                 </div>
 
-                <div>
+                <div className="rounded-md p-10 shadow-md shadow-gray-300 py-10 mt-5">
                 {dataCard.map((data,dataIndex) => (
-                    <div key={dataIndex} className="px-20 pt-10 grid grid-cols-4 gap-4 place-items-center">
-                    <div className="bg-adopsoftdark rounded-md inline-block">
-                        <img className="rounded-md" src={data.img} alt="" />
+                    <div key={dataIndex} className="my-5 grid grid-cols-6 gap-4 place-items-center">
+                    <div className="dark:bg-adopsoftdark bg-adoplighticon col-span-2 rounded-md w-60 h-40 mr-2 flex">
+                        <img className="rounded-md flex-shrink-0 object-cover min-w-full min-h-full" src={data.img} alt="" />
                     </div>
-                    <div className="inline-block col-span-2">
+                    <div className="inline-block col-span-3">
                         <div>
-                            <b>
+                            <b className=" dark:text-adoplight text-adopdark">
                                 {data.title}
                             </b>
                         </div>
-                        <div className="text-sm py-2 overflow-y-hidden max-h-36">
+                        <div className="text-sm py-2 overflow-y-hidden max-h-36 dark:text-adoplight text-adopdark">
                             {data.description}
                         </div>
                         <div className="my-2 cursor-default">
                             <div className="inline-block mx-1">
                                 <img className="outline outline-2 outline-offset-2 outline-adoplight rounded-full h-6 w-6" src={data.userImg} alt="" />
                             </div>
-                            <div className="inline-block text-sm mx-1 truncate max-w-fit w-72">
+                            <div className="inline-block text-sm mx-1 truncate max-w-fit w-72 dark:text-adoplight text-adopdark">
                                 {data.username}
                             </div>
                             <div className="inline-block">
@@ -89,7 +89,7 @@ export const MarketWishList = () => {
                         </div>
                     </div>
                     <div>
-                        <b>
+                        <b className=" dark:text-adoplight text-adopdark">
                             {data.price}
                         </b>
                     </div>

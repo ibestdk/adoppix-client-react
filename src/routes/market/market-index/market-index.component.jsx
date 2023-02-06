@@ -1,5 +1,5 @@
-import MarketFilter from "../../../components/market/market-filter"
-import MarketItemSection from "../../../components/market/market-itemSection"
+import MarketFilter from "../../../components/market/market-index/market-filter"
+import MarketItemSection from "../../../components/market/market-index/market-itemSection"
 
 export const MarketIndex = () => {
     return(
