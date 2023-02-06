@@ -1,126 +1,183 @@
 import Skeleton from '@mui/material/Skeleton';
+import { IoMdMore } from "react-icons/io";
+import { AiOutlineHeart } from "react-icons/ai";
 
 export const MarketItem = () => {
     const tagData = [
         {
-            title: "my man"
+            title: "#my man"
         },
         {
-            title: "helper"
+            title: "#helper"
         },
         {
-            title: "ระวัง! ดุ!"
+            title: "#ระวัง! ดุ!"
         },
         {
-            title: "กัดไม่เลือก"
+            title: "#กัดไม่เลือก"
         },
         {
-            title: "important"
+            title: "#important"
         },
         {
-            title: "helper"
+            title: "#helper"
         },
         {
-            title: "ระวัง! ดุ!"
+            title: "#ระวัง! ดุ!"
+        }
+    ]
+
+    const stickerData = [
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "nah man",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
+        },
+        {
+            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
+            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
         }
     ]
 
     return(
-        <div className="dark:bg-adopdark bg-adoplight min-h-screen">
-            <div className="relative top-14">
-                <div className="container m-auto">
-                    <div className="grid grid-cols-4 gap-4">
-                        <div className="ml-5 mr-5 col-span-3 rounded-md">
-                            <div className="justify-items-center bg-adopsoftdark rounded-md">
-                                <img className="m-auto" src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/e67f0b11-854a-4e46-b6fb-5bfa78c3a89bfile_2822005.webp" alt="" />
-                            </div>
-                            <div className="mt-5 bg-adoplight rounded-md shadow-md">
-                                <div className="p-4">
-                                    <h1 className="text-adopdark text-xl">
-                                        <b>
-                                            Title Goes Here
-                                        </b>
-                                    </h1>
+        <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
+            <div className="relative">
+                <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
+                    
+                    {/* Normal Image */}
+                    <div className='bg-adopsoftdark min-w-fit rounded-md justify-items-center'>
+                        <img className="rounded-md" src="https://cdn.wallpapersafari.com/9/22/Px81sC.jpg" alt="" />
+                    </div>
+
+                    {/* Sticker */}
+                    {/* <div className='bg-adopsoftdark min-w-fit rounded-md justify-items-center grid grid-cols-4 gap-4'>
+                        {stickerData.map((data,dataIndex) => (
+                            <div key={dataIndex}>
+                                <div className='rounded-md flex justify-center pt-4 pl-4 pr-4 h-60 w-72'>
+                                    <img className="rounded-md flex-shrink-0 min-w-full min-h-full object-cover" src={data.img} alt="" />
                                 </div>
-                                <div className="p-4 pt-0">
-                                    <p className="text-adopsoftdark">
-                                        Description with Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error, explicabo, pariatur possimus qui recusandae voluptates consequatur natus velit soluta eos totam eius, ullam molestias consectetur dicta numquam ipsam quas quae?
+                                <div className='text-center'>
+                                    <p className='inline-block truncate w-52'>
+                                        {data.stickerName}
                                     </p>
                                 </div>
-                                <div className="p-5 pt-0">
-                                    {tagData.map((data,dataIndex) => (
-                                        <div key={dataIndex} className="bg-adoplighticon text-adopdark shadow-md p-2 mt-4 mr-4 text-center rounded-md w-fit inline-block cursor-default">
-                                            {data.title}
-                                        </div>
-                                    ))}
-                                </div>
                             </div>
-                        </div>
+                        ))}
+                    </div> */}
 
-                        <div className="mr-5 col-span-1 w-full dark:bg-adoplight shadow-md rounded-md p-5 h-fit text-adopdark">
-                            <div>
-                                <div className="text-3xl text-left">
-                                    จำนวนที่เหลือ
-                                </div>
-                                <div className="text-9xl text-center text-adoppix cursor-default">
-                                    12
-                                </div>
-                                <div className="text-3xl text-right">
-                                    ชิ้น
-                                </div>
+                    <div className=' grid grid-cols-12 w-full max-w-4xl rounded-md mx-8'>
+                        <div className='text-3xl w-3xl break-words text-ellipsis col-span-11 dark:text-adoplight text-adopsoftdark'>
+                            Title goes here
+                        </div>
+                        <div className='relative'>
+                            <IoMdMore className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark hover:scale-105 hover:bg-adoplighticon duration-300 rounded-full h-10 w-10' ></IoMdMore>
+                        </div>
+                    </div>
+                    <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
+                        <div className='col-span-3'>
+                            <div className='leading-6 text-sm'>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos officia, aliquid nam maxime ducimus voluptas, cumque voluptatum atque eaque, praesentium a libero accusamus? Suscipit temporibus obcaecati illum odit vero at.
                             </div>
-                            <hr />
-                            
-                            <div className="text-xl text-left pt-5">
-                                ผลงานชิ้นนี้ถูกสร้างโดย
+                            <div className='mt-3'>
+                                {tagData.map((data,dataIndex) => (
+                                    <div key={dataIndex} className="dark:text-adoplight text-adopsoftdark text-center inline-block cursor-default mr-2 text-lg">
+                                        {data.title}
+                                    </div>
+                                ))}
                             </div>
-                            <div className="py-5 flex relative">
-                                <img className="rounded-full h-16 shadow-lg outline outline-offset-2 outline-adoppix cursor-pointer" src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/db3b0210-3169-4843-9b52-644e5c58883efile_2822004.webp" alt="" />
-                                <div className="pl-6">
-                                    <div className="text-2xl mt-3 truncate cursor-pointer hover:text-adoppix">
-                                        Bored Cat
+                            <div className='my-5 cursor-default'>
+                                <div className='text-xl my-3 dark:text-adoplight text-adopsoftdark'>
+                                    <b>
+                                        ศิลปิน
+                                    </b>
+                                </div>
+                                <div className='pl-3'>
+                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/e67f0b11-854a-4e46-b6fb-5bfa78c3a89bfile_2822005.webp" alt="" draggable="false" />
+                                    <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
+                                        <b className=''>
+                                            Username Goes here
+                                        </b>
+                                    </div>
+                                    <div className='inline-block bg-adoppix text-adoplight hover:bg-blue-500 duration-300 rounded-2xl py-1 px-3 text-xs ml-4 cursor-pointer'>
+                                        <b>
+                                            Follow
+                                        </b>
                                     </div>
                                 </div>
-                                <div className="bg-adoplight text-adopsoftdark shadow-lg mt-3 ml-5 py-2 px-4 text-center rounded-md h-fit inline-block cursor-pointer duration-300 hover:bg-adoppix hover:text-adoplight">
-                                    ติดตาม
-                                </div>
-                            </div>
-                            <hr />
-                            
-                            <div className="text-xl text-left pt-5">
-                                ผลงานนี้ถูกขายไป
-                            </div>
-                            <div className="text-3xl text-center">
-                                38
-                            </div>
-                            <div className="text-xl text-right">
-                                ชิ้น
-                            </div>
-                            <hr />
-
-                            <div className="text-xl text-left pt-5">
-                                วางขายครั้งแรกเมื่อ
-                            </div>
-                            <div className="text-3xl text-center pb-2">
-                                20/11/2021
-                            </div>
-                            <hr />
-                            <div className="text-xl text-left pt-5">
-                                ราคาของผลงาน
-                            </div>
-                            <div className="text-3xl text-center text-adoppix">
-                                250
-                            </div>
-                            <div className="text-xl text-right">
-                                Ac
-                            </div>
-                            <hr />
-                            <div className="rounded-md shadow-lg bg-adoppix w-full p-2 text-center text-adoplight text-xl mt-6 cursor-pointer hover:bg-blue-600 duration-300">
-                                ซื้อผลงาน
                             </div>
                         </div>
-
+                        <div className='pl-6 cursor-default'>
+                            <div className=''>
+                                <b className='mr-16 inline-block text-xl dark:text-adoplight text-adopsoftdark'>
+                                    ราคา
+                                </b>
+                                <b className='inline-block text-4xl text-adoppix'>
+                                    200
+                                </b>
+                            </div>
+                            <div className='grid grid-cols-2 mt-1'>
+                                <div className='pr-2'>
+                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                        ประเภทสินค้า
+                                    </b>
+                                    <p className='text-xs text-end text-adoppix'>
+                                        รูปภาพ
+                                    </p>
+                                </div>
+                                <div className='pr-2'>
+                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                        จำนวนที่เหลือ
+                                    </b>
+                                    <p className='text-xs text-end text-adoppix'>
+                                        16 ชิ้น
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='mt-2'>
+                                <p className='text-xs text-red-400 text-end'>
+                                    ไม่สามารถใช้ในเชิงพาณิชย์ได้
+                                </p>
+                                {/* <p className='text-xs text-green-400 text-end'>
+                                    สามารถใช้ในเชิงพาณิชย์ได้
+                                </p> */}
+                            </div>
+                            <div className='grid grid-cols-6 mt-2 gap-2'>
+                                <div className='col-span-5 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                    <b>
+                                        ซื้อ
+                                    </b>
+                                </div>
+                                <div className=' cursor-pointer'>
+                                    <AiOutlineHeart className='h-8 w-8 p-1 border border-white rounded-md hover:text-red-400 hover:scale-105 duration-300'></AiOutlineHeart>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>

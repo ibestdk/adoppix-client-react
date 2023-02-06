@@ -269,8 +269,8 @@ const MarketItemSection = () => {
     }
 
     return(
-        <div className="container">
-            <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md text-adopdark m-[1rem_0] p-4 shadow-[0_0_5px_lightgray] rounded-[.5rem]">
+        <div className="container" draggable="false">
+            <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md text-adopdark m-[1rem_0] p-4 shadow-[0_0_5px_lightgray] rounded-[.5rem]" draggable="false">
                 <div className="pb-5">
                     ผลลัพธ์การค้นหา {dataCard.length} รายการ
                 </div>
@@ -292,7 +292,7 @@ const MarketItemSection = () => {
                                 <img className="flex-shrink-0 min-w-full min-h-full object-cover rounded-md" src={data.img} alt="" draggable="false" />
                                 <FaStar className="text-yellow-400 h-6 w-6 absolute top-2 right-2 hover:text-yellow-300 cursor-pointer"/>
                                 <div className="h-16 hover:h-36 absolute w-full bottom-0 duration-300">
-                                    <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 right-1 top-[-30px] absolute"/>
+                                    <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 right-1 top-[-30px] absolute text-adoplight"/>
                                     <div className="text-adoplight absolute z-50 text-xl pt-0 pl-3 truncate max-w-[150px] cursor-default">
                                         <b>
                                             {data.title}
@@ -300,7 +300,7 @@ const MarketItemSection = () => {
                                     </div>
                                     <div className="flex relative z-50 top-8 cursor-pointer">
                                         <img className="rounded-full h-6 w-6 outline outline-offset-0 outline-2 outline-adoppix absolute left-3" src={data.profileImg} alt="" draggable="false" />
-                                        <div className="absolute left-11 max-w-[80px] truncate">
+                                        <div className="absolute left-11 max-w-[80px] truncate text-adoplight">
                                             {data.username} 
                                         </div>
                                         <GoVerified className="absolute top-[5px] right-[96px] text-green-400 h-4 cursor-default"/>
@@ -315,7 +315,7 @@ const MarketItemSection = () => {
                                             เหลือ {data.amountLeft} ชิ้น
                                         </b>
                                     </div>
-                                    <div className="text-xs absolute z-50 w-[95px] break-words overflow-y-hidden text-ellipsis max-h-[50px] top-[60px] left-11 cursor-default">
+                                    <div className="text-xs absolute z-50 w-[95px] break-words overflow-y-hidden text-ellipsis max-h-[50px] top-[60px] left-11 cursor-default text-adoplight">
                                         {data.description}
                                     </div>
 
@@ -326,12 +326,12 @@ const MarketItemSection = () => {
                                         {data.tag[0]}
                                     </div>
 
-                                    <div className="text-base px-7 py-[1px] w-[80] bg-adoppix rounded-md absolute z-50 right-3 top-16 cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105">
+                                    <div className="text-base px-7 py-[1px] w-[80] bg-adoppix rounded-md absolute z-50 right-3 top-16 cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
                                         <b>
                                             ซื้อ
                                         </b>
                                     </div>
-                                    <div className="text-xs px-2 py-[4px] w-[80] bg-yellow-400 rounded-md absolute z-50 right-3 top-24 cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105">
+                                    <div className="text-xs px-2 py-[4px] w-[80] bg-yellow-400 rounded-md absolute z-50 right-3 top-24 cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
                                         เพิ่มลงตะกร้า
                                     </div>
                                     <div className="bg-adopsoftdark opacity-40 w-full h-full"></div>

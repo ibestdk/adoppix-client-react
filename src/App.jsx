@@ -28,6 +28,8 @@ import VerifyEmail from "./routes/authentication/verify/email/verify-email.compo
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
 import { ProtectedRoute } from "./routes/denied/denied.component";
 import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
+import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
+import { MarketCart } from "./routes/market/market-cart/market-cart.component";
 
 export const DarkContext = createContext();
 
@@ -105,10 +107,12 @@ function App() {
                 }
               />
             </Route>
-            <Route path="market/" element={<Market />}>
-              <Route index element={<MarketIndex />} />
-              <Route path=":marketId" element={<MarketItem />} />
-              <Route path="create" element={<MarketCreate />} />
+            <Route path="market/" element={<Market />} >
+              <Route path="wishlist" element={<MarketWishList/>}/>
+              <Route path="cart" element={<MarketCart/>}/>
+              <Route index element={<MarketIndex/>} />
+              <Route path=":marketId" element={<MarketItem/>} />
+              <Route path="create" element={<MarketCreate/>} />
             </Route>
             <Route exact path="feeds" element={<Feeds />} />
 
