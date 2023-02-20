@@ -32,7 +32,7 @@ const dataCard = [
 export const MarketCart = () => {
     return(
         <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
-            <div className="container m-auto grid grid-cols-4 gap-4 pb-10">
+            <div className="container px-12 m-auto grid grid-cols-4 gap-4 pb-10">
                 <div className="col-span-3">
                     <div className="text-3xl dark:text-adoplight text-adopdark my-4">
                         <b>
@@ -42,11 +42,11 @@ export const MarketCart = () => {
                     <div className="shadow-md rounded-md dark:bg-adopsoftdark">
                         <div className="py-10">
                         {dataCard.map((data,dataIndex) => (
-                            <div key={dataIndex} className="px-20 py-5 grid grid-cols-4 gap-4 place-items-center">
-                            <div className="bg-adopsoftdark rounded-md inline-block">
-                                <img className="rounded-md" src={data.img} alt="" />
+                            <div key={dataIndex} className="px-8 py-5 grid grid-cols-4 gap-4 place-items-center">
+                            <div className="dark:bg-adopsoftdark bg-adoplighticon rounded-md w-60 h-40 mr-2 flex">
+                                <img className="rounded-md flex-shrink-0 object-cover min-w-full min-h-full" src={data.img} alt="" />
                             </div>
-                            <div className="inline-block col-span-2">
+                            <div className="inline-block col-span-2 dark:text-adoplight text-adopdark">
                                 <div>
                                     <b>
                                         {data.title}
@@ -90,7 +90,7 @@ export const MarketCart = () => {
                                 </div>
                             </div>
                             <div>
-                                <b>
+                                <b className=" dark:text-adoplight text-adopdark">
                                     {data.price}
                                 </b>
                             </div>
@@ -108,7 +108,7 @@ export const MarketCart = () => {
                     <div className="shadow-md rounded-md dark:bg-adopsoftdark">
                         <div className=" py-3">
                             {dataCard.map((data,dataIndex) => (
-                                <div key={dataIndex} className="grid grid-cols-4 gap-1 text-lg pb-2 px-5">
+                                <div key={dataIndex} className="grid grid-cols-4 gap-1 text-lg pb-2 px-5  dark:text-adoplight text-adopdark">
                                     <div className="col-span-3 truncate">
                                         {data.title}
                                     </div>
@@ -128,7 +128,7 @@ export const MarketCart = () => {
                                     -200.00
                                 </div>
                             </div>
-                            <div className="grid grid-cols-4 gap-1 text-lg">
+                            <div className="grid grid-cols-4 gap-1 text-lg dark:text-adoplight text-adopdark">
                                 <div className="text-start col-span-3">
                                     ยอดรวม
                                 </div>
@@ -138,7 +138,7 @@ export const MarketCart = () => {
                             </div>
                         </div>
                         <div className="px-4 pb-5 pt-3">
-                            <div className="text-center text-adoplight text-xl py-1 px-20 w-fit rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
+                            <div className="text-center text-adoplight text-lg py-1 px-20 w-fit rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
                                 <b>
                                     ซื้อสินค้าในตะกร้า
                                 </b>
@@ -153,10 +153,10 @@ export const MarketCart = () => {
                         </div>
                         <div className="grid grid-cols-3 px-4 pb-3">
                             <div className="col-span-2">
-                                <input className="text-adopsoftdark rounded-md w-fit" type="text" name="" id="" />
+                                <input className="text-adopsoftdark rounded-md w-fit shadow-md" type="text" name="" id="" />
                             </div>
                             <div className="pb-3">
-                                <div className="text-center text-adoplight text-base w-fit px-1 py-2 rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
+                                <div className="text-center text-adoplight text-sm w-fit px-1 py-2 rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
                                     <b>
                                         ใช้รหัสส่วนลด
                                     </b>
