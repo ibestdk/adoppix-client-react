@@ -26,6 +26,9 @@ export const AuctionCreate = () => {
   const [FileList, setFileList] = useState([]);
 
 
+  const handleFileList = (e) =>{
+    setFileList(e.target.files);
+  }
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
