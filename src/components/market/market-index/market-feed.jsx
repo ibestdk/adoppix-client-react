@@ -16,7 +16,7 @@ function valuetext(value) {
 }
 
 export const MarketFeed = () => {
-    const [value, setValue] = useState([30, 10000]);
+    const [value, setValue] = useState();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -54,12 +54,47 @@ export const MarketFeed = () => {
 
         let response = await axios({
             method: "get",
-            url: `https://api.adoppix.com/api/auction?take=${take}&page=${page}`,
+            url: `https://api.adoppix.com/api/Product?Take=${take}&Page=${page}`,
             data: bodyData,
             headers: headers
         }).catch(err => console.log(err.response))
         console.log(response.data.data)
         setAuctionItems(response.data.data)
+    }
+
+    const [filterOptions, setfilterOption] = useState()
+    const callFilterOption = async () => {
+        const bodyData = {}
+
+        const token = getToken();
+        console.log(token);
+        if (token === false || token === undefined) {
+            console.log("call Foundtion 1")
+            setHeaders({
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            });
+        }
+        else {
+
+            console.log("call Foundtion 2")
+            setHeaders({
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            });
+        }
+        let response = await axios({
+            method: "get",
+            url: 'https://api.adoppix.com/api/Product/filters',
+            data: bodyData,
+            headers: headers
+        }).catch(err => console.log(err.response))
+        setfilterOption(response.data.data)
+        setValue([response.data.data.minimumAmount,response.data.data.maximumAmount])
+        console.log(response.data.data.tag)
+        // console.log(response.data.data.minimumAmount)
+        // console.log(response.data.data.maximumAmount)
     }
 
     function handleContextMenu(event) {
@@ -68,6 +103,7 @@ export const MarketFeed = () => {
 
     useEffect(() => {
         callAuctionCard()
+        callFilterOption()
 
         // block right click
         // document.addEventListener("contextmenu", function (event) {
@@ -97,7 +133,6 @@ export const MarketFeed = () => {
 
     }, []);
 
-
     return (
         <div className="bg-adoplight dark:bg-adopdark min-h-screen h-full overflow-auto">
             <div className="relative">
@@ -105,96 +140,99 @@ export const MarketFeed = () => {
                     <div className="mb-10">
                         <div className="grid grid-cols-12 gap-4">
                             <div className="container col-span-3">
-                                <div className="row h-7 pt-10 pb-5 mb-10">
-                                    <div className="flex relative">
-                                        <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
-                                            ตลาดนัด
-                                        </p>
-                                    </div>
-                                </div>
+                                    <div>
+                                        <div className="row h-7 pt-10 pb-5 mb-10">
+                                            <div className="flex relative">
+                                                <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
+                                                    ตลาดนัด
+                                                </p>
+                                            </div>
+                                        </div>
 
-                                <div className="row mt-5 m-auto">
-                                    <div className="row mt-4">
-                                        <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
-                                            ตลาดนัด
-                                        </button>
-                                    </div>
-                                    <div className="row mt-4">
-                                        <button className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
-                hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
-                                            ร้านค้าของฉัน
-                                        </button>
-                                    </div>
-                                    <div className="row">
-                                        <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
-                                            <div className="">
-                                                <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
-                                                    แท็กที่ถูกค้นหาบ่อย
-                                                </h5>
-                                                <hr />
-                                                <form action="" className="py-2">
-                                                    <div className="flex">
-                                                        <input type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
-                                                        <label className="flex text-adopdark dark:text-adoplight text-base"> Cat</label>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div className="">
-                                                <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
-                                                    ประเภทที่ขาย
-                                                </h5>
-                                                <hr />
-                                                <form action="" className="py-2">
-                                                    <div className="flex">
-                                                        <input id="1" type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
-                                                        <label className="flex text-adopdark dark:text-adoplight text-base"> จำนวนจำกัด</label>
-                                                    </div>
-                                                    <div className="flex">
-                                                        <input id="2" type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
-                                                        <label className="flex text-adopdark dark:text-adoplight text-base"> จำนวนไม่จำกัด</label>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div className="mt-2">
-                                                <h5 className="text-adopdark dark:text-adoplight">
-                                                    ราคา
-                                                </h5>
-                                                <hr />
-                                                <Box className="text-adopdark dark:text-adoplight mt-10 mx-5">
-                                                    <Slider
-                                                        getAriaLabel={() => 'Temperature range'}
-                                                        value={value}
-                                                        onChange={handleChange}
-                                                        valueLabelDisplay="on"
-                                                        getAriaValueText={valuetext}
-                                                        max="10000"
-                                                        step={10}
-                                                    ></Slider>
-                                                </Box>
-                                            </div>
-                                            <div className="mt-2 w-full">
-                                                <button type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
-                                                    <p className="mb-0"> <i className=""></i> ค้นหา</p>
+                                        <div className="row mt-5 m-auto">
+                                            <div className="row mt-4">
+                                                <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
+                                                    ตลาดนัด
                                                 </button>
+                                            </div>
+                                            <div className="row mt-4">
+                                                <button className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
+                                                    ร้านค้าของฉัน
+                                                </button>
+                                            </div>
+                                            <div className="row">
+                                                <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
+                                                    <div className="">
+                                                        <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
+                                                            แท็กที่ถูกค้นหาบ่อย
+                                                        </h5>
+                                                        <hr />
+                                                        <form action="" className="py-2">
+                                                            <div className="flex">
+                                                                <input type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
+                                                                <label className="flex text-adopdark dark:text-adoplight text-base"> Cat</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div className="">
+                                                        <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
+                                                            ประเภทที่ขาย
+                                                        </h5>
+                                                        <hr />
+                                                        <form action="" className="py-2">
+                                                            <div className="flex">
+                                                                <input id="1" type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
+                                                                <label className="flex text-adopdark dark:text-adoplight text-base"> จำนวนจำกัด</label>
+                                                            </div>
+                                                            <div className="flex">
+                                                                <input id="2" type="checkbox" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
+                                                                <label className="flex text-adopdark dark:text-adoplight text-base"> จำนวนไม่จำกัด</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <h5 className="text-adopdark dark:text-adoplight">
+                                                            ราคา
+                                                        </h5>
+                                                        <hr />
+                                                        <Box className="text-adopdark dark:text-adoplight mt-10 mx-5">
+                                                            <Slider
+                                                                getAriaLabel={() => 'Temperature range'}
+                                                                value={value}
+                                                                onChange={handleChange}
+                                                                valueLabelDisplay="on"
+                                                                getAriaValueText={valuetext}
+                                                                max='10000'
+                                                                step={10}
+                                                            ></Slider>
+                                                        </Box>
+                                                    </div>
+                                                    <div className="mt-2 w-full">
+                                                        <button type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
+                                                            <p className="mb-0"> <i className=""></i> ค้นหา</p>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </div>
                             <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
                                 <div className="dark:text-adoplight text-adopdark">
-                                    ผลลัพธ์การค้นหา 10 รายการ
+                                    ผลลัพธ์การค้นหา {auctionItems && auctionItems.length} รายการ
                                 </div>
-                                <hr className="mt-5 mb-10 text-adopdark dark:text-adoplight" />
-                                <div className="mb-10">
-                                    <MarketOwl/>
+                                <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
+                                <div className="mb-4">
+                                    <MarketOwl />
                                 </div>
                                 <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
                                     {
                                         auctionItems && auctionItems.map((auctionItem, index) => (
                                             <div key={index} className="">
                                                 <div className="relative overflow-hidden">
-                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.auctionId}`}>
+                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.title}`}>
                                                         <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${auctionItem.image}`} />
                                                     </NavLink>
                                                     <div className="absolute top-2 right-2">
@@ -214,22 +252,22 @@ export const MarketFeed = () => {
                                                             </div>
                                                             <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                                                 <b>
-                                                                    2000
+                                                                    {auctionItem.price}
                                                                 </b>
                                                             </div>
                                                             <div className="flex">
                                                                 <div>
-                                                                    <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${auctionItem.profileImage}`} />
+                                                                    <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${auctionItem.ownerProfileImage}`} />
                                                                 </div>
                                                                 <div className="text-xs font-bold my-auto truncate max-w-[70%]">
-                                                                    {auctionItem.username}
+                                                                    {auctionItem.ownerUsername}
                                                                 </div>
                                                                 <div className=" top-[2px] right-[-15px] cursor-default">
                                                                     <GoVerified className="h-4 text-green-400" />
                                                                 </div>
                                                             </div>
                                                             <div className="absolute text-xs right-1 top-5">
-                                                                เหลือ 1 ชิ้น
+                                                                เหลือ {auctionItem.amount} ชิ้น
                                                             </div>
                                                             <div className="w-[72px] absolute right-1 top-16">
                                                                 <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
