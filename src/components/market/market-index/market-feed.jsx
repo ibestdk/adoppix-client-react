@@ -232,7 +232,7 @@ export const MarketFeed = () => {
                                         auctionItems && auctionItems.map((auctionItem, index) => (
                                             <div key={index} className="">
                                                 <div className="relative overflow-hidden">
-                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.title}`}>
+                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.productId}`}>
                                                         <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${auctionItem.image}`} />
                                                     </NavLink>
                                                     <div className="absolute top-2 right-2">
