@@ -32,7 +32,7 @@ export const AuctionIndex = () => {
     callFilters();
   }, []);
   return (
-    <div className="bg-adoplight dark:bg-adopdark min-h-screen">
+    <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] ">
       {/*    <div className="container flex flex-row m-auto">
           <div className="columns-3 rounded-lg m-5 h-[400px] w-[350px] bg-adopsoftdark shadow-lg"></div>
           <div className="columns-9 rounded-lg m-5 h-[1000px] w-full bg-adopsoftdark shadow-lg "></div>
@@ -95,7 +95,7 @@ export const AuctionIndex = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-adopsoftdark mr-5 p-10 col-span-9 h-[1000px] w-full rounded-lg">
+            <div className="bg-adopsoftdark mr-5 p-10 col-span-9 h-[1350px] w-full rounded-lg">
               <CardFeed />
             </div>
           </div>

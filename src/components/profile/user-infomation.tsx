@@ -76,6 +76,8 @@ const UserProfileInfomation = () => {
             setIsLoadFollow(false);
           }, 1000);
 
+          getProfileData();
+
           console.log("complete Get User data");
         } else {
           console.log("fail to get user data");
@@ -222,7 +224,7 @@ const UserProfileInfomation = () => {
                   )}
                   {!isLoading && (
                     <div>
-                      <div className="text-base">5352 คนกำลังวิ่งตาม</div>
+                      <div className="text-base">{data?.followerCount} คนกำลังติดตาม</div>
                     </div>
                   )}
                 </div>

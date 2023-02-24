@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="bg-adoplight dark:bg-adopdark duration-300">
       <Banner2></Banner2>
-      <OwlTemplate/>
+      {/* <OwlTemplate/> */}
       <OwlAuction></OwlAuction>
     </div>
   );

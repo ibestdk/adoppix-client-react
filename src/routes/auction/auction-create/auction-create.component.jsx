@@ -117,7 +117,7 @@ export const AuctionCreate = () => {
     >
       <div className=" backdrop-blur-sm ">
         <div className="relative container m-auto">
-          <div className="mx-[20%] bg-white dark:bg-adopsoftdark/70  h-[2300px]  p-14  text-opacity-100">
+          <div className="mx-[20%] bg-white dark:bg-adopsoftdark/70  min-h-[2400px]  p-14  text-opacity-100">
             <div className="text-center text-6xl text-adoppix">
               สร้างการประมูล
             </div>
