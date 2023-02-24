@@ -1,6 +1,7 @@
 import Skeleton from '@mui/material/Skeleton';
 import { IoMdMore } from "react-icons/io";
 import { AiOutlineHeart } from "react-icons/ai";
+import ReactWaterMark from 'react-watermark-component';
 
 export const MarketItem = () => {
     const tagData = [
@@ -62,14 +63,51 @@ export const MarketItem = () => {
         }
     ]
 
+    const text = `data`;
+  const beginAlarm = function () { console.log('start alarm'); };
+  const options = {
+    chunkWidth: 200,
+    chunkHeight: 60,
+    textAlign: 'left',
+    textBaseline: 'bottom',
+    globalAlpha: 1,
+    font: '14px Microsoft Yahei',
+    rotateAngle: -0.26,
+    fillStyle: '#1f1f1f'
+  }
+
     return(
         <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
             <div className="relative">
                 <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
                     
                     {/* Normal Image */}
-                    <div className='bg-adopsoftdark min-w-fit rounded-md justify-items-center'>
-                        <img className="rounded-md" src="https://cdn.wallpapersafari.com/9/22/Px81sC.jpg" alt="" />
+                    {/* <div className='bg-adopsoftdark rounded-md justify-items-center'>
+                        <img className="rounded-md flex-shrink-0 object-cover min-w-full max-h-[400px]" src="https://static.vecteezy.com/system/resources/previews/012/996/827/original/night-lake-landscape-cartoon-illustration-free-vector.jpg" alt="" />
+                    </div> */}
+                    <div className="p-5 bg-adopsoftdark rounded-lg">
+                    <div>
+                    <ReactWaterMark
+                        waterMarkText={text}
+                        openSecurityDefense
+                        securityAlarm={beginAlarm}
+                        options={options}
+                      >
+
+
+                        <div className="relative">
+                          <div>
+                            <img draggable={false} className="h-[500px] object-cover w-full m-atuo inline-flex rounded-lg shadow-lg blur-sm brightness-75" src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtl9Gl8EKYMTqYClkodpjyP3ALx3pW380iDpCEFHq86YgEguqa130cOK7YLwmjoUVnm_Q&usqp=CAU`} alt="" />
+                          </div>
+                          <div className="absolute top-0 m-auto left-0 right-0 ">
+                            <p className="text-center">
+                              <img draggable={false} className="h-[500px] m-atuo inline-flex rounded-lg shadow-lg" src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtl9Gl8EKYMTqYClkodpjyP3ALx3pW380iDpCEFHq86YgEguqa130cOK7YLwmjoUVnm_Q&usqp=CAU`} onDragStart={(event) => event.preventDefault()} alt="" />
+                            </p>
+                          </div>
+
+                        </div>
+                      </ReactWaterMark>
+                    </div>
                     </div>
 
                     {/* Sticker */}
