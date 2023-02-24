@@ -111,7 +111,7 @@ function App() {
               <Route path="wishlist" element={<MarketWishList/>}/>
               <Route path="cart" element={<MarketCart/>}/>
               <Route index element={<MarketIndex/>} />
-              <Route path=":marketId" element={<MarketItem/>} />
+              <Route path=":productId" element={<MarketItem/>} />
               <Route path="create" element={<MarketCreate/>} />
             </Route>
             <Route exact path="feeds" element={<Feeds />} />
