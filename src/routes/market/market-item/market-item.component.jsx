@@ -119,7 +119,7 @@ export const MarketItem = () => {
 
                                     <div className="relative">
                                         <div>
-                                            <img draggable={false} className="h-[500px] object-cover w-full m-atuo inline-flex rounded-lg shadow-lg blur-sm brightness-75" src={`https://pix.adoppix.com/public/${productDatas.images[0]}`} alt="" />
+                                            <img draggable={false} className="h-[500px] object-cover w-full m-auto inline-flex rounded-lg shadow-lg blur-sm brightness-75" src={`https://pix.adoppix.com/public/${productDatas.images[0]}`} alt="" />
                                         </div>
                                         <div className="absolute top-0 m-auto left-0 right-0 ">
                                             <p className="text-center">
