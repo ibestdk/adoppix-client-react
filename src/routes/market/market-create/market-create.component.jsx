@@ -8,23 +8,9 @@ import { getToken } from "../../../services/authorize";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const tag = [
-    {
-        nameTag: "cat"
-    },
-    {
-        nameTag: "shitthen"
-    },
-    {
-        nameTag: "randomObject"
-    }
-    ,
-    {
-        nameTag: "rarelySeen"
-    }
-]
 
 export const MarketCreate = () => {
+    const navigate = useNavigate();
 
     const onChange = (imageList, addUpdateIndex) => {
         setImages(imageList);
@@ -33,6 +19,7 @@ export const MarketCreate = () => {
     // product type button
     const [typeProductState, setTypeProductState] = useState(false);
     const typeProductClicked = () => {
+        setProductType(!typeProductState);
         setTypeProductState(!typeProductState);
         setImages();
     }
@@ -52,12 +39,29 @@ export const MarketCreate = () => {
     const [images, setImages] = useState([]);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
-    const [productTypeCount, setProductTypeCount] = useState();
+    const [productType, setProductType] = useState(false);
     const [commercialAllowState, setcommercialAllowState] = useState(false);
-    const [sellType, setSellType] = useState();
     const [amount, setAmount] = useState();
     const [tagsData, setTagsData] = useState([]);
     const [price, setPrice] = useState();
+    // StickerCover Paramiter API
+    const [stickerCover, setStickerCover] = useState([]);
+
+    const titleSet = (e) => {
+        setTitle(e.target.value);
+    }
+
+    const descriptionSet = (e) => {
+        setDescription(e.target.value);
+    }
+
+    const priceSet = (e) => {
+        setPrice(e.target.value);
+    }
+
+    const amountSet = (e) => {
+        setAmount(e.target.value);
+    }
 
     // data function
     const handleSubmit = async () => {
@@ -65,13 +69,22 @@ export const MarketCreate = () => {
         if (commercialAllowState) bodyData.append("CanCommercial", commercialAllowState);
         if (images)
             images.forEach((image) => bodyData.append("Images", image.file));
+        if (stickerCover)
+            stickerCover.forEach((image) => bodyData.append("StickerCover", stickerCover.file));
         if (title) bodyData.append("Title", title);
         if (description) bodyData.append("Description", description);
-        // if (productTypeCount) bodyData.append("ProductType", productTypeCount);
-        if (amount) bodyData.append("Amount", amount);
-        // if (sellType) bodyData.append("SellType", sellType);
+         if (productType){
+            bodyData.append("ProductTypeId", 2);
+         }
+         else{
+            bodyData.append("ProductTypeId", 1);
+         }
+        if (sellTypeState == false){
+            bodyData.append("Amount", amount);
+        }
         if (price) bodyData.append("Price", price);
         if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
+        console.log(bodyData);
         const token = getToken();
         const headers = {
             Authorization: `Bearer ${token}`,
@@ -86,16 +99,16 @@ export const MarketCreate = () => {
             data: bodyData,
             headers: headers,
         }).catch((err) => console.log(err.response));
-        console.log(result);
+        console.log(result.data);
         navigate(`${result.data}`);
     };
 
     
 
     return (
-        <div className="dark:bg-adopdark bg-adoplight h-[1600px] overflow-hidden relative">
+        <div className="dark:bg-adopdark bg-adoplight h-fit overflow-hidden relative">
             {/* <img className="w-full" src="https://i.pinimg.com/originals/09/ed/f3/09edf38f25419af1cf30e0bbf8d9e6df.jpg" alt="" /> */}
-            <img className="flex-shrink-0 min-w-full min-h-full object-cover" src="https://www.enjpg.com/img/2020/4k-for-mobile-3.jpg" alt="" />
+            <img className="flex-shrink-0 min-w-full h-[1800px] object-cover" src="https://www.enjpg.com/img/2020/4k-for-mobile-3.jpg" alt="" />
             <div className="h-full absolute w-full min-w-full min-h-full top-0  container m-auto grid grid-cols-1 gap-4 place-items-center">
                 <div className=' grid grid-cols-1 bg-white dark:bg-adopsoftdark/70 text-opacity-100 w-3/5 h-full'>
                     <div className='w-2/3 mx-auto text-adopdark'>
@@ -283,7 +296,7 @@ export const MarketCreate = () => {
                                 ชื่อสินค้า
                             </p>
                             <div className="bg-adoppix rounded-md w-full opacity-100">
-                                <input className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="text" />
+                                <input onChange={titleSet} className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="text" />
                             </div>
                         </div>
 
@@ -292,7 +305,7 @@ export const MarketCreate = () => {
                                 คำอธิบาย
                             </p>
                             <div className="bg-adoppix rounded-md w-full opacity-100">
-                                <textarea className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon resize-none h-40" type="text" />
+                                <textarea onChange={descriptionSet} className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon resize-none h-40" type="text" />
                             </div>
                         </div>
 
@@ -356,7 +369,7 @@ export const MarketCreate = () => {
                                     ราคา
                                 </p>
                                 <div className="bg-adoppix rounded-md w-1/5 opacity-100 inline-block">
-                                    <input className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="number" />
+                                    <input onChange={priceSet} className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="number" />
                                 </div>
                                 <div className="inline-block text-adoppix ml-3">
                                     Adop Coins
@@ -379,7 +392,7 @@ export const MarketCreate = () => {
                                             ก่อนการสร้างสินค้า เพื่อตัวของผู้ใช้เอง
                                         </p>
                                     </div>
-                                    <p className="bg-adoppix text-adoplight rounded-md py-2 px-4 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300">
+                                    <p onClick={handleSubmit} className="bg-adoppix text-adoplight rounded-md py-2 px-4 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300">
                                         ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
                                     </p>
                                 </div>
