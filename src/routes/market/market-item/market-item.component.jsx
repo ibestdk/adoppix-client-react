@@ -123,10 +123,16 @@ export const MarketItem = () => {
         };
 
         // API Caller
-        const response = axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`,{headers})
-        .then(() => console.log(response))
-        .catch((err) => console.log(err.response));
-        console.log("response : "+response)
+        axios({
+            method: 'patch',
+            url: `https://api.adoppix.com/api/Product/${productId}/wishlist`,
+            headers: headers
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
+        // .then((res) => console.log(res))
+        // .catch((err) => console.log(err.response));
     };
 
     const searchIsWishListed = function (data,index) {
