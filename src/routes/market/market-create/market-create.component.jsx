@@ -1,5 +1,5 @@
 import ImageUploading from "react-images-uploading";
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import Chips from "../../../components/input/chips/chips";
 import { AiFillSetting } from "react-icons/ai";
@@ -16,12 +16,20 @@ export const MarketCreate = () => {
         setImages(imageList);
     };
 
+    const onCoverChange = (imageList, addUpdateIndex) => {
+        setCover(imageList);
+    };
+
     // product type button
     const [typeProductState, setTypeProductState] = useState(false);
     const typeProductClicked = () => {
-        setProductType(!typeProductState);
         setTypeProductState(!typeProductState);
+        setProductType(!typeProductState);
         setImages();
+        setCover();
+
+        // console.log("typeProductState "+typeProductState);
+        // console.log("productType "+productType);
     }
 
     // commercial button
@@ -36,6 +44,7 @@ export const MarketCreate = () => {
     }
 
     // data
+    const [covers, setCover] = useState([]);
     const [images, setImages] = useState([]);
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
@@ -44,8 +53,6 @@ export const MarketCreate = () => {
     const [amount, setAmount] = useState();
     const [tagsData, setTagsData] = useState([]);
     const [price, setPrice] = useState();
-    // StickerCover Paramiter API
-    const [stickerCover, setStickerCover] = useState([]);
 
     const titleSet = (e) => {
         setTitle(e.target.value);
@@ -69,17 +76,17 @@ export const MarketCreate = () => {
         if (commercialAllowState) bodyData.append("CanCommercial", commercialAllowState);
         if (images)
             images.forEach((image) => bodyData.append("Images", image.file));
-        if (stickerCover)
-            stickerCover.forEach((image) => bodyData.append("StickerCover", stickerCover.file));
+        if (covers)
+            covers.forEach((stickerCover) => bodyData.append("StickerCover", stickerCover.file));
         if (title) bodyData.append("Title", title);
         if (description) bodyData.append("Description", description);
-         if (productType){
-            bodyData.append("ProductTypeId", 2);
-         }
-         else{
+        if (productType == false) {
             bodyData.append("ProductTypeId", 1);
-         }
-        if (sellTypeState == false){
+        }
+        else if (productType == true) {
+            bodyData.append("ProductTypeId", 2);
+        }
+        if (sellTypeState == false) {
             bodyData.append("Amount", amount);
         }
         if (price) bodyData.append("Price", price);
@@ -99,11 +106,15 @@ export const MarketCreate = () => {
             data: bodyData,
             headers: headers,
         }).catch((err) => console.log(err.response));
-        console.log(result.data);
-        navigate(`${result.data}`);
+        navigate(`../${result.data.data}`);
     };
 
-    
+    useEffect(() => {
+        // console.log("typeProductState "+typeProductState);
+        // console.log("productType "+productType);
+    }, []);
+
+
 
     return (
         <div className="dark:bg-adopdark bg-adoplight h-fit overflow-hidden relative">
@@ -154,28 +165,28 @@ export const MarketCreate = () => {
                             <p className="text-start text-adopdark dark:text-adoplight">
                                 สามารถใช้เชิงพาณิชย์
                             </p>
-                            {commercialAllowState == false && (
+                            {commercialAllowState == true && (
                                 <div className="bg-adoppix text-adoplight rounded-md py-1 w-24 text-base inline-block mr-2 text-center mt-4 cursor-default duration-300">
                                     <b>
                                         ใช่
                                     </b>
                                 </div>
                             )}
-                            {commercialAllowState == true && (
+                            {commercialAllowState == false && (
                                 <div onClick={commercialAllowClicked} className="bg-adoplighticon text-adoplight rounded-md py-1 w-24 text-base inline-block mr-2 text-center hover:bg-adoppix hover:scale-105 duration-300 cursor-pointer">
                                     <b>
                                         ใช่
                                     </b>
                                 </div>
                             )}
-                            {commercialAllowState == true && (
+                            {commercialAllowState == false && (
                                 <div className="bg-adoppix text-adoplight rounded-md py-1 w-24 text-base inline-block mr-2 text-center mt-4 cursor-default duration-300">
                                     <b>
                                         ไม่
                                     </b>
                                 </div>
                             )}
-                            {commercialAllowState == false && (
+                            {commercialAllowState == true && (
                                 <div onClick={commercialAllowClicked} className="bg-adoplighticon text-adoplight rounded-md py-1 w-24 text-base inline-block mr-2 text-center hover:bg-adoppix hover:scale-105 duration-300 cursor-pointer">
                                     <b>
                                         ไม่
@@ -213,16 +224,71 @@ export const MarketCreate = () => {
                                                     {...dragProps}
                                                 >
                                                 </button> */}
-                                                    <p className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
-                                                        คลิก หรือ ลางวางเพื่ออัพโหลดรูปภาพ
-                                                    </p>
+                                                    {imageList.length == 0 && (
+                                                        <p className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
+                                                            คลิก หรือ ลางวางเพื่ออัพโหลดรูปภาพ
+                                                        </p>
+                                                    )}
                                                     {imageList.map((image, index) => (
-                                                        <div key={index} className="image-item m-auto z-50 min-w-[400px] bg-adoppix rounded-md">
-                                                            <img className="max-h-[800px] w-full m-auto inline-flex rounded-md" src={image['data_url']} alt="" width="100" />
+                                                        <div key={index} className="image-item m-auto z-50 bg-adoppix rounded-md">
+                                                            <img className="max-h-[550px] w-full m-auto inline-flex rounded-md" src={image.data_url} alt="" width="100" />
                                                         </div>
                                                     ))}
                                                 </div>
                                                 <div className="flex mt-2">
+                                                    <div onClick={onImageUpdate} className="p-2 mx-1 bg-adoppix text-adoplight text-base rounded-md cursor-pointer hover:scale-105 duration-300">
+                                                        อัพเดทรูป
+                                                    </div>
+                                                    <div onClick={onImageRemove} className="p-2 mx-1 bg-red-500 text-adoplight text-base rounded-md cursor-pointer hover:scale-105 duration-300">
+                                                        ลบรูป
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+                                )}
+                                {/* Sticker Cover */}
+                                {typeProductState == true && (
+                                    <ImageUploading
+                                        value={covers}
+                                        onChange={onCoverChange}
+                                        dataURLKey="data_url"
+                                        acceptType={["jpg", "png"]}
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpload,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                            isDragging,
+                                            dragProps,
+                                        }) => (
+                                            // write your building UI
+                                            <div className="upload__image-wrapper">
+                                                <div className="text-sm text-adopdark dark:text-adoplight">
+                                                    * แนะนำให้ใช้รูปกว้างลักษณะเป็น Banner
+                                                </div>
+                                                <div onClick={onImageUpload} {...dragProps} style={isDragging ? { opacity: 0.75 } : undefined}
+                                                    className="relative min-h-[240px] h-fit object-cover w-full m-auto inline-flex rounded-lg justify-center border border-solid border-adoplighticon">
+                                                    {/* <button
+                                                    className="h-full w-full opacity-0 bg-transparent"
+                                                    style={isDragging ? { color: 'adoppix' } : undefined}
+                                                    onClick={onImageUpload}
+                                                    {...dragProps}
+                                                >
+                                                </button> */}
+                                                    {imageList.length == 0 && (
+                                                        <p className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
+                                                            คลิก หรือ ลางวางเพื่ออัพโหลดรูปปก
+                                                        </p>
+                                                    )}
+                                                    {imageList.map((image, index) => (
+                                                        <div key={index} className="image-item m-auto z-50 bg-adoppix rounded-md">
+                                                            <img className="max-h-[200px] w-full m-auto inline-flex rounded-md" src={image['data_url']} alt="" width="100" />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="flex my-2">
                                                     <div onClick={onImageUpdate} className="p-2 mx-1 bg-adoppix text-adoplight text-base rounded-md cursor-pointer hover:scale-105 duration-300">
                                                         อัพเดทรูป
                                                     </div>
@@ -255,7 +321,7 @@ export const MarketCreate = () => {
                                         }) => (
                                             // write your building UI
                                             <div className="upload__image-wrapper">
-                                                <div className="relative min-h-[240px] h-fit object-cover w-full m-auto inline-flex rounded-lg justify-center border border-solid border-adoplighticon">
+                                                <div className="relative min-h-[240px] max-h-[240px] overflow-y-scroll h-fit object-cover w-full m-auto inline-flex rounded-lg justify-center border border-solid border-adoplighticon">
                                                     {/* <button
                                                 className="h-full w-full opacity-0 bg-transparent"
                                                 style={isDragging ? { color: 'adoppix' } : undefined}
@@ -263,9 +329,11 @@ export const MarketCreate = () => {
                                                 {...dragProps}
                                             >
                                             </button> */}
-                                                    <p onClick={onImageUpload} {...dragProps} style={isDragging ? { opacity: 0.75 } : undefined} className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
-                                                        คลิก หรือ ลางวางเพื่ออัพโหลดสติ้กเกอร์
-                                                    </p>
+                                                    {imageList.length == 0 && (
+                                                        <p onClick={onImageUpload} {...dragProps} style={isDragging ? { opacity: 0.75 } : undefined} className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
+                                                            คลิก หรือ ลางวางเพื่ออัพโหลดสติ้กเกอร์
+                                                        </p>
+                                                    )}
                                                     <div className="grid grid-cols-3 gap-2 my-3">
                                                         {imageList.map((image, index) => (
                                                             <div key={index} className="image-item w-full rounded-md m-0 z-50 relative">
@@ -338,7 +406,7 @@ export const MarketCreate = () => {
                                         ระบุจำนวน
                                     </p>
                                     <div className="text-adopsoftdark rounded-md w-20 mx-2 outline outline-adoplighticon text-center mb-2 inline-block hover:scale-105 duration-300 h-10">
-                                        <input className="w-20" type="number" />
+                                        <input onChange={amountSet} className="w-20" type="number" />
                                     </div>
                                     <p className="text-base inline-block text-adopdark dark:text-adoplight">
                                         ชิ้น
@@ -365,9 +433,12 @@ export const MarketCreate = () => {
                             </div>
 
                             <div className="my-6">
-                                <p className="text-start my-4 text-adopdark dark:text-adoplight">
+                                <p className="text-start mt-4 text-adopdark dark:text-adoplight">
                                     ราคา
                                 </p>
+                                <div className="text-sm mb-4 mt-1 text-adopdark dark:text-adoplight">
+                                    * ราคาเริ่มต้นคือ 100
+                                </div>
                                 <div className="bg-adoppix rounded-md w-1/5 opacity-100 inline-block">
                                     <input onChange={priceSet} className="rounded-md w-full outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="number" />
                                 </div>
@@ -392,9 +463,16 @@ export const MarketCreate = () => {
                                             ก่อนการสร้างสินค้า เพื่อตัวของผู้ใช้เอง
                                         </p>
                                     </div>
-                                    <p onClick={handleSubmit} className="bg-adoppix text-adoplight rounded-md py-2 px-4 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300">
-                                        ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
-                                    </p>
+                                    {(images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
+                                        <p onClick={handleSubmit} className="bg-adoppix text-adoplight rounded-md py-2 px-4 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300">
+                                            ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
+                                        </p>
+                                    )}
+                                    {!(images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
+                                        <p className="bg-adoplighticon text-adoplight rounded-md py-2 px-4 cursor-default">
+                                            ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
