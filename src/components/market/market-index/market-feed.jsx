@@ -10,13 +10,14 @@ import { TbBusinessplan } from "react-icons/tb";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import MarketOwl from "./market-owl.component";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 function valuetext(value) {
     return `${value}°C`;
 }
 
 export const MarketFeed = () => {
-    const [value, setValue] = useState();
+    const [value, setValue] = useState([0, 10000]);
     // [0, 10000]
 
     const handleChange = (event, newValue) => {
