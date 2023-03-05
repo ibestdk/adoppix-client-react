@@ -177,7 +177,7 @@ export const MarketItem = () => {
                                             </b>
                                         </div>
                                         <div className='pl-3'>
-                                            <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src="https://sticker-collection.com/stickers/plain/Sad_Kyaru_chan/512/e67f0b11-854a-4e46-b6fb-5bfa78c3a89bfile_2822005.webp" alt="" draggable="false" />
+                                            {/* <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src={`https://pix.adoppix.com/public/${productDatas.ownerProfileImage}`} alt="" draggable="false" /> */}
                                             <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
                                                 <b className=''>
                                                     {productDatas.owner}
@@ -259,8 +259,8 @@ export const MarketItem = () => {
                                             )}
                                         </div>
                                     </div>
-                                        <button type="button" class="bg-indigo-500 ..." disabled>
-                                            <svg class="w-full">
+                                        {/* <button type="button" className="bg-indigo-500 ..." disabled>
+                                            <svg className="w-full">
                                                 <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
                                                     <animateTransform
                                                         attributeName="transform"
@@ -272,7 +272,7 @@ export const MarketItem = () => {
                                                         repeatCount="indefinite" />
                                                 </path>
                                             </svg>
-                                        </button>
+                                        </button> */}
                                 </div>
                             </div>
                         </div>
