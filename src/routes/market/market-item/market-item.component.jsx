@@ -51,7 +51,7 @@ export const MarketItem = () => {
     //         });
     // }
 
-    const waterMark = `${productDatas && productDatas.owner}`;
+    const waterMark = `${productDatas && productDatas.ownerUsername}`;
     const getProduct = () => {
         axios
             .get(`https://api.adoppix.com/api/Product/${productId}`)

@@ -251,7 +251,12 @@ export const MarketFeed = () => {
                                                             {/* <FaStar className="mb-[8px] text-yellow-300" /> */}
                                                         </div>
                                                         <div>
-                                                            <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                            { auctionItem.canCommercial == true && (
+                                                                <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                            ) }
+                                                            { auctionItem.canCommercial == false && (
+                                                                <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                            ) }
                                                         </div>
                                                     </div>
                                                     <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
