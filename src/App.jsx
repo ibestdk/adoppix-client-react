@@ -30,6 +30,8 @@ import { ProtectedRoute } from "./routes/denied/denied.component";
 import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
 import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
 import { MarketCart } from "./routes/market/market-cart/market-cart.component";
+import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
+import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
 
 export const DarkContext = createContext();
 
@@ -114,7 +116,11 @@ function App() {
               <Route path=":productId" element={<MarketItem/>} />
               <Route path="create" element={<MarketCreate/>} />
             </Route>
-            <Route exact path="feeds" element={<Feeds />} />
+            <Route exact path="feeds" element={<Feeds />}>
+            <Route index element={<FeedsIndex/>} />
+            <Route path=":postId" element={<FeedsPost/>} />
+
+            </Route>
 
             <Route
               exact
