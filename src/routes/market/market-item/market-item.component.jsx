@@ -13,41 +13,6 @@ export const MarketItem = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
 
-    const stickerData = [
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "nah man",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        }
-    ]
-
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
         wishList();
@@ -138,12 +103,12 @@ export const MarketItem = () => {
     const searchIsWishListed = function (data,index) {
         if (data.productId == productId){
             setWishlistState(true);
-            return ;
+            return console.log("Found!");
         }
         else if (data.productId != productId){
-            setWishlistState(false)
+            setWishlistState(false);
         }
-    }
+    };
 
     const checkIsWishListed = () => {
         const token = getToken();
@@ -156,9 +121,8 @@ export const MarketItem = () => {
             .get(`https://api.adoppix.com/api/User/wishlist`,{headers})
             .then((res) => {
                 
-                console.log("data :", res.data.data[0]);
-                res.data.data.forEach()
-                setWishListed(res.data.data);
+                console.log("data :", res.data.data);
+                res.data.data.forEach(searchIsWishListed);
             })
             .catch((error) => {
                 console.error("Error:", error);
