@@ -50,8 +50,8 @@ export const MarketItem = () => {
 
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
+        wishList();
         setWishlistState(!wishlistState);
-        console.log(wishlistState);
     }
 
     const beginAlarm = function () { console.log('start alarm'); };
@@ -74,17 +74,17 @@ export const MarketItem = () => {
         setMenuState(!menuState);
     }
 
-    const ownerData = (username) => {
-        axios
-            .get(`https://api.adoppix.com/api/User/${username}/user-info`)
-            .then((res) => {
-                console.log("Success:", res.data.data);
-                setUserData(res.data.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
+    // const ownerData = (username) => {
+    //     axios
+    //         .get(`https://api.adoppix.com/api/User/${username}/user-info`)
+    //         .then((res) => {
+    //             console.log("Success:", res.data.data);
+    //             setUserData(res.data.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error:", error);
+    //         });
+    // }
 
     const waterMark = `${productDatas && productDatas.owner}`;
     const getProduct = () => {
@@ -113,25 +113,61 @@ export const MarketItem = () => {
         .then(() => navigate(`../`))
         .catch((err) => console.log(err.response));
         console.log("productId : "+productId)
-
-        // let result = await axios({
-        //     method: "delete",
-        //     url: `https://api.adoppix.com/api/Product/${productId}`,
-        //     headers: headers,
-        // }).catch((err) => console.log(err.response));
-        // navigate(`../`);
     };
 
-    // deleteProduct() {
-    //     axios.delete(`https://api.adoppix.com/api/Product/${productId}`)
-    //         .then(() => this.setState({ status: 'Delete successful' }),
-    //         navigate(`../`))
-    //         .catch((err) => console.log(err.response));
-    // }
+    const wishList = async () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'patch',
+            url: `https://api.adoppix.com/api/Product/${productId}/wishlist`,
+            headers: headers
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
+        // .then((res) => console.log(res))
+        // .catch((err) => console.log(err.response));
+    };
+
+    const searchIsWishListed = function (data,index) {
+        if (data.productId == productId){
+            setWishlistState(true);
+            return ;
+        }
+        else if (data.productId != productId){
+            setWishlistState(false)
+        }
+    }
+
+    const checkIsWishListed = () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        axios
+            .get(`https://api.adoppix.com/api/User/wishlist`,{headers})
+            .then((res) => {
+                
+                console.log("data :", res.data.data[0]);
+                res.data.data.forEach()
+                setWishListed(res.data.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
 
     useEffect(() => {
-        console.log("" + productId);
         getProduct();
+        checkIsWishListed();
     }, []);
 
     return (
@@ -143,7 +179,7 @@ export const MarketItem = () => {
                     {/* <div className='bg-adopsoftdark rounded-md justify-items-center'>
                         <img className="rounded-md flex-shrink-0 object-cover min-w-full max-h-[400px]" src="https://static.vecteezy.com/system/resources/previews/012/996/827/original/night-lake-landscape-cartoon-illustration-free-vector.jpg" alt="" />
                     </div> */}
-                    <div className="p-5 bg-adopsoftdark rounded-lg mb-14">
+                    <div className="p-5 dark:bg-adopsoftdark shadow-md rounded-lg mb-14">
                         {productDatas && (
                             <div>
 
@@ -226,7 +262,7 @@ export const MarketItem = () => {
                                 </div>
                                 <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
                                     <div className='col-span-3'>
-                                        <div className='leading-6 text-sm'>
+                                        <div className='dark:text-adoplight text-adopsoftdark leading-6 text-sm'>
                                             {productDatas.description}
                                         </div>
                                         <div className='mt-3'>
@@ -244,10 +280,10 @@ export const MarketItem = () => {
                                             </div>
                                             <div className='pl-3'>
                                                 {productDatas.ownerProfileImage != null && (
-                                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src={`https://pix.adoppix.com/public/${productDatas.ownerProfileImage}`} alt="" draggable="false" />
+                                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://pix.adoppix.com/public/${productDatas.ownerProfileImage}`} alt="" draggable="false" />
                                                 )}
                                                 {productDatas.ownerProfileImage == null && (
-                                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
+                                                    <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
                                                 )}
                                                 <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
                                                     <b className=''>
@@ -323,10 +359,10 @@ export const MarketItem = () => {
                                             </div>
                                             <div className=' cursor-pointer'>
                                                 {wishlistState == false && (
-                                                    <AiOutlineStar onClick={wishlistClicked} className='h-8 w-8 p-1 border border-white rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
+                                                    <AiOutlineStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
                                                 )}
                                                 {wishlistState == true && (
-                                                    <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border border-white hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                    <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
                                                 )}
                                             </div>
                                         </div>
