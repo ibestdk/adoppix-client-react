@@ -71,7 +71,7 @@ export const MarketFeed = () => {
         const token = getToken();
         console.log(token);
         if (token === false || token === undefined) {
-            console.log("call Foundtion 1")
+            // console.log("call Foundtion 1")
             setHeaders({
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
@@ -79,7 +79,7 @@ export const MarketFeed = () => {
         }
         else {
 
-            console.log("call Foundtion 2")
+            // console.log("call Foundtion 2")
             setHeaders({
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const MarketFeed = () => {
         }).catch(err => console.log(err.response))
         //setfilterOption(response.data.data)
         //setValue([response.data.data.minimumAmount, response.data.data.maximumAmount])
-        console.log(response.data.data.tag)
+        // console.log(response.data.data.tag)
         // console.log(response.data.data.minimumAmount)
         // console.log(response.data.data.maximumAmount)
     }
@@ -303,11 +303,11 @@ export const MarketFeed = () => {
                                                                 </div>
                                                             </div>
                                                             <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore vero incidunt ab blanditiis non dolores laborum repellat
+                                                            {auctionItem.description}
                                                             </div>
                                                             <div className="flex ml-1 max-w-[100%] overflow-hidden">
                                                                 <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                                                    cat
+                                                                {auctionItem.tag}
                                                                 </div>
                                                             </div>
                                                         </div>
