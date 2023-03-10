@@ -98,6 +98,34 @@ export const MarketFeed = () => {
         // console.log(response.data.data.minimumAmount)
         // console.log(response.data.data.maximumAmount)
     }
+    
+    // wishlist ฟังชั่นที่ยังไม่รู้ว่าใช้เปลี่ยนข้อมูลจาก api isWishList ยังไง
+    // const [wishlistState, setWishlistState] = useState(false);
+    const wishlistClicked = (index,state,productId) => {
+        auctionItems[index].isWishlist = !state;
+        wishList(productId);
+        //setWishlistState(!state);
+    }
+
+    const wishList = async (productId) => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'patch',
+            url: `https://api.adoppix.com/api/Product/${productId}/wishlist`,
+            headers: headers
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
+        // .then((res) => console.log(res))
+        // .catch((err) => console.log(err.response));
+    };
 
     function handleContextMenu(event) {
         event.preventDefault();
@@ -246,17 +274,20 @@ export const MarketFeed = () => {
                                                     </NavLink>
                                                     <div className="absolute top-2 right-2">
                                                         <div>
-                                                            <FaRegStar className="mb-[8px] text-yellow-300" />
-                                                            {/* if clicked */}
-                                                            {/* <FaStar className="mb-[8px] text-yellow-300" /> */}
+                                                            {auctionItem.isWishlist && (
+                                                            <FaStar onClick={() => wishlistClicked(index,auctionItem.isWishlist,auctionItem.productId)} className="mb-[8px] text-yellow-300" />
+                                                                )}
+                                                            {!auctionItem.isWishlist && (
+                                                            <FaRegStar onClick={() => wishlistClicked(index,auctionItem.isWishlist,auctionItem.productId)} className="mb-[8px] text-yellow-300" />
+                                                                )}
                                                         </div>
                                                         <div>
-                                                            { auctionItem.canCommercial == true && (
+                                                            {auctionItem.canCommercial == true && (
                                                                 <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            ) }
-                                                            { auctionItem.canCommercial == false && (
+                                                            )}
+                                                            {auctionItem.canCommercial == false && (
                                                                 <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            ) }
+                                                            )}
                                                         </div>
                                                     </div>
                                                     <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
@@ -303,11 +334,11 @@ export const MarketFeed = () => {
                                                                 </div>
                                                             </div>
                                                             <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                                            {auctionItem.description}
+                                                                {auctionItem.description}
                                                             </div>
                                                             <div className="flex ml-1 max-w-[100%] overflow-hidden">
                                                                 <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                                                {auctionItem.tag}
+                                                                    {auctionItem.tag}
                                                                 </div>
                                                             </div>
                                                         </div>
