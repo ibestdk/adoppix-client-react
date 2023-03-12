@@ -17,7 +17,7 @@ function valuetext(value) {
     return `${value}°C`;
 }
 
-export const MarketFeed = () => {
+export const MarketMyShopFeed = () => {
     const navigate = useNavigate();
 
     const [value, setValue] = useState([0, 10000]);
@@ -177,21 +177,21 @@ export const MarketFeed = () => {
                                     <div className="row h-7 pt-10 pb-5 mb-10">
                                         <div className="flex relative">
                                             <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
-                                                ตลาดนัด
+                                                ร้านค้าของฉัน
                                             </p>
                                         </div>
                                     </div>
 
                                     <div className="row mt-5 m-auto">
                                         <div className="row mt-4">
-                                            <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
+                                            <button onClick={() => {navigate('../')}} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
                                                 ตลาดนัด
                                             </button>
                                         </div>
                                         <div className="row mt-4">
-                                            <button onClick={() => {navigate('my-shop')}} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
-                hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
-                                                ร้านค้าของฉัน
+                                            <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
+                                            ร้านค้าของฉัน
                                             </button>
                                         </div>
                                         <div className="row">
