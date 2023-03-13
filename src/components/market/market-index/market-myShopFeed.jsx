@@ -101,13 +101,10 @@ export const MarketMyShopFeed = () => {
         // console.log(response.data.data.minimumAmount)
         // console.log(response.data.data.maximumAmount)
     }
-    
-    // wishlist ฟังชั่นที่ยังไม่รู้ว่าใช้เปลี่ยนข้อมูลจาก api isWishList ยังไง
-    // const [wishlistState, setWishlistState] = useState(false);
-    const wishlistClicked = (index,state,productId) => {
+
+    const wishlistClicked = (index, state, productId) => {
         auctionItems[index].isWishlist = !state;
         wishList(productId);
-        //setWishlistState(!state);
     }
 
     const wishList = async (productId) => {
@@ -123,11 +120,8 @@ export const MarketMyShopFeed = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/wishlist`,
             headers: headers
         })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
-        // .then((res) => console.log(res))
-        // .catch((err) => console.log(err.response));
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
     };
 
     function handleContextMenu(event) {
@@ -135,34 +129,34 @@ export const MarketMyShopFeed = () => {
     }
 
     useEffect(() => {
-        callAuctionCard();
+        // callAuctionCard();
         callFilterOption();
 
-        // // block right click
-        // // document.addEventListener("contextmenu", function (event) {
-        // //     event.preventDefault();
-        // // });
+        // block right click
+        document.addEventListener("contextmenu", function (event) {
+            event.preventDefault();
+        });
 
-        // // block F12
-        // document.addEventListener("keydown", function (event) {
-        //     if (event.keyCode === 123) {
-        //         event.preventDefault();
-        //     }
-        // });
+        // block F12
+        document.addEventListener("keydown", function (event) {
+            if (event.keyCode === 123) {
+                event.preventDefault();
+            }
+        });
 
-        // // block Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + Shift + C
-        // document.addEventListener("keydown", function (event) {
-        //     if ((event.ctrlKey && event.shiftKey) && (event.key === "I" || event.key === "J" || event.key === "C")) {
-        //         event.preventDefault();
-        //     }
-        // });
+        // block Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + Shift + C
+        document.addEventListener("keydown", function (event) {
+            if ((event.ctrlKey && event.shiftKey) && (event.key === "I" || event.key === "J" || event.key === "C")) {
+                event.preventDefault();
+            }
+        });
 
-        // // block Ctrl + U
-        // document.addEventListener("keydown", function (event) {
-        //     if ((event.ctrlKey) && (event.key === "U")) {
-        //         event.preventDefault();
-        //     }
-        // });
+        // block Ctrl + U
+        document.addEventListener("keydown", function (event) {
+            if ((event.ctrlKey) && (event.key === "U")) {
+                event.preventDefault();
+            }
+        });
 
     }, []);
 
@@ -174,9 +168,9 @@ export const MarketMyShopFeed = () => {
                         <div className="grid grid-cols-12 gap-4">
                             <div className="container col-span-3">
                                 <div>
-                                    <div className="row h-7 pt-10 pb-5 mb-10">
-                                        <div className="flex relative">
-                                            <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
+                                    <div className="row mt-10">
+                                        <div className="flex">
+                                            <p className="text-left text-6xl no-underline duration-300 text-adopdark dark:text-adoplight">
                                                 ร้านค้าของฉัน
                                             </p>
                                         </div>
@@ -184,14 +178,14 @@ export const MarketMyShopFeed = () => {
 
                                     <div className="row mt-5 m-auto">
                                         <div className="row mt-4">
-                                            <button onClick={() => {navigate('../')}} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                                            <button onClick={() => { navigate('../') }} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
                 hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
                                                 ตลาดนัด
                                             </button>
                                         </div>
                                         <div className="row mt-4">
                                             <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
-                                            ร้านค้าของฉัน
+                                                ร้านค้าของฉัน
                                             </button>
                                         </div>
                                         <div className="row">
@@ -252,104 +246,133 @@ export const MarketMyShopFeed = () => {
                                 </div>
 
                             </div>
-                            <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
-                                {auctionItems && auctionItems.length > 0 && (
-                                    <div className="dark:text-adoplight text-adopdark">
-                                        ผลลัพธ์การค้นหา {auctionItems && auctionItems.length} รายการ
+
+                            <div className="mt-[120px] col-span-9 h-fit w-full">
+                                <div className="mb-4 flex">
+                                    <div className="w-fit p-[10px] bg-adoppix rounded-md mr-4">
+                                        <div className="text-sm">
+                                            จำนวนสินค้าทั้งหมด
+                                        </div>
+                                        <div className="text-4xl text-center">
+                                            6
+                                        </div>
                                     </div>
-                                )}
-                                {auctionItems <= 0 && (
-                                    <div className="dark:text-adoplight text-adopdark">
-                                        ไม่พบผลลัพธ์การค้นหา
+                                    <div className="w-fit p-[10px] bg-adoppix rounded-md mr-4">
+                                        <div className="text-sm">
+                                            กำลังขาย
+                                        </div>
+                                        <div className="text-4xl text-center">
+                                            8
+                                        </div>
                                     </div>
-                                )}
-                                <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
-                                <div className="mb-4">
-                                    <MarketOwl />
+                                    <div className="w-fit p-[10px] bg-adoppix rounded-md mr-4">
+                                        <div className="text-xl inline-block w-10 font-bold">
+                                            ยอดขาย
+                                        </div>
+                                        <div className="text-4xl text-right inline-block ml-2">
+                                            700 Ac
+                                        </div>
+                                    </div>
                                 </div>
-                                <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
-                                    {
-                                        auctionItems && auctionItems.map((auctionItem, index) => (
-                                            <div key={index} className="">
-                                                <div className="relative overflow-hidden">
-                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.productId}`}>
-                                                        <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${auctionItem.image}`} />
-                                                    </NavLink>
-                                                    <div className="absolute top-2 right-2">
-                                                        <div>
-                                                            {auctionItem.isWishlist && (
-                                                            <FaStar onClick={() => wishlistClicked(index,auctionItem.isWishlist,auctionItem.productId)} className="mb-[8px] text-yellow-300" />
+                                <div className="dark:bg-adopsoftdark shadow-md p-10 rounded-lg">
+                                    {auctionItems && auctionItems.length > 0 && (
+                                        <div className="dark:text-adoplight text-adopdark">
+                                            ผลลัพธ์การค้นหา {auctionItems && auctionItems.length} รายการ
+                                        </div>
+                                    )}
+                                    {(auctionItems <= 0 || auctionItems == null) && (
+                                        <div className="dark:text-adoplight text-adopdark">
+                                            ไม่พบผลลัพธ์การค้นหา
+                                        </div>
+                                    )}
+                                    <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
+                                    <div className="mb-4">
+                                        <MarketOwl />
+                                    </div>
+                                    <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
+                                        {
+                                            auctionItems && auctionItems.map((auctionItem, index) => (
+                                                <div key={index} className="">
+                                                    <div className="relative overflow-hidden">
+                                                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${auctionItem.productId}`}>
+                                                            <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${auctionItem.image}`} />
+                                                        </NavLink>
+                                                        <div className="absolute top-2 right-2">
+                                                            <div>
+                                                                {auctionItem.isWishlist && (
+                                                                    <FaStar onClick={() => wishlistClicked(index, auctionItem.isWishlist, auctionItem.productId)} className="mb-[8px] text-yellow-300" />
                                                                 )}
-                                                            {!auctionItem.isWishlist && (
-                                                            <FaRegStar onClick={() => wishlistClicked(index,auctionItem.isWishlist,auctionItem.productId)} className="mb-[8px] text-yellow-300" />
+                                                                {!auctionItem.isWishlist && (
+                                                                    <FaRegStar onClick={() => wishlistClicked(index, auctionItem.isWishlist, auctionItem.productId)} className="mb-[8px] text-yellow-300" />
                                                                 )}
+                                                            </div>
+                                                            <div>
+                                                                {auctionItem.canCommercial == true && (
+                                                                    <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                                )}
+                                                                {auctionItem.canCommercial == false && (
+                                                                    <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            {auctionItem.canCommercial == true && (
-                                                                <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            )}
-                                                            {auctionItem.canCommercial == false && (
-                                                                <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
-                                                        <div className="relative">
-                                                            <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
-                                                                {auctionItem.title}
-                                                            </div>
-                                                            <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
-                                                                <b>
-                                                                    {auctionItem.price}
-                                                                </b>
-                                                            </div>
-                                                            <div className="flex">
-                                                                <div>
-                                                                    <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${auctionItem.ownerProfileImage}`} />
+                                                        <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
+                                                            <div className="relative">
+                                                                <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
+                                                                    {auctionItem.title}
                                                                 </div>
-                                                                <div className="text-xs font-bold my-auto truncate max-w-[70%]">
-                                                                    {auctionItem.ownerUsername}
-                                                                </div>
-                                                                <div className=" top-[2px] right-[-15px] cursor-default">
-                                                                    <GoVerified className="h-4 text-green-400" />
-                                                                </div>
-                                                            </div>
-                                                            {auctionItem.amount > 0 && (
-
-                                                                <div className="absolute text-xs right-1 top-5">
-                                                                    เหลือ {auctionItem.amount} ชิ้น
-                                                                </div>
-                                                            )}
-                                                            {auctionItem.amount == null && (
-
-                                                                <div className="absolute text-xs right-1 top-5">
-                                                                    ไม่จำกัดจำนวน
-                                                                </div>
-                                                            )}
-                                                            <div className="w-[72px] absolute right-1 top-16">
-                                                                <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
+                                                                <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                                                     <b>
-                                                                        ซื้อ
+                                                                        {auctionItem.price}
                                                                     </b>
                                                                 </div>
-                                                                <div className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
-                                                                    เพิ่มลงตะกร้า
+                                                                <div className="flex">
+                                                                    <div>
+                                                                        <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${auctionItem.ownerProfileImage}`} />
+                                                                    </div>
+                                                                    <div className="text-xs font-bold my-auto truncate max-w-[70%]">
+                                                                        {auctionItem.ownerUsername}
+                                                                    </div>
+                                                                    <div className=" top-[2px] right-[-15px] cursor-default">
+                                                                        <GoVerified className="h-4 text-green-400" />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                                                {auctionItem.description}
-                                                            </div>
-                                                            <div className="flex ml-1 max-w-[100%] overflow-hidden">
-                                                                <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                                                    {auctionItem.tag}
+                                                                {auctionItem.amount > 0 && (
+
+                                                                    <div className="absolute text-xs right-1 top-5">
+                                                                        เหลือ {auctionItem.amount} ชิ้น
+                                                                    </div>
+                                                                )}
+                                                                {auctionItem.amount == null && (
+
+                                                                    <div className="absolute text-xs right-1 top-5">
+                                                                        ไม่จำกัดจำนวน
+                                                                    </div>
+                                                                )}
+                                                                <div className="w-[72px] absolute right-1 top-16">
+                                                                    <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
+                                                                        <b>
+                                                                            ซื้อ
+                                                                        </b>
+                                                                    </div>
+                                                                    <div className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
+                                                                        เพิ่มลงตะกร้า
+                                                                    </div>
+                                                                </div>
+                                                                <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
+                                                                    {auctionItem.description}
+                                                                </div>
+                                                                <div className="flex ml-1 max-w-[100%] overflow-hidden">
+                                                                    <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
+                                                                        {auctionItem.tag}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    }
+                                            ))
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>

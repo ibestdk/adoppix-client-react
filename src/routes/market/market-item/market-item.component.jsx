@@ -17,14 +17,20 @@ export const MarketItem = () => {
 
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
-        wishList();
+        if(!wishlistState && cartState){
+            setCartState(false);
+        }
         setWishlistState(!wishlistState);
+        wishList();
     }
 
     const [cartState, setCartState] = useState(false);
     const addCartClicked = () => {
-        cart();
+        if(!cartState && wishlistState){
+            setWishlistState(false);
+        }
         setCartState(!cartState);
+        cart();
     }
 
     const beginAlarm = function () { console.log('start alarm'); };
@@ -40,24 +46,24 @@ export const MarketItem = () => {
     }
 
     const [productDatas, setProductData] = useState();
-    const [userData, setUserData] = useState();
+    const [ownerDatas, setOwnerData] = useState();
 
     const [menuState, setMenuState] = useState(false);
     const menuClicked = () => {
         setMenuState(!menuState);
     }
 
-    // const ownerData = (username) => {
-    //     axios
-    //         .get(`https://api.adoppix.com/api/User/${username}/user-info`)
-    //         .then((res) => {
-    //             console.log("Success:", res.data.data);
-    //             setUserData(res.data.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    // }
+    const ownerData = (username) => {
+        axios
+            .get(`https://api.adoppix.com/api/User/${username}/user-info`)
+            .then((res) => {
+                console.log("Owner data : ", res.data.data);
+                setOwnerData(res.data.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
 
     const waterMark = `${productDatas && productDatas.ownerUsername}`;
     const getProduct = () => {
@@ -66,8 +72,8 @@ export const MarketItem = () => {
             .then((res) => {
                 console.log("Success:", res.data.data);
                 setProductData(res.data.data);
-                console.log(res.data.data);
-                ownerData(res.data.data.owner);
+                console.log("owner "+res.data.data.ownerUsername);
+                ownerData(res.data.data.ownerUsername);
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -280,6 +286,10 @@ export const MarketItem = () => {
                                                 <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
                                                     Edit
                                                 </div>
+                                                {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
+                                                <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                    Report
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -309,7 +319,7 @@ export const MarketItem = () => {
                                                 {productDatas.ownerProfileImage == null && (
                                                     <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
                                                 )}
-                                                <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
+                                                <div onClick={() => {navigate(`../../${productDatas.ownerUsername}`)}} className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75'>
                                                     <b className=''>
                                                         {productDatas.ownerUsername}
                                                     </b>
