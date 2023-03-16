@@ -8,50 +8,29 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { getToken } from "../../../services/authorize";
 import { useNavigate } from "react-router-dom";
+import { BsCartCheck } from "react-icons/bs";
+import { BsCartPlus } from "react-icons/bs";
 
 export const MarketItem = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
 
-    const stickerData = [
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "nah man",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        },
-        {
-            stickerName: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. In pariatur expedita facere et obcaecati, quos velit unde a tempora suscipit consequatur ipsa, repellat, officia magnam natus magni dignissimos error similique.",
-            img: "https://cdn.wallpapersafari.com/9/22/Px81sC.jpg"
-        }
-    ]
-
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
-        wishList();
+        if(!wishlistState && cartState){
+            setCartState(false);
+        }
         setWishlistState(!wishlistState);
+        wishList();
+    }
+
+    const [cartState, setCartState] = useState(false);
+    const addCartClicked = () => {
+        if(!cartState && wishlistState){
+            setWishlistState(false);
+        }
+        setCartState(!cartState);
+        cart();
     }
 
     const beginAlarm = function () { console.log('start alarm'); };
@@ -67,34 +46,34 @@ export const MarketItem = () => {
     }
 
     const [productDatas, setProductData] = useState();
-    const [userData, setUserData] = useState();
+    const [ownerDatas, setOwnerData] = useState();
 
     const [menuState, setMenuState] = useState(false);
     const menuClicked = () => {
         setMenuState(!menuState);
     }
 
-    // const ownerData = (username) => {
-    //     axios
-    //         .get(`https://api.adoppix.com/api/User/${username}/user-info`)
-    //         .then((res) => {
-    //             console.log("Success:", res.data.data);
-    //             setUserData(res.data.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    // }
+    const ownerData = (username) => {
+        axios
+            .get(`https://api.adoppix.com/api/User/${username}/user-info`)
+            .then((res) => {
+                console.log("Owner data : ", res.data.data);
+                setOwnerData(res.data.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
 
-    const waterMark = `${productDatas && productDatas.owner}`;
+    const waterMark = `${productDatas && productDatas.ownerUsername}`;
     const getProduct = () => {
         axios
             .get(`https://api.adoppix.com/api/Product/${productId}`)
             .then((res) => {
                 console.log("Success:", res.data.data);
                 setProductData(res.data.data);
-                console.log(res.data.data);
-                ownerData(res.data.data.owner);
+                console.log("owner "+res.data.data.ownerUsername);
+                ownerData(res.data.data.ownerUsername);
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -135,15 +114,65 @@ export const MarketItem = () => {
         // .catch((err) => console.log(err.response));
     };
 
+    const cart = async () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'post',
+            url: `https://api.adoppix.com/api/Product/${productId}/toggle-cart`,
+            headers: headers
+        })
+        .then((res) => console.log("cart : "+res.data.data))
+        .catch((err) => console.log(err));
+        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
+        // .then((res) => console.log(res))
+        // .catch((err) => console.log(err.response));
+    };
+
+    var BreakException= {};
+    const searchIsCarted = function (data,index) {
+        if (data.productId == productId){
+            setCartState(true);
+            throw BreakException ;
+        }
+        else if (data.productId != productId){
+            setCartState(false);
+        }
+    }
+
     const searchIsWishListed = function (data,index) {
         if (data.productId == productId){
             setWishlistState(true);
-            return ;
+            throw BreakException ;
         }
         else if (data.productId != productId){
-            setWishlistState(false)
+            setWishlistState(false);
         }
-    }
+    };
+
+    const checkIsCarted = () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        axios
+            .get(`https://api.adoppix.com/api/User/cart`,{headers})
+            .then((res) => {
+                
+                console.log("cart :", res.data.data);
+                res.data.data.items.forEach(searchIsCarted);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
 
     const checkIsWishListed = () => {
         const token = getToken();
@@ -156,9 +185,9 @@ export const MarketItem = () => {
             .get(`https://api.adoppix.com/api/User/wishlist`,{headers})
             .then((res) => {
                 
-                console.log("data :", res.data.data[0]);
-                res.data.data.forEach()
-                setWishListed(res.data.data);
+                console.log("wishlist :", res.data.data);
+                res.data.data.forEach(searchIsWishListed);
+                console.log("wishlist State : "+wishlistState)
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -168,6 +197,7 @@ export const MarketItem = () => {
     useEffect(() => {
         getProduct();
         checkIsWishListed();
+        checkIsCarted();
     }, []);
 
     return (
@@ -256,6 +286,10 @@ export const MarketItem = () => {
                                                 <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
                                                     Edit
                                                 </div>
+                                                {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
+                                                <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                    Report
+                                                </div>
                                             </div>
                                         )}
                                     </div>
@@ -285,7 +319,7 @@ export const MarketItem = () => {
                                                 {productDatas.ownerProfileImage == null && (
                                                     <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
                                                 )}
-                                                <div className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark'>
+                                                <div onClick={() => {navigate(`../../${productDatas.ownerUsername}`)}} className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75'>
                                                     <b className=''>
                                                         {productDatas.ownerUsername}
                                                     </b>
@@ -352,8 +386,8 @@ export const MarketItem = () => {
                                             )}
                                         </div>
                                         <div className='grid grid-cols-6 mt-2 gap-2'>
-                                            <div className='col-span-5 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
-                                                <b>
+                                            <div className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                <b className='absolute top-[30%] left-[40%]'>
                                                     ซื้อ
                                                 </b>
                                             </div>
@@ -363,6 +397,14 @@ export const MarketItem = () => {
                                                 )}
                                                 {wishlistState == true && (
                                                     <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                )}
+                                            </div>
+                                            <div className='cursor-pointer'>
+                                                {cartState == false && (
+                                                    <BsCartPlus onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300'/>
+                                                )}
+                                                {cartState == true && (
+                                                    <BsCartCheck onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300'/>
                                                 )}
                                             </div>
                                         </div>

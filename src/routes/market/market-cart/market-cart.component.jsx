@@ -1,6 +1,10 @@
 import { GoVerified } from "react-icons/go";
 import { FaTrash } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
+import { getToken } from "../../../services/authorize";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const dataCard = [
     {
@@ -30,6 +34,32 @@ const dataCard = [
 ]
 
 export const MarketCart = () => {
+    const navigate = useNavigate();
+
+    const [cart, setCart] = useState();
+    const getCart = () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        axios
+            .get(`https://api.adoppix.com/api/User/cart`, { headers })
+            .then((res) => {
+                setCart(res.data.data);
+                console.log("data :", res.data.data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+
+    useEffect(() => {
+        getCart();
+
+    }, []);
+
     return(
         <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
             <div className="container px-12 m-auto grid grid-cols-4 gap-4 pb-10">
@@ -41,10 +71,10 @@ export const MarketCart = () => {
                     </div>
                     <div className="shadow-md rounded-md dark:bg-adopsoftdark">
                         <div className="py-10">
-                        {dataCard.map((data,dataIndex) => (
+                        { cart && cart.items.map((data,dataIndex) => (
                             <div key={dataIndex} className="px-8 py-5 grid grid-cols-4 gap-4 place-items-center">
                             <div className="dark:bg-adopsoftdark bg-adoplighticon rounded-md w-60 h-40 mr-2 flex">
-                                <img className="rounded-md flex-shrink-0 object-cover min-w-full min-h-full" src={data.img} alt="" />
+                                <img className="rounded-md flex-shrink-0 object-cover min-w-full min-h-full" src={`https://pix.adoppix.com/public/${data.image}`} alt="" />
                             </div>
                             <div className="inline-block col-span-2 dark:text-adoplight text-adopdark">
                                 <div>
@@ -57,10 +87,10 @@ export const MarketCart = () => {
                                 </div>
                                 <div className="my-2 cursor-default">
                                     <div className="inline-block mx-1">
-                                        <img className="outline outline-2 outline-offset-2 outline-adoplight rounded-full h-6 w-6" src={data.userImg} alt="" />
+                                        <img className="outline outline-2 outline-offset-2 outline-adoplight rounded-full h-6 w-6" src={`https://pix.adoppix.com/public/${data.sellerProfile}`} alt="" />
                                     </div>
                                     <div className="inline-block text-sm mx-1 truncate max-w-fit w-72">
-                                        {data.username}
+                                        {data.sellerUsername}
                                     </div>
                                     <div className="inline-block">
                                         <GoVerified className="text-adoppix h-5 w-5"></GoVerified>
@@ -107,7 +137,7 @@ export const MarketCart = () => {
                     </div>
                     <div className="shadow-md rounded-md dark:bg-adopsoftdark">
                         <div className=" py-3">
-                            {dataCard.map((data,dataIndex) => (
+                            { cart && cart.items.map((data,dataIndex) => (
                                 <div key={dataIndex} className="grid grid-cols-4 gap-1 text-lg pb-2 px-5  dark:text-adoplight text-adopdark">
                                     <div className="col-span-3 truncate">
                                         {data.title}
@@ -125,7 +155,7 @@ export const MarketCart = () => {
                                     ส่วนลด
                                 </div>
                                 <div className="text-end">
-                                    -200.00
+                                    { cart && cart.discount }
                                 </div>
                             </div>
                             <div className="grid grid-cols-4 gap-1 text-lg dark:text-adoplight text-adopdark">
@@ -133,7 +163,7 @@ export const MarketCart = () => {
                                     ยอดรวม
                                 </div>
                                 <div className="text-end">
-                                    1750.00
+                                    { cart && cart.total - cart.discount }
                                 </div>
                             </div>
                         </div>

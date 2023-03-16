@@ -32,6 +32,7 @@ import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.
 import { MarketCart } from "./routes/market/market-cart/market-cart.component";
 import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
 import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
+import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
 
 export const DarkContext = createContext();
 
@@ -115,6 +116,7 @@ function App() {
               <Route index element={<MarketIndex/>} />
               <Route path=":productId" element={<MarketItem/>} />
               <Route path="create" element={<MarketCreate/>} />
+              <Route path="my-shop" element={<MarketMyShop/>}/>
             </Route>
             <Route exact path="feeds" element={<Feeds />}>
             <Route index element={<FeedsIndex/>} />
