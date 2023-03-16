@@ -114,6 +114,26 @@ export const MarketItem = () => {
         // .catch((err) => console.log(err.response));
     };
 
+    const buy = async () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'post',
+            url: `https://api.adoppix.com/api/Product/${productId}/buy`,
+            headers: headers
+        })
+        .then((res) => console.log("buy data : "+res.data.data))
+        .catch((err) => console.log(err));
+        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
+        // .then((res) => console.log(res))
+        // .catch((err) => console.log(err.response));
+    };
+
     const cart = async () => {
         const token = getToken();
         const headers = {
@@ -387,7 +407,7 @@ export const MarketItem = () => {
                                         </div>
                                         <div className='grid grid-cols-6 mt-2 gap-2'>
                                             <div className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
-                                                <b className='absolute top-[30%] left-[40%]'>
+                                                <b onClick={buy} className='absolute top-[30%] left-[40%]'>
                                                     ซื้อ
                                                 </b>
                                             </div>
