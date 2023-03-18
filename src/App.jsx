@@ -33,6 +33,8 @@ import { MarketCart } from "./routes/market/market-cart/market-cart.component";
 import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
 import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
 import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
+import { TopUp } from "./routes/top-up/topup";
+import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
 
 export const DarkContext = createContext();
 
@@ -106,6 +108,18 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AuctionCreate />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route exact path="topup/" element={<TopUp />}>
+             
+              <Route
+                exact
+                index
+                element={
+                  <ProtectedRoute>
+                    <TopUpIndex />
                   </ProtectedRoute>
                 }
               />

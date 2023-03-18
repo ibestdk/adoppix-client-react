@@ -105,7 +105,7 @@ export const AuctionCreate = () => {
       headers: headers,
     }).catch((err) => console.log(err.response));
     console.log(result);
-    navigate(`${result.data}`);
+    navigate(`/auction/${result.data.data}`);
   };
 
   return (
