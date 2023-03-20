@@ -127,7 +127,7 @@ export const MarketItem = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/buy`,
             headers: headers
         })
-        .then((res) => console.log("buy data : "+res.data.data))
+        .then((res) => console.log("buy data : "+res.data))
         .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
         // .then((res) => console.log(res))
@@ -406,8 +406,8 @@ export const MarketItem = () => {
                                             )}
                                         </div>
                                         <div className='grid grid-cols-6 mt-2 gap-2'>
-                                            <div className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
-                                                <b onClick={buy} className='absolute top-[30%] left-[40%]'>
+                                            <div onClick={buy} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                <b className='absolute top-[30%] left-[40%]'>
                                                     ซื้อ
                                                 </b>
                                             </div>

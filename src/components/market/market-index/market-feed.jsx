@@ -20,8 +20,20 @@ function valuetext(value) {
 export const MarketFeed = () => {
     const navigate = useNavigate();
 
-    const [value, setValue] = useState([]);
-    // [0, 10000]
+    const [value, setValue] = useState([30, 10000]);
+    // [30, 10000]
+    
+
+    const [tags, setTags] = useState();
+    const tagClicked = (tag,index) => {
+        if(tags == tag){
+            $(`#${index}`).prop('checked', false);
+            setTags(null);
+        } else{
+            setTags(tag);
+        }
+        console.log(tag);
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -35,7 +47,7 @@ export const MarketFeed = () => {
 
 
     const [productItems, setProductItems] = useState()
-    const callProductCard = async (tag) => {
+    const callProductCard = async () => {
         const bodyData = {}
 
         const token = getToken();
@@ -54,12 +66,22 @@ export const MarketFeed = () => {
             });
         }
 
-        let response = await axios({
-            method: "get",
-            url: `https://api.adoppix.com/api/Product?Take=${take}&Page=${page}`,
-            data: bodyData,
-            headers: headers
-        }).catch(err => console.log(err.response))
+        let response;
+        if (tags == null) {
+            response = await axios({
+                method: "get",
+                url: `https://api.adoppix.com/api/Product?MinimumAmount=${value[0]}&MaximumAmount=${value[1]}&Take=${take}&Page=${page}`,
+                data: bodyData,
+                headers: headers
+            }).catch(err => console.log(err.response))
+        } else {
+            response = await axios({
+                method: "get",
+                url: `https://api.adoppix.com/api/Product?Tag=${tags}&MinimumAmount=${value[0]}&MaximumAmount=${value[1]}&Take=${take}&Page=${page}`,
+                data: bodyData,
+                headers: headers
+            }).catch(err => console.log(err.response))
+        }
         console.log(response.data.data)
         setProductItems(response.data.data)
     }
@@ -201,7 +223,7 @@ export const MarketFeed = () => {
                                                     <form action="" className="py-2">
                                                         {filterOptions && filterOptions.tags.map((tag, index) => (
                                                             <div key={index} className="flex">
-                                                                <input type="radio" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
+                                                                <input onClick={() => { tagClicked(tag.name,index) }} id={index} type="radio" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
                                                                 <label className="flex text-adopdark dark:text-adoplight text-base">
                                                                     {tag.name}
                                                                 </label>
@@ -250,7 +272,7 @@ export const MarketFeed = () => {
                                                     </Box>
                                                 </div>
                                                 <div className="mt-2 w-full">
-                                                    <button type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
+                                                    <button onClick={callProductCard} type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
                                                         <p className="mb-0"> <i className=""></i> ค้นหา</p>
                                                     </button>
                                                 </div>
