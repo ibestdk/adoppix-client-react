@@ -9,9 +9,11 @@ import { useState, useEffect } from "react";
 const LoginCard = () => {
   const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
+
   const handleCheck = () => {
+    console.log("called func handleCheck")
     setIsShowPassword(!isShowPassword);
-    console.log(isShowPassword)
+    console.log(isShowPassword);
   };
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -96,13 +98,13 @@ const LoginCard = () => {
                 className="dark:text-adoplight  text-adopsoftdark"
                 icon={<BsEyeFill />}
                 checkedIcon={<BsEyeSlashFill />}
-                onChange={handleCheck}
+                onClick={handleCheck}
               />
              
             </div>
           </div>
           <div>
-            <Link to="/forgetpassword" className="float-right text-sm">
+            <Link to="/forgetpassword" className="float-right text-sm dark:text-adoplight text-adopdark">
               ลืมรหัสผ่าน?
             </Link>
           </div>

@@ -30,7 +30,11 @@ import { ProtectedRoute } from "./routes/denied/denied.component";
 import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
 import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
 import { MarketCart } from "./routes/market/market-cart/market-cart.component";
+import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
+import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
 import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
+import { TopUp } from "./routes/top-up/topup";
+import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
 
 export const DarkContext = createContext();
 
@@ -108,6 +112,18 @@ function App() {
                 }
               />
             </Route>
+            <Route exact path="topup/" element={<TopUp />}>
+             
+              <Route
+                exact
+                index
+                element={
+                  <ProtectedRoute>
+                    <TopUpIndex />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
             <Route path="market/" element={<Market />} >
               <Route path="wishlist" element={<MarketWishList/>}/>
               <Route path="cart" element={<MarketCart/>}/>
@@ -116,7 +132,11 @@ function App() {
               <Route path="create" element={<MarketCreate/>} />
               <Route path="my-shop" element={<MarketMyShop/>}/>
             </Route>
-            <Route exact path="feeds" element={<Feeds />} />
+            <Route exact path="feeds" element={<Feeds />}>
+            <Route index element={<FeedsIndex/>} />
+            <Route path=":postId" element={<FeedsPost/>} />
+
+            </Route>
 
             <Route
               exact

@@ -36,7 +36,7 @@ const Navigation = () => {
                 <Link to="login">
                   <button
                     type="button"
-                    className="text-adopsoftdark focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="text-adopsoftdark focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0  dark:text-adoplight"
                   >
                     Sign In
                   </button>
@@ -44,7 +44,7 @@ const Navigation = () => {
                 <Link to="signup">
                   <button
                     type="button"
-                    className="text-white font-bold hover:opacity-80 duration-300  bg-adoppix focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="text-white font-bold hover:opacity-80 duration-300  bg-adoppix focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0dark:bg-adoppix dark:text-adoplight"
                   >
                     Sign Up
                   </button>
