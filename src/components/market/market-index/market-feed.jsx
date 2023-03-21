@@ -23,6 +23,10 @@ export const MarketFeed = () => {
     const [value, setValue] = useState([30, 10000]);
     // [30, 10000]
     
+    const [tagOwlCol,setTagOwlCol] = useState();
+    const Test = () => {
+        console.log("TagOwlCol : "+ tagOwlCol);
+    }
 
     const [tags, setTags] = useState();
     const tagClicked = (tag,index) => {
@@ -284,7 +288,7 @@ export const MarketFeed = () => {
                             </div>
                             <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
                                 {productItems && productItems.length > 0 && (
-                                    <div className="dark:text-adoplight text-adopdark">
+                                    <div onClick={Test} className="dark:text-adoplight text-adopdark">
                                         ผลลัพธ์การค้นหา {productItems && productItems.length} รายการ
                                     </div>
                                 )}
@@ -295,7 +299,7 @@ export const MarketFeed = () => {
                                 )}
                                 <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
                                 <div className="mb-4">
-                                    <MarketOwl />
+                                    <MarketOwl setTagOwlCol={setTagOwlCol} />
                                 </div>
                                 <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
                                     {

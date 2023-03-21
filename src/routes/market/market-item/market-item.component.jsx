@@ -17,7 +17,7 @@ export const MarketItem = () => {
 
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
-        if(!wishlistState && cartState){
+        if (!wishlistState && cartState) {
             setCartState(false);
         }
         setWishlistState(!wishlistState);
@@ -26,7 +26,7 @@ export const MarketItem = () => {
 
     const [cartState, setCartState] = useState(false);
     const addCartClicked = () => {
-        if(!cartState && wishlistState){
+        if (!cartState && wishlistState) {
             setWishlistState(false);
         }
         setCartState(!cartState);
@@ -72,7 +72,7 @@ export const MarketItem = () => {
             .then((res) => {
                 console.log("Success:", res.data.data);
                 setProductData(res.data.data);
-                console.log("owner "+res.data.data.ownerUsername);
+                console.log("owner " + res.data.data.ownerUsername);
                 ownerData(res.data.data.ownerUsername);
             })
             .catch((error) => {
@@ -88,10 +88,10 @@ export const MarketItem = () => {
         };
 
         // API Caller
-        axios.delete(`https://api.adoppix.com/api/Product/${productId}`,{headers})
-        .then(() => navigate(`../`))
-        .catch((err) => console.log(err.response));
-        console.log("productId : "+productId)
+        axios.delete(`https://api.adoppix.com/api/Product/${productId}`, { headers })
+            .then(() => navigate(`../`))
+            .catch((err) => console.log(err.response));
+        console.log("productId : " + productId)
     };
 
     const wishList = async () => {
@@ -107,8 +107,8 @@ export const MarketItem = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/wishlist`,
             headers: headers
         })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
         // .then((res) => console.log(res))
         // .catch((err) => console.log(err.response));
@@ -127,8 +127,8 @@ export const MarketItem = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/buy`,
             headers: headers
         })
-        .then((res) => console.log("buy data : "+res.data))
-        .catch((err) => console.log(err));
+            .then((res) => console.log("buy data : " + res.data))
+            .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
         // .then((res) => console.log(res))
         // .catch((err) => console.log(err.response));
@@ -147,30 +147,30 @@ export const MarketItem = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/toggle-cart`,
             headers: headers
         })
-        .then((res) => console.log("cart : "+res.data.data))
-        .catch((err) => console.log(err));
+            .then((res) => console.log("cart : " + res.data.data))
+            .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
         // .then((res) => console.log(res))
         // .catch((err) => console.log(err.response));
     };
 
-    var BreakException= {};
-    const searchIsCarted = function (data,index) {
-        if (data.productId == productId){
+    var BreakException = {};
+    const searchIsCarted = function (data, index) {
+        if (data.productId == productId) {
             setCartState(true);
-            throw BreakException ;
+            throw BreakException;
         }
-        else if (data.productId != productId){
+        else if (data.productId != productId) {
             setCartState(false);
         }
     }
 
-    const searchIsWishListed = function (data,index) {
-        if (data.productId == productId){
+    const searchIsWishListed = function (data, index) {
+        if (data.productId == productId) {
             setWishlistState(true);
-            throw BreakException ;
+            throw BreakException;
         }
-        else if (data.productId != productId){
+        else if (data.productId != productId) {
             setWishlistState(false);
         }
     };
@@ -183,9 +183,9 @@ export const MarketItem = () => {
         };
 
         axios
-            .get(`https://api.adoppix.com/api/User/cart`,{headers})
+            .get(`https://api.adoppix.com/api/User/cart`, { headers })
             .then((res) => {
-                
+
                 console.log("cart :", res.data.data);
                 res.data.data.items.forEach(searchIsCarted);
             })
@@ -202,12 +202,12 @@ export const MarketItem = () => {
         };
 
         axios
-            .get(`https://api.adoppix.com/api/User/wishlist`,{headers})
+            .get(`https://api.adoppix.com/api/User/wishlist`, { headers })
             .then((res) => {
-                
+
                 console.log("wishlist :", res.data.data);
                 res.data.data.forEach(searchIsWishListed);
-                console.log("wishlist State : "+wishlistState)
+                console.log("wishlist State : " + wishlistState)
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -291,28 +291,30 @@ export const MarketItem = () => {
                                     <div className='text-3xl pb-5 w-3xl break-words text-ellipsis col-span-11 dark:text-adoplight text-adopsoftdark'>
                                         {productDatas.title}
                                     </div>
-                                    <div className='relative'>
-                                        {!menuState && (
-                                            <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark hover:scale-105 hover:bg-adoplighticon duration-300 rounded-full h-10 w-10' ></IoMdMore>
-                                        )}
-                                        {menuState && (
-                                            <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark bg-adoplighticon rounded-l-md h-10 w-10' ></IoMdMore>
-                                        )}
-                                        {menuState && (
-                                            <div className='bg-adoplighticon p-1 rounded-md left-16 absolute'>
-                                                <div onClick={deleteProduct} className='text-adoplight text-base text-left p-1 rounded-md hover:bg-red-500 duration-300 cursor-pointer'>
-                                                    Delete
+                                    {productDatas.isOwner && (
+                                        <div className='relative'>
+                                            {!menuState && (
+                                                <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark hover:scale-105 hover:bg-adoplighticon duration-300 rounded-full h-10 w-10' ></IoMdMore>
+                                            )}
+                                            {menuState && (
+                                                <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark bg-adoplighticon rounded-l-md h-10 w-10' ></IoMdMore>
+                                            )}
+                                            {menuState && (
+                                                <div className='bg-adoplighticon p-1 rounded-md left-16 absolute'>
+                                                    <div onClick={deleteProduct} className='text-adoplight text-base text-left p-1 rounded-md hover:bg-red-500 duration-300 cursor-pointer'>
+                                                        Delete
+                                                    </div>
+                                                    <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                        Edit
+                                                    </div>
+                                                    {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
+                                                    <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                        Report
+                                                    </div>
                                                 </div>
-                                                <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                    Edit
-                                                </div>
-                                                {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
-                                                <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                    Report
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
                                     <div className='col-span-3'>
@@ -339,7 +341,7 @@ export const MarketItem = () => {
                                                 {productDatas.ownerProfileImage == null && (
                                                     <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
                                                 )}
-                                                <div onClick={() => {navigate(`../../${productDatas.ownerUsername}`)}} className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75'>
+                                                <div onClick={() => { navigate(`../../${productDatas.ownerUsername}`) }} className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75'>
                                                     <b className=''>
                                                         {productDatas.ownerUsername}
                                                     </b>
@@ -405,29 +407,46 @@ export const MarketItem = () => {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className='grid grid-cols-6 mt-2 gap-2'>
-                                            <div onClick={buy} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
-                                                <b className='absolute top-[30%] left-[40%]'>
-                                                    ซื้อ
-                                                </b>
+                                        {!productDatas.isBought && (
+                                            <div className='grid grid-cols-6 mt-2 gap-2'>
+                                                <div onClick={buy} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                    <b className='absolute top-[30%] left-[40%]'>
+                                                        ซื้อ
+                                                    </b>
+                                                </div>
+                                                <div className=' cursor-pointer'>
+                                                    {wishlistState == false && (
+                                                        <AiOutlineStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
+                                                    )}
+                                                    {wishlistState == true && (
+                                                        <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                    )}
+                                                </div>
+                                                <div className='cursor-pointer'>
+                                                    {cartState == false && (
+                                                        <BsCartPlus onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                    )}
+                                                    {cartState == true && (
+                                                        <BsCartCheck onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300' />
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div className=' cursor-pointer'>
-                                                {wishlistState == false && (
-                                                    <AiOutlineStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
-                                                )}
-                                                {wishlistState == true && (
-                                                    <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
-                                                )}
+                                        )}
+                                        {productDatas.isBought && (
+                                            <div className='grid grid-cols-6 mt-2 gap-2'>
+                                                <div className='relative col-span-5 row-span-2 bg-adoplighticon rounded-md text-adopsoftdark text-center py-1'>
+                                                    <b className='absolute top-[30%] left-[27%]'>
+                                                        ซื้อแล้ว
+                                                    </b>
+                                                </div>
+                                                <div className=''>
+                                                    <AiOutlineStar className='h-8 w-8 p-1 border dark:border-white border-adoplighticon rounded-md text-adoplighticon dark:text-adoplight' />
+                                                </div>
+                                                <div className=''>
+                                                    <BsCartPlus className='h-8 w-8 p-1 border dark:border-white border-adoplighticon rounded-md text-adoplighticon dark:text-adoplight' />
+                                                </div>
                                             </div>
-                                            <div className='cursor-pointer'>
-                                                {cartState == false && (
-                                                    <BsCartPlus onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300'/>
-                                                )}
-                                                {cartState == true && (
-                                                    <BsCartCheck onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300'/>
-                                                )}
-                                            </div>
-                                        </div>
+                                        )}
                                         {/* <button type="button" className="bg-indigo-500 ..." disabled>
                                             <svg className="w-full">
                                                 <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
