@@ -30,7 +30,7 @@ export const ProtectedRoute = ({ children }) => {
           navigate("/login");
         }
         resolve();
-      }, 3000);
+      }, 1000);
     });
   }
 

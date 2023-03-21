@@ -96,86 +96,86 @@ function App() {
   return (
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
       <div className={`App ${darkToggle ? "dark" : ""}`}>
-        <Routes>
-          <Route exact path="/" element={<WithNav />}>
-            <Route exact index element={<Home />} />
-            <Route exact path="auction/" element={<Auction />}>
-              <Route exact index element={<AuctionIndex />} />
-              <Route exact path=":auctionId" element={<AuctionItem />} />
+        <div className="bg-adoplight dark:bg-adopdark">
+          <Routes>
+            <Route exact path="/" element={<WithNav />}>
+              <Route exact index element={<Home />} />
+              <Route exact path="auction/" element={<Auction />}>
+                <Route exact index element={<AuctionIndex />} />
+                <Route exact path=":auctionId" element={<AuctionItem />} />
+                <Route
+                  exact
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <AuctionCreate />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route exact path="topup/" element={<TopUp />}>
+                <Route
+                  exact
+                  index
+                  element={
+                    <ProtectedRoute>
+                      <TopUpIndex />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route path="market/" element={<Market />}>
+                <Route path="wishlist" element={<MarketWishList />} />
+                <Route path="cart" element={<MarketCart />} />
+                <Route index element={<MarketIndex />} />
+                <Route path=":productId" element={<MarketItem />} />
+                <Route path="create" element={<MarketCreate />} />
+                <Route path="my-shop" element={<MarketMyShop />} />
+              </Route>
+              <Route exact path="feeds" element={<Feeds />}>
+                <Route index element={<FeedsIndex />} />
+                <Route path=":postId" element={<FeedsPost />} />
+              </Route>
+
               <Route
                 exact
-                path="create"
+                path="setting/"
                 element={
                   <ProtectedRoute>
-                    <AuctionCreate />
+                    <Setting />
                   </ProtectedRoute>
                 }
-              />
+              >
+                <Route exact path="account" element={<Account />}></Route>
+                <Route exact path="security" element={<Security />}></Route>
+                <Route exact path="payment" element={<Payment />}></Route>
+                <Route exact path="bank" element={<Bank />}></Route>
+              </Route>
+
+              <Route exact path=":userprofile" element={<UserProfile />} />
             </Route>
-            <Route exact path="topup/" element={<TopUp />}>
-             
+            <Route exact element={<WithOutNav />}>
+              <Route exact path="login" element={<SignIn />} />
+              <Route exact path="signup" element={<SignUp />} />
+              <Route exact path="forgetpassword" element={<ForgetPassword />} />
               <Route
                 exact
-                index
-                element={
-                  <ProtectedRoute>
-                    <TopUpIndex />
-                  </ProtectedRoute>
-                }
+                path="forgetpassword/mailsended"
+                element={<MailPasswordSended />}
+              />
+              <Route
+                exact
+                path="password/reset/:token"
+                element={<ResetPasswordCard />}
+              />
+              <Route
+                exact
+                path="verify/emailaddress/:token"
+                element={<VerifyEmail />}
               />
             </Route>
-            <Route path="market/" element={<Market />} >
-              <Route path="wishlist" element={<MarketWishList/>}/>
-              <Route path="cart" element={<MarketCart/>}/>
-              <Route index element={<MarketIndex/>} />
-              <Route path=":productId" element={<MarketItem/>} />
-              <Route path="create" element={<MarketCreate/>} />
-              <Route path="my-shop" element={<MarketMyShop/>}/>
-            </Route>
-            <Route exact path="feeds" element={<Feeds />}>
-            <Route index element={<FeedsIndex/>} />
-            <Route path=":postId" element={<FeedsPost/>} />
-
-            </Route>
-
-            <Route
-              exact
-              path="setting/"
-              element={
-                <ProtectedRoute>
-                  <Setting />
-                </ProtectedRoute>
-              }
-            >
-              <Route exact path="account" element={<Account />}></Route>
-              <Route exact path="security" element={<Security />}></Route>
-              <Route exact path="payment" element={<Payment />}></Route>
-              <Route exact path="bank" element={<Bank />}></Route>
-            </Route>
-
-            <Route exact path=":userprofile" element={<UserProfile />} />
-          </Route>
-          <Route exact element={<WithOutNav />}>
-            <Route exact path="login" element={<SignIn />} />
-            <Route exact path="signup" element={<SignUp />} />
-            <Route exact path="forgetpassword" element={<ForgetPassword />} />
-            <Route
-              exact
-              path="forgetpassword/mailsended"
-              element={<MailPasswordSended />}
-            />
-            <Route
-              exact
-              path="password/reset/:token"
-              element={<ResetPasswordCard />}
-            />
-            <Route
-              exact
-              path="verify/emailaddress/:token"
-              element={<VerifyEmail />}
-            />
-          </Route>
-        </Routes>
+          </Routes>
+        </div>
       </div>
     </DarkContext.Provider>
   );
