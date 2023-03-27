@@ -35,6 +35,7 @@ import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
 import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
 import { TopUp } from "./routes/top-up/topup";
 import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
+import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.component";
 
 export const DarkContext = createContext();
 
@@ -102,6 +103,7 @@ function App() {
               <Route exact index element={<Home />} />
               <Route exact path="auction/" element={<Auction />}>
                 <Route exact index element={<AuctionIndex />} />
+                <Route exact path="tags/:tagId" element={<AuctionTags />} />
                 <Route exact path=":auctionId" element={<AuctionItem />} />
                 <Route
                   exact

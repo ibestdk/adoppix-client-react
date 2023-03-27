@@ -64,7 +64,7 @@ export const CardFeed = () => {
     const callData = async () => {
       const loadtoken = await getToken();
       setToken(loadtoken);
-      setHeaderToken(loadtoken);
+      // setHeaderToken(loadtoken);
       await callAuctionCard();
     };
     callData();
@@ -99,21 +99,30 @@ export const CardFeed = () => {
                     </div>
                   </div>
                 )}
-                <div className="absolute top-0 left-0 p-2">
-                  <div style={{ width: "1.5rem" }}>
-                   {auctionItem && (
-                    <div>{auctionItem.stopTime !== null ? (<div>
-                        {
-                          Date.now()  > auctionItem.stopTime ? <div className="bg-red-500 rounded-full w-[30px] h-[30px]"></div> : <div className="bg-green-500 rounded-full w-[30px] h-[30px]"></div>
-                        }
-                      </div>) : (<div className="bg-yellow-200 rounded-full w-[30px] h-[30px]"></div>)}</div>
-                   )}
-                  </div>
-                </div>
+                <div className="absolute top-0 left-0 p-2"></div>
 
                 <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
-                  <div className="text-lg truncate w-[70%]">
-                    {auctionItem.title}
+                  <div className="text-lg flex justify-between">
+                    <div className="truncate w-[70%] ">{auctionItem.title}</div>
+                    <div className="w-[30%]">
+                      <div style={{ width: "1.5rem" }}>
+                        {auctionItem && (
+                          <div>
+                            {auctionItem.stopTime !== null ? (
+                              <div>
+                                {Date.now() > auctionItem.stopTime ? (
+                                  <div className="bg-red-500 rounded-md w-[60px] h-[22px] text-sm text-center">สิ้นสุด</div>
+                                ) : (
+                                  <div className="bg-green-500 rounded-md w-[60px] h-[22px] text-sm text-center">ประมูลอยู่</div>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="bg-yellow-200 rounded-md w-[60px] h-[22px] text-sm text-center">ยังไม่เริ่ม</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <div className="flex">
                     <div>

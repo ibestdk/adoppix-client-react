@@ -9,7 +9,7 @@ function valuetext(value) {
   return `{value}`;
 }
 
-export const AuctionIndex = () => {
+export const AuctionTags = () => {
   const [filtersList, setFilterList] = useState();
   const [value, setValue] = useState([0, 10000]);
 
