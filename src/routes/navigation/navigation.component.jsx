@@ -61,7 +61,7 @@ const Navigation = () => {
                   <NotiDropDown />
                 </div>
                 <div>
-                  <UserDropDown />
+                  <UserDropDown className="z-[150]" />
                 </div>
               </div>
             )}
