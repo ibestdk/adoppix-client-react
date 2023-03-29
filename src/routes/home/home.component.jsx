@@ -13,11 +13,11 @@ const Home = () => {
       <OwlAuction></OwlAuction>
       <OwlAuctionNew/>
       <Category/>
+      <MarketInterView/>
       <ArtPending/>
       <ArtRecommend/>
-      <MarketInterView/>
       <div>
-      <img className="mx-auto" src="https://media.discordapp.net/attachments/681151360305201169/1032635055169871913/adopchan.png" alt="" />
+      <img className="mx-auto mt-20" src="https://media.discordapp.net/attachments/681151360305201169/1032635055169871913/adopchan.png" alt="" />
       </div>
     </div>
   );

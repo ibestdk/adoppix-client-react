@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const OwlAuctionNew = () => {
+  const [newAuction, setNewAuction] = useState([]);
+  const [onload, setOnload] = useState(true);
 
   const options = {
     loop: true,
@@ -29,38 +31,48 @@ export const OwlAuctionNew = () => {
     },
   };
 
-
-  const [newAuction, setNewAuction] = useState();
-
-  const getNewAuction = async () => {
-    let response = await axios({
-      method: "get",
-      url: `https://mockapi.adoppix.com/api/Mock/GetNewAuction`,
-    }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
-    setNewAuction(response.data.data);
-  };
-
   useEffect(() => {
+    const getNewAuction = async () => {
+      try {
+        const response = await axios.get(
+          "https://mockapi.adoppix.com/api/Mock/GetNewAuction"
+        );
+        setNewAuction(response.data.data);
+        console.log("newAuction");
+        console.log(newAuction);
+        setOnload(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getNewAuction();
-  }, []);
+  }, [setNewAuction]);
 
   return (
     <div className=" mt-5 p-5 container m-auto bg-adoplight shadow-section-center dark:bg-adopsoftdark rounded-lg">
       <div>
-        <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">New Auction</h2>
+        <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">
+          New Auction
+        </h2>
       </div>
       <div className="mt-3">
-        <OwlCarousel {...options}>
-          {newAuction && newAuction.map((card, cardIndex) => (
-            <div key={cardIndex} className="item m-3  w-[260px] ">
-              <img className="w-[250px] h-[300px] object-cover rounded-lg shadow-lg" src={newAuction && card.image} />
-              <h4 className="text-adopsoftdark dark:text-adoplight duration-300">{newAuction && card.title}</h4>
-            </div>
-          ))}
-        </OwlCarousel>
+        { !onload &&
+          <OwlCarousel {...options}>
+            {newAuction.length > 0 &&
+              newAuction.map((card, cardIndex) => (
+                <div key={cardIndex} className="item m-3  w-[260px] ">
+                  <img
+                    className="w-[250px] h-[300px] object-cover rounded-lg shadow-lg"
+                    src={card.image}
+                  />
+                  <h4 className="text-adopsoftdark dark:text-adoplight duration-300">
+                    {card.title}
+                  </h4>
+                </div>
+              ))}
+          </OwlCarousel>
+        }
       </div>
     </div>
   );
 };
-

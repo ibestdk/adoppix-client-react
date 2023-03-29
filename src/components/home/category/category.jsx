@@ -9,7 +9,7 @@ export const Category = () => {
         method: "get",
         url: `  https://mockapi.adoppix.com/api/Mock/GetCategory`,
       }).catch((err) => console.log(err.response));
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setCategory(response.data.data);
     };
   
@@ -21,7 +21,7 @@ export const Category = () => {
   return (
     <div className=" mx-auto mt-5">
     <div className="bg-adoplight shadow-section-center dark:bg-adopsoftdark py-10 px-60 rounded-lg">
-      <div className="text-center mb-10 dark:text-white text-adopdark">Recommend Art</div>
+      <div className="text-center mb-10 dark:text-white text-adopdark">Category</div>
       <div className=" grid grid-cols-5 ">
         {category &&
           category.map((art, artIndex) => (
