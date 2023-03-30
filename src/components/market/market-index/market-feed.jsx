@@ -12,6 +12,9 @@ import Slider from '@mui/material/Slider';
 import MarketOwl from "./market-owl.component";
 import { useNavigate } from "react-router-dom";
 
+const textBorderStyle = {
+    textShadow: "2px 0 #4F9FDA, -2px 0 #4F9FDA, 0 2px #4F9FDA, 0 -2px #4F9FDA, 1px 1px #4F9FDA, -1px -1px #4F9FDA, 1px -1px #4F9FDA, -1px 1px #4F9FDA"
+}
 
 function valuetext(value) {
     return `${value}°C`;
@@ -22,18 +25,19 @@ export const MarketFeed = () => {
 
     const [value, setValue] = useState([30, 10000]);
     // [30, 10000]
-    
-    const [tagOwlCol,setTagOwlCol] = useState();
-    const Test = () => {
-        console.log("TagOwlCol : "+ tagOwlCol);
+
+    const tagOwlClicked = (tag) => {
+        setTags(tag);
+        console.log("TagOwlCol : " + tag);
+        callProductCard();
     }
 
     const [tags, setTags] = useState();
-    const tagClicked = (tag,index) => {
-        if(tags == tag){
+    const tagClicked = (tag, index) => {
+        if (tags == tag) {
             $(`#${index}`).prop('checked', false);
             setTags(null);
-        } else{
+        } else {
             setTags(tag);
         }
         console.log(tag);
@@ -195,197 +199,239 @@ export const MarketFeed = () => {
                 <div className="container m-auto">
                     <div className="mb-10">
                         <div className="grid grid-cols-12 gap-4">
-                            <div className="container col-span-3">
-                                <div>
-                                    <div className="row h-7 pt-10 pb-5 mb-10">
-                                        <div className="flex relative">
-                                            <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
-                                                ตลาดนัด
-                                            </p>
+                            {productItems && (
+                                <div className="container col-span-3">
+                                    <div>
+                                        <div className="row h-7 pt-10 pb-5 mb-10">
+                                            <div className="flex relative">
+                                                <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
+                                                    ตลาดนัด
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="row mt-5 m-auto">
-                                        <div className="row mt-4">
-                                            <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
-                                                ตลาดนัด
-                                            </button>
-                                        </div>
-                                        <div className="row mt-4">
-                                            <button onClick={() => { navigate('my-shop') }} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                                        <div className="row mt-5 m-auto">
+                                            <div className="row mt-4">
+                                                <button className="text-center text-base w-full px-4 py-1 rounded-md bg-adoppix hover:opacity-90 duration-300 text-white shadow-md">
+                                                    ตลาดนัด
+                                                </button>
+                                            </div>
+                                            <div className="row mt-4">
+                                                <button onClick={() => { navigate('my-shop') }} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
                 hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
-                                                ร้านค้าของฉัน
-                                            </button>
-                                        </div>
-                                        <div className="row">
-                                            <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
-                                                <div className="">
-                                                    <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
-                                                        แท็กที่ถูกค้นหาบ่อย
-                                                    </h5>
-                                                    <hr />
-                                                    <form action="" className="py-2">
-                                                        {filterOptions && filterOptions.tags.map((tag, index) => (
-                                                            <div key={index} className="flex">
-                                                                <input onClick={() => { tagClicked(tag.name,index) }} id={index} type="radio" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
-                                                                <label className="flex text-adopdark dark:text-adoplight text-base">
-                                                                    {tag.name}
-                                                                </label>
-                                                            </div>
-                                                        ))}
-                                                    </form>
-                                                </div>
-                                                <div className="">
-                                                    <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
-                                                        ประเภทสินค้า
-                                                    </h5>
-                                                    <hr />
-                                                    <form action="" className="py-2">
-                                                        {filterOptions && filterOptions.types.map((type, index) => (
-                                                            <div key={index} className="flex">
-                                                                <input id={type} type="radio" name="typeProduct" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
-                                                                {type == 1 && (
+                                                    ร้านค้าของฉัน
+                                                </button>
+                                            </div>
+                                            <div className="row">
+                                                <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
+                                                    <div className="">
+                                                        <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
+                                                            แท็กที่ถูกค้นหาบ่อย
+                                                        </h5>
+                                                        <hr />
+                                                        <form action="" className="py-2">
+                                                            {filterOptions && filterOptions.tags.map((tag, index) => (
+                                                                <div key={index} className="flex">
+                                                                    <input onClick={() => { tagClicked(tag.name, index) }} id={index} type="radio" name="tag" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
                                                                     <label className="flex text-adopdark dark:text-adoplight text-base">
-                                                                        รูปภาพ
+                                                                        {tag.name}
                                                                     </label>
-                                                                )}
-                                                                {type == 2 && (
-                                                                    <label className="flex text-adopdark dark:text-adoplight text-base">
-                                                                        สติ้กเกอร์
-                                                                    </label>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </form>
-                                                </div>
-                                                <div className="mt-2">
-                                                    <h5 className="text-adopdark dark:text-adoplight">
-                                                        ราคา
-                                                    </h5>
-                                                    <hr />
-                                                    <Box className="text-adopdark dark:text-adoplight mt-10 mx-5">
-                                                        <Slider
-                                                            getAriaLabel={() => 'Temperature range'}
-                                                            value={value}
-                                                            onChange={handleChange}
-                                                            valueLabelDisplay="on"
-                                                            getAriaValueText={valuetext}
-                                                            max='10000'
-                                                            step={10}
-                                                        ></Slider>
-                                                    </Box>
-                                                </div>
-                                                <div className="mt-2 w-full">
-                                                    <button onClick={callProductCard} type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
-                                                        <p className="mb-0"> <i className=""></i> ค้นหา</p>
-                                                    </button>
+                                                                </div>
+                                                            ))}
+                                                        </form>
+                                                    </div>
+                                                    <div className="">
+                                                        <h5 className="mt-2 text-adopdark dark:text-adoplight text-base">
+                                                            ประเภทสินค้า
+                                                        </h5>
+                                                        <hr />
+                                                        <form action="" className="py-2">
+                                                            {filterOptions && filterOptions.types.map((type, index) => (
+                                                                <div key={index} className="flex">
+                                                                    <input id={type} type="radio" name="typeProduct" className="shadow-md m-1  inline-block rounded-md outline-[none_!important] border-[rgb(212,212,212)_!important]" />
+                                                                    {type == 1 && (
+                                                                        <label className="flex text-adopdark dark:text-adoplight text-base">
+                                                                            รูปภาพ
+                                                                        </label>
+                                                                    )}
+                                                                    {type == 2 && (
+                                                                        <label className="flex text-adopdark dark:text-adoplight text-base">
+                                                                            สติ้กเกอร์
+                                                                        </label>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </form>
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <h5 className="text-adopdark dark:text-adoplight">
+                                                            ราคา
+                                                        </h5>
+                                                        <hr />
+                                                        <Box className="text-adopdark dark:text-adoplight mt-10 mx-5">
+                                                            <Slider
+                                                                getAriaLabel={() => 'Temperature range'}
+                                                                value={value}
+                                                                onChange={handleChange}
+                                                                valueLabelDisplay="on"
+                                                                getAriaValueText={valuetext}
+                                                                max='10000'
+                                                                step={10}
+                                                            ></Slider>
+                                                        </Box>
+                                                    </div>
+                                                    <div className="mt-2 w-full">
+                                                        <button onClick={callProductCard} type="submit" className="w-full inline-block align-middle p-3 bg-adoppix shadow-lg rounded-md">
+                                                            <p className="mb-0"> <i className=""></i> ค้นหา</p>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
+                            )}
+                            {!productItems && (
+                                <div className="container col-span-3">
+                                    <div>
+                                        <div className="row h-7 pt-10 pb-5 mb-10">
+                                            <div className="flex relative">
+                                                <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
+                                                    กำลังโหลด
+                                                </p>
+                                            </div>
+                                        </div>
 
-                            </div>
-                            <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
-                                {productItems && productItems.length > 0 && (
-                                    <div onClick={Test} className="dark:text-adoplight text-adopdark">
-                                        ผลลัพธ์การค้นหา {productItems && productItems.length} รายการ
+                                        <div className="row mt-5 m-auto animate-pulse duration-300">
+                                            <div className="row mt-4">
+                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adopsoftdark">
+                                                </button>
+                                            </div>
+                                            <div className="row mt-4">
+                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adopsoftdark shadow-md">
+                                                </button>
+                                            </div>
+                                            <div className="row">
+                                                <div className="bg-adopsoftdark h-96 dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
-                                {productItems <= 0 && (
-                                    <div className="dark:text-adoplight text-adopdark">
-                                        ไม่พบผลลัพธ์การค้นหา
-                                    </div>
-                                )}
-                                <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
-                                <div className="mb-4">
-                                    <MarketOwl setTagOwlCol={setTagOwlCol} />
+
                                 </div>
-                                <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
-                                    {
-                                        productItems && productItems.map((productItem, index) => (
-                                            <div key={index} className="">
-                                                <div className="relative overflow-hidden">
-                                                    <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${productItem.productId}`}>
-                                                        <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${productItem.image}`} />
-                                                    </NavLink>
-                                                    <div className="absolute top-2 right-2">
-                                                        <div>
-                                                            {productItem.isWishlist && (
-                                                                <FaStar onClick={() => wishlistClicked(index, productItem.isWishlist, productItem.productId)} className="mb-[8px] text-yellow-300" />
-                                                            )}
-                                                            {!productItem.isWishlist && (
-                                                                <FaRegStar onClick={() => wishlistClicked(index, productItem.isWishlist, productItem.productId)} className="mb-[8px] text-yellow-300" />
-                                                            )}
+                            )}
+                            {productItems && (
+                                <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
+                                    {productItems && productItems.length > 0 && tags == null && (
+                                        <div className="dark:text-adoplight text-adopdark">
+                                            ผลลัพธ์การค้นหา {productItems && productItems.length} รายการ
+                                        </div>
+                                    )}
+                                    {productItems && productItems.length > 0 && tags != null && (
+                                        <div className="dark:text-adoplight text-adopdark">
+                                            ผลลัพธ์การค้นหา "{tags}" ทั้งหมด {productItems && productItems.length} รายการ
+                                        </div>
+                                    )}
+                                    {productItems <= 0 && (
+                                        <div className="dark:text-adoplight text-adopdark">
+                                            ไม่พบผลลัพธ์การค้นหา
+                                        </div>
+                                    )}
+                                    <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
+                                    <div className="mb-4">
+                                        <MarketOwl testClick={tagOwlClicked} />
+                                    </div>
+                                    <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
+                                        {
+                                            productItems && productItems.map((productItem, index) => (
+                                                <div key={index} className="">
+                                                    <div className="relative overflow-hidden">
+                                                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${productItem.productId}`}>
+                                                            <img onContextMenu={handleContextMenu} className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${productItem.image}`} />
+                                                        </NavLink>
+                                                        <div className="absolute top-2 right-2">
+                                                            <div>
+                                                                {productItem.isWishlist && (
+                                                                    <FaStar onClick={() => wishlistClicked(index, productItem.isWishlist, productItem.productId)} className="mb-[8px] text-yellow-300" />
+                                                                )}
+                                                                {!productItem.isWishlist && (
+                                                                    <FaRegStar onClick={() => wishlistClicked(index, productItem.isWishlist, productItem.productId)} className="mb-[8px] text-yellow-300" />
+                                                                )}
+                                                            </div>
+                                                            <div>
+                                                                {productItem.canCommercial == true && (
+                                                                    <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                                )}
+                                                                {productItem.canCommercial == false && (
+                                                                    <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            {productItem.canCommercial == true && (
-                                                                <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            )}
-                                                            {productItem.canCommercial == false && (
-                                                                <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
-                                                        <div className="relative">
-                                                            <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
-                                                                {productItem.title}
-                                                            </div>
-                                                            <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
-                                                                <b>
-                                                                    {productItem.price}
-                                                                </b>
-                                                            </div>
-                                                            <div className="flex">
-                                                                <div>
-                                                                    <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${productItem.ownerProfileImage}`} />
+                                                        <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
+                                                            <div className="relative">
+                                                                <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
+                                                                    {productItem.title}
                                                                 </div>
-                                                                <div className="text-xs font-bold my-auto truncate max-w-[70%]">
-                                                                    {productItem.ownerUsername}
-                                                                </div>
-                                                                <div className=" top-[2px] right-[-15px] cursor-default">
-                                                                    <GoVerified className="h-4 text-green-400" />
-                                                                </div>
-                                                            </div>
-                                                            {productItem.amount > 0 && (
-
-                                                                <div className="absolute text-xs right-1 top-5">
-                                                                    เหลือ {productItem.amount} ชิ้น
-                                                                </div>
-                                                            )}
-                                                            {productItem.amount == null && (
-
-                                                                <div className="absolute text-xs right-1 top-5">
-                                                                    ไม่จำกัดจำนวน
-                                                                </div>
-                                                            )}
-                                                            <div className="w-[72px] absolute right-1 top-16">
-                                                                <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
+                                                                <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                                                     <b>
-                                                                        ซื้อ
+                                                                        {productItem.price}
                                                                     </b>
                                                                 </div>
-                                                                <div className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
-                                                                    เพิ่มลงตะกร้า
+                                                                <div className="flex">
+                                                                    <div>
+                                                                        <img onContextMenu={handleContextMenu} className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${productItem.ownerProfileImage}`} />
+                                                                    </div>
+                                                                    <div className="text-xs font-bold my-auto truncate max-w-[70%]">
+                                                                        {productItem.ownerUsername}
+                                                                    </div>
+                                                                    <div className=" top-[2px] right-[-15px] cursor-default">
+                                                                        <GoVerified className="h-4 text-green-400" />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                                                {productItem.description}
-                                                            </div>
-                                                            <div className="flex ml-1 max-w-[100%] overflow-hidden">
-                                                                <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                                                    {productItem.tag}
+                                                                {productItem.amount > 0 && (
+
+                                                                    <div className="absolute text-xs right-1 top-5">
+                                                                        เหลือ {productItem.amount} ชิ้น
+                                                                    </div>
+                                                                )}
+                                                                {productItem.amount == null && (
+
+                                                                    <div className="absolute text-xs right-1 top-5">
+                                                                        ไม่จำกัดจำนวน
+                                                                    </div>
+                                                                )}
+                                                                <div className="w-[72px] absolute right-1 top-16">
+                                                                    <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
+                                                                        <b>
+                                                                            ซื้อ
+                                                                        </b>
+                                                                    </div>
+                                                                    <div className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
+                                                                        เพิ่มลงตะกร้า
+                                                                    </div>
+                                                                </div>
+                                                                <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
+                                                                    {productItem.description}
+                                                                </div>
+                                                                <div className="flex ml-1 max-w-[100%] overflow-hidden">
+                                                                    <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
+                                                                        {productItem.tag}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    }
+                                            ))
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+                            {!productItems && (
+                                <div className="bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-full w-full rounded-lg animate-pulse">
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

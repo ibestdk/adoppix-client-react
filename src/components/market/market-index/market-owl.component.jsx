@@ -3,7 +3,7 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import MarketOwlObject from "./market-owl-object";
 
-const MarketOwl = ({ setTagOwlCol }) => {
+const MarketOwl = ({ testClick }) => {
   const categoryData =[
     {
         image: "https://t4.ftcdn.net/jpg/01/56/14/43/360_F_156144336_s2Zogfcqap2E3WUm7CaduUA0JKpdt6xb.jpg",
@@ -47,9 +47,9 @@ const MarketOwl = ({ setTagOwlCol }) => {
     }
 ]
 
-  const tagCardClicked = (name) => {
-    setTagOwlCol(name);
-  }
+  // const tagCardClicked = (name) => {
+  //   setTagOwlCol(name);
+  // }
 
   const options = {
     loop: true,
@@ -79,7 +79,7 @@ const MarketOwl = ({ setTagOwlCol }) => {
       <div className="">
         <OwlCarousel {...options}>
           {categoryData.map((card, cardIndex) => (
-           <MarketOwlObject key={cardIndex} object={card} setTagOwlCol={setTagOwlCol} />
+           <MarketOwlObject key={cardIndex} object={card} testClick={testClick} />
           ))}
         </OwlCarousel>
       </div>
