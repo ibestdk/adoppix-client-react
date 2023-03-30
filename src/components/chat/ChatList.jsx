@@ -13,6 +13,7 @@ import axios from "axios";
 import "./chatList.scss";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import ModalAddChat from "./create/modalCreate";
+import { ChatCard } from "./chatCard/chatCard";
 export const ChatList = () => {
   const [adopLetter, setadopLetter] = useState(false);
   const [chatopen, setChatopen] = useState(false);
@@ -193,13 +194,13 @@ export const ChatList = () => {
         connection
           .start()
           .then(() => {
-            console.log("hub SignalR Chat Connected!");
+            console.log("hub SignalR Chat Connected! ✨");
           })
           .catch((error) => console.log(`SignalR error: ${error}`));
 
         connection.on(`${roomId}`, (message) => {
+          console.log("received heart beat from chat 💖");
           console.log("New message received: ", message);
-          console.log("New message received heart beat from chat: 💖");
 
           // Do something with the received message
         });
@@ -324,33 +325,7 @@ export const ChatList = () => {
               >
                 {chatList &&
                   chatList.map((list, index) => (
-                    <div
-                      key={list.chatRoomId}
-                      className="hover:brightness-75 cursor-pointer duration-200 bg-red-600 dark:bg-adopsoftdark px-4 py-2 flex"
-                    >
-                      <div
-                        className="flex"
-                        onClick={() => {
-                          handleOpenChat(list.chatRoomId);
-                        }}
-                      >
-                        <div className="mx-2">
-                          <img
-                            className=" rounded-full w-[50px] h-[50px]"
-                            src={`https://pix.adoppix.com/public/${list.profileImage}`}
-                            alt=""
-                          />
-                        </div>
-                        <div>
-                          <div className="text-adopdark dark:text-adoplight text-lg text-left">
-                            {list.name}
-                          </div>
-                          <div className="text-adoplighticon text-sm text-left">
-                            {list.lastMessage} - {list.relativeTime}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <ChatCard key={index} list={list}  index={index} openChat={handleOpenChat}/>
                   ))}
                 <div
                   onClick={() => setAddModal(true)}
