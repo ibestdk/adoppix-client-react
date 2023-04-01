@@ -25,23 +25,26 @@ const Payment = () => {
       headers: headers,
     }).catch((err) => console.log(err.response));
     console.log(result.data.data);
-    const transformedData = result.data.data.map(card => {
-      console.log("1: ",card.cardNumber)
+    const transformedData = result.data.data.map((card) => {
+      console.log("1: ", card.cardNumber);
       const lastDigits = card.cardNumber.slice(-4);
-      console.log("2: ",lastDigits)
-      const maskedCardNumber = card.cardNumber.replace(/\d(?=\d{4})/g, (match, index) => {
-        if (index < 4 || index >= card.cardNumber.length - 4) {
-          return match;
-        } else {
-          return '*';
+      console.log("2: ", lastDigits);
+      const maskedCardNumber = card.cardNumber.replace(
+        /\d(?=\d{4})/g,
+        (match, index) => {
+          if (index < 4 || index >= card.cardNumber.length - 4) {
+            return match;
+          } else {
+            return "*";
+          }
         }
-      });
-      console.log("3: ",maskedCardNumber)
-      const formattedCardNumber = maskedCardNumber.replace(/(.{4})/g, '$1');
-      console.log("4: ",formattedCardNumber)
-      return { cardNumber: formattedCardNumber , cardType: card.cardType };
+      );
+      console.log("3: ", maskedCardNumber);
+      const formattedCardNumber = maskedCardNumber.replace(/(.{4})/g, "$1");
+      console.log("4: ", formattedCardNumber);
+      return { cardNumber: formattedCardNumber, cardType: card.cardType };
     });
-    
+
     setMyCard(transformedData);
   };
 
@@ -55,51 +58,65 @@ const Payment = () => {
         <AddCardModal onClose={handleOnClose} visible={addCardModal} />
       </div>
 
-      <div onClick={() => setAddCardModal(true)}>เพิ่มบัตร</div>
-
-      <div className="text-adopdark">ข้อมูลบัตร</div>
-
       <div className="flex">
-      {myCard.length > 0 ? (
-        myCard.map((card, cardIndex)=> (
-          <div key={cardIndex} className="">
-        <div className="m-3 bg-gradient-to-r from-[#2193B0] to-[#6DD5ED] p-5 rounded-xl text-adopdark w-[295px] h-[188px]">
-          <div className=" flex justify-between">
+        <div>
+          <div className="flex justify-between">
+            <div className="text-adopdark my-auto dark:text-adoplight">
+              บัตรของฉัน
+            </div>
             <div>
-              <div className="text-adoplight text-2xl font-bold                         ">
-              {card.cardType}
-              </div>
-              <div>
-                <ChipCard />
-              </div>
-            </div>
-            <div className="right-0">
-              <div className="text-adoppix font-bold text-[2rem] ">
-                <p className="drop-shadow-lg mt-2">AdopPix</p>
-              </div>
+              <p
+                className="cursor-pointer px-2 py-1 rounded-lg bg-adoppix w-[100px] text-center text-lg"
+                onClick={() => setAddCardModal(true)}
+              >
+                เพิ่มบัตร
+              </p>
             </div>
           </div>
-          <div>
-            <div className="p-1">
-              <p className="text-sm">Card Number</p>
-              <p>{card.cardNumber}</p>
-            </div>
-            <div className="flex w-full">
-              <div className="p-2"></div>
-              <div className="p-2"></div>
-            </div>
-            <div className="p-2"></div>
+          <div className="m-10">
+            {myCard.length > 0 ? (
+              myCard.map((card, cardIndex) => (
+                <div key={cardIndex} className="">
+                  <div className="m-3 bg-gradient-to-r from-[#2193B0] to-[#6DD5ED] p-5 rounded-xl text-adopdark w-[295px] h-[188px]">
+                    <div className=" flex justify-between">
+                      <div>
+                        <div className="text-adoplight text-2xl font-bold                         ">
+                          {card.cardType}
+                        </div>
+                        <div>
+                          <ChipCard />
+                        </div>
+                      </div>
+                      <div className="right-0">
+                        <div className="text-adoppix font-bold text-[2rem] ">
+                          <p className="drop-shadow-lg mt-2">AdopPix</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="p-1">
+                        <p className="text-sm ">Card Number</p>
+                        <p className="text-adoplight text-2xl font-bold   ">
+                          {card.cardNumber}
+                        </p>
+                      </div>
+                      <div className="flex w-full">
+                        <div className="p-2"></div>
+                        <div className="p-2"></div>
+                      </div>
+                      <div className="p-2"></div>
+                    </div>
+                  </div>
+                  <div className="text-adopdark">
+                    <div className="m-3 bg-adopsoftdark w-full h-full"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center">ไม่พบบัตรที่ผูกกับบัญชีนี้</p>
+            )}
           </div>
         </div>
-        <div className="text-adopdark">
-          <div className="m-3 bg-adopsoftdark w-full h-full"></div>
-        </div>
-      </div>
-        ))
-      ) : (
-        <p className="text-center">ไม่พบบัตรที่ผูกกับบัญชีนี้</p>
-      )}
-       
       </div>
     </div>
   );

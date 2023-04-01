@@ -32,7 +32,9 @@ module.exports = {
     extend: {
       dropShadow: {
         'center': '0px 0px 6px rgba(0, 0, 0, 0.25)',
-        
+      },
+      boxShadow: {
+        'section-center': '0px 0px 23px -6px rgba(47, 47, 47, 0.25)',
       }
     },
   },

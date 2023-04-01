@@ -110,7 +110,7 @@ const OwlAuction = () => {
   };
 
   return (
-    <div className=" mt-5 p-5 container m-auto bg-adoplight dark:bg-adopsoftdark rounded-lg">
+    <div className=" mt-5 p-5 container m-auto bg-adoplight shadow-section-center dark:bg-adopsoftdark rounded-lg">
       <div>
         <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">Pending Auction</h2>
       </div>

@@ -120,11 +120,11 @@ function UserDropDown() {
             </div>
           </div>
           <div className="flex mt-1">
-            <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
+            <div  className="cursor-pointer m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
+              <Link className="flex text-lg" to={"topup"}>
                 <BsFillCreditCard2FrontFill className="m-1" />
                 เติมเงิน
-              </a>
+              </Link>
             </div>
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
               <a className="flex text-lg">
