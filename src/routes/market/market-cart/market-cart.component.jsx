@@ -6,9 +6,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import ConfirmModal from "../../../components/market/market-modal/confirm-modal"
+import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy"
 
 export const MarketCart = () => {
     const navigate = useNavigate();
+
+    const [modal, setModal] = useState(false);
+    const handleOnClose = () => setModal(false);
+    const [price, setPrice] = useState();
+    const [succese,setSuccese] = useState(false);
 
     const navigateToWishList = () => {
         navigate(`../wishlist`);
@@ -30,6 +37,7 @@ export const MarketCart = () => {
             .get(`https://api.adoppix.com/api/User/cart`, { headers })
             .then((res) => {
                 setCart(res.data.data);
+                setPrice(res.data.data.total);
                 console.log("data :", res.data.data);
             })
             .catch((error) => {
@@ -87,6 +95,10 @@ export const MarketCart = () => {
         navigate(`../${id}`)
     }
 
+    const delay = ms => new Promise(
+        resolve => setTimeout(resolve, ms)
+      );
+
     const buyOnCarts = function () {
         const token = getToken();
         const headers = {
@@ -96,8 +108,11 @@ export const MarketCart = () => {
 
         axios
             .post(`https://api.adoppix.com/api/Product/buys`, { headers })
-            .then((res) => {
-                // succeses api
+            .then(async (res) => {
+                setModal(false)
+                setSuccese(true);
+                await delay(3000);
+                navigate(`../`);
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -355,7 +370,7 @@ export const MarketCart = () => {
                                     </div>
                                 </div>
                                 <div className="px-4 pb-5 pt-3">
-                                    <div className="text-center text-adoplight text-lg py-1 px-20 w-fit rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
+                                    <div onClick={() => setModal(true)} className="text-center text-adoplight text-lg py-1 px-20 w-fit rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
                                         <b>
                                             ซื้อสินค้าในตะกร้า
                                         </b>
@@ -453,6 +468,8 @@ export const MarketCart = () => {
                     </div>
                 </div>
             </div>
+            <SuccesefullBuy visible={succese} />
+            <ConfirmModal onClose={handleOnClose} visible={modal} price={price} method={buyOnCarts} />
         </div>
     )
 }
