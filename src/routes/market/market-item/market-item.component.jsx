@@ -67,17 +67,17 @@ export const MarketItem = () => {
 
     const waterMark = `${productDatas && productDatas.ownerUsername}`;
     const getProduct = () => {
-        // axios
-        //     .get(`https://api.adoppix.com/api/Product/${productId}`)
-        //     .then((res) => {
-        //         console.log("Success:", res.data.data);
-        //         setProductData(res.data.data);
-        //         console.log("owner " + res.data.data.ownerUsername);
-        //         ownerData(res.data.data.ownerUsername);
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error:", error);
-        //     });
+        axios
+            .get(`https://api.adoppix.com/api/Product/${productId}`)
+            .then((res) => {
+                console.log("Success:", res.data.data);
+                setProductData(res.data.data);
+                console.log("owner " + res.data.data.ownerUsername);
+                ownerData(res.data.data.ownerUsername);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
     };
 
     const deleteProduct = async () => {
@@ -524,13 +524,9 @@ export const MarketItem = () => {
                                         <div className='grid grid-cols-6 mt-2 gap-2'>
                                             <div className='col-span-5 row-span-2 h-full w-full dark:bg-adopdark bg-adoplighticon rounded-md mr-2 inline-block animate-pulse'>
                                             </div>
-                                            <div className=' cursor-pointer'>
-                                                <AiOutlineStar className='h-8 w-8 p-1 border dark:border-white border-adoppix rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
-
+                                            <div className='animate-pulse rounded-md h-8 w-8 dark:bg-adopdark bg-adoplighticon'>
                                             </div>
-                                            <div className='cursor-pointer'>
-                                                <BsCartPlus className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
-
+                                            <div className='animate-pulse rounded-md h-8 w-8 dark:bg-adopdark bg-adoplighticon'>
                                             </div>
                                         </div>
                                         {/* <button type="button" className="bg-indigo-500 ..." disabled>

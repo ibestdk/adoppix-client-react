@@ -5,9 +5,19 @@ import { getToken } from "../../../services/authorize";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AiFillStar } from "react-icons/ai";
 
 export const MarketWishList = () => {
     const navigate = useNavigate();
+
+    const navigateBack = () => {
+        navigate(`../`);
+    }
+
+    const navigateToCart = () => {
+        navigate(`../cart`);
+    }
+
     const [wishlist, setWishList] = useState();
 
     const getWishLists = () => {
@@ -33,8 +43,28 @@ export const MarketWishList = () => {
     }
 
     const removeWishlistFromList = function (index) {
-        wishList();
+        //wishList();
         setWishList(wishlist.filter((item, i) => i != index));
+    }
+
+    const toCart = async (id,index) => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'post',
+            url: `https://api.adoppix.com/api/Product/${id}/toggle-cart`,
+            headers: headers
+        })
+            .then((res) => {
+                console.log(res);
+                removeWishlistFromList(index);
+            })
+            .catch((err) => console.log(err));
     }
 
     const wishList = async (id, index) => {
@@ -63,8 +93,16 @@ export const MarketWishList = () => {
     }, []);
 
     return (
-        <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
-            <div className="container m-auto px-80">
+        <div className="dark:bg-adopdark bg-adoplight min-h-screen" draggable="false">
+            <div className="flex justify-end mx-8">
+                <div onClick={navigateBack} className="rounded-full h-11 w-11 mx-1 mt-2 hover:bg-adoplighticon duration-300">
+                    <AiFillStar className="h-11 w-11 p-2 text-yellow-300" />
+                </div>
+                <div onClick={navigateToCart} className="hover:bg-adoplighticon gove duration-300 rounded-full h-11 w-11 mx-1 mt-2">
+                    <AiOutlineShoppingCart className="p-2 h-11 w-11 text-adopdark dark:text-adoplight" />
+                </div>
+            </div>
+            <div className="container m-auto px-80 py-14">
                 <div className="text-3xl dark:text-adoplight text-adopdark">
                     <b>
                         รายการที่อยากได้
@@ -99,7 +137,7 @@ export const MarketWishList = () => {
                                 </div>
                                 <hr />
                                 <div className="mt-2">
-                                    <div onClick={() => wishList(data.productId,dataIndex)} className="inline-block text-adoplighticon text-center text-base place-items-center hover:text-red-400 cursor-pointer duration-300">
+                                    <div onClick={() => wishList(data.productId, dataIndex)} className="inline-block text-adoplighticon text-center text-base place-items-center hover:text-red-400 cursor-pointer duration-300">
                                         <div className="inline-block px-1">
                                             <FaTrash className="text-lg"></FaTrash>
                                         </div>
@@ -110,7 +148,7 @@ export const MarketWishList = () => {
                                     <div className="inline-block px-2 cursor-default text-adoplighticon">
                                         |
                                     </div>
-                                    <div className="inline-block text-adoplighticon text-center text-base place-items-center hover:text-adoppix cursor-pointer duration-300">
+                                    <div onClick={() => toCart(data.productId,dataIndex)} className="inline-block text-adoplighticon text-center text-base place-items-center hover:text-adoppix cursor-pointer duration-300">
                                         <div className="inline-block px-1">
                                             <AiOutlineShoppingCart className="text-lg"></AiOutlineShoppingCart>
                                         </div>
@@ -127,10 +165,55 @@ export const MarketWishList = () => {
                             </div>
                         </div>
                     ))}
+                    {!wishlist && (
+                        <div className="my-5 grid grid-cols-6 gap-4 place-items-center">
+                            <div className="dark:bg-adopsoftdark bg-adoplighticon col-span-2 rounded-md w-60 h-40 mr-2 flex animate-pulse">
+                                <div className="rounded-md w-full h-full"></div>
+                            </div>
+                            <div className="inline-block col-span-3 animate-pulse">
+                                <div className="h-8 w-full rounded-md bg-adoplighticon dark:bg-adopsoftdark">
+                                </div>
+                                <div className="h-5 w-full rounded-md bg-adoplighticon dark:bg-adopsoftdark mt-3">
+                                </div>
+                                <div className="my-2 cursor-default">
+                                    <div className="inline-block mx-1">
+                                        <div className="rounded-full h-6 w-6 bg-adoplighticon dark:bg-adopsoftdark"></div>
+                                    </div>
+                                    <div className="inline-block h-5 w-32 rounded-md bg-adoplighticon dark:bg-adopsoftdark mt-3 mr-2">
+                                    </div>
+                                    <div className="inline-block">
+                                        <GoVerified className="text-adoplighticon dark:text-adopsoftdark h-5 w-5"></GoVerified>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="mt-2">
+                                    <div className="inline-block text-adoplighticon dark:text-adopsoftdark">
+                                        <div className="inline-block px-1">
+                                            <FaTrash className="text-lg"></FaTrash>
+                                        </div>
+                                        <div className="inline-block h-5 w-5 rounded-md bg-adoplighticon dark:bg-adopsoftdark">
+                                        </div>
+                                    </div>
+                                    <div className="inline-block px-2 cursor-default text-adoplighticon">
+                                        |
+                                    </div>
+                                    <div className="inline-block text-adoplighticon dark:text-adopsoftdark">
+                                        <div className="inline-block px-1">
+                                            <AiOutlineShoppingCart className="text-lg"></AiOutlineShoppingCart>
+                                        </div>
+                                        <div className="inline-block h-5 w-20 rounded-md bg-adoplighticon dark:bg-adopsoftdark">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="rounded-md h-8 w-32 bg-adoplighticon dark:bg-adopsoftdark animate-pulse">
+                            </div>
+                        </div>
+                    )}
                     {wishlist && wishlist.length == 0 && (
-                    <div className="text-center">
-                        ไม่มีสินค้าที่อยากได้ ลองค้นหาสินค้าที่สนใจดูหน่อยไหม?
-                    </div>
+                        <div className="text-center">
+                            ไม่มีสินค้าที่อยากได้ ลองค้นหาสินค้าที่สนใจดูหน่อยไหม?
+                        </div>
                     )}
                 </div>
 

@@ -305,15 +305,15 @@ export const MarketFeed = () => {
 
                                         <div className="row mt-5 m-auto animate-pulse duration-300">
                                             <div className="row mt-4">
-                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adopsoftdark">
+                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adoplighticon dark:bg-adopsoftdark">
                                                 </button>
                                             </div>
                                             <div className="row mt-4">
-                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adopsoftdark shadow-md">
+                                                <button className=" text-center text-base w-full px-4 py-5 rounded-md bg-adoplighticon dark:bg-adopsoftdark shadow-md">
                                                 </button>
                                             </div>
                                             <div className="row">
-                                                <div className="bg-adopsoftdark h-96 dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
+                                                <div className="bg-adoplighticon dark:bg-adopsoftdark h-96 dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
                                                 </div>
                                             </div>
                                         </div>
@@ -429,7 +429,7 @@ export const MarketFeed = () => {
                                 </div>
                             )}
                             {!productItems && (
-                                <div className="bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-full w-full rounded-lg animate-pulse">
+                                <div className="bg-adoplighticon dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-full w-full rounded-lg animate-pulse">
                                 </div>
                             )}
                         </div>
