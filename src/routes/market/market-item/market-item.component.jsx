@@ -10,10 +10,17 @@ import { getToken } from "../../../services/authorize";
 import { useNavigate } from "react-router-dom";
 import { BsCartCheck } from "react-icons/bs";
 import { BsCartPlus } from "react-icons/bs";
+import ConfirmModal from "../../../components/market/market-modal/confirm-modal"
+import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy"
 
 export const MarketItem = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
+
+    const [modal, setModal] = useState(false);
+    const handleOnClose = () => setModal(false);
+    const [price, setPrice] = useState();
+    const [succese, setSuccese] = useState(false);
 
     const [wishlistState, setWishlistState] = useState(false);
     const wishlistClicked = () => {
@@ -32,6 +39,10 @@ export const MarketItem = () => {
         setCartState(!cartState);
         cart();
     }
+
+    const delay = ms => new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
 
     const beginAlarm = function () { console.log('start alarm'); };
     const options = {
@@ -72,6 +83,7 @@ export const MarketItem = () => {
             .then((res) => {
                 console.log("Success:", res.data.data);
                 setProductData(res.data.data);
+                setPrice(res.data.data.price);
                 console.log("owner " + res.data.data.ownerUsername);
                 ownerData(res.data.data.ownerUsername);
             })
@@ -127,7 +139,12 @@ export const MarketItem = () => {
             url: `https://api.adoppix.com/api/Product/${productId}/buy`,
             headers: headers
         })
-            .then((res) => console.log("buy data : " + res.data))
+            .then(async (res) => {
+                setModal(false)
+                setSuccese(true);
+                await delay(3000);
+                navigate(`../`);
+            })
             .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
         // .then((res) => console.log(res))
@@ -241,8 +258,6 @@ export const MarketItem = () => {
                                             securityAlarm={beginAlarm}
                                             options={options}
                                         >
-
-
                                             <div className="relative">
                                                 <div>
                                                     <img draggable={false} className="h-[500px] object-cover w-full m-auto inline-flex rounded-lg shadow-lg blur-sm brightness-75" src={`https://pix.adoppix.com/public/${productDatas.images[0]}`} alt="" />
@@ -260,7 +275,7 @@ export const MarketItem = () => {
                                             <div className="min-w-[240px] max-h-fit h-fit object-cover w-full m-auto inline-flex rounded-lg justify-center border border-solid border-adoplighticon">
                                                 <div className="grid grid-cols-3 gap-4 my-3">
                                                     {productDatas.images.map((image, index) => (
-                                                        <div key={index} className="image-item w-full rounded-md m-0 z-50">
+                                                        <div key={index} className="image-item w-full rounded-md m-0">
                                                             <img className="h-[240px] w-[240px] rounded-md object-cover overflow-hidden" src={`https://pix.adoppix.com/public/${image}`} alt="" width="100" />
                                                         </div>
                                                     ))}
@@ -410,7 +425,7 @@ export const MarketItem = () => {
                                             </div>
                                             {!productDatas.isBought && (
                                                 <div className='grid grid-cols-6 mt-2 gap-2'>
-                                                    <div onClick={buy} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                    <div onClick={() => setModal(true)} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
                                                         <b className='absolute top-[30%] left-[40%]'>
                                                             ซื้อ
                                                         </b>
@@ -519,8 +534,8 @@ export const MarketItem = () => {
                                         </div>
                                     </div>
                                     <div className='pl-6 cursor-default'>
-                                       <div className='h-32 dark:bg-adopdark bg-adoplighticon w-full rounded-md mr-2 inline-block animate-pulse'>
-                                       </div>
+                                        <div className='h-32 dark:bg-adopdark bg-adoplighticon w-full rounded-md mr-2 inline-block animate-pulse'>
+                                        </div>
                                         <div className='grid grid-cols-6 mt-2 gap-2'>
                                             <div className='col-span-5 row-span-2 h-full w-full dark:bg-adopdark bg-adoplighticon rounded-md mr-2 inline-block animate-pulse'>
                                             </div>
@@ -551,7 +566,8 @@ export const MarketItem = () => {
                     </div>
                 </div>
             )}
-
+            <SuccesefullBuy visible={succese} />
+            <ConfirmModal onClose={handleOnClose} visible={modal} price={price} method={buy} />
         </div>
     )
 }

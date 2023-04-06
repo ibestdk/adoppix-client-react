@@ -1,5 +1,3 @@
-import MarketFilter from "../../../components/market/market-index/market-filter"
-import MarketItemSection from "../../../components/market/market-index/market-itemSection"
 import { MarketFeed } from "../../../components/market/market-index/market-feed"
 import { AiFillStar } from "react-icons/ai";
 import { AiOutlineShoppingCart } from "react-icons/ai";
