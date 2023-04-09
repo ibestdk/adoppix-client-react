@@ -11,7 +11,7 @@ export default function ConfirmModal({ visible, onClose, price, method }) {
         <div
             id="modal-card"
             onClick={handleOnClose}
-            className="bg-opacity-30 fixed inset-0 backdrop-blur-sm flex justify-center items-center duration-300"
+            className="bg-opacity-30 fixed inset-0 backdrop-blur-sm flex justify-center items-center duration-300 z-50"
         >
             <div className=" dark:bg-adopsoftdark bg-adoplight w-[400px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite] shadow-md">
                 <div className="py-2 border-b-2 dark:border-adopdark border-adoplighticon">

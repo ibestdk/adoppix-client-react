@@ -166,9 +166,6 @@ export const MarketItem = () => {
         })
             .then((res) => console.log("cart : " + res.data.data))
             .catch((err) => console.log(err));
-        // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
-        // .then((res) => console.log(res))
-        // .catch((err) => console.log(err.response));
     };
 
     var BreakException = {};

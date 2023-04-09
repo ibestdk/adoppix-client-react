@@ -203,7 +203,7 @@ export const MarketCreate = () => {
                                         value={images}
                                         onChange={onChange}
                                         dataURLKey="data_url"
-                                        acceptType={["jpg", "png"]}
+                                        acceptType={["jpg", "png","gif"]}
                                     >
                                         {({
                                             imageList,
@@ -224,12 +224,12 @@ export const MarketCreate = () => {
                                                     {...dragProps}
                                                 >
                                                 </button> */}
-                                                    {imageList.length == 0 && (
+                                                    {imageList && imageList.length == 0 && (
                                                         <p className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
                                                             คลิก หรือ ลางวางเพื่ออัพโหลดรูปภาพ
                                                         </p>
                                                     )}
-                                                    {imageList.map((image, index) => (
+                                                    {imageList && imageList.map((image, index) => (
                                                         <div key={index} className="image-item m-auto z-50 bg-adoppix rounded-md">
                                                             <img className="max-h-[550px] w-full m-auto inline-flex rounded-md" src={image.data_url} alt="" width="100" />
                                                         </div>
@@ -253,7 +253,7 @@ export const MarketCreate = () => {
                                         value={covers}
                                         onChange={onCoverChange}
                                         dataURLKey="data_url"
-                                        acceptType={["jpg", "png"]}
+                                        acceptType={["jpg", "png","gif"]}
                                     >
                                         {({
                                             imageList,
@@ -277,12 +277,12 @@ export const MarketCreate = () => {
                                                     {...dragProps}
                                                 >
                                                 </button> */}
-                                                    {imageList.length == 0 && (
+                                                    {imageList && imageList.length == 0 && (
                                                         <p className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
                                                             คลิก หรือ ลางวางเพื่ออัพโหลดรูปปก
                                                         </p>
                                                     )}
-                                                    {imageList.map((image, index) => (
+                                                    {imageList && imageList.map((image, index) => (
                                                         <div key={index} className="image-item m-auto z-50 bg-adoppix rounded-md">
                                                             <img className="max-h-[200px] w-full m-auto inline-flex rounded-md" src={image['data_url']} alt="" width="100" />
                                                         </div>
@@ -329,13 +329,13 @@ export const MarketCreate = () => {
                                                 {...dragProps}
                                             >
                                             </button> */}
-                                                    {imageList.length == 0 && (
+                                                    {imageList && imageList.length == 0 && (
                                                         <p onClick={onImageUpload} {...dragProps} style={isDragging ? { opacity: 0.75 } : undefined} className="absolute z-40 top-1/2 cursor-default m-auto text-adoplight">
                                                             คลิก หรือ ลางวางเพื่ออัพโหลดสติ้กเกอร์
                                                         </p>
                                                     )}
                                                     <div className="grid grid-cols-3 gap-2 my-3">
-                                                        {imageList.map((image, index) => (
+                                                        {imageList && imageList.map((image, index) => (
                                                             <div key={index} className="image-item w-full rounded-md m-0 z-50 relative">
                                                                 <img className="h-[240px] w-[240px] rounded-md object-cover overflow-hidden" src={image['data_url']} alt="" width="100" />
                                                                 <AiFillSetting onClick={() => onImageUpdate(index)} className="text-adoplight p-1 rounded-md text-3xl bg-adoppix absolute right-12 bottom-2" />
@@ -463,12 +463,12 @@ export const MarketCreate = () => {
                                             ก่อนการสร้างสินค้า เพื่อตัวของผู้ใช้เอง
                                         </p>
                                     </div>
-                                    {(images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
+                                    { images && (images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
                                         <p onClick={handleSubmit} className="bg-adoppix text-adoplight rounded-md py-2 px-4 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300">
                                             ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
                                         </p>
                                     )}
-                                    {!(images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
+                                    { images && !(images.length > 0 && title != null && ((sellTypeState == false && amount > 0) || sellTypeState == true) && price >= 100 && tagsData.length > 0 && description != null) && (
                                         <p className="bg-adoplighticon text-adoplight rounded-md py-2 px-4 cursor-default">
                                             ฉันยอมรับ Term of use & Term of payment และ รับทราบแล้ว
                                         </p>

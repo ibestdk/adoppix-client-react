@@ -7,14 +7,19 @@ import { useEffect, useState } from "react"
 import { getToken } from "../../../services/authorize"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import ConfirmModal from '../market-modal/confirm-modal';
+import SuccesefullBuy from '../market-modal/succesefull-buy';
 
 export const MarketFeedCard = (data) => {
-    console.log("data : "+data);
 
     // wishlist ฟังชั่นที่ยังไม่รู้ว่าใช้เปลี่ยนข้อมูลจาก api isWishList ยังไง
     const wishlistClicked = (productId) => {
         wishList(productId);
     }
+
+    const delay = ms => new Promise(
+        resolve => setTimeout(resolve, ms)
+    );
 
     const wishList = async (productId) => {
         const token = getToken();
@@ -31,6 +36,9 @@ export const MarketFeedCard = (data) => {
         })
             .then((res) => {
                 setIsWishLists(!isWishLists);
+                if(isOnCart){
+                    setIsOnCart(false);
+                }
             })
             .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
@@ -38,10 +46,67 @@ export const MarketFeedCard = (data) => {
         // .catch((err) => console.log(err.response));
     };
 
-    const [isWishLists,setIsWishLists] = useState();
+    const cartClicked = (productId) => {
+        cart(productId);
+    }
+
+    const cart = async (productId) => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'post',
+            url: `https://api.adoppix.com/api/Product/${productId}/toggle-cart`,
+            headers: headers
+        })
+            .then((res) => {
+                setIsOnCart(!isOnCart);
+                if(isWishLists){
+                    setIsWishLists(false);
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const buy = async () => {
+        const token = getToken();
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Origin": "*",
+        };
+
+        // API Caller
+        axios({
+            method: 'post',
+            url: `https://api.adoppix.com/api/Product/${data.data.productId}/buy`,
+            headers: headers
+        })
+            .then(async (res) => {
+                setModal(false);
+                setSuccese(true);
+                setIsBought(true);
+                await delay(3000);
+                setSuccese(false);
+            })
+            .catch((err) => console.log(err));
+    };
+
+    const [modal, setModal] = useState(false);
+    const handleOnClose = () => setModal(false);
+    const [succese, setSuccese] = useState(false);
+
+    const [isWishLists, setIsWishLists] = useState();
+    const [isOnCart, setIsOnCart] = useState();
+    const [isBought, setIsBought] = useState();
 
     useEffect(() => {
         setIsWishLists(data.data.isWishlist);
+        setIsOnCart(data.data.isOnCart);
+        setIsBought(data.data.isBought);
     }, []);
 
     return (
@@ -52,16 +117,19 @@ export const MarketFeedCard = (data) => {
                 </NavLink>
                 <div className="absolute top-2 right-2">
                     <div>
-                        {isWishLists && (
+                        {isBought && (
+                            <FaStar className="mb-[8px] text-adoppix" />
+                        )}
+                        {isWishLists && !isBought && (
                             <FaStar onClick={() => wishlistClicked(data.data.productId)} className="mb-[8px] text-yellow-300" />
                         )}
-                        {!isWishLists && (
+                        {!isWishLists && !isBought && (
                             <FaRegStar onClick={() => wishlistClicked(data.data.productId)} className="mb-[8px] text-yellow-300" />
                         )}
                     </div>
                     <div>
                         {data.data.canCommercial == true && (
-                            <TbBusinessplan className="bg-adoppix rounded-full p-[3px] h-6 w-6 text-adoplight" />
+                            <TbBusinessplan className="bg-green-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
                         )}
                         {data.data.canCommercial == false && (
                             <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
@@ -102,14 +170,38 @@ export const MarketFeedCard = (data) => {
                             </div>
                         )}
                         <div className="w-[72px] absolute right-1 top-16">
-                            <div className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
-                                <b>
-                                    ซื้อ
-                                </b>
-                            </div>
-                            <div className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
+                            {isBought && (
+                                <div className="mb-2 text-xs px-4 py-[1px] bg-green-500 rounded-md cursor-default text-adoplight">
+                                    <b className='w-10'>
+                                        ซื้อแล้ว
+                                    </b>
+                                </div>
+                            )}
+                            {isBought && (
+                                <div className="text-xs px-1 py-[1px] w-[8] bg-adoppix rounded-md cursor-default text-adoplight">
+                                    เพิ่มลงตะกร้า
+                                </div>
+                            )}
+                            {!isBought && (
+                                <div onClick={() => {
+                                    setModal(false);
+                                    setModal(true);
+                                }} className="mb-2 text-xs px-7 py-[1px] w-[8] bg-adoppix rounded-md cursor-pointer hover:bg-blue-500 duration-300 hover:scale-105 text-adoplight">
+                                    <b>
+                                        ซื้อ
+                                    </b>
+                                </div>
+                            )}
+                            {!isBought && !isOnCart && (
+                            <div onClick={() => cartClicked(data.data.productId)} className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
                                 เพิ่มลงตะกร้า
                             </div>
+                            )}
+                            {!isBought && isOnCart && (
+                            <div onClick={() => cartClicked(data.data.productId)} className="text-xs px-1 py-[1px] bg-green-500 rounded-md cursor-pointer hover:opacity-75 duration-300 hover:scale-105 text-adoplight">
+                                เพิ่มลงตะกร้า
+                            </div>
+                            )}
                         </div>
                         <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
                             {data.data.description}
@@ -122,6 +214,8 @@ export const MarketFeedCard = (data) => {
                     </div>
                 </div>
             </div>
+            <SuccesefullBuy visible={succese} />
+            <ConfirmModal onClose={handleOnClose} visible={modal} price={data.data.price} method={buy} />
         </div>
     )
 }
