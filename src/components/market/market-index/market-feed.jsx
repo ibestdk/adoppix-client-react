@@ -7,11 +7,7 @@ import Slider from '@mui/material/Slider';
 import MarketOwl from "./market-owl.component";
 import { useNavigate } from "react-router-dom";
 
-import {MarketFeedCard} from "../market-index/market-feed-card";
-
-const textBorderStyle = {
-    textShadow: "2px 0 #4F9FDA, -2px 0 #4F9FDA, 0 2px #4F9FDA, 0 -2px #4F9FDA, 1px 1px #4F9FDA, -1px -1px #4F9FDA, 1px -1px #4F9FDA, -1px 1px #4F9FDA"
-}
+import { MarketFeedCard } from "../market-index/market-feed-card";
 
 function valuetext(value) {
     return `${value}°C`;
@@ -38,6 +34,21 @@ export const MarketFeed = () => {
             setTags(tag);
         }
         console.log(tag);
+    }
+
+    const [isLogin, setIsLogin] = useState(false);
+    const userOrGuest = async () => {
+        const token = getToken();
+        if (token === false || token === undefined) {
+            setIsLogin(false);
+            callProductCard();
+            callFilterOption();
+        }
+        else {
+            setIsLogin(true);
+            callProductCard();
+            callFilterOption();
+        }
     }
 
     const handleChange = (event, newValue) => {
@@ -91,6 +102,8 @@ export const MarketFeed = () => {
         setProductItems(response.data.data)
     }
 
+
+
     const [filterOptions, setfilterOption] = useState()
     const callFilterOption = async () => {
         const bodyData = {}
@@ -127,8 +140,8 @@ export const MarketFeed = () => {
     }
 
     useEffect(() => {
-        callProductCard();
-        callFilterOption();
+        userOrGuest();
+
 
         // // block right click
         // // document.addEventListener("contextmenu", function (event) {
@@ -181,12 +194,14 @@ export const MarketFeed = () => {
                                                     ตลาดนัด
                                                 </button>
                                             </div>
-                                            <div className="row mt-4">
-                                                <button onClick={() => { navigate('my-shop') }} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                                            {isLogin == true && (
+                                                <div className="row mt-4">
+                                                    <button onClick={() => { navigate('my-shop') }} className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
                 hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md">
-                                                    ร้านค้าของฉัน
-                                                </button>
-                                            </div>
+                                                        ร้านค้าของฉัน
+                                                    </button>
+                                                </div>
+                                            )}
                                             <div className="row">
                                                 <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
                                                     <div className="">
@@ -319,6 +334,39 @@ export const MarketFeed = () => {
                                 <div className="bg-adoplighticon dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-full w-full rounded-lg animate-pulse">
                                 </div>
                             )}
+                        </div>
+                        <div className="w-full h-10 mt-5 grid grid-cols-5">
+                            <div></div>
+                            <div className="col-span-3 flex place-content-center">
+                                <div className="bg-adoplighticon shadow-md rounded-md place-items-center text-center text-xl text-white w-fit px-3 mx-2 py-1 cursor-default">
+                                    หน้าแรก
+                                </div>
+                                <div className="bg-adoplighticon shadow-md rounded-md place-items-center text-center text-xl text-white w-fit px-3 mx-2 py-1 cursor-default">
+                                    ก่อนหน้า
+                                </div>
+                                <div className="bg-adoppix shadow-md rounded-md place-items-center text-center text-3xl text-white w-fit px-3 mx-2 cursor-default">
+                                    1
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-3xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    2
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-3xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    3
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-3xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    4
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-3xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    5
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 py-1 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    ต่อไป
+                                </div>
+                                <div className="bg-white dark:bg-adopsoftdark shadow-md rounded-md place-items-center text-center text-xl text-adopsoftdark dark:text-white w-fit px-3 mx-2 py-1 hover:bg-adoppix hover:text-adoplight hover:dark:bg-adoppix hover:dark:text-adoplight duration-300 cursor-pointer">
+                                    หน้าสุดท้าย
+                                </div>
+                            </div>
+                            <div></div>
                         </div>
                     </div>
                 </div>
