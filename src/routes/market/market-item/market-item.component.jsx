@@ -12,6 +12,7 @@ import { BsCartCheck } from "react-icons/bs";
 import { BsCartPlus } from "react-icons/bs";
 import ConfirmModal from "../../../components/market/market-modal/confirm-modal"
 import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy"
+import LoginFirst from '../../../components/market/market-modal/login-first-modal';
 
 export const MarketItem = () => {
     const { productId } = useParams();
@@ -228,15 +229,30 @@ export const MarketItem = () => {
             });
     };
 
+    const [loginWarning, setLoginWarning] = useState(false);
+    const handleOnCloseModal2 = () => setLoginWarning(false);
+    const [isLogin, setIsLogin] = useState(false);
+    const userOrGuest = async () => {
+        const token = getToken();
+        if (token === false || token === undefined) {
+            setIsLogin(false);
+            getProduct();
+        }
+        else {
+            setIsLogin(true);
+            getProduct();
+            checkIsWishListed();
+            checkIsCarted();
+        }
+    }
+
     useEffect(() => {
-        getProduct();
-        checkIsWishListed();
-        checkIsCarted();
+        userOrGuest();
     }, []);
 
     return (
         <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
-            {productDatas && (
+            {productDatas && isLogin == true && (
                 <div className="relative">
                     <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
 
@@ -282,22 +298,6 @@ export const MarketItem = () => {
                                     )}
                                 </div>
                             )}
-
-                            {/* Sticker */}
-                            {/* <div className='bg-adopsoftdark min-w-fit rounded-md justify-items-center grid grid-cols-4 gap-4'>
-                        {stickerData.map((data,dataIndex) => (
-                            <div key={dataIndex}>
-                                <div className='rounded-md flex justify-center pt-4 pl-4 pr-4 h-60 w-72'>
-                                    <img className="rounded-md flex-shrink-0 min-w-full min-h-full object-cover" src={data.img} alt="" />
-                                </div>
-                                <div className='text-center'>
-                                    <p className='inline-block truncate w-52'>
-                                        {data.stickerName}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
                             {productDatas && (
                                 <div>
                                     <div className='mt-4 grid grid-cols-12 w-full max-w-4xl rounded-md'>
@@ -481,6 +481,205 @@ export const MarketItem = () => {
 
                         </div>
                     </div>
+                </div>
+            )}
+            {productDatas && isLogin == false && (
+                <div className="relative">
+                    <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
+                        <div className="p-5 dark:bg-adopsoftdark shadow-md rounded-lg mb-14">
+                            {productDatas && (
+                                <div>
+                                    <div>
+                                        <ReactWaterMark
+                                            waterMarkText={waterMark}
+                                            openSecurityDefense
+                                            securityAlarm={beginAlarm}
+                                            options={options}
+                                        >
+                                            <div className="relative">
+                                                <div>
+                                                    <img draggable={false} className="h-[500px] object-cover w-full m-auto inline-flex rounded-lg shadow-lg blur-sm brightness-75" src={`https://pix.adoppix.com/public/${productDatas.images[0]}`} alt="" />
+                                                </div>
+                                                <div className="absolute top-0 m-auto left-0 right-0 ">
+                                                    <p className="text-center">
+                                                        <img draggable={false} className="h-[500px] m-atuo inline-flex rounded-lg shadow-lg" src={`https://pix.adoppix.com/public/${productDatas.images[0]}`} onDragStart={(event) => event.preventDefault()} alt="" />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </ReactWaterMark>
+                                    </div>
+                                    {(productDatas && productDatas.images.length > 1) && (
+                                        <div className="my-4">
+                                            <div className="min-w-[240px] max-h-fit h-fit object-cover w-full m-auto inline-flex rounded-lg justify-center border border-solid border-adoplighticon">
+                                                <div className="grid grid-cols-3 gap-4 my-3">
+                                                    {productDatas.images.map((image, index) => (
+                                                        <div key={index} className="image-item w-full rounded-md m-0">
+                                                            <img className="h-[240px] w-[240px] rounded-md object-cover overflow-hidden" src={`https://pix.adoppix.com/public/${image}`} alt="" width="100" />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                            {productDatas && (
+                                <div>
+                                    <div className='mt-4 grid grid-cols-12 w-full max-w-4xl rounded-md'>
+                                        <div className='text-3xl pb-5 w-3xl break-words text-ellipsis col-span-11 dark:text-adoplight text-adopsoftdark'>
+                                            {productDatas.title}
+                                        </div>
+                                        {productDatas.isOwner && (
+                                            <div className='relative'>
+                                                {!menuState && (
+                                                    <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark hover:scale-105 hover:bg-adoplighticon duration-300 rounded-full h-10 w-10' ></IoMdMore>
+                                                )}
+                                                {menuState && (
+                                                    <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark bg-adoplighticon rounded-l-md h-10 w-10' ></IoMdMore>
+                                                )}
+                                                {menuState && (
+                                                    <div className='bg-adoplighticon p-1 rounded-md left-16 absolute'>
+                                                        <div onClick={deleteProduct} className='text-adoplight text-base text-left p-1 rounded-md hover:bg-red-500 duration-300 cursor-pointer'>
+                                                            Delete
+                                                        </div>
+                                                        <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                            Edit
+                                                        </div>
+                                                        {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
+                                                        <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
+                                                            Report
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
+                                        <div className='col-span-3'>
+                                            <div className='dark:text-adoplight text-adopsoftdark leading-6 text-sm'>
+                                                {productDatas.description}
+                                            </div>
+                                            <div className='mt-3'>
+                                                {productDatas.tags.map((data, dataIndex) => (
+                                                    <div key={dataIndex} className="dark:text-adoplight text-adopsoftdark text-center inline-block cursor-default mr-2 text-lg">
+                                                        {`#` + data}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className='my-5 cursor-default'>
+                                                <div className='text-xl my-3 dark:text-adoplight text-adopsoftdark'>
+                                                    <b>
+                                                        ศิลปิน
+                                                    </b>
+                                                </div>
+                                                <div className='pl-3'>
+                                                    {productDatas.ownerProfileImage != null && (
+                                                        <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://pix.adoppix.com/public/${productDatas.ownerProfileImage}`} alt="" draggable="false" />
+                                                    )}
+                                                    {productDatas.ownerProfileImage == null && (
+                                                        <img className='rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-10 w-10' src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`} alt="" draggable="false" />
+                                                    )}
+                                                    <div onClick={() => { navigate(`../../${productDatas.ownerUsername}`) }} className='inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75'>
+                                                        <b className=''>
+                                                            {productDatas.ownerUsername}
+                                                        </b>
+                                                    </div>
+                                                    <div className='inline-block bg-adoppix text-adoplight hover:bg-blue-500 duration-300 rounded-2xl py-1 px-3 text-xs ml-4 cursor-pointer'>
+                                                        <b>
+                                                            Follow
+                                                        </b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='pl-6 cursor-default'>
+                                            <div className='flex'>
+                                                <b className='mr-10 inline-block text-xl dark:text-adoplight text-adopsoftdark'>
+                                                    ราคา
+                                                </b>
+                                                <b className='inline-block text-4xl text-right text-adoppix w-full'>
+                                                    {productDatas.price}
+                                                </b>
+                                            </div>
+                                            <div className='grid grid-cols-2 mt-1'>
+                                                <div className='pr-2'>
+                                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                                        ประเภทสินค้า
+                                                    </b>
+                                                    {productDatas.typeId == 1 && (
+                                                        <p className='text-xs text-end text-adoppix'>
+                                                            รูปภาพ
+                                                        </p>
+                                                    )}
+                                                    {productDatas.typeId == 2 && (
+                                                        <p className='text-xs text-end text-adoppix'>
+                                                            สติ้กเกอร์
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className='pr-2'>
+                                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                                        จำนวนที่เหลือ
+                                                    </b>
+                                                    {productDatas.amount == null && (
+                                                        <p className='text-xs text-end text-adoppix'>
+                                                            ไม่จำกัด
+                                                        </p>
+                                                    )}
+                                                    {productDatas.amount > 0 && (
+                                                        <p className='text-xs text-end text-adoppix'>
+                                                            {productDatas.amount + ' ชิ้น'}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className='mt-2'>
+                                                {productDatas.canCommercial && (
+                                                    <p className='text-xs text-green-400 text-end'>
+                                                        สามารถใช้ในเชิงพาณิชย์ได้
+                                                    </p>
+                                                )}
+                                                {!productDatas.canCommercial && (
+                                                    <p className='text-xs text-red-400 text-end'>
+                                                        ไม่สามารถใช้ในเชิงพาณิชย์ได้
+                                                    </p>
+                                                )}
+                                            </div>
+                                                <div className='grid grid-cols-6 mt-2 gap-2'>
+                                                    <div onClick={() => setLoginWarning(true)} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                        <b className='absolute top-[30%] left-[40%]'>
+                                                            ซื้อ
+                                                        </b>
+                                                    </div>
+                                                    <div className=' cursor-pointer'>
+                                                        <AiFillStar onClick={() => setLoginWarning(true)} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                    </div>
+                                                    <div className='cursor-pointer'>
+                                                        <BsCartCheck onClick={() => setLoginWarning(true)} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300' />
+                                                    </div>
+                                                </div>
+                                            {/* <button type="button" className="bg-indigo-500 ..." disabled>
+                                            <svg className="w-full">
+                                                <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                                                    <animateTransform
+                                                        attributeName="transform"
+                                                        attributeType="XML"
+                                                        type="rotate"
+                                                        dur="1s"
+                                                        from="0 50 50"
+                                                        to="360 50 50"
+                                                        repeatCount="indefinite" />
+                                                </path>
+                                            </svg>
+                                        </button> */}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+                    <LoginFirst visible={loginWarning} onClose={handleOnCloseModal2} />
                 </div>
             )}
             {!productDatas && (
