@@ -24,9 +24,8 @@ export const AuctionIndex = () => {
     }).catch((err) => console.log(err.response));
     console.log(response.data.data);
     setFilterList(response.data.data);
+    setValue([response.data.data.minimumAmount,response.data.data.maximumAmount]);
   };
-
-
 
   useEffect(() => {
     callFilters();
@@ -35,7 +34,7 @@ export const AuctionIndex = () => {
     <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] ">
       <div className="relative top-14">
         <div className="container m-auto">
-          <div className="grid grid-cols-12 gap-4">
+          <div className="sm:grid sm:grid-cols-12 sm:gap-4 ">
             <div className="bg-adopsoftdark ml-5 mr-5 col-span-3  h-[600px] rounded-lg">
               <div className="p-5">
                 <div className="mb-6">
@@ -68,9 +67,6 @@ export const AuctionIndex = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="border-b-2 border-dashed">
-                    <p className="text-xl">ประเภท</p>
-                  </div>
                   <div className="m-4 text-lg text-adoplighticon">ยังไม่มี</div>
                 </div>
                 <div>

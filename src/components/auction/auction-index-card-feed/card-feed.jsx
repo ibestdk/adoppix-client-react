@@ -8,10 +8,12 @@ export const CardFeed = () => {
   const [isloading, setIsloading] = useState(true);
   const [token, setToken] = useState();
   const [page, setPage] = useState(0);
+  const [timenow, setTimenow] = useState();
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   });
+
   const [auctionItems, setAuctionItems] = useState();
 
   const setHeaderToken = (token) => {
@@ -61,6 +63,7 @@ export const CardFeed = () => {
   }
 
   useEffect(() => {
+    setTimenow(new Date(Date.now()).toISOString());
     const callData = async () => {
       const loadtoken = await getToken();
       setToken(loadtoken);
@@ -71,7 +74,10 @@ export const CardFeed = () => {
   }, []);
 
   return (
-    <div onContextMenu={handleContextMenu} className="grid grid-cols-5 gap-4">
+    <div
+      onContextMenu={handleContextMenu}
+      className="grid sm:grid-cols-5 grid-cols-2 gap-4"
+    >
       {auctionItems &&
         auctionItems.map((auctionItem, index) => (
           <div key={index} className="">
@@ -102,15 +108,32 @@ export const CardFeed = () => {
                 <div className="absolute top-0 left-0 p-2"></div>
 
                 <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
-                  <div className="text-lg flex justify-between">
-                    <div className="truncate w-[70%] ">{auctionItem.title}</div>
-                    <div className="w-[30%]">
+                  <div className="text-lg flex justify-between items-center">
+                    <div className="truncate w-[ุ50%] text-lg">{auctionItem.title}</div>
+                    <div className="text-adoppix font-semibold text-lg">
+                    {auctionItem.currentAmoutBid > 0 ? auctionItem.currentAmoutBid : "-"}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex">
+                      <div>
+                        <img
+                          onContextMenu={handleContextMenu}
+                          className="h-[30px] rounded-full w-[30px] object-cover mx-1"
+                          src={`https://pix.adoppix.com/public/${auctionItem.profileImage}`}
+                        />
+                      </div>
+                      <div className="text-sm font-bold my-auto truncate w-[60%]">
+                        {auctionItem.username}
+                      </div>
+                    </div>
+                    <div className="w-[35%]">
                       <div style={{ width: "1.5rem" }}>
                         {auctionItem && (
                           <div>
                             {auctionItem.stopTime !== null ? (
                               <div>
-                                {Date.now() > auctionItem.stopTime ? (
+                                {timenow > auctionItem.stopTime ? (
                                   <div className="bg-red-500 rounded-md w-[60px] h-[22px] text-sm text-center">สิ้นสุด</div>
                                 ) : (
                                   <div className="bg-green-500 rounded-md w-[60px] h-[22px] text-sm text-center">ประมูลอยู่</div>
@@ -124,17 +147,15 @@ export const CardFeed = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex">
-                    <div>
-                      <img
-                        onContextMenu={handleContextMenu}
-                        className="h-[30px] rounded-full w-[30px] object-cover mx-1"
-                        src={`https://pix.adoppix.com/public/${auctionItem.profileImage}`}
-                      />
-                    </div>
-                    <div className="text-sm font-bold my-auto truncate w-[40%]">
-                      {auctionItem.username}
-                    </div>
+                  <div className="w-full flex space-x-1 flex-wrap">
+                  {auctionItem.tags && auctionItem.tags.map((tag , index) => (
+                    <div
+                    key={index}
+                    className="py-1 px-1  rounded-lg flex  "
+                  >
+                    <p className="text-sm cursor-pointer">#{tag}</p>
+                  </div>
+                  ))}
                   </div>
                 </div>
               </div>

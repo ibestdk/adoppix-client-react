@@ -67,18 +67,21 @@ export const AuctionItem = () => {
       .then((res) => {
         console.log("Success:", res.data.data);
         setAuctionData(res.data.data);
+
         if (res.data.data.stopTime !== null) {
           const dateTime = res.data.data.stopTime;
           const timeString = dateTime.toLocaleString().replace("T", " ");
-          console.log(timeString);
           const [date, time] = timeString.split(" ");
-          console.log(date);
-          console.log(time);
           setDateExpire(date);
           setTimeExpire(time);
-          console.log(dateExpire);
         }
-
+        console.log(Date.now());
+        console.log(response.data.data.stopTime);
+        if (Date.now() > response.data.data.stopTime) {
+          console.log("มากกว่า");
+        } else {
+          console.log("น้อยกว่า");
+        }
         ownerData(res.data.data.owner);
       })
       .catch((error) => {
@@ -291,7 +294,7 @@ export const AuctionItem = () => {
                 {auctionData && (
                   <div>
                     {auctionData.stopTime !== null ? (
-                      <div className="mt-14">
+                      <div className="mt-14 mx-auto text-center">
                         <Countdown
                           date={`${dateExpire} ${timeExpire}`}
                           renderer={renderer}
@@ -305,8 +308,12 @@ export const AuctionItem = () => {
 
                 <div className="mx-10 mt-4">
                   <div className="flex justify-between">
-                    <div className="text-sm">ราคาเริ่ม : {auctionData && auctionData.openPrice}</div>
-                    <div className="text-sm">บิดขั้นต่ำ : {auctionData && auctionData.minimumBid}</div>
+                    <div className="text-sm">
+                      ราคาเริ่ม : {auctionData && auctionData.openPrice}
+                    </div>
+                    <div className="text-sm">
+                      บิดขั้นต่ำ : {auctionData && auctionData.minimumBid}
+                    </div>
                   </div>
                 </div>
 
@@ -394,7 +401,9 @@ export const AuctionItem = () => {
   );
 };
 
-const Completionist = () => <span>You are good to go!</span>;
+const Completionist = () => (
+  <span className="text-center">การประมูลจบลงแล้ว</span>
+);
 
 // Renderer callback with condition
 const renderer = ({ days, hours, minutes, seconds, completed }) => {
