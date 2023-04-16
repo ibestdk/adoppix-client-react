@@ -5,7 +5,7 @@ import React from "react";
 import { getToken } from "../../services/authorize";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const UserProfileInfomation = () => {
+const UserProfileInfomation = ({setHasUser}) => {
   const token = localStorage.getItem("token");
   const { userprofile } = useParams();
   interface ProfileData {
@@ -46,9 +46,10 @@ const UserProfileInfomation = () => {
             console.log(data);
             setIsLoading(false);
           }, 1000);
-
+          setHasUser(true);
           console.log("complete Get User data");
         } else {
+          setHasUser(false);
           console.log("fail to get user data");
         }
       })
@@ -104,20 +105,6 @@ const UserProfileInfomation = () => {
           setTimeout(() => {
             setFollowStatus(res.data.data);
           }, 1000);
-          // console.log(res.data.data);
-          // setTimeout(() => {
-          //   profileData.username = res.data.data.username;
-          //   profileData.description = res.data.data.description;
-          //   profileData.profileImage = res.data.data.profileImage;
-          //   profileData.coverImage = res.data.data.coverImage;
-          //   setData(res.data.data);
-          // }, 1000);
-          // setTimeout(() => {
-          //   console.log("data :");
-          //   console.log(data);
-          //   setIsLoading(false);
-          // }, 1000);
-
           console.log("complete Get User data");
         } else {
           console.log("fail to get user data");

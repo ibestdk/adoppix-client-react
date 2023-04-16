@@ -9,9 +9,29 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.style.scss";
+import  React  from "react";
 import UserDropDown from "../../components/navbar/user/user";
 import NotiDropDown from "../../components/navbar/notification/noti";
-import CreateDropDown from "../../components/navbar/create/create"
+import CreateDropDown from "../../components/navbar/create/create";
+
+import LiveSearch from "../search/search";
+
+
+interface Props {}
+const profiles = [
+  { id: "1", name: "Allie Grater" },
+  { id: "2", name: "Aida Bugg" },
+  { id: "3", name: "Gabrielle" },
+  { id: "4", name: "Grace" },
+  { id: "5", name: "Hannah" },
+  { id: "6", name: "Heather" },
+  { id: "7", name: "John Doe" },
+  { id: "8", name: "Anne Teak" },
+  { id: "9", name: "Audie Yose" },
+  { id: "10", name: "Addie Minstra" },
+  { id: "11", name: "Anne Ortha" },
+];
+
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -24,12 +44,16 @@ const Navigation = () => {
   let activeClassName = "text-adoppix";
   let unActiveClassName = "text-adoplighticon";
 
-
   return (
     <Fragment>
-      <nav className="bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full z-20 top-0 left-0  dark:border-gray-600 static sticky">
+      <nav className="bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full z-20 top-0 left-0  dark:border-gray-600  sticky">
         <div className=" flex flex-wrap items-center justify-between mx-auto">
-          <Link to="" className="logo text-adoppix font-bold text-3xl">AdopPix</Link>
+          <div className="flex justify-center">
+            <Link to="" className="logo text-adoppix font-bold text-3xl">
+              AdopPix
+            </Link>
+           <LiveSearch/>
+          </div>
           <div className="flex md:order-2 mr-10">
             {!getToken() && (
               <div>
@@ -73,56 +97,44 @@ const Navigation = () => {
           >
             <ul className="flex flex-col p-4 mt-4 border  rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0   dark:border-gray-700">
               <li>
-                <NavLink to=""
-      
-                   className={({ isActive }) =>
-              isActive ? activeClassName : unActiveClassName
-            }
+                <NavLink
+                  to=""
+                  className={({ isActive }) =>
+                    isActive ? activeClassName : unActiveClassName
+                  }
                   aria-current="page"
                 >
-
-                  <FontAwesomeIcon
-                    className="icon-size"
-                    icon={faHome}
-                  />
+                  <FontAwesomeIcon className="icon-size" icon={faHome} />
                 </NavLink>
               </li>
               <li>
-                <NavLink to="Auction"
+                <NavLink
+                  to="Auction"
                   className={({ isActive }) =>
-              isActive ? activeClassName : unActiveClassName
-            }
+                    isActive ? activeClassName : unActiveClassName
+                  }
                 >
-                  <FontAwesomeIcon
-                    className=" icon-size"
-                    icon={faGavel}
-                  />
+                  <FontAwesomeIcon className=" icon-size" icon={faGavel} />
                 </NavLink>
               </li>
               <li>
                 <NavLink
                   to="market"
                   className={({ isActive }) =>
-                  isActive ? activeClassName : unActiveClassName
-                }
+                    isActive ? activeClassName : unActiveClassName
+                  }
                 >
-                  <FontAwesomeIcon
-                    className=" icon-size"
-                    icon={faStore}
-                  />
+                  <FontAwesomeIcon className=" icon-size" icon={faStore} />
                 </NavLink>
               </li>
               <li>
                 <NavLink
                   to="feeds"
                   className={({ isActive }) =>
-                  isActive ? activeClassName : unActiveClassName
-                }
+                    isActive ? activeClassName : unActiveClassName
+                  }
                 >
-                  <FontAwesomeIcon
-                    className=" icon-size"
-                    icon={faUsers}
-                  />
+                  <FontAwesomeIcon className=" icon-size" icon={faUsers} />
                 </NavLink>
               </li>
             </ul>
