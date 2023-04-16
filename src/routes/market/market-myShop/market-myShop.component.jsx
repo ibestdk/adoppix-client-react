@@ -1,4 +1,4 @@
-import { MarketMyShopFeed } from "../../../components/market/market-index/market-myShopFeed"
+import { MarketMyShopFeed } from "../../../components/market/market-myShop/market-myShopFeed"
 
 export const MarketMyShop = () => {
 
