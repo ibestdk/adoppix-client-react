@@ -10,6 +10,8 @@ import { BsFillImageFill, BsXCircle } from "react-icons/bs";
 import "react-image-crop/dist/ReactCrop.css";
 import FileUploadSection from "../../../auction/auction-create/file-upload";
 import Chips from "../../../input/chips/chips";
+import { getToken } from "../../../../services/authorize";
+import axios from "axios";
 
 function centerAspectCrop(
   mediaWidth: number,
@@ -47,10 +49,18 @@ export default function ModalCreatePost({
   const [aspect, setAspect] = useState<number | undefined>(1 / 1);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
+
+  const [images, setImages] = useState<File[]>([]);
   const [tagsData, setTagsData] = useState([]);
+  const [description, setDescription] = useState("");
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+    console.log(files);
+    if (files) {
+      const fileList = Array.from(files);
+      setImages(fileList);
+    }
     if (files) {
       const selectedFilesArray = Array.from(files);
       setSelectedFiles(selectedFiles.concat(selectedFilesArray));
@@ -72,6 +82,7 @@ export default function ModalCreatePost({
   };
   const canvasToBase64 = () => {
     const base64 = previewCanvasRef.current?.toDataURL("image/jpeg");
+    console.log(previewCanvasRef.current?.toDataURL("image/jpeg"));
     // const canvas = document.createElement("canvas");
     console.log(base64);
     // const base64Image = canvas.toDataURL("image/jpeg");
@@ -130,6 +141,36 @@ export default function ModalCreatePost({
     if (e.target.id === "modal-card") onClose();
   };
 
+  const handleSubmit = async () => {
+    const bodyData = new FormData();
+    if (images)
+      images.forEach((image) => bodyData.append("Images", image));
+
+    if (description) bodyData.append("Description", description);
+    if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
+    console.log(FileList);
+    console.log(bodyData);
+    const token = getToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    };
+
+    // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
+    let result = await axios({
+      method: "post",
+      url: "https://api.adoppix.com/api/Post",
+      data: bodyData,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    console.log(result);
+  };
+
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
   if (!visible) return null;
   return (
     <div
@@ -149,6 +190,7 @@ export default function ModalCreatePost({
         >
           <div className="mt-2">
             <textarea
+              onChange={handleDescription}
               className="dark:bg-adopsoftdark rounded-lg w-full h-auto focus:outline-none focus:border-none"
               name=""
               id=""
@@ -168,9 +210,9 @@ export default function ModalCreatePost({
               >
                 {previewImages.map((image, index) => (
                   <div key={index} style={{ margin: "0 8px" }}>
-                    <div className="relative h-[80px] w-auto">
+                    <div className="relative h-[120px] w-auto ">
                       <img
-                        className="rounded-lg h-full shadow-lg"
+                        className="rounded-lg h-full shadow-lg object-contain"
                         src={image}
                         alt="Selected file preview"
                         width="200"
@@ -209,13 +251,12 @@ export default function ModalCreatePost({
             </button>
             <button
               className="mx-2 bg-adoppix py-2 px-4 rounded-lg"
-              onClick={canvasToBase64}
+              onClick={handleSubmit}
             >
-              บันทึก
+              โพสต์
             </button>
           </div>
         </div>
-        
       </div>
     </div>
   );

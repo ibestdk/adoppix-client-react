@@ -115,6 +115,8 @@ const UserProfileInfomation = ({setHasUser}) => {
       });
   };
   useEffect(() => {
+    setIsLoading(true);
+
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     if (user.username === userprofile) {
       setyourSelf(true);
@@ -125,7 +127,7 @@ const UserProfileInfomation = ({setHasUser}) => {
       getProfileData();
       getProfilefollow();
     }, 1000);
-  }, []);
+  }, [userprofile]);
   return (
     <div>
       <div>
@@ -184,8 +186,12 @@ const UserProfileInfomation = ({setHasUser}) => {
                   <div className="relative">
                     <div>
                       <img
-                        className="shadow-lg m-auto h-[180px]  w-[180px] rounded-full object-cover "
-                        src={`https://pix.adoppix.com/public/${data?.profileImage}`}
+                        className="shadow-lg m-auto h-[180px]  w-[180px] rounded-full object-cover bg-white dark:bg-adopsoftdark "
+                        src={
+                          data?.profileImage
+                            ? `https://pix.adoppix.com/public/${data?.profileImage}`
+                            : "https://pix.adoppix.com/image/adop.png"
+                        }
                       ></img>
                     </div>
                     <div className="absolute top-0 left-0 text-4xl w-[180px] h-[180px]"></div>
