@@ -20,7 +20,7 @@ const BackToTopButton = () => {
 
   return (
     <div
-      className="back-to-top-button rounded-lg shadow-lg text-sm mt-10"
+      className="back-to-top-button rounded-lg shadow-lg text-sm mt-20 sm:mt-10"
       onClick={handleClick}
       style={{ display: showButton ? "block" : "none" }}
     >
