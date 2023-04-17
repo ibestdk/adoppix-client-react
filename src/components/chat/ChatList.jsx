@@ -302,7 +302,7 @@ export const ChatList = () => {
               <div className="flex">
                 {" "}
                 <IoChatbubblesSharp className="text-white mx-2" />{" "}
-                <div className="sm:relative hidden">AdopLetter</div>{" "}
+                <div className="sm:flex hidden">AdopLetter</div>{" "}
               </div>
               <div className="flex">
                 <FaAngleDoubleUp
