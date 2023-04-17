@@ -20,7 +20,7 @@ export const getFeeds = async () => {
         return {
           ...feed,
           relativeTime: getRelativeTime(feed.created),
-        }
+        };
       } catch (error) {
         return feed;
       }
@@ -64,9 +64,8 @@ const getRelativeTime = (datetime) => {
   }
 };
 
-
 export const postLike = async (postId) => {
-  console.log(postId)
+  console.log(postId);
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "multipart/form-data",
@@ -97,9 +96,8 @@ export const getSearchUser = async (defaultValue) => {
   } catch (error) {}
 };
 
-
 export const getNotification = async () => {
-  console.log('getNotification called')
+  console.log("getNotification called");
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
@@ -119,7 +117,7 @@ export const getNotification = async () => {
           return {
             ...noti,
             relativeTime: getRelativeTime(noti.created),
-          }
+          };
         } catch (error) {
           return noti;
         }
@@ -127,8 +125,33 @@ export const getNotification = async () => {
       return chatListWithRelativeTime;
     }
     return [];
+  } catch (error) {}
+};
 
+export const getProfilePost = async (username) => {
+  console.log("called profilePost", username)
+  try {
+    const response = await axios.get(
+      `https://api.adoppix.com/api/User/${username}/post`,
+      {
+        params: { take: 10, page: 0 },
+      }
+    );
 
+    return response.data.data;
+  } catch (error) {}
+};
+export const getProfileAuction = async (username) => {
+  console.log("called profile Auction", username)
+  try {
+    const response = await axios.get(
+      `https://api.adoppix.com/api/User/${username}/auction`,
+      {
+        params: { take: 10, page: 0 },
+      }
+    );
+
+    return response.data.data;
   } catch (error) {}
 };
 

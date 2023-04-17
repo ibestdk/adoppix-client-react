@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { getToken } from "../../services/authorize";
 import CircularProgress from "@mui/material/CircularProgress";
+import { getProfileAuction, getProfilePost } from "../../services/apiService";
 
-const UserProfileInfomation = ({ setHasUser }) => {
+const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUserPost ,setUserAuction }) => {
   const token = localStorage.getItem("token");
   const { userprofile } = useParams();
   interface ProfileData {
@@ -13,7 +14,10 @@ const UserProfileInfomation = ({ setHasUser }) => {
     description: string;
     profileImage: string;
     coverImage: string;
+    followerCount: number;
   }
+  let activeClassName = "text-adoppix";
+  let unActiveClassName = "text-adoplighticon";
   const [data, setData] = useState<ProfileData>();
   const [followStatus, setFollowStatus] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +28,11 @@ const UserProfileInfomation = ({ setHasUser }) => {
     description: "",
     profileImage: "",
     coverImage: "",
+    followerCount: 0,
+  };
+
+  const handleChangeProfilePage = (page) => {
+    setProfilePage(page);
   };
 
   let userProfile = {};
@@ -128,6 +137,27 @@ const UserProfileInfomation = ({ setHasUser }) => {
       getProfilefollow();
     }, 1000);
   }, [userprofile]);
+
+  useEffect(() => {
+    (async () => {
+      const results = await getProfilePost(userprofile);
+      console.log("profilePost ======================");
+      console.log(results);
+      setUserPost(results);
+    })();
+  }, [userprofile]);
+
+  useEffect(() => {
+    (async () => {
+      const results = await getProfileAuction(userprofile);
+      console.log("profileAuction ======================");
+      console.log(results);
+      setUserAuction(results);
+    })();
+  }, [userprofile]);
+
+
+
   return (
     <div>
       <div>
@@ -306,9 +336,9 @@ const UserProfileInfomation = ({ setHasUser }) => {
           </div>
           <div className="shadow-xl py-5 mx-auto">
             <div className="flex w-[400px] m-auto">
-              <div className="m-auto text-adoppix">หน้าหลัก</div>
-              <div className="m-auto">feeds</div>
-              <div className="m-auto">auction</div>
+              <div onClick={() => handleChangeProfilePage(1)} className={`duration-200 m-auto cursor-pointer ${profilePage === 1 ? "text-adoppix": "text-adoplighticon"}`}>หน้าหลัก</div>
+              <div onClick={() => handleChangeProfilePage(2)} className={`duration-200 m-auto cursor-pointer ${profilePage === 2 ? "text-adoppix": "text-adoplighticon"}`}>feeds</div>
+              <div onClick={() => handleChangeProfilePage(3)} className={`duration-200 m-auto cursor-pointer ${profilePage === 3 ? "text-adoppix": "text-adoplighticon"}`}>auction</div>
             </div>
           </div>
           <div className="absolute right-0"></div>
