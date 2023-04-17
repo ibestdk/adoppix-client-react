@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./noti.scss";
 import { logout } from "../../../services/authorize";
-import { useNavigate } from "react-router-dom";
-import { BsFillBellFill } from "react-icons/bs";
+import { Link, useNavigate } from "react-router-dom";
+import { BsFillBellFill ,BsDot } from "react-icons/bs";
 import { getNotification } from "../../../services/apiService";
 
 function NotiDropDown() {
@@ -49,8 +49,14 @@ function NotiDropDown() {
             setOpen(!open);
           }}
         >
-          <div>
+          <div className="relative">
             <BsFillBellFill className="text-adoplighticon text-2xl" />
+            <div className="absolute top-0 right-0">
+              <span class="relative flex h-2 w-2 z-50">
+               <span class="animate-ping absolute bg-red-600 h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+               <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+              </span>
+            </div>
           </div>
         </div>
 
@@ -94,7 +100,11 @@ function NotiDropDown() {
                 {notiData.length > 0 ? (
                   <div>
                     {notiData.map((noti, index) => (
-                      <div key={index} className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:bg-adopdark duration-200 cursor-pointer">
+                      <Link
+                        to={`auction/${noti.auctionId}`}
+                        key={index}
+                        className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:bg-adopdark duration-200 cursor-pointer"
+                      >
                         <div className="flex">
                           <div className="mr-2">
                             <img
@@ -122,10 +132,11 @@ function NotiDropDown() {
                                 : "https://pix.adoppix.com/image/adop.png"
                             }
                           />
-                          <div className="text-xs text-center">{noti.relativeTime}
+                          <div className="text-xs text-center">
+                            {noti.relativeTime}
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
                 ) : (
