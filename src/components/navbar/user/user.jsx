@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
-import { logout } from "../../../services/authorize";
+import { getToken, logout } from "../../../services/authorize";
 import { useNavigate, Link } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
@@ -15,9 +15,11 @@ import {
 } from "react-icons/bs";
 
 import { MdLogout } from "react-icons/md";
+import axios from "axios";
 
 function UserDropDown() {
   const [userData, setUserData] = useState([]);
+  const [money, setMoney] = useState();
   const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
@@ -31,6 +33,25 @@ function UserDropDown() {
     localStorage.setItem("theme", darkMode);
     console.log("set theme to session" + darkToggle && darkToggle);
   };
+
+  const getUserMoney = async () => {
+    const token = getToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    };
+
+    let response = await axios({
+      method: "get",
+      url: `https://api.adoppix.com/api/User/money`,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    console.log(response.data.data);
+    setMoney(response.data.data);
+  };
+
+
 
   const [open, setOpen] = useState(false);
   let menuRef = useRef();
@@ -52,6 +73,7 @@ function UserDropDown() {
         setOpen(false);
         // console.log(menuRef.current);
       }
+      getUserMoney();
     };
 
     console.log( userData );
@@ -115,7 +137,7 @@ function UserDropDown() {
             </div>
             <div>
               <h5 className="text-xl duration-300 text-adopdark dark:text-adoplight font-bold">
-                3650.34
+                {money && money}
               </h5>
             </div>
           </div>

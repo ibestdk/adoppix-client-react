@@ -84,7 +84,7 @@ export const ChatList = () => {
     }).catch((err) => console.log(err.response));
 
     console.log(result.data.data);
-    setChatMessage(result.data.data.reverse());
+    setChatMessage(result.data.data);
     // if (result && result.data && result.data.data) {
     //   const chatListWithRelativeTime = result.data.data.map((chat) => ({
     //     ...chat,
@@ -109,7 +109,7 @@ export const ChatList = () => {
     }).catch((err) => console.log(err.response));
 
     console.log(result.data.data);
-    setChatMessage(result.data.data.reverse());
+    setChatMessage(result.data.data);
   };
 
   const getRelativeTime = (datetime) => {
