@@ -1,11 +1,12 @@
 import { BsFillImageFill, BsChatSquare } from "react-icons/bs";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import ModalCreatePost from "../../../components/feeds/modal/create/modalCreate";
 import { NavLink } from "react-router-dom";
 import ModalPost from "../../../components/feeds/modal/post/modalPost";
 import { getToken } from "../../../services/authorize";
+import { getFeeds, postLike } from "../../../services/apiService";
 export const FeedsIndex = () => {
   const [profileImageModal, setProfileImageModal] = useState(false);
   const handleOnClose = () => setProfileImageModal(false);
@@ -14,30 +15,22 @@ export const FeedsIndex = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [feeds, setFeeds] = useState([]);
 
-  const getFeeds = async () => {
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
+const likePost = (postId) => {
+  console.log("like")
+  postLike(postId);
+}
 
-    let response = await axios({
-      method: "get",
-      url: `https://api.adoppix.com/api/Post?take=10&page=0`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
-    setFeeds(response.data.data);
-  };
+
   useEffect(() => {
-    setTimeout(() => {
-      getFeeds();
-    }, 1000);
+    (async () => {
+      const results = await getFeeds();
+      console.log(results);
+      setFeeds(results);
+    })();
   }, []);
 
   return (
-    <div>
+    <div className="">
       <div>
         <ModalCreatePost onClose={handleOnClose} visible={profileImageModal} />
       </div>
@@ -74,14 +67,20 @@ export const FeedsIndex = () => {
                     />
                   </div>
                   <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
-                    {post.username}
+                    <div className="flex items-center">
+                      <div> {post.username}</div>
+                      <div className="text-sm mx-3 font-light">
+                        {" "}
+                        {post.relativeTime}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div>
                   <div className="text-lg px-2 py-3">{post.description}</div>
                   <div className="my-2">
                     {post.tags.length > 0 && (
-                      <div className="flex">
+                      <div className="grid grid-cols-4 ">
                         {post.tags.map((tag, tagindex) => (
                           <div key={tagindex}>
                             <p className="text-sm px-2">#{tag}</p>
@@ -105,7 +104,11 @@ export const FeedsIndex = () => {
               </div>
               <div className="mt-2 flex">
                 <div>
-                  <AiOutlineHeart />
+                  {post.isLike ? (
+                    <AiFillHeart onClick={() => likePost(post.postId)} className="text-red-500" />
+                  ) : (
+                    <AiOutlineHeart onClick={() => likePost(post.postId)} />
+                  )}
                 </div>
                 <div className="mx-4 text-xl pt-1">
                   <div onClick={() => setSelectedPost(post)}>

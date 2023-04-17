@@ -7,7 +7,7 @@ import { getSearchUser } from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
 const LiveSearch = () => {
   const navigate = useNavigate();
-  const [showResults, setShowResults] = useState(true);
+  const [showResults, setShowResults] = useState(false);
   const [defaultValue, setDefaultValue] = useState("");
   const [result, setResult] = useState<User[]>([]);
 
@@ -68,7 +68,7 @@ const LiveSearch = () => {
 
   return (
     <div
-      className={` ${showResults ? "backdrop-blur-sm" : ""} z-50 `}
+      className={` ${showResults ? "backdrop-blur-sm" : ""} z-50 w-6/12 sm:w-full`}
       id="dropdown-container"
       onFocus={handleOpenSearch}
       onClick={handleClick} 
@@ -83,7 +83,7 @@ const LiveSearch = () => {
           <input
             value={defaultValue}
             onChange={handleChange}
-            className="bg-transparent"
+            className="bg-transparent w-6/12 sm:w-auto"
             type="text"
             placeholder="ค้นหา"
           />

@@ -5,7 +5,7 @@ import React from "react";
 import { getToken } from "../../services/authorize";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const UserProfileInfomation = ({setHasUser}) => {
+const UserProfileInfomation = ({ setHasUser }) => {
   const token = localStorage.getItem("token");
   const { userprofile } = useParams();
   interface ProfileData {
@@ -136,7 +136,7 @@ const UserProfileInfomation = ({setHasUser}) => {
             <div className="relative">
               <div>
                 {isLoading && (
-                  <div className="h-[300px]  space-y-8 animate-pulse md:space-y-0 md:space-x-8 rounded-b-xl md:flex md:items-center bg-gray-300 dark:bg-gray-700">
+                  <div className="sm:h-[300px] h-[180px] space-y-8 animate-pulse md:space-y-0 md:space-x-8 rounded-b-xl md:flex md:items-center bg-gray-300 dark:bg-gray-700">
                     <div className="mx-auto flex justify-center items-center w-full h-[350px]  rounded  sm:w-96">
                       <svg
                         className="mx-auto w-12 h-12 text-gray-200"
@@ -152,7 +152,7 @@ const UserProfileInfomation = ({setHasUser}) => {
                 )}
                 {!isLoading && (
                   <img
-                    className="shadow-lg rounded-b-2xl m-auto h-[300px]  w-full object-cover"
+                    className="shadow-lg rounded-b-2xl m-auto sm:h-[300px] h-[180px]  w-full object-cover"
                     src={
                       data?.coverImage
                         ? `https://pix.adoppix.com/public/${data?.coverImage}`
@@ -163,18 +163,18 @@ const UserProfileInfomation = ({setHasUser}) => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-4">
+          <div className="sm:grid sm:grid-cols-12 sm:gap-4 flex flex-row">
+            <div className="sm:col-span-4">
               {isLoading && (
                 <svg
-                  className="m-auto w-[200px] h-[200px] bg-adoplight dark:bg-adopdark dark:border-adopdark border-adoplight  rounded-full  text-gray-200 dark:text-gray-700 absolute top-52 left-24 border-[20px]"
+                  className="m-auto sm:h-[180px]  sm:w-[180px] h-[80px] w-[80px] bg-adoplight dark:bg-adopdark dark:border-adopdark border-adoplight  rounded-full  text-gray-200 dark:text-gray-700 absolute sm:top-52 sm:left-24 top-28 left-5 border-[20px]"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                  className="animate-pulse"
+                    className="animate-pulse"
                     fillRule="evenodd"
                     clipRule="evenodd"
                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
@@ -182,11 +182,11 @@ const UserProfileInfomation = ({setHasUser}) => {
                 </svg>
               )}
               {!isLoading && (
-                <div className="absolute top-52 left-24 border-[20px] rounded-full dark:border-adopdark border-adoplight shadow-lg">
+                <div className="absolute sm:top-52 sm:left-24 top-28 left-5 border-[20px] rounded-full dark:border-adopdark border-adoplight shadow-lg">
                   <div className="relative">
                     <div>
                       <img
-                        className="shadow-lg m-auto h-[180px]  w-[180px] rounded-full object-cover bg-white dark:bg-adopsoftdark "
+                        className="shadow-lg m-auto sm:h-[180px]  sm:w-[180px] h-[80px] w-[80px] rounded-full object-cover bg-white dark:bg-adopsoftdark "
                         src={
                           data?.profileImage
                             ? `https://pix.adoppix.com/public/${data?.profileImage}`
@@ -199,95 +199,108 @@ const UserProfileInfomation = ({setHasUser}) => {
                 </div>
               )}
             </div>
-            <div className="col-span-5">
-              <div className=" left-[30%] mt-3">
-                <div className="mb-2">
-                  {isLoading && (
-                    <div>
-                      <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4 animate-pulse"></div>
+            <div className="sm:col-span-8">
+              <div className="flex justify-between">
+                <div className=" relative">
+                  <div className=" sm:left-[30%] sm:ml-0 ml-36 mt-3">
+                    <div className="mb-2">
+                      {isLoading && (
+                        <div>
+                          <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4 animate-pulse"></div>
+                        </div>
+                      )}
+                      {!isLoading && (
+                        <div className="sm:text-lg text-sm">
+                          {data?.username}
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {!isLoading && <div>{data?.username}</div>}
-                </div>
-                <div>
-                  {isLoading && (
                     <div>
-                      <div className="h-4 bg-gray-200 rounded-[60px] dark:bg-gray-700 w-48 mb-4 animate-pulse"></div>
-                    </div>
-                  )}
-                  {!isLoading && (
-                    <div>
-                      <div className="text-base">{data?.followerCount} คนกำลังติดตาม</div>
-                    </div>
-                  )}
-                </div>
-                <span
-                  className=" w-[600px] text-sm whitespace-pre-wrap"
-                  style={{
-                    display: "inline-block",
-                    height: "25px",
-                  }}
-                >
-                  {data?.description}
-                </span>
-              </div>
-            </div>
-            <div className="col-span-3">
-              <div className="relative">
-                {!yourSelf && (
-                  <div className="right-0 top-0 absolute">
-                    {isLoading && (
-                      <div className="w-[120px] m-3  h-[40px] bg-gray-200 rounded-lg  dark:bg-gray-700  animate-pulse"></div>
-                    )}
-                    {!isLoading && (
-                      <div className="shadow-sm p-3">
-                        {followStatus && (
-                          <div className="bg-white text-adopsoftdark   rounded-lg text-sm w-[120px] h-[40px]">
-                            <button
-                              onClick={handleFollow}
-                              className="w-full h-full"
-                            >
-                              {isLoadFollow && (
-                                <div>
-                                  <CircularProgress className="" size={20} />
-                                </div>
-                              )}
-                              {!isLoadFollow && (
-                                <div>
-                                  <p className="mx-auto px-auto text-center font-bold">
-                                    กำลังติดตาม
-                                  </p>
-                                </div>
-                              )}
-                            </button>
+                      {isLoading && (
+                        <div>
+                          <div className="h-4 bg-gray-200 rounded-[60px] dark:bg-gray-700 w-48 mb-4 animate-pulse"></div>
+                        </div>
+                      )}
+                      {!isLoading && (
+                        <div>
+                          <div className="sm:text-base text-xs">
+                            {data?.followerCount} คนกำลังติดตาม
                           </div>
+                        </div>
+                      )}
+                    </div>
+                    <span
+                      className=" sm:w-[600px] text-sm whitespace-pre-wrap"
+                      style={{
+                        display: "inline-block",
+                        height: "25px",
+                      }}
+                    >
+                      {data?.description}
+                    </span>
+                  </div>
+                </div>
+                <div className="  ">
+                  <div className="flex right-0">
+                    {!yourSelf && (
+                      <div className="">
+                        {isLoading && (
+                          <div className="sm:w-[120px] m-3  sm:h-[40px] bg-gray-200 rounded-lg  dark:bg-gray-700  animate-pulse"></div>
                         )}
-                        {!followStatus && (
-                          <div className="bg-adoppix text-adoplight  rounded-lg text-sm w-[120px] h-[40px]">
-                            <button
-                              onClick={handleFollow}
-                              className="w-full h-full"
-                            >
-                              {isLoadFollow && (
-                                <div>
-                                  <CircularProgress
-                                    className="text-white"
-                                    size={20}
-                                  />
-                                </div>
-                              )}
-                              {!isLoadFollow && (
-                                <div>
-                                  <p className="font-bold">ติดตาม</p>
-                                </div>
-                              )}
-                            </button>
+                        {!isLoading && (
+                          <div className="shadow-sm p-3">
+                            {followStatus && (
+                              <div className="bg-white text-adopsoftdark   rounded-lg text-sm sm:w-[120px] sm:h-[40px] px-2 py-1">
+                                <button
+                                  onClick={handleFollow}
+                                  className="w-full h-full"
+                                >
+                                  {isLoadFollow && (
+                                    <div>
+                                      <CircularProgress
+                                        className=""
+                                        size={20}
+                                      />
+                                    </div>
+                                  )}
+                                  {!isLoadFollow && (
+                                    <div>
+                                      <p className="mx-auto px-auto text-center font-bold">
+                                        กำลังติดตาม
+                                      </p>
+                                    </div>
+                                  )}
+                                </button>
+                              </div>
+                            )}
+                            {!followStatus && (
+                              <div className="bg-adoppix text-adoplight  rounded-lg text-sm sm:w-[120px] sm:h-[40px] px-2 py-1">
+                                <button
+                                  onClick={handleFollow}
+                                  className="w-full h-full"
+                                >
+                                  {isLoadFollow && (
+                                    <div>
+                                      <CircularProgress
+                                        className="text-white"
+                                        size={20}
+                                      />
+                                    </div>
+                                  )}
+                                  {!isLoadFollow && (
+                                    <div>
+                                      <p className="font-bold">ติดตาม</p>
+                                    </div>
+                                  )}
+                                </button>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
                     )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>

@@ -9,13 +9,12 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.style.scss";
-import  React  from "react";
+import React from "react";
 import UserDropDown from "../../components/navbar/user/user";
 import NotiDropDown from "../../components/navbar/notification/noti";
 import CreateDropDown from "../../components/navbar/create/create";
 
 import LiveSearch from "../search/search";
-
 
 interface Props {}
 const profiles = [
@@ -32,7 +31,6 @@ const profiles = [
   { id: "11", name: "Anne Ortha" },
 ];
 
-
 const Navigation = () => {
   const navigate = useNavigate();
 
@@ -48,13 +46,13 @@ const Navigation = () => {
     <Fragment>
       <nav className="bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full z-20 top-0 left-0  dark:border-gray-600  sticky">
         <div className=" flex flex-wrap items-center justify-between mx-auto">
-          <div className="flex justify-center">
+          <div className="flex justify-between">
             <Link to="" className="logo text-adoppix font-bold text-3xl">
               AdopPix
             </Link>
-           <LiveSearch/>
+            <LiveSearch />
           </div>
-          <div className="flex md:order-2 mr-10">
+          <div className="flex  md:order-2 mx-auto sm:mx-10">
             {!getToken() && (
               <div>
                 <Link to="login">
@@ -77,7 +75,10 @@ const Navigation = () => {
             )}
 
             {getToken() && (
-              <div className=" m-auto flex items-center justify-center">
+              <div className=" flex items-center justify-center">
+                <div className="sm:hidden w-auto">
+                  <CenterMenu />
+                </div>
                 <div className="pr-10">
                   <CreateDropDown />
                 </div>
@@ -85,7 +86,7 @@ const Navigation = () => {
                   <NotiDropDown />
                 </div>
                 <div>
-                  <UserDropDown className="z-[150]" />
+                  <UserDropDown />
                 </div>
               </div>
             )}
@@ -146,3 +147,55 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+const CenterMenu = () => {
+  let activeClassName = "text-adoppix";
+  let unActiveClassName = "text-adoplighticon";
+  return (
+    <div className="">
+      <ul className="flex    justify-center items-center   ">
+        <li className="mx-4">
+          <NavLink
+            to=""
+            className={({ isActive }) =>
+              isActive ? activeClassName : unActiveClassName
+            }
+            aria-current="page"
+          >
+            <FontAwesomeIcon className="icon-size" icon={faHome} />
+          </NavLink>
+        </li>
+        <li className="mx-4">
+          <NavLink
+            to="Auction"
+            className={({ isActive }) =>
+              isActive ? activeClassName : unActiveClassName
+            }
+          >
+            <FontAwesomeIcon className=" icon-size" icon={faGavel} />
+          </NavLink>
+        </li>
+        <li className="mx-4">
+          <NavLink
+            to="market"
+            className={({ isActive }) =>
+              isActive ? activeClassName : unActiveClassName
+            }
+          >
+            <FontAwesomeIcon className=" icon-size" icon={faStore} />
+          </NavLink>
+        </li>
+        <li className="mx-4">
+          <NavLink
+            to="feeds"
+            className={({ isActive }) =>
+              isActive ? activeClassName : unActiveClassName
+            }
+          >
+            <FontAwesomeIcon className=" icon-size" icon={faUsers} />
+          </NavLink>
+        </li>
+      </ul>
+    </div>
+  );
+};

@@ -6,9 +6,9 @@ const UserProfile = () => {
   const [hasUser, setHasUser] = useState(true);
   return (
     <div className=" dark:bg-adopdark min-h-screen bg-adoplight">
-      <div className="container  mx-auto">
+      <div className="sm:container  mx-auto">
         {hasUser ? (
-          <div className=" mx-32">
+          <div className=" sm:mx-32">
             <div>
               <div className="mb-10">
                 <UserProfileInfomation setHasUser={setHasUser} />

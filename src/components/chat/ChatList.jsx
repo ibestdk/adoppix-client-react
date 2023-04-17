@@ -85,13 +85,6 @@ export const ChatList = () => {
 
     console.log(result.data.data);
     setChatMessage(result.data.data);
-    // if (result && result.data && result.data.data) {
-    //   const chatListWithRelativeTime = result.data.data.map((chat) => ({
-    //     ...chat,
-    //     relativeTime: getRelativeTime(chat.lastTime),
-    //   }));
-    //   setChatMessage(chatListWithRelativeTime);
-    // }
   };
   const getChatSignalR = async () => {
     console.log("roomId :" + roomId);
@@ -221,7 +214,7 @@ export const ChatList = () => {
           <div
             className={`duration-300  py-2 bg-adoppix  text-adoplight rounded-t-lg ${
               adopLetter ? "h-[500px]" : "h-[60px]"
-            } w-[300px] text-center `}
+            } sm:w-[300px] w-[300px] text-center `}
           >
             <div className="py-2 flex justify-between px-4">
               <div onClick={handleCloseChat}>
@@ -300,7 +293,7 @@ export const ChatList = () => {
           <div
             className={`duration-300  py-2 bg-adoppix  text-adoplight rounded-t-lg ${
               adopLetter ? "h-[500px]" : "h-[60px]"
-            } w-[300px] text-center`}
+            } sm:w-[300px] ${adopLetter ? "w-[300px]" : "w-[80px]"} text-center`}
           >
             <div
               onClick={handleOpenAdopLetter}
@@ -309,7 +302,7 @@ export const ChatList = () => {
               <div className="flex">
                 {" "}
                 <IoChatbubblesSharp className="text-white mx-2" />{" "}
-                <div>AdopLetter</div>{" "}
+                <div className="sm:relative hidden">AdopLetter</div>{" "}
               </div>
               <div className="flex">
                 <FaAngleDoubleUp
