@@ -10,6 +10,7 @@ import { getToken } from "../../../services/authorize";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
+  
   // const ReactWaterMark = require('react-watermark-component')
 
   // interface AuctionData {
@@ -145,7 +146,7 @@ export const AuctionItem = () => {
       .build();
 
     setConnection(newConnection);
-  }, []);
+  }, [auctionId]);
 
   useEffect(() => {
     if (connection) {
@@ -168,7 +169,7 @@ export const AuctionItem = () => {
       getAuction();
       getUserMoney();
     }, 1000);
-  }, []);
+  }, [auctionId]);
 
   return (
     <div className="bg-adoplight dark:bg-adopdark">
