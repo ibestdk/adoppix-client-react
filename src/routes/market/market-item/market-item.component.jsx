@@ -13,6 +13,7 @@ import { BsCartPlus } from "react-icons/bs";
 import ConfirmModal from "../../../components/market/market-modal/confirm-modal"
 import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy"
 import LoginFirst from '../../../components/market/market-modal/login-first-modal';
+import { NavLink } from "react-router-dom";
 
 export const MarketItem = () => {
     const { productId } = useParams();
@@ -317,12 +318,12 @@ export const MarketItem = () => {
                                                         <div onClick={deleteProduct} className='text-adoplight text-base text-left p-1 rounded-md hover:bg-red-500 duration-300 cursor-pointer'>
                                                             Delete
                                                         </div>
-                                                        <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                            Edit
-                                                        </div>
+                                                        <NavLink className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer' to={`../my-shop/${productDatas.productId}`}>
+                                                            แก้ไข
+                                                        </NavLink>
                                                         {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
                                                         <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                            Report
+                                                            รายงาน
                                                         </div>
                                                     </div>
                                                 )}
@@ -529,30 +530,6 @@ export const MarketItem = () => {
                                         <div className='text-3xl pb-5 w-3xl break-words text-ellipsis col-span-11 dark:text-adoplight text-adopsoftdark'>
                                             {productDatas.title}
                                         </div>
-                                        {productDatas.isOwner && (
-                                            <div className='relative'>
-                                                {!menuState && (
-                                                    <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark hover:scale-105 hover:bg-adoplighticon duration-300 rounded-full h-10 w-10' ></IoMdMore>
-                                                )}
-                                                {menuState && (
-                                                    <IoMdMore onClick={menuClicked} className='text-3xl absolute top-0 right-2 dark:text-adoplight text-adopsoftdark bg-adoplighticon rounded-l-md h-10 w-10' ></IoMdMore>
-                                                )}
-                                                {menuState && (
-                                                    <div className='bg-adoplighticon p-1 rounded-md left-16 absolute'>
-                                                        <div onClick={deleteProduct} className='text-adoplight text-base text-left p-1 rounded-md hover:bg-red-500 duration-300 cursor-pointer'>
-                                                            Delete
-                                                        </div>
-                                                        <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                            Edit
-                                                        </div>
-                                                        {/* report โผล่มาในกรณีที่ไม่ใช่ creater เท่านั้น */}
-                                                        <div className='text-adoplight text-base text-left p-1 rounded-md hover:bg-yellow-300 duration-300 cursor-pointer'>
-                                                            Report
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
                                     </div>
                                     <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
                                         <div className='col-span-3'>

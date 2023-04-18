@@ -33,6 +33,7 @@ import { MarketCart } from "./routes/market/market-cart/market-cart.component";
 import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
 import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
 import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
+import { MarketMyShopItem } from "./routes/market/market-myShop-item/market-myShop-item.component";
 import { TopUp } from "./routes/top-up/topup";
 import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
 import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.component";
@@ -131,6 +132,7 @@ function App() {
                 <Route path="cart" element={<MarketCart />} />
                 <Route index element={<MarketIndex />} />
                 <Route path=":productId" element={<MarketItem />} />
+                <Route path="my-shop/:id" element={<MarketMyShopItem />}/>
                 <Route path="create" element={<MarketCreate />} />
                 <Route path="my-shop" element={<MarketMyShop />} />
               </Route>
