@@ -122,6 +122,9 @@ export const getNotification = async () => {
           return noti;
         }
       });
+      console.log("=========================================")
+      console.log(chatListWithRelativeTime)
+      console.log("=========================================")
       return chatListWithRelativeTime;
     }
     return [];

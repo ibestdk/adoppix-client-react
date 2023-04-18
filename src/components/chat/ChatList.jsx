@@ -275,6 +275,11 @@ export const ChatList = () => {
                 <div className="bg-adoplighticon dark:bg-adopsoftdark  rounded-full  py-1 px-2 mt-1">
                   <input
                     onChange={handleInputChat}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        handleSubmitMessage();
+                      }
+                    }}
                     className="bg-adoplighticon dark:bg-adopsoftdark  text-sm h-[20px] my-auto px-auto"
                     type="text"
                   />

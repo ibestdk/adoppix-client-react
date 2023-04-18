@@ -176,8 +176,10 @@ export const AuctionItem = () => {
       <div className="py-14">
         <div className="container m-auto min-h-screen">
           <div className="grid grid-cols-12 gap-4">
-            <div className=" ml-5 mr-5 col-span-9 space-y-3  ">
-              <div className="p-5 bg-adopsoftdark rounded-lg">
+            <div className=" ml-5 mr-5 col-span-12 space-y-3  ">
+            <div className="flex flex-col sm:flex-row justify-between ">
+          
+              <div className="p-5 bg-adopsoftdark w-full mr-4 rounded-lg">
                 {auctionData && (
                   <div>
                     <ReactWaterMark
@@ -211,83 +213,7 @@ export const AuctionItem = () => {
                   </div>
                 )}
               </div>
-              <div className="p-5 bg-adopsoftdark rounded-lg">
-                {auctionData && (
-                  <div>
-                    <div>
-                      <div>{auctionData.title}</div>
-                      {userData && (
-                        <div className="flex my-5 cursor-pointer">
-                          <div>
-                            <img
-                              className="h-[40px] w-[40px] rounded-full"
-                              src={`https://pix.adoppix.com/public/${userData.profileImage}`}
-                            />
-                          </div>
-                          <div className="my-auto">
-                            <p className="px-3 text-lg">{userData.username}</p>
-                          </div>
-                        </div>
-                      )}
-                      <div className="ml-16 p-2">
-                        <span
-                          className=" w-[600px] text-sm whitespace-pre-wrap"
-                          style={{
-                            display: "inline-block",
-                            height: "25px",
-                          }}
-                        >
-                          {auctionData.description}
-                        </span>
-
-                        <div className="flex">
-                          <div className="w-full flex space-x-1 flex-wrap">
-                            {auctionData.tags.map((tag, index) => (
-                              <div
-                                key={index}
-                                className="py-1 px-1  rounded-lg flex  "
-                              >
-                                <p className="text-sm cursor-pointer">#{tag}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="p-5 bg-adopsoftdark rounded-lg min-h-[300px]">
-                {auctionData && (
-                  <div>
-                    <div>
-                      <div>ประวัติการประมูล</div>
-                      <div className="m-4">
-                        {auctionData &&
-                          auctionData.bidHistories.map((bh, bhi) => (
-                            <div
-                              key={bhi}
-                              className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
-                            >
-                              <div className="mx-3 flex">
-                                <img
-                                  className="h-[30px] w-[30px] rounded-full "
-                                  src={`https://pix.adoppix.com/public/${bh.profileImage}`}
-                                />
-                                <div className="mx-3"> {bh.username}</div>
-                              </div>
-                              <div className="mx-3">{bh.amount}</div>
-                              <div className="mx-3">{bh.created}</div>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="bg-adopsoftdark mr-5 col-span-3 h-[600px] w-full rounded-lg">
+              <div className="bg-adopsoftdark  h-[600px] w-full  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
               <div className="p-4">
                 <div className="text-right">
                   <p>{money && money}</p>
@@ -395,6 +321,88 @@ export const AuctionItem = () => {
                 </div>
               </div>
             </div>
+
+              </div>
+              <div>
+             
+              <div className="p-5 bg-adopsoftdark rounded-lg">
+                {auctionData && (
+                  <div>
+                    <div>
+                      <div>{auctionData.title}</div>
+                      {userData && (
+                        <div className="flex my-5 cursor-pointer">
+                          <div>
+                            <img
+                              className="h-[40px] w-[40px] rounded-full"
+                              src={`https://pix.adoppix.com/public/${userData.profileImage}`}
+                            />
+                          </div>
+                          <div className="my-auto">
+                            <p className="px-3 text-lg">{userData.username}</p>
+                          </div>
+                        </div>
+                      )}
+                      <div className="ml-16 p-2">
+                        <span
+                          className=" w-[600px] text-sm whitespace-pre-wrap"
+                          style={{
+                            display: "inline-block",
+                            height: "25px",
+                          }}
+                        >
+                          {auctionData.description}
+                        </span>
+
+                        <div className="flex">
+                          <div className="w-full flex space-x-1 flex-wrap">
+                            {auctionData.tags.map((tag, index) => (
+                              <div
+                                key={index}
+                                className="py-1 px-1  rounded-lg flex  "
+                              >
+                                <p className="text-sm cursor-pointer">#{tag}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="p-5 bg-adopsoftdark rounded-lg min-h-[300px]">
+                {auctionData && (
+                  <div>
+                    <div>
+                      <div>ประวัติการประมูล</div>
+                      <div className="m-4">
+                        {auctionData &&
+                          auctionData.bidHistories.map((bh, bhi) => (
+                            <div
+                              key={bhi}
+                              className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
+                            >
+                              <div className="mx-3 flex">
+                                <img
+                                  className="h-[30px] w-[30px] rounded-full "
+                                  src={`https://pix.adoppix.com/public/${bh.profileImage}`}
+                                />
+                                <div className="mx-3"> {bh.username}</div>
+                              </div>
+                              <div className="mx-3">{bh.amount}</div>
+                              <div className="mx-3">{bh.created}</div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              </div>
+            </div>
+
+            
           </div>
         </div>
       </div>

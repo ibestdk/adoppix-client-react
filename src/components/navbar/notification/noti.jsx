@@ -52,14 +52,13 @@ function NotiDropDown() {
           <div className="relative">
             <BsFillBellFill className="text-adoplighticon text-2xl" />
             <div className="absolute top-0 right-0">
-              <span class="relative flex h-2 w-2 z-50">
-               <span class="animate-ping absolute bg-red-600 h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-               <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+              <span className="relative flex h-2 w-2 z-50">
+               <span className="animate-ping absolute bg-red-600 h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
               </span>
             </div>
           </div>
         </div>
-
         <div
           className={`dropdown-menu-noti ${
             open ? "active" : "inactive"
@@ -97,7 +96,7 @@ function NotiDropDown() {
           <div className="mt-4">
             {notiPage === 1 && (
               <div className="h-auto">
-                {notiData.length > 0 ? (
+                {notiData && notiData.length > 0 ? (
                   <div>
                     {notiData.map((noti, index) => (
                       <Link
