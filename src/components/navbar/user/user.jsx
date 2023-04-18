@@ -166,7 +166,7 @@ function UserDropDown() {
               icon={
                 <BsFillGearFill className="dark:text-adoplight  ml-3 mt-[4px]" />
               }
-              text={"Settings"}
+              text={"ตั้งค่า"}
             />
 
             <li className="dropdownItem">
@@ -179,12 +179,12 @@ function UserDropDown() {
               icon={
                 <BsFillQuestionCircleFill className="dark:text-adoplight  ml-3 mt-[4px]" />
               }
-              text={"Helps"}
+              text={"การช่วยเหลือ"}
             />
             <DropdownItem
               icon={<MdLogout className="dark:text-adoplight  ml-3 mt-[4px]" />}
               click={() => logout(() => navigate("/"))}
-              text={"Logout"}
+              text={"ออกจากระบบ"}
             />
           </ul>
         </div>
@@ -197,7 +197,7 @@ function DropdownItem(props) {
   return (
     <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
       {props.icon}
-      <a className="dark:text-adoplight text-lg" onClick={props.click}>
+      <a className="dark:text-adoplight text-lg w-[150px]" onClick={props.click}>
 
         {props.text}
       </a>
