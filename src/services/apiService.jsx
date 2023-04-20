@@ -77,8 +77,28 @@ export const postLike = async (postId) => {
     url: `https://api.adoppix.com/api/Post/${postId}/like`,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  console.log(result);
   return result;
+};
+
+export const getPostUpdate = async (postId) => {
+  if (!postId) return null;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
+  try {
+    const response = await axios.get(
+      `https://api.adoppix.com/api/Post/${postId}`,
+      {
+        headers: headers,
+      }
+    );
+    if (response?.data?.status) {
+      console.log(response.data.data)
+      return response?.data?.data;
+    }
+  } catch (error) {}
 };
 
 export const getSearchUser = async (defaultValue) => {

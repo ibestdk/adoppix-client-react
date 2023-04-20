@@ -80,62 +80,8 @@ export default function ModalCreatePost({
     updatedPreviewImages.splice(index, 1);
     setPreviewImages(updatedPreviewImages);
   };
-  const canvasToBase64 = () => {
-    const base64 = previewCanvasRef.current?.toDataURL("image/jpeg");
-    console.log(previewCanvasRef.current?.toDataURL("image/jpeg"));
-    // const canvas = document.createElement("canvas");
-    console.log(base64);
-    // const base64Image = canvas.toDataURL("image/jpeg");
-    // setImageOutput(canvas);
-    // console.log(base64Image);
-    const file = dataURLtoFile(base64, "test.jpg");
-    setProfileImage(file);
-    setProfileImage64(base64);
-    console.log(file);
-    onClose();
-  };
 
-  function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = window.atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
 
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
-  }
-
-  function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files.length > 0) {
-      setCrop(undefined); // Makes crop preview update between images.
-      const reader = new FileReader();
-      reader.addEventListener("load", () =>
-        setImgSrc(reader.result?.toString() || "")
-      );
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  }
-
-  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
-    if (aspect) {
-      const { width, height } = e.currentTarget;
-      setCrop(centerAspectCrop(width, height, aspect));
-    }
-  }
-
-  function handleToggleAspectClick() {
-    if (aspect) {
-      setAspect(undefined);
-    } else if (imgRef.current) {
-      const { width, height } = imgRef.current;
-      setAspect(16 / 9);
-      setCrop(centerAspectCrop(width, height, 16 / 9));
-    }
-  }
 
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();

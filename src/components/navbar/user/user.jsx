@@ -59,7 +59,7 @@ function UserDropDown() {
   useEffect(() => {
     // console.log("ข้อมูลผู้ใช้: "+userData)
     console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
-
+    getUserMoney();
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       console.log("มีข้อมูล")
@@ -73,7 +73,7 @@ function UserDropDown() {
         setOpen(false);
         // console.log(menuRef.current);
       }
-      getUserMoney();
+
     };
 
     console.log( userData );
