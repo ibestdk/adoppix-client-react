@@ -80,11 +80,11 @@
             onKeyDown={handleKeyDown}
             className="flex items-center mx-5 border-2 dark:border-white rounded-lg"
           >
-            <AiOutlineSearch className="mx-2" />
+            <AiOutlineSearch className="mx-2 text-adopsoftdark dark:text-adoplight" />
             <input
               value={defaultValue}
               onChange={handleChange}
-              className="bg-transparent w-6/12 sm:w-auto"
+              className="bg-transparent w-6/12 sm:w-auto text-adopsoftdark dark:text-adoplight"
               type="text"
               placeholder="ค้นหา"
             />
@@ -96,7 +96,10 @@
             >
               {result ? (
                 <div>
-                  <div className="text-sm mt-2 mb-2">ผู้ใช้</div>
+
+
+                  
+                  <div className="text-sm mt-2 mb-2 text-adopsoftdark dark:text-adoplight">ผู้ใช้</div>
                   {result.length > 0 ? (
                     result.map((list, index) => (
                       <div
@@ -119,11 +122,11 @@
                           {list.username}
                         </div>
                       </div>
-                    ))) : (<div className="text-center text-xs">ไม่พบผู้ใช้</div>)}
+                    ))) : (<div className="text-center text-xs text-adopdark dark:text-white">ไม่พบผู้ใช้</div>)}
                 </div>
               ): (<div className="flex items-center">
-                <AiOutlineSearch className="p-1 rounded-full bg-adopdark"/>
-                <div className="text-lg mx-2">ค้นหาบางสิ่ง</div>
+                <AiOutlineSearch className="p-1 rounded-full dark:bg-adopdark bg-adoplighticon"/>
+                <div className="text-lg mx-2 text-adoplighticon dark:text-white">ค้นหาบางสิ่ง</div>
               </div>)}
             </div>
           )}
