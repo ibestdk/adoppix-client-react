@@ -37,6 +37,8 @@ import { MarketMyShopItem } from "./routes/market/market-myShop-item/market-mySh
 import { TopUp } from "./routes/top-up/topup";
 import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
 import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.component";
+import Storage from "./routes/storage/storage";
+import { StorageIndex } from "./routes/storage/storage-index";
 
 export const DarkContext = createContext();
 
@@ -151,6 +153,20 @@ function App() {
                 }
               >
                 <Route exact path="account" element={<Account />}></Route>
+                <Route exact path="security" element={<Security />}></Route>
+                <Route exact path="payment" element={<Payment />}></Route>
+                <Route exact path="bank" element={<Bank />}></Route>
+              </Route>
+              <Route
+                exact
+                path="inventories/"
+                element={
+                  <ProtectedRoute>
+                    <Storage />
+                  </ProtectedRoute>
+                }
+              >
+                <Route exact index element={<StorageIndex />}></Route>
                 <Route exact path="security" element={<Security />}></Route>
                 <Route exact path="payment" element={<Payment />}></Route>
                 <Route exact path="bank" element={<Bank />}></Route>

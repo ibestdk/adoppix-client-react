@@ -1,10 +1,24 @@
+import LiveSearchChat from "../../../routes/search-usesr-chat/searchchat";
+import { handleSubmitNewMessage } from "../../../services/apiService";
 import "./modalCreate.scss";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function ModalAddChat({ visible, onClose }) {
+  const [selectUsername, setSelectUsername] = useState("");
+  const [message, setMessage] = useState("");
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();
   };
+
+
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const sendMessage = async () => {
+    await handleSubmitNewMessage(message ,selectUsername);
+  }
+
 
   if (!visible) return null;
   return (
@@ -24,18 +38,15 @@ export default function ModalAddChat({ visible, onClose }) {
           className="min-h-[250px] py-2 border-b-4 dark:border-adopdark border-adoplighticon"
         >
           <div className="flex border-b-2">
-            <div className="text-lg">ถึง :</div>
-            <div>
-              <input
-                type="text"
-                className="text-lg bg-adoplight dark:bg-adopsoftdark"
-              />
+            <div className="text-lg w-8 flex items-end">ถึง :</div>
+            <div className="w-full">
+             <LiveSearchChat selectUsername={selectUsername} setSelectUsername={setSelectUsername}/>
             </div>
           </div>
           <div>
             <textarea
-            
-           
+            value={message}
+           onChange={handleMessageChange}
               id="default-input"
               className="mt-2 h-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5 dark:bg-adopsoftdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
             />
@@ -49,7 +60,7 @@ export default function ModalAddChat({ visible, onClose }) {
             >
               ยกเลิก
             </button>
-            <button className="mx-2 bg-adoppix py-2 px-4 rounded-lg">
+            <button onClick={sendMessage} className="mx-2 bg-adoppix py-2 px-4 rounded-lg">
               ส่ง
             </button>
           </div>

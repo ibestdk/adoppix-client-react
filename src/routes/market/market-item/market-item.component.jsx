@@ -252,15 +252,10 @@ export const MarketItem = () => {
     }, []);
 
     return (
-        <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14" draggable="false">
+        <div className="dark:bg-adopdark bg-adoplight min-h-screen pt-14 " draggable="false">
             {productDatas && isLogin == true && (
                 <div className="relative">
-                    <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
-
-                        {/* Normal Image */}
-                        {/* <div className='bg-adopsoftdark rounded-md justify-items-center'>
-                        <img className="rounded-md flex-shrink-0 object-cover min-w-full max-h-[400px]" src="https://static.vecteezy.com/system/resources/previews/012/996/827/original/night-lake-landscape-cartoon-illustration-free-vector.jpg" alt="" />
-                    </div> */}
+                    <div className="container m-auto  w-[900px]">
                         <div className="p-5 dark:bg-adopsoftdark shadow-md rounded-lg mb-14">
                             {productDatas && (
                                 <div>
@@ -330,8 +325,8 @@ export const MarketItem = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <div className='w-full max-w-4xl rounded-md grid grid-cols-4 gap-4'>
-                                        <div className='col-span-3'>
+                                    <div className='w-full max-w-4xl rounded-md flex justify-between '>
+                                        <div className='relative'>
                                             <div className='dark:text-adoplight text-adopsoftdark leading-6 text-sm'>
                                                 {productDatas.description}
                                             </div>
@@ -422,26 +417,34 @@ export const MarketItem = () => {
                                                 )}
                                             </div>
                                             {!productDatas.isBought && (
-                                                <div className='grid grid-cols-6 mt-2 gap-2'>
-                                                    <div onClick={() => setModal(true)} className='relative col-span-5 row-span-2 bg-adoppix rounded-md text-adoplight text-center py-1 cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
-                                                        <b className='absolute top-[30%] left-[40%]'>
+                                                <div className=' mt-2 flex justify-center items-center'>
+                                                    <div onClick={() => setModal(true)} className='text-lg px-16 py-2 bg-adoppix rounded-md text-adoplight text-center cursor-pointer hover:bg-blue-500 hover:scale-105 duration-300'>
+                                                       
                                                             ซื้อ
-                                                        </b>
+                                                 
                                                     </div>
                                                     <div className=' cursor-pointer'>
                                                         {wishlistState == false && (
-                                                            <AiOutlineStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix rounded-md hover:border-adoppix text-yellow-300 hover:scale-105 duration-300' />
-                                                        )}
+                                                            <div className='p-2 rounded-lg border dark:border-white border-adoppix hover:border-adoppix'>
+                                                                <AiOutlineStar onClick={wishlistClicked} className=' text-yellow-300 hover:scale-105 duration-300' />
+                                                            </div>
+                                                            )}
                                                         {wishlistState == true && (
-                                                            <AiFillStar onClick={wishlistClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
-                                                        )}
+                                                            <div className='p-2 rounded-lg border dark:border-white border-adoppix hover:border-adoppix'>
+                                                                 <AiFillStar onClick={wishlistClicked} className=' text-yellow-300 hover:scale-105 duration-300' />
+                                                            </div>
+                                                            )}
                                                     </div>
                                                     <div className='cursor-pointer'>
                                                         {cartState == false && (
-                                                            <BsCartPlus onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-yellow-300 hover:scale-105 duration-300' />
+                                                            <div className='p-2 rounded-lg border dark:border-white border-adoppix hover:border-adoppix'>
+                                                                <BsCartPlus onClick={addCartClicked} className=' text-yellow-300 hover:scale-105 duration-300' />
+                                                            </div>
                                                         )}
                                                         {cartState == true && (
-                                                            <BsCartCheck onClick={addCartClicked} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300' />
+                                                            <div className='p-2 rounded-lg border dark:border-white border-adoppix hover:border-adoppix'>
+                                                                <BsCartCheck onClick={addCartClicked} className=' text-green-400 hover:scale-105 duration-300' />
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
@@ -461,20 +464,7 @@ export const MarketItem = () => {
                                                     </div>
                                                 </div>
                                             )}
-                                            {/* <button type="button" className="bg-indigo-500 ..." disabled>
-                                            <svg className="w-full">
-                                                <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                                                    <animateTransform
-                                                        attributeName="transform"
-                                                        attributeType="XML"
-                                                        type="rotate"
-                                                        dur="1s"
-                                                        from="0 50 50"
-                                                        to="360 50 50"
-                                                        repeatCount="indefinite" />
-                                                </path>
-                                            </svg>
-                                        </button> */}
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -578,9 +568,9 @@ export const MarketItem = () => {
                                                     {productDatas.price}
                                                 </b>
                                             </div>
-                                            <div className='grid grid-cols-2 mt-1'>
+                                            <div className='flex justify-end items-end mt-1'>
                                                 <div className='pr-2'>
-                                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                                    <b className='text-sm text-end dark:text-adoplight text-adopsoftdark'>
                                                         ประเภทสินค้า
                                                     </b>
                                                     {productDatas.typeId == 1 && (
@@ -595,7 +585,7 @@ export const MarketItem = () => {
                                                     )}
                                                 </div>
                                                 <div className='pr-2'>
-                                                    <b className='text-sm dark:text-adoplight text-adopsoftdark'>
+                                                    <b className='text-sm text-end dark:text-adoplight text-adopsoftdark'>
                                                         จำนวนที่เหลือ
                                                     </b>
                                                     {productDatas.amount == null && (
@@ -635,20 +625,7 @@ export const MarketItem = () => {
                                                         <BsCartCheck onClick={() => setLoginWarning(true)} className='h-8 w-8 p-1 border dark:border-white border-adoppix hover:border-adoppix rounded-md text-green-400 hover:scale-105 duration-300' />
                                                     </div>
                                                 </div>
-                                            {/* <button type="button" className="bg-indigo-500 ..." disabled>
-                                            <svg className="w-full">
-                                                <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                                                    <animateTransform
-                                                        attributeName="transform"
-                                                        attributeType="XML"
-                                                        type="rotate"
-                                                        dur="1s"
-                                                        from="0 50 50"
-                                                        to="360 50 50"
-                                                        repeatCount="indefinite" />
-                                                </path>
-                                            </svg>
-                                        </button> */}
+                                       
                                         </div>
                                     </div>
                                 </div>
@@ -662,11 +639,6 @@ export const MarketItem = () => {
             {!productDatas && (
                 <div className="relative">
                     <div className="container m-auto grid grid-cols-1 gap-4 place-items-center">
-
-                        {/* Normal Image */}
-                        {/* <div className='bg-adopsoftdark rounded-md justify-items-center'>
-                        <img className="rounded-md flex-shrink-0 object-cover min-w-full max-h-[400px]" src="https://static.vecteezy.com/system/resources/previews/012/996/827/original/night-lake-landscape-cartoon-illustration-free-vector.jpg" alt="" />
-                    </div> */}
                         <div className="p-5 dark:bg-adopsoftdark shadow-md rounded-lg mb-14">
                             <div>
                                 <div>
@@ -717,20 +689,6 @@ export const MarketItem = () => {
                                             <div className='animate-pulse rounded-md h-8 w-8 dark:bg-adopdark bg-adoplighticon'>
                                             </div>
                                         </div>
-                                        {/* <button type="button" className="bg-indigo-500 ..." disabled>
-                                            <svg className="w-full">
-                                                <path fill="#fff" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                                                    <animateTransform
-                                                        attributeName="transform"
-                                                        attributeType="XML"
-                                                        type="rotate"
-                                                        dur="1s"
-                                                        from="0 50 50"
-                                                        to="360 50 50"
-                                                        repeatCount="indefinite" />
-                                                </path>
-                                            </svg>
-                                        </button> */}
                                     </div>
                                 </div>
                             </div>

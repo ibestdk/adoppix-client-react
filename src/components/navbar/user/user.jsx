@@ -157,7 +157,7 @@ function UserDropDown() {
           </div>
           <ul>
             <DropdownItem
-              click={() => navigate("/setting/account")}
+              click={() => navigate("/inventories")}
               icon={<BsImages className="dark:text-adoplight  ml-3 mt-[4px]" />}
               text={"คลังรูปภาพ"}
             />

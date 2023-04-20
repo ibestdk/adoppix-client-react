@@ -10,7 +10,7 @@ import { getToken } from "../../../services/authorize";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
-  
+
   // const ReactWaterMark = require('react-watermark-component')
 
   // interface AuctionData {
@@ -68,21 +68,26 @@ export const AuctionItem = () => {
       .then((res) => {
         console.log("Success:", res.data.data);
         setAuctionData(res.data.data);
+        // console.log("1")
 
         if (res.data.data.stopTime !== null) {
+          // console.log("2")
           const dateTime = res.data.data.stopTime;
           const timeString = dateTime.toLocaleString().replace("T", " ");
           const [date, time] = timeString.split(" ");
           setDateExpire(date);
           setTimeExpire(time);
         }
-        console.log(Date.now());
-        console.log(response.data.data.stopTime);
-        if (Date.now() > response.data.data.stopTime) {
-          console.log("มากกว่า");
-        } else {
-          console.log("น้อยกว่า");
-        }
+        // console.log("3")
+        // console.log(Date.now());
+        // if (Date.now() > response.data.data.stopTime) {
+        //   console.log("4")
+        //   console.log("มากกว่า");
+        // } else {
+        //   console.log("น้อยกว่า");
+        //   console.log("5")
+        // }
+        // console.log("6")
         ownerData(res.data.data.owner);
       })
       .catch((error) => {
@@ -159,7 +164,7 @@ export const AuctionItem = () => {
 
       connection.on(`${auctionId}`, (message) => {
         console.log("New message received: ", message);
-        // Do something with the received message
+        getAuction();
       });
     }
   }, [connection]);
@@ -177,232 +182,237 @@ export const AuctionItem = () => {
         <div className="container m-auto min-h-screen">
           <div className="grid grid-cols-12 gap-4">
             <div className=" ml-5 mr-5 col-span-12 space-y-3  ">
-            <div className="flex flex-col sm:flex-row justify-between ">
-          
-              <div className="p-5 bg-adopsoftdark w-full mr-4 rounded-lg">
-                {auctionData && (
-                  <div>
-                    <ReactWaterMark
-                      waterMarkText={text}
-                      openSecurityDefense
-                      securityAlarm={beginAlarm}
-                      options={options}
-                    >
-                      <div className="relative">
-                        <div>
-                          <img
-                            draggable={false}
-                            className="h-[500px] object-cover w-full m-atuo inline-flex rounded-lg shadow-lg blur-sm brightness-75"
-                            src={`https://pix.adoppix.com/public/${auctionData.images[0]}`}
-                            alt=""
-                          />
-                        </div>
-                        <div className="absolute top-0 m-auto left-0 right-0 ">
-                          <p className="text-center">
-                            <img
-                              draggable={false}
-                              className="h-[500px] m-atuo inline-flex rounded-lg shadow-lg"
-                              src={`https://pix.adoppix.com/public/${auctionData.images[0]}`}
-                              onDragStart={(event) => event.preventDefault()}
-                              alt=""
-                            />
-                          </p>
-                        </div>
-                      </div>
-                    </ReactWaterMark>
-                  </div>
-                )}
-              </div>
-              <div className="bg-adopsoftdark  h-[600px] w-full  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
-              <div className="p-4">
-                <div className="text-right">
-                  <p>{money && money}</p>
-                </div>
-                {auctionData && (
-                  <div>
-                    {auctionData.stopTime !== null ? (
-                      <div className="mt-14 mx-auto text-center">
-                        <Countdown
-                          date={`${dateExpire} ${timeExpire}`}
-                          renderer={renderer}
-                        />
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                )}
-
-                <div className="mx-10 mt-4">
-                  <div className="flex justify-between">
-                    <div className="text-sm">
-                      ราคาเริ่ม : {auctionData && auctionData.openPrice}
-                    </div>
-                    <div className="text-sm">
-                      บิดขั้นต่ำ : {auctionData && auctionData.minimumBid}
-                    </div>
-                  </div>
-                </div>
-
-                {auctionData && (
-                  <div>
-                    <div className="mt-8 mx-10">
-                      <div className="text-right text-4xl font-bold text-adoppix">
-                        {auctionData.currentBid == null ? (
-                          <div className="text-lg">การประมูลยังไม่เริ่ม</div>
-                        ) : (
-                          <div>{auctionData.currentBid.amount}</div>
-                        )}
-                      </div>
-                      <div>
-                        <hr className="my-2" />
-                      </div>
-                      {auctionData.bidHistories &&
-                      auctionData.bidHistories.length <= 0 ? (
-                        <div></div>
-                      ) : (
-                        <div>
-                          <div className="flex justify-end">
-                            <div className="my-auto px-2 text-lg font-bold">
-                              By
-                            </div>
-                            <div>
-                              <img
-                                className="h-[30px] w-[30px] rounded-full "
-                                src={`https://pix.adoppix.com/public/${auctionData.bidHistories[0].profileImage}`}
-                              />
-                            </div>
-                            <div className="text-lg truncate w-[auto] my-auto px-2">
-                              {auctionData.currentBid.username}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-14">
-                  <div className="flex justify-center">
-                    <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                      x1.2
-                    </div>
-                    <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                      x1.5
-                    </div>
-                    <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                      x2
-                    </div>
-                    <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                      x3
-                    </div>
-                    <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                      x4
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mt-4">
-                      <input
-                        onChange={handleBids}
-                        type="text"
-                        id="default-input"
-                        className="mt-2 mx-auto  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-[70%] p-2.5 dark:bg-adopdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
-                      />
-                    </div>
-                    <div className=" flex justify-center">
-                      <button
-                        onClick={bids}
-                        className="rounded-lg bg-adoppix px-2 py-2 w-10/12 mx-auto my-2 "
-                      >
-                        บิด
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              </div>
-              <div>
-             
-              <div className="p-5 bg-adopsoftdark rounded-lg">
-                {auctionData && (
-                  <div>
+              <div className="flex flex-col sm:flex-row justify-between ">
+                <div className="p-5 bg-adopsoftdark w-full mr-4 rounded-lg">
+                  {auctionData && (
                     <div>
-                      <div>{auctionData.title}</div>
-                      {userData && (
-                        <div className="flex my-5 cursor-pointer">
+                      <ReactWaterMark
+                        waterMarkText={text}
+                        openSecurityDefense
+                        securityAlarm={beginAlarm}
+                        options={options}
+                      >
+                        <div className="relative">
                           <div>
                             <img
-                              className="h-[40px] w-[40px] rounded-full"
-                              src={`https://pix.adoppix.com/public/${userData.profileImage}`}
+                              draggable={false}
+                              className="h-[500px] object-cover w-full m-atuo inline-flex rounded-lg shadow-lg blur-sm brightness-75"
+                              src={`https://pix.adoppix.com/public/${auctionData.images[0]}`}
+                              alt=""
                             />
                           </div>
-                          <div className="my-auto">
-                            <p className="px-3 text-lg">{userData.username}</p>
+                          <div className="absolute top-0 m-auto left-0 right-0 ">
+                            <p className="text-center">
+                              <img
+                                draggable={false}
+                                className="h-[500px] object-cover lg:object-contain m-atuo inline-flex rounded-lg shadow-lg"
+                                src={`https://pix.adoppix.com/public/${auctionData.images[0]}`}
+                                onDragStart={(event) => event.preventDefault()}
+                                alt=""
+                              />
+                            </p>
+                          </div>
+                        </div>
+                      </ReactWaterMark>
+                    </div>
+                  )}
+                </div>
+                <div className="bg-adopsoftdark h-auto  sm:h-[600px] w-full min-w-[400px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
+                  <div className="p-4 flex flex-col justify-between h-full">
+                    <div>
+                      <div className="text-right">
+                        <p>{money && money}</p>
+                      </div>
+                      {auctionData && (
+                        <div>
+                          {auctionData.stopTime !== null ? (
+                            <div className="mt-14 mx-auto text-center">
+                              <Countdown
+                                date={`${dateExpire} ${timeExpire}`}
+                                renderer={renderer}
+                              />
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="mx-10 mt-4">
+                        <div className="flex justify-between">
+                          <div className="text-sm">
+                            ราคาเริ่ม : {auctionData && auctionData.openPrice}
+                          </div>
+                          <div className="text-sm">
+                            บิดขั้นต่ำ : {auctionData && auctionData.minimumBid}
+                          </div>
+                        </div>
+                      </div>
+
+                      {auctionData && (
+                        <div>
+                          <div className="mt-8 mx-10">
+                            <div className="text-right text-4xl font-bold text-adoppix">
+                              {auctionData.currentBid == null ? (
+                                <div className="text-lg">
+                                  การประมูลยังไม่เริ่ม
+                                </div>
+                              ) : (
+                                <div>{auctionData.currentBid.amount}</div>
+                              )}
+                            </div>
+                            <div>
+                              <hr className="my-2" />
+                            </div>
+                            {auctionData.bidHistories &&
+                            auctionData.bidHistories.length <= 0 ? (
+                              <div></div>
+                            ) : (
+                              <div>
+                                <div className="flex justify-end">
+                                  <div className="my-auto px-2 text-lg font-bold">
+                                    By
+                                  </div>
+                                  <div>
+                                    <img
+                                      className="h-[30px] w-[30px] rounded-full "
+                                      src={`https://pix.adoppix.com/public/${auctionData.bidHistories[0].profileImage}`}
+                                    />
+                                  </div>
+                                  <div className="text-lg truncate w-[auto] my-auto px-2">
+                                    {auctionData.currentBid.username}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       )}
-                      <div className="ml-16 p-2">
-                        <span
-                          className=" w-[600px] text-sm whitespace-pre-wrap"
-                          style={{
-                            display: "inline-block",
-                            height: "25px",
-                          }}
-                        >
-                          {auctionData.description}
-                        </span>
+                    </div>
+                    {auctionData && (
+                      <div className="mt-14">
+                      <div className="flex justify-center">
+                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
+                          x1.2
+                        </div>
+                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
+                          x1.5
+                        </div>
+                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
+                          x2
+                        </div>
+                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
+                          x3
+                        </div>
+                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
+                          x4
+                        </div>
+                      </div>
+                      <div>
+                        <div className="mt-4">
+                          <input
+                            onChange={handleBids}
+                            type="text"
+                            id="default-input"
+                            className="mt-2 mx-auto  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-[70%] p-2.5 dark:bg-adopdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
+                          />
+                        </div>
+                        <div className=" flex justify-center">
+                          <button
+                            onClick={bids}
+                            className="rounded-lg bg-adoppix px-2 py-2 w-10/12 mx-auto my-2 "
+                          >
+                            บิด
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    )}
+                   
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="p-5 bg-adopsoftdark rounded-lg">
+                  {auctionData && (
+                    <div>
+                      <div>
+                        <div>{auctionData.title}</div>
+                        {userData && (
+                          <div className="flex my-5 cursor-pointer">
+                            <div>
+                              <img
+                                className="h-[40px] w-[40px] rounded-full"
+                                src={`https://pix.adoppix.com/public/${userData.profileImage}`}
+                              />
+                            </div>
+                            <div className="my-auto">
+                              <p className="px-3 text-lg">
+                                {userData.username}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        <div className="ml-16 p-2">
+                          <span
+                            className=" w-[600px] text-sm whitespace-pre-wrap"
+                            style={{
+                              display: "inline-block",
+                              height: "25px",
+                            }}
+                          >
+                            {auctionData.description}
+                          </span>
 
-                        <div className="flex">
-                          <div className="w-full flex space-x-1 flex-wrap">
-                            {auctionData.tags.map((tag, index) => (
-                              <div
-                                key={index}
-                                className="py-1 px-1  rounded-lg flex  "
-                              >
-                                <p className="text-sm cursor-pointer">#{tag}</p>
-                              </div>
-                            ))}
+                          <div className="flex">
+                            <div className="w-full flex space-x-1 flex-wrap">
+                              {auctionData.tags.map((tag, index) => (
+                                <div
+                                  key={index}
+                                  className="py-1 px-1  rounded-lg flex  "
+                                >
+                                  <p className="text-sm cursor-pointer">
+                                    #{tag}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-              <div className="p-5 bg-adopsoftdark rounded-lg min-h-[300px]">
-                {auctionData && (
-                  <div>
+                  )}
+                </div>
+                <div className="p-5 mt-4 bg-adopsoftdark rounded-lg min-h-[300px]">
+                  {auctionData && (
                     <div>
-                      <div>ประวัติการประมูล</div>
-                      <div className="m-4">
-                        {auctionData &&
-                          auctionData.bidHistories.map((bh, bhi) => (
-                            <div
-                              key={bhi}
-                              className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
-                            >
-                              <div className="mx-3 flex">
-                                <img
-                                  className="h-[30px] w-[30px] rounded-full "
-                                  src={`https://pix.adoppix.com/public/${bh.profileImage}`}
-                                />
-                                <div className="mx-3"> {bh.username}</div>
+                      <div>
+                        <div>ประวัติการประมูล</div>
+                        <div className="m-4">
+                          {auctionData &&
+                            auctionData.bidHistories.map((bh, bhi) => (
+                              <div
+                                key={bhi}
+                                className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
+                              >
+                                <div className="mx-3 flex">
+                                  <img
+                                    className="h-[30px] w-[30px] rounded-full "
+                                    src={`https://pix.adoppix.com/public/${bh.profileImage}`}
+                                  />
+                                  <div className="mx-3"> {bh.username}</div>
+                                </div>
+                                <div className="mx-3">{bh.amount}</div>
+                                <div className="mx-3">{bh.created}</div>
                               </div>
-                              <div className="mx-3">{bh.amount}</div>
-                              <div className="mx-3">{bh.created}</div>
-                            </div>
-                          ))}
+                            ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
               </div>
             </div>
-
-            
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ export const FeedsPost = () => {
       console.log(results);
       setPostData(results);
     })();
-  }, []);
+  }, [postId]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {

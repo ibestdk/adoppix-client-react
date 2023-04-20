@@ -199,3 +199,48 @@ export const getChatList = async () => {
     setChatList(chatListWithRelativeTime);
   }
 };
+
+
+
+export const getMyStorage = async () => {
+
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  };
+  try {
+    const response = await axios.get(
+      `https://api.adoppix.com/api/User/inventories?Take=10&Page=0`,
+      {
+        headers: headers,
+      }
+    );
+    if (response?.data?.status) {
+      console.log(response.data.data)
+      return response?.data?.data;
+    }
+  } catch (error) {}
+};
+
+export const handleSubmitNewMessage = async (message ,selectUsername) => {
+  const bodyData = new FormData();
+  if (message) bodyData.append("Message", message);
+  if (selectUsername) bodyData.append("Username", selectUsername);
+  bodyData.append("Type", "text");
+  console.log(bodyData);
+  if (!message || !selectUsername) return null;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
+  let result = await axios({
+    method: "post",
+    url: "https://api.adoppix.com/api/Chat",
+    data: bodyData,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  console.log(result);
+};

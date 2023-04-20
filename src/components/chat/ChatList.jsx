@@ -22,6 +22,8 @@ export const ChatList = () => {
   const [chatMessage, setChatMessage] = useState();
   const [roomId, setRoomId] = useState(null);
   const [userData, setUserData] = useState();
+  const [chatSelect, setChatSelect] = useState();
+
   const handleOnClose = () => setAddModal(false);
 
   const token = getToken();
@@ -29,16 +31,19 @@ export const ChatList = () => {
   const handleOpenAdopLetter = () => {
     setadopLetter(!adopLetter);
   };
-  const handleOpenChat = (roomkey) => {
+  const handleOpenChat = (roomkey, name) => {
     setRoomId(roomkey);
     console.log(roomkey);
     getChat(roomkey);
     setChatopen(true);
+    setChatSelect(name);
   };
   const handleCloseChat = () => {
     setRoomId(null);
     setChatopen(false);
     setChatMessage();
+    setChatSelect();
+    getChatList();
   };
 
   if (token == null) return null;
@@ -86,6 +91,7 @@ export const ChatList = () => {
     console.log(result.data.data);
     setChatMessage(result.data.data);
   };
+
   const getChatSignalR = async () => {
     console.log("roomId :" + roomId);
     // if (roomkey !== null) return null;
@@ -168,6 +174,8 @@ export const ChatList = () => {
     }).catch((err) => console.log(err.response));
     console.log(result);
     getChatSignalR();
+    setInputMessageBox("");
+    document.getElementById("chatInput").value = "";
   };
 
   const [connection, setConnection] = useState(null);
@@ -194,7 +202,7 @@ export const ChatList = () => {
         connection.on(`${roomId}`, (message) => {
           console.log("received heart beat from chat 💖");
           console.log("New message received: ", message);
-
+          getChatSignalR();
           // Do something with the received message
         });
       }
@@ -217,10 +225,12 @@ export const ChatList = () => {
             } sm:w-[300px] w-[300px] text-center `}
           >
             <div className="py-2 flex justify-between px-4">
-              <div onClick={handleCloseChat}>
-                <AiOutlineCaretLeft />
+              <div className="flex">
+                <div onClick={handleCloseChat}>
+                  <AiOutlineCaretLeft />
+                </div>
+                <div>{chatSelect && chatSelect}</div>
               </div>
-              <div> Bike.Chanokchon</div>
               <div onClick={handleOpenAdopLetter}>
                 <FaAngleDoubleUp
                   className={`${adopLetter ? "rotate-180" : ""}  duration-300 `}
@@ -250,7 +260,11 @@ export const ChatList = () => {
                           <div className="my-auto">
                             <img
                               className="w-[28px] h-[28px] rounded-full"
-                              src={`https://pix.adoppix.com/public/${chat.profileImage}`}
+                              src={
+                                chat.profileImage
+                                  ? `https://pix.adoppix.com/public/${chat.profileImage}`
+                                  : "https://pix.adoppix.com/image/adop.png"
+                              }
                               alt=""
                             />
                           </div>
@@ -274,9 +288,10 @@ export const ChatList = () => {
                 </div>
                 <div className="bg-adoplighticon dark:bg-adopsoftdark  rounded-full  py-1 px-2 mt-1">
                   <input
+                    id="chatInput"
                     onChange={handleInputChat}
                     onKeyDown={(event) => {
-                      if (event.key === 'Enter') {
+                      if (event.key === "Enter") {
                         handleSubmitMessage();
                       }
                     }}
@@ -298,7 +313,9 @@ export const ChatList = () => {
           <div
             className={`duration-300  py-2 bg-adoppix  text-adoplight rounded-t-lg ${
               adopLetter ? "h-[500px]" : "h-[60px]"
-            } sm:w-[300px] ${adopLetter ? "w-[300px]" : "w-[80px]"} text-center`}
+            } sm:w-[300px] ${
+              adopLetter ? "w-[300px]" : "w-[80px]"
+            } text-center`}
           >
             <div
               onClick={handleOpenAdopLetter}
@@ -323,7 +340,12 @@ export const ChatList = () => {
               >
                 {chatList &&
                   chatList.map((list, index) => (
-                  <ChatCard key={index} list={list}  index={index} openChat={handleOpenChat}/>
+                    <ChatCard
+                      key={index}
+                      list={list}
+                      index={index}
+                      openChat={handleOpenChat}
+                    />
                   ))}
                 <div
                   onClick={() => setAddModal(true)}

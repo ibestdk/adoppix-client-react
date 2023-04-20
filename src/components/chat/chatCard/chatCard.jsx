@@ -40,13 +40,17 @@ export const ChatCard = ({ list, index, openChat }) => {
       <div
         className="flex"
         onClick={() => {
-          openChat(list.chatRoomId);
+          openChat( list.chatRoomId , list.name);
         }}
       >
         <div className="mx-2">
           <img
             className=" rounded-full w-[50px] h-[50px]"
-            src={`https://pix.adoppix.com/public/${list.profileImage}`}
+            src={
+              list.profileImage
+                ? `https://pix.adoppix.com/public/${list.profileImage}`
+                : "https://pix.adoppix.com/image/adop.png"
+            }
             alt=""
           />
         </div>
