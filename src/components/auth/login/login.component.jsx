@@ -57,7 +57,7 @@ const LoginCard = () => {
 
   return (
     <div className="max-w-sm m-auto flex items-center justify-center h-screen ">
-      <div className="w-[350px] dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
+      <div className="w-[350px] dark:bg-adopsoftdark bg-adoplight pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
         <div>
           <Link to="/">
             <div className="logo text-adoppix font-bold text-3xl text-center cursor-pointer">
