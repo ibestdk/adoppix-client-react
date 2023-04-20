@@ -93,9 +93,9 @@ function NotiDropDown() {
               </div>
             </div>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 overflow-y-scroll h-[370px]">
             {notiPage === 1 && (
-              <div className="h-auto">
+              <div className=" ">
                 {notiData && notiData.length > 0 ? (
                   <div>
                     {notiData.map((noti, index) => (
@@ -126,8 +126,8 @@ function NotiDropDown() {
                           <img
                             className="w-[50px] h-[50px] rounded-lg mx-auto"
                             src={
-                              noti.image
-                                ? `https://pix.adoppix.com/public/${noti.image}`
+                              noti.postImage
+                                ? `https://pix.adoppix.com/public/${noti.postImage}`
                                 : "https://pix.adoppix.com/image/adop.png"
                             }
                           />

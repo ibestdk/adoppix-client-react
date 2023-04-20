@@ -1,55 +1,101 @@
-import Countdown, { zeroPad } from "react-countdown";
-import { BsFillImageFill, BsChatSquare } from "react-icons/bs";
+import { BsChatSquare, BsThreeDotsVertical } from "react-icons/bs";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import CircularProgress from "@mui/material/CircularProgress";
 import React from "react";
-import { FaLess } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
-import ReactWaterMark from "react-watermark-component";
-import { getToken } from "../../../services/authorize";
+import { AiOutlineHeart ,AiFillHeart } from "react-icons/ai";
+import { FiAlertTriangle } from "react-icons/fi";
+import { getUser } from "../../../services/authorize";
+import { getPostUpdate } from "../../../services/apiService";
 export const FeedsPost = () => {
   const { postId } = useParams();
   const [post, setPostData] = useState();
 
-  const getPost = async () => {
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    let response = await axios({
-      method: "get",
-      url: `https://api.adoppix.com/api/Post/${postId}`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
-    setPostData(response.data.data);
+  const user = getUser();
+  const dropdownRef = useRef(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [postEdit, setPostEdit] = useState(false);
+  const handlePostEdit = (e) => {
+    e.stopPropagation();
+    setPostEdit(!postEdit);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getPost();
-    }, 1000);
+    (async () => {
+      const results = await getPostUpdate(postId);
+      console.log(results);
+      setPostData(results);
+    })();
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setPostEdit(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [dropdownRef]);
 
   return (
     <div className="bg-adoplight dark:bg-adopdark">
+      {deleteConfirm && (
+        <div className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300">
+          <div className=" dark:bg-adopsoftdark bg-adoplight w-[350px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
+            <div className="flex flex-col justify-center items-center">
+              <FiAlertTriangle className="text-[5rem] text-yellow-300" />
+              <div className="mt-4">คุณแน่ใจว่าต้องการลบโพสต์</div>
+            </div>
+            <div className="flex justify-end items-cente mt-10">
+              <div onClick={() => setDeleteConfirm(false)} className="mx-2 rounded-lg px-2 py-1 bg-adopsoftdark cursor-pointer">
+                ยกเลิก
+              </div>
+              <div className="mx-2 rounded-lg px-4 py-1 bg-red-400 text-lg cursor-pointer">
+                ยืนยัน
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {post && (
         <div className="p-5 m-4  rounded-lg  bg-adopsoftdark">
           <div>
-            <div className="flex">
-              <div>
-                <img
-                  className="rounded-full w-[40px] h-[40px] "
-                  src={`https://pix.adoppix.com/public/${post.profileImage}`}
-                />
+            <div className="flex justify-between items-center">
+              <div className="flex">
+                <div>
+                  <img
+                    className="rounded-full w-[40px] h-[40px] "
+                    src={`https://pix.adoppix.com/public/${post.profileImage}`}
+                  />
+                </div>
+                <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
+                  {post.username}
+                </div>
               </div>
-              <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
-                {post.username}
+              <div>
+                {user.username === post.username && (
+                  <div>
+                    <BsThreeDotsVertical onClick={(e) => handlePostEdit(e)} />
+                    {postEdit && (
+                      <div className="relative" ref={dropdownRef}>
+                        <div className="absolute  right-[-18px] w-[60px] flex flex-col items-center bg-adopdark p-2 rounded-lg  ">
+                          <div className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1">
+                            แก้ไข
+                          </div>
+                          <div onClick={() => setDeleteConfirm(true)} className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1">
+                            ลบ
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div>
@@ -74,9 +120,18 @@ export const FeedsPost = () => {
             />
           </div>
           <div className="mt-2 flex">
-            <div>
-              <AiOutlineHeart />
-            </div>
+          <div>
+          {post.isLike ? (
+            <AiFillHeart
+              onClick={() => likePost(post.postId, postIndex)}
+              className="text-red-500"
+            />
+          ) : (
+            <AiOutlineHeart
+              onClick={() => likePost(post.postId, postIndex)}
+            />
+          )}
+        </div>
             <div className="mx-4 text-xl pt-1">
               <div onClick={() => setSelectedPost(post)}>
                 <BsChatSquare />
