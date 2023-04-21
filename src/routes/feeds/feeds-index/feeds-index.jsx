@@ -3,7 +3,7 @@ import {
   BsChatSquare,
   BsThreeDotsVertical,
 } from "react-icons/bs";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart ,AiFillClockCircle} from "react-icons/ai";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import ModalCreatePost from "../../../components/feeds/modal/create/modalCreate";
@@ -48,6 +48,13 @@ export const FeedsIndex = () => {
       });
     })();
   };
+
+
+  const reloadFeeds = async ()=>{
+    const results = await getFeeds();
+    console.log(results);
+    setFeeds(results);
+  }
   const user = getUser();
   useEffect(() => {
     (async () => {
@@ -74,7 +81,7 @@ export const FeedsIndex = () => {
   return (
     <div className="">
       <div>
-        <ModalCreatePost onClose={handleOnClose} visible={profileImageModal} />
+        <ModalCreatePost onClose={handleOnClose} visible={profileImageModal} reloadFeeds={reloadFeeds} />
       </div>
       <div
         className="p-5 dark:bg-adopsoftdark m-4 rounded-lg"
@@ -112,8 +119,11 @@ export const FeedsIndex = () => {
                     <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
                       <div className="flex items-center">
                         <div> {post.username}</div>
-                        <div className="text-sm mx-3 font-light">
-                          {post.relativeTime}
+                        <div className="text-sm mx-3 font-light flex items-center">
+                        <AiFillClockCircle className="mx-2"/>
+                        <div>
+                        {post.relativeTime}
+                        </div>
                         </div>
                       </div>
                     </div>

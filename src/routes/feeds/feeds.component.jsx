@@ -9,11 +9,11 @@ export const Feeds = () => {
           <div className="container rounded-lg  mx-auto ">
             <div className="flex">
               <div className="sticky top-12 h-screen w-40 hidden sm:block">
+{    /*            <div>asdasdasd</div>
                 <div>asdasdasd</div>
                 <div>asdasdasd</div>
                 <div>asdasdasd</div>
-                <div>asdasdasd</div>
-                <div>asdasdasd</div>
+  <div>asdasdasd</div> */}
               </div>
               <main className="sm:flex-1 ">
                 <Outlet />

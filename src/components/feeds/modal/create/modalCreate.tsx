@@ -36,6 +36,7 @@ function centerAspectCrop(
 export default function ModalCreatePost({
   visible,
   onClose,
+  reloadFeeds,
   setProfileImage,
   setProfileImage64,
 }) {
@@ -111,6 +112,8 @@ export default function ModalCreatePost({
       headers: headers,
     }).catch((err) => console.log(err.response));
     console.log(result);
+    onClose();
+    reloadFeeds();
   };
 
   const handleDescription = (e) => {
