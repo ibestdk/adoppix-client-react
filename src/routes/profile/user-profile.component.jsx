@@ -44,7 +44,7 @@ const UserProfile = () => {
                   {userPost.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4">
                       {userPost.map((post, index) => (
-                        <div
+                        <Link to={`/feeds/${post.postId}`}
                           className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:scale-105 duration-300"
                           key={index}
                         >
@@ -53,7 +53,7 @@ const UserProfile = () => {
                             src={`https://pix.adoppix.com/public/${post.images[0]}`}
                             alt=""
                           />
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   ) : (
