@@ -51,7 +51,12 @@ function UserDropDown() {
     setMoney(response.data.data);
   };
 
-
+  const resetRoute = () => {
+    navigate("/");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  };
 
   const [open, setOpen] = useState(false);
   let menuRef = useRef();
@@ -60,23 +65,21 @@ function UserDropDown() {
     // console.log("ข้อมูลผู้ใช้: "+userData)
     console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
     getUserMoney();
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      console.log("มีข้อมูล")
-      console.log(user)
+      console.log("มีข้อมูล");
+      console.log(user);
       setUserData(user);
     }
-
 
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpen(false);
         // console.log(menuRef.current);
       }
-
     };
 
-    console.log( userData );
+    console.log(userData);
     document.addEventListener("mousedown", handler);
 
     return () => {
@@ -96,7 +99,9 @@ function UserDropDown() {
           <div>
             <img
               className="rounded-full border-2 p-1 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
-              src={`https://pix.adoppix.com/public/${userData.profileImage ? userData.profileImage: "brushsan.png" }`}
+              src={`https://pix.adoppix.com/public/${
+                userData.profileImage ? userData.profileImage : "brushsan.png"
+              }`}
             ></img>
           </div>
         </div>
@@ -112,14 +117,22 @@ function UserDropDown() {
               style={{
                 backgroundImage:
                   "url(" +
-                  `https://pix.adoppix.com/public/${userData.coverImage ? userData.coverImage : "6d3ed0c6-f9f7-41f8-8142-2e8c0d71a3a5.jpg"}` +
+                  `https://pix.adoppix.com/public/${
+                    userData.coverImage
+                      ? userData.coverImage
+                      : "6d3ed0c6-f9f7-41f8-8142-2e8c0d71a3a5.jpg"
+                  }` +
                   ")",
               }}
             >
               <p className="text-center pt-2 ">
                 <img
                   className="rounded-full w-[60px] border-4 bg-adoplight dark:bg-adopsoftdark  border-adoppix outline-adoppix mx-auto shadow-lg"
-                  src={`https://pix.adoppix.com/public/${userData.profileImage ? userData.profileImage: "brushsan.png"}`}
+                  src={`https://pix.adoppix.com/public/${
+                    userData.profileImage
+                      ? userData.profileImage
+                      : "brushsan.png"
+                  }`}
                 ></img>
               </p>
               <h3 className="text-adoplight pt-0 shadow-lg">
@@ -142,7 +155,7 @@ function UserDropDown() {
             </div>
           </div>
           <div className="flex mt-1">
-            <div  className="cursor-pointer m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
+            <div className="cursor-pointer m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
               <Link className="flex text-lg" to={"topup"}>
                 <BsFillCreditCard2FrontFill className="m-1" />
                 เติมเงิน
@@ -183,7 +196,7 @@ function UserDropDown() {
             />
             <DropdownItem
               icon={<MdLogout className="dark:text-adoplight  ml-3 mt-[4px]" />}
-              click={() => logout(() => navigate("/"))}
+              click={() => logout(() => resetRoute())}
               text={"ออกจากระบบ"}
             />
           </ul>
@@ -197,8 +210,10 @@ function DropdownItem(props) {
   return (
     <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
       {props.icon}
-      <a className="dark:text-adoplight text-lg w-[150px]" onClick={props.click}>
-
+      <a
+        className="dark:text-adoplight text-lg w-[150px]"
+        onClick={props.click}
+      >
         {props.text}
       </a>
     </li>
