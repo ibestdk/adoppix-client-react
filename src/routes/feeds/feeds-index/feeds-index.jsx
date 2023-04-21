@@ -3,7 +3,7 @@ import {
   BsChatSquare,
   BsThreeDotsVertical,
 } from "react-icons/bs";
-import { AiOutlineHeart, AiFillHeart ,AiFillClockCircle} from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart, AiFillClockCircle } from "react-icons/ai";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import ModalCreatePost from "../../../components/feeds/modal/create/modalCreate";
@@ -49,12 +49,11 @@ export const FeedsIndex = () => {
     })();
   };
 
-
-  const reloadFeeds = async ()=>{
+  const reloadFeeds = async () => {
     const results = await getFeeds();
     console.log(results);
     setFeeds(results);
-  }
+  };
   const user = getUser();
   useEffect(() => {
     (async () => {
@@ -81,7 +80,11 @@ export const FeedsIndex = () => {
   return (
     <div className="">
       <div>
-        <ModalCreatePost onClose={handleOnClose} visible={profileImageModal} reloadFeeds={reloadFeeds} />
+        <ModalCreatePost
+          onClose={handleOnClose}
+          visible={profileImageModal}
+          reloadFeeds={reloadFeeds}
+        />
       </div>
       <div
         className="p-5 dark:bg-adopsoftdark m-4 rounded-lg"
@@ -120,10 +123,8 @@ export const FeedsIndex = () => {
                       <div className="flex items-center">
                         <div> {post.username}</div>
                         <div className="text-sm mx-3 font-light flex items-center">
-                        <AiFillClockCircle className="mx-2"/>
-                        <div>
-                        {post.relativeTime}
-                        </div>
+                          <AiFillClockCircle className="mx-2" />
+                          <div>{post.relativeTime}</div>
                         </div>
                       </div>
                     </div>
@@ -177,7 +178,7 @@ export const FeedsIndex = () => {
                 </NavLink>
               </div>
               <div className="mt-2 flex">
-                <div>
+                <div className="flex">
                   {post.isLike ? (
                     <AiFillHeart
                       onClick={() => likePost(post.postId, postIndex)}
@@ -188,6 +189,7 @@ export const FeedsIndex = () => {
                       onClick={() => likePost(post.postId, postIndex)}
                     />
                   )}
+                  <div className="text-lg">{post && post.likeCount}</div>
                 </div>
                 <div className="mx-4 text-xl pt-1">
                   <div onClick={() => setSelectedPost(post)}>

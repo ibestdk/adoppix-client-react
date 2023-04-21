@@ -120,7 +120,7 @@ export const FeedsPost = () => {
             />
           </div>
           <div className="mt-2 flex">
-          <div>
+          <div className="flex">
           {post.isLike ? (
             <AiFillHeart
               onClick={() => likePost(post.postId, postIndex)}
@@ -131,6 +131,7 @@ export const FeedsPost = () => {
               onClick={() => likePost(post.postId, postIndex)}
             />
           )}
+          <div className="text-lg">{post && post.likeCount}</div>
         </div>
             <div className="mx-4 text-xl pt-1">
               <div onClick={() => setSelectedPost(post)}>
