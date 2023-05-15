@@ -77,7 +77,7 @@ export const postLike = async (postId) => {
     url: `https://api.adoppix.com/api/Post/${postId}/like`,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  return result;
+  return result.data.data;
 };
 
 export const getPostUpdate = async (postId) => {
@@ -238,9 +238,10 @@ export const handleSubmitNewMessage = async (message ,selectUsername) => {
   };
   let result = await axios({
     method: "post",
-    url: "https://api.adoppix.com/api/Chat",
+    url: "https://api.adoppix.com/api/Chat/create",
     data: bodyData,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  console.log(result);
+  // console.log(result);
+  return result.data.status;
 };

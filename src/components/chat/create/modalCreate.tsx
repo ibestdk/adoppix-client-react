@@ -10,15 +10,16 @@ export default function ModalAddChat({ visible, onClose }) {
     if (e.target.id === "modal-card") onClose();
   };
 
-
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
   const sendMessage = async () => {
-    await handleSubmitNewMessage(message ,selectUsername);
-  }
-
+    const result = await handleSubmitNewMessage(message, selectUsername);
+    if (result) {
+      onClose()
+    }
+  };
 
   if (!visible) return null;
   return (
@@ -40,13 +41,16 @@ export default function ModalAddChat({ visible, onClose }) {
           <div className="flex border-b-2">
             <div className="text-lg w-8 flex items-end">ถึง :</div>
             <div className="w-full">
-             <LiveSearchChat selectUsername={selectUsername} setSelectUsername={setSelectUsername}/>
+              <LiveSearchChat
+                selectUsername={selectUsername}
+                setSelectUsername={setSelectUsername}
+              />
             </div>
           </div>
           <div>
             <textarea
-            value={message}
-           onChange={handleMessageChange}
+              value={message}
+              onChange={handleMessageChange}
               id="default-input"
               className="mt-2 h-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5 dark:bg-adopsoftdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
             />
@@ -60,7 +64,10 @@ export default function ModalAddChat({ visible, onClose }) {
             >
               ยกเลิก
             </button>
-            <button onClick={sendMessage} className="mx-2 bg-adoppix py-2 px-4 rounded-lg">
+            <button
+              onClick={sendMessage}
+              className="mx-2 bg-adoppix py-2 px-4 rounded-lg"
+            >
               ส่ง
             </button>
           </div>

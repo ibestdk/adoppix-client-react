@@ -9,8 +9,6 @@ import { getUser } from "../../../../services/authorize";
 import { postFeedsComment } from "../../../../services/feedsService";
 
 export default function ModalPost({ visible, onClose, postData }) {
-  if (!visible) return null;
-
   const [imgSrc, setImgSrc] = useState("");
   const [emoji, setEmoji] = useState(false);
   const [confrimModal, setConfrimModal] = useState(false);
@@ -56,7 +54,7 @@ export default function ModalPost({ visible, onClose, postData }) {
     postFeedsComment(postData.postId, bodyData);
   };
 
- 
+  if (!visible) return null;
   return (
     <div
       id="modal-card"

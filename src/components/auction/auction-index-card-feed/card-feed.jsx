@@ -3,18 +3,26 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import Heart from "react-heart";
 import { getToken } from "../../../services/authorize";
-export const CardFeed = () => {
+import { auctionLike, callAuctionCard } from "../../../services/auctionService";
+import { LikeList } from "../like/like";
+
+export const CardFeed = ({
+  totalpage,
+  settotalpage,
+  currentpage,
+  setcurrentpage,
+  seti,
+  istate
+}) => {
   const [take, setTake] = useState(20);
   const [isloading, setIsloading] = useState(true);
-  const [token, setToken] = useState();
-  const [page, setPage] = useState(0);
   const [timenow, setTimenow] = useState();
   const [headers, setHeaders] = useState({
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   });
 
-  const [auctionItems, setAuctionItems] = useState();
+  const [auctionItems, setAuctionItems] = useState([]);
 
   const setHeaderToken = (token) => {
     setHeaders({
@@ -24,61 +32,48 @@ export const CardFeed = () => {
     });
   };
 
-  const callAuctionCard = async () => {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
-    let response = await axios({
-      method: "get",
-      url: `https://api.adoppix.com/api/auction?take=${take}&page=${page}`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
-    setTimeout(() => {
-      setAuctionItems(response.data.data);
-      setIsloading(false);
-    }, 1000);
-  };
-
-  const auctionLike = async (auctionId) => {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    let result = await axios({
-      method: "post",
-      url: `https://api.adoppix.com/api/Auction/${auctionId}/like`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(result);
-    callAuctionCard();
+  const like = async (auctionId, index) => {
+    const response = await auctionLike(auctionId);
+    console.log(response);
+    const updatedItems = [...auctionItems];
+    updatedItems[index] = { ...updatedItems[index], isLike: response };
+    setAuctionItems(updatedItems);
+    seti(istate+1);
+    
   };
 
   function handleContextMenu(event) {
     event.preventDefault();
   }
 
+  const callData = async () => {
+    const response = await callAuctionCard(currentpage);
+    setAuctionItems(response.auctionsList);
+    settotalpage(response.totalPages);
+    setTimeout(() => {
+      setIsloading(false);
+    }, 1000);
+  };
+
   useEffect(() => {
     setTimenow(new Date(Date.now()).toISOString());
-    const callData = async () => {
-      const loadtoken = await getToken();
-      setToken(loadtoken);
-      // setHeaderToken(loadtoken);
-      await callAuctionCard();
-    };
     callData();
   }, []);
+
+  useEffect(() => {
+    callData();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [currentpage]);
 
   return (
     <div
       onContextMenu={handleContextMenu}
-      className="grid sm:grid-cols-5 grid-cols-2 gap-4"
+      className="grid sm:grid-cols-5 grid-cols-2 gap-4 " 
     >
-      {auctionItems &&
+      {auctionItems.length > 0 &&
         auctionItems.map((auctionItem, index) => (
           <div key={index} className="">
             {!isloading && (
@@ -98,7 +93,7 @@ export const CardFeed = () => {
                     <div style={{ width: "1.5rem" }}>
                       <Heart
                         isActive={auctionItem.isLike}
-                        onClick={() => auctionLike(auctionItem.auctionId)}
+                        onClick={() => like(auctionItem.auctionId, index)}
                         animationScale={1.25}
                         style={{ marginBottom: "1rem" }}
                       />
@@ -109,9 +104,13 @@ export const CardFeed = () => {
 
                 <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
                   <div className="text-lg flex justify-between items-center">
-                    <div className="truncate w-[ุ50%] text-lg">{auctionItem.title}</div>
+                    <div className="truncate w-[ุ50%] text-lg">
+                      {auctionItem.title}
+                    </div>
                     <div className="text-adoppix font-semibold text-lg">
-                    {auctionItem.currentAmoutBid > 0 ? auctionItem.currentAmoutBid : "-"}
+                      {auctionItem.currentAmoutBid > 0
+                        ? auctionItem.currentAmoutBid
+                        : "-"}
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
@@ -134,13 +133,19 @@ export const CardFeed = () => {
                             {auctionItem.stopTime !== null ? (
                               <div>
                                 {timenow > auctionItem.stopTime ? (
-                                  <div className="bg-red-500 rounded-md w-[60px] h-[22px] text-sm text-center">สิ้นสุด</div>
+                                  <div className="bg-red-500 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                    สิ้นสุด
+                                  </div>
                                 ) : (
-                                  <div className="bg-green-500 rounded-md w-[60px] h-[22px] text-sm text-center">ประมูลอยู่</div>
+                                  <div className="bg-green-500 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                    ประมูลอยู่
+                                  </div>
                                 )}
                               </div>
                             ) : (
-                              <div className="bg-yellow-200 rounded-md w-[60px] h-[22px] text-sm text-center">ยังไม่เริ่ม</div>
+                              <div className="bg-yellow-200 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                ยังไม่เริ่ม
+                              </div>
                             )}
                           </div>
                         )}
@@ -148,14 +153,15 @@ export const CardFeed = () => {
                     </div>
                   </div>
                   <div className="w-full flex space-x-1 flex-wrap">
-                  {auctionItem.tags && auctionItem.tags.map((tag , index) => (
-                    <div
-                    key={index}
-                    className="py-1 px-1  rounded-lg flex  "
-                  >
-                    <p className="text-sm cursor-pointer">#{tag}</p>
-                  </div>
-                  ))}
+                    {auctionItem.tags &&
+                      auctionItem.tags.map((tag, index) => (
+                        <div
+                          key={index}
+                          className="py-1 px-1  rounded-lg flex  "
+                        >
+                          <p className="text-sm cursor-pointer">#{tag}</p>
+                        </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -165,7 +171,7 @@ export const CardFeed = () => {
 
       {isloading &&
         Array.from({ length: 20 }).map((_, index) => (
-          <div className="animate-pulse">
+          <div key={index} className="animate-pulse">
             <div className="flex items-center justify-center h-[280px] rounded-lg w-[200px] bg-gray-300 dark:bg-adopdark">
               <svg
                 className="w-12 h-12 text-gray-200"

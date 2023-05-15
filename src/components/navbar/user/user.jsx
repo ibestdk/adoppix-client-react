@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
-import { getToken, logout } from "../../../services/authorize";
+import { getToken, getUser, logout } from "../../../services/authorize";
 import { useNavigate, Link } from "react-router-dom";
 import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
@@ -65,7 +65,7 @@ function UserDropDown() {
     // console.log("ข้อมูลผู้ใช้: "+userData)
     console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
     getUserMoney();
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = getUser();
     if (user) {
       console.log("มีข้อมูล");
       console.log(user);

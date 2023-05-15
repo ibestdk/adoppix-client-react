@@ -9,6 +9,7 @@ import { getToken } from "../../../services/authorize";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FileUploadSection from "../../../components/auction/auction-create/file-upload";
+import { auctionCreate } from "../../../services/auctionService";
 export const AuctionCreate = () => {
   const navigate = useNavigate();
   //froms states
@@ -87,25 +88,10 @@ export const AuctionCreate = () => {
     if (minimumBid) bodyData.append("MinimumBid", minimumBid);
     if (hotClose) bodyData.append("HotClose", hotClosePrice);
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
-    console.log(commercialUse);
     console.log(FileList);
     console.log(bodyData);
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
-    let result = await axios({
-      method: "post",
-      url: "https://api.adoppix.com/api/Auction",
-      data: bodyData,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(result);
-    navigate(`/auction/${result.data.data}`);
+   const result = await auctionCreate(bodyData);
+    navigate(`/auction/${result}`);
   };
 
   return (

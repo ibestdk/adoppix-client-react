@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiPath } from "./envService";
 
 //store token ==> session storage
 
@@ -23,7 +24,7 @@ export const getUserDataApi = (token) => {
       if (token) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        axios.get(`https://api.adoppix.com/api/User/user-info`).then((res) => {
+        axios.get(`${apiPath}api/User/user-info`).then((res) => {
           console.log(res.data);
           localStorage.setItem("user", JSON.stringify(res.data.data));
           console.log("saved user data");
@@ -36,6 +37,9 @@ export const getUserDataApi = (token) => {
     }
   }
 };
+
+
+
 
 //logout
 export const logout = (next) => {
@@ -64,7 +68,7 @@ export const getToken = () => {
 export const getUser = () => {
   if (window !== undefined) {
     if (localStorage.getItem("user")) {
-      console.log(localStorage.getItem("user"));
+      // console.log(localStorage.getItem("user"));
       return JSON.parse(localStorage.getItem("user"));
     } else {
       return false;

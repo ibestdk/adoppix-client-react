@@ -11,7 +11,7 @@ import ConfirmModal from '../market-modal/confirm-modal';
 import SuccesefullBuy from '../market-modal/succesefull-buy';
 import LoginFirst from '../market-modal/login-first-modal';
 
-export const MarketFeedCard = (data) => {
+export const MarketFeedCard = ( data) => {
 
     // wishlist ฟังชั่นที่ยังไม่รู้ว่าใช้เปลี่ยนข้อมูลจาก api isWishList ยังไง
     const wishlistClicked = (productId) => {

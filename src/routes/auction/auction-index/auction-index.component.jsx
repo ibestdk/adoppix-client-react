@@ -1,10 +1,12 @@
 import { TextInput } from "flowbite-react";
 import { BsSearch } from "react-icons/bs";
+import { AiOutlineHeart } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import Pagination from "@mui/material/Pagination";
 import axios from "axios";
 import { CardFeed } from "../../../components/auction/auction-index-card-feed/card-feed";
 import Slider from "@mui/material/Slider";
+import { Pagination } from "../../../components/pagination/pagination";
+import { LikeList } from "../../../components/auction/like/like";
 function valuetext(value) {
   return `{value}`;
 }
@@ -12,7 +14,9 @@ function valuetext(value) {
 export const AuctionIndex = () => {
   const [filtersList, setFilterList] = useState();
   const [value, setValue] = useState([0, 10000]);
-
+  const [i, setI] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -24,15 +28,23 @@ export const AuctionIndex = () => {
     }).catch((err) => console.log(err.response));
     console.log(response.data.data);
     setFilterList(response.data.data);
-    setValue([response.data.data.minimumAmount,response.data.data.maximumAmount]);
+    setValue([
+      response.data.data.minimumAmount,
+      response.data.data.maximumAmount,
+    ]);
   };
 
   useEffect(() => {
     callFilters();
   }, []);
   return (
-    <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] ">
-      <div className="relative top-14">
+    <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] relative ">
+      <div className=" sticky pt-10 z-20">
+        <div className=" flex mr-10 justify-end items-end  ">
+          <LikeList istate={i} />
+        </div>
+      </div>
+      <div className="relative top-2">
         <div className="container m-auto">
           <div className="sm:grid sm:grid-cols-12 sm:gap-4 ">
             <div className="bg-adopsoftdark ml-5 mr-5 col-span-3  h-[600px] rounded-lg">
@@ -87,8 +99,20 @@ export const AuctionIndex = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-adopsoftdark mr-5 p-10 col-span-9 h-[1350px] w-full rounded-lg">
-              <CardFeed />
+            <div className="bg-adopsoftdark mr-5 p-10 col-span-9 min-h-[1350px] w-full rounded-lg flex flex-col justify-between">
+              <CardFeed
+                totalpage={totalPage}
+                settotalpage={setTotalPage}
+                currentpage={currentPage}
+                setcurrentpage={setCurrentPage}
+                seti={setI}
+                istate={i}
+              />
+              <Pagination
+                totalpage={totalPage}
+                currentpage={currentPage}
+                setcurrentpage={setCurrentPage}
+              />
             </div>
           </div>
         </div>

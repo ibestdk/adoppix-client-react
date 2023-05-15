@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { getToken } from "../../../services/authorize"
+import { getAPIBalance } from "../../../services/userService";
 
 export const MarketIndex = () => {
     const navigate = useNavigate();
@@ -21,21 +22,8 @@ export const MarketIndex = () => {
     const [isLogin, setIsLogin] = useState(false);
 
     const getBalance = async () => {
-        const token = getToken();
-        const headers = {
-            Authorization: `Bearer ${token}`,
-            "Access-Control-Allow-Origin": "*",
-        };
-        axios
-            .get(`https://api.adoppix.com/api/User/money`, { headers })
-            .then((res) => {
-                setBalance(res.data.data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-
-
+       const result = await getAPIBalance()
+       setBalance(result);
     }
 
     const userOrGuest = async () => {

@@ -37,8 +37,6 @@ export default function ModalCreatePost({
   visible,
   onClose,
   reloadFeeds,
-  setProfileImage,
-  setProfileImage64,
 }) {
   const [imgSrc, setImgSrc] = useState("");
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -128,19 +126,19 @@ export default function ModalCreatePost({
       className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300"
     >
       <div className=" dark:bg-adopsoftdark bg-adoplight w-[500px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
-        <div className="py-2 border-b-4 dark:border-adopdark border-adoplighticon">
-          <h2 className="dark:text-adoplight text-adopdark text-xl p-2 text-center">
+        <div className="py-1 ">
+          <h2 className="dark:text-adoplight text-adopdark text-2xl font-bold p-2 text-center">
             สร้างโพสต์
           </h2>
         </div>
         <div
           id="body"
-          className="min-h-[250px] py-2 border-b-4 dark:border-adopdark border-adoplighticon"
+          className="min-h-[250px] py-2 "
         >
           <div className="mt-2">
             <textarea
               onChange={handleDescription}
-              className="dark:bg-adopsoftdark rounded-lg w-full h-auto focus:outline-none focus:border-none"
+              className="dark:bg-adopdark rounded-lg w-full h-auto focus:outline-none focus:border-none"
               name=""
               id=""
             ></textarea>
@@ -193,13 +191,13 @@ export default function ModalCreatePost({
         <div id="footer" className="flex mt-2 relative min-h-[40px]">
           <div className="absolute right-0">
             <button
-              className="mx-2 bg-adoplighticon py-2 px-4 rounded-lg"
+              className="mx-2 border-2 border-white text-base py-2 px-4 rounded-lg"
               onClick={onClose}
             >
               ยกเลิก
             </button>
             <button
-              className="mx-2 bg-adoppix py-2 px-4 rounded-lg"
+              className="mx-2 bg-adoppix py-2 px-10 text-base rounded-lg"
               onClick={handleSubmit}
             >
               โพสต์

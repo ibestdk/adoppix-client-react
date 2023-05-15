@@ -8,12 +8,16 @@ import {
   IoChatbubblesSharp,
   IoAdd,
 } from "react-icons/io5";
+import soundFile from "./pop.wav";
 import moment from "moment";
 import axios from "axios";
 import "./chatList.scss";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import ModalAddChat from "./create/modalCreate";
 import { ChatCard } from "./chatCard/chatCard";
+
+
+
 export const ChatList = () => {
   const [adopLetter, setadopLetter] = useState(false);
   const [chatopen, setChatopen] = useState(false);
@@ -23,8 +27,15 @@ export const ChatList = () => {
   const [roomId, setRoomId] = useState(null);
   const [userData, setUserData] = useState();
   const [chatSelect, setChatSelect] = useState();
+  const [audio] = useState(new Audio(soundFile));
 
   const handleOnClose = () => setAddModal(false);
+
+  const playSound = () => {
+    audio.currentTime = 0; // Reset the audio to the beginning
+    audio.play();
+  };
+
 
   const token = getToken();
 
@@ -66,6 +77,7 @@ export const ChatList = () => {
         ...chat,
         relativeTime: getRelativeTime(chat.lastTime),
       }));
+      playSound();
       setChatList(chatListWithRelativeTime);
     }
   };
@@ -146,6 +158,9 @@ export const ChatList = () => {
   };
 
   const [inputMessageBox, setInputMessageBox] = useState();
+
+
+
   const handleInputChat = (event) => {
     setInputMessageBox(event.target.value);
   };
@@ -155,17 +170,15 @@ export const ChatList = () => {
     if (inputMessageBox) bodyData.append("Message", inputMessageBox);
     bodyData.append("Type", "text");
     if (roomId) bodyData.append("ChatRoomId", roomId);
+    console.log("roomId", roomId);
     bodyData.append("Username", userData.username);
-    // if (images)
-    //   images.forEach((image) => bodyData.append("ImagePreviews", image.file));
-    console.log(bodyData);
+
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     };
 
-    // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
     let result = await axios({
       method: "post",
       url: "https://api.adoppix.com/api/Chat",
@@ -173,7 +186,7 @@ export const ChatList = () => {
       headers: headers,
     }).catch((err) => console.log(err.response));
     console.log(result);
-    getChatSignalR();
+    getChat(roomId);
     setInputMessageBox("");
     document.getElementById("chatInput").value = "";
   };
@@ -214,6 +227,10 @@ export const ChatList = () => {
     const userD = getUser();
     setUserData(userD);
   }, []);
+
+  useEffect(() => {
+    getChatList();
+  }, [addModal]);
 
   return (
     <div className="fixed z-40 right-4 bottom-0 cursor-pointer">

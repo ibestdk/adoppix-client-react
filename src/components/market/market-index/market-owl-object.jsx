@@ -5,7 +5,7 @@ const textBorderStyle = {
     "2px 0 #4F9FDA, -2px 0 #4F9FDA, 0 2px #4F9FDA, 0 -2px #4F9FDA, 1px 1px #4F9FDA, -1px -1px #4F9FDA, 1px -1px #4F9FDA, -1px 1px #4F9FDA",
 };
 
-export default function MarketOwlObject({ object, key, testClick }) {
+export default function MarketOwlObject({ object, testClick }) {
   // const cardClicked = (title) => {
   //   console.log("card title : "+title);
   // }
@@ -17,7 +17,6 @@ export default function MarketOwlObject({ object, key, testClick }) {
 
   return (
     <div
-      key={key}
       className=" rounded-lg py-2 px-4 w-auto cursor-pointer duration-300 flex justify-center items-center mx-2"
       style={{ backgroundColor: randomPastelColor() }}
     >

@@ -28,7 +28,7 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <nav className="bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full z-20 top-0 left-0  dark:border-gray-600  sticky">
+      <nav className="z-50 bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full top-0 left-0  dark:border-gray-600  sticky">
         <div className=" flex flex-wrap items-center justify-between mx-auto">
           <div className="flex justify-between">
             <Link to="" className="logo text-adoppix font-bold text-3xl">
