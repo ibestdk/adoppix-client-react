@@ -8,27 +8,13 @@ import { FaLess } from "react-icons/fa";
 import ReactWaterMark from "react-watermark-component";
 import { getToken } from "../../../services/authorize";
 import { HubConnectionBuilder } from "@microsoft/signalr";
+import { AuctionBoard } from "./auctionBoard";
+import { getAPIBalance } from "../../../services/userService";
+import { callrecommentOnItems } from "../../../services/auctionService";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
 
-  // const ReactWaterMark = require('react-watermark-component')
-
-  // interface AuctionData {
-  //   username: string;
-  //   description: string;
-  //   profileImage: string;
-  //   coverImage: string;
-  // }
-  // interface currentBid {
-  //   amount: number;
-  //   username: string;
-  // }
-  // interface bidHistories {
-  //   amount: number;
-  //   username: string;
-  //   created: Date;
-  //   profileImage: string;
-  // }
+  const [anotherReccommend, setAnotherReccommend] = useState();
   const [auctionData, setAuctionData] = useState();
   const [userData, setUserData] = useState();
   const [money, setMoney] = useState();
@@ -50,12 +36,16 @@ export const AuctionItem = () => {
     fillStyle: "#1f1f1f",
   };
 
-  const ownerData = (username) => {
+
+  const ownerData = async (username) => {
     axios
       .get(`https://api.adoppix.com/api/User/${username}/user-info`)
-      .then((res) => {
+      .then( async (res) => {
         console.log("Success:", res.data.data);
         setUserData(res.data.data);
+        const result = await callrecommentOnItems(res.data.data.username);
+        console.log(result);
+        setAnotherReccommend(result);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -66,28 +56,14 @@ export const AuctionItem = () => {
     axios
       .get(`https://api.adoppix.com/api/Auction/${auctionId}`)
       .then((res) => {
-        console.log("Success:", res.data.data);
         setAuctionData(res.data.data);
-        // console.log("1")
-
         if (res.data.data.stopTime !== null) {
-          // console.log("2")
           const dateTime = res.data.data.stopTime;
           const timeString = dateTime.toLocaleString().replace("T", " ");
           const [date, time] = timeString.split(" ");
           setDateExpire(date);
           setTimeExpire(time);
         }
-        // console.log("3")
-        // console.log(Date.now());
-        // if (Date.now() > response.data.data.stopTime) {
-        //   console.log("4")
-        //   console.log("มากกว่า");
-        // } else {
-        //   console.log("น้อยกว่า");
-        //   console.log("5")
-        // }
-        // console.log("6")
         ownerData(res.data.data.owner);
       })
       .catch((error) => {
@@ -96,24 +72,15 @@ export const AuctionItem = () => {
   };
 
   const getUserMoney = async () => {
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    let response = await axios({
-      method: "get",
-      url: `https://api.adoppix.com/api/User/money`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
-    setMoney(response.data.data);
+    const result = await getAPIBalance();
+    setMoney(result);
   };
 
   const [bidsAuction, setBidsAuction] = useState();
 
+  const multiple = (number) => {
+    setBidsAuction(auctionData.currentBid.amount * number);
+  };
   const handleBids = (event) => {
     setBidsAuction(event.target.value);
   };
@@ -140,6 +107,7 @@ export const AuctionItem = () => {
     console.log(result);
     getAuction();
     getUserMoney();
+    setBidsAuction("");
   };
 
   const [connection, setConnection] = useState(null);
@@ -178,7 +146,7 @@ export const AuctionItem = () => {
 
   return (
     <div className="bg-adoplight dark:bg-adopdark">
-      <div className="py-14">
+      <div className="py-14 mx-[400px]">
         <div className="container m-auto min-h-screen">
           <div className="grid grid-cols-12 gap-4">
             <div className=" ml-5 mr-5 col-span-12 space-y-3  ">
@@ -217,199 +185,122 @@ export const AuctionItem = () => {
                     </div>
                   )}
                 </div>
-                <div className="bg-adopsoftdark h-auto  sm:h-[600px] w-full min-w-[400px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
-                  <div className="p-4 flex flex-col justify-between h-full">
-                    <div>
-                      <div className="text-right">
-                        <p>{money && money}</p>
-                      </div>
-                      {auctionData && (
+                <AuctionBoard
+                  money={money}
+                  auctionData={auctionData}
+                  dateExpire={dateExpire}
+                  timeExpire={timeExpire}
+                  handleBids={handleBids}
+                  bids={bids}
+                  bidsAuction={bidsAuction}
+                  multiple={multiple}
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row justify-between ">
+                <div className="w-full mr-4">
+                  <div className="p-5 bg-adopsoftdark rounded-lg">
+                    {auctionData && (
+                      <div>
                         <div>
-                          {auctionData.stopTime !== null ? (
-                            <div className="mt-14 mx-auto text-center">
-                              <Countdown
-                                date={`${dateExpire} ${timeExpire}`}
-                                renderer={renderer}
-                              />
-                            </div>
-                          ) : (
-                            <div></div>
-                          )}
-                        </div>
-                      )}
-
-                      <div className="mx-10 mt-4">
-                        <div className="flex justify-between">
-                          <div className="text-sm">
-                            ราคาเริ่ม : {auctionData && auctionData.openPrice}
-                          </div>
-                          <div className="text-sm">
-                            บิดขั้นต่ำ : {auctionData && auctionData.minimumBid}
-                          </div>
-                        </div>
-                      </div>
-
-                      {auctionData && (
-                        <div>
-                          <div className="mt-8 mx-10">
-                            <div className="text-right text-4xl font-bold text-adoppix">
-                              {auctionData.currentBid == null ? (
-                                <div className="text-lg">
-                                  การประมูลยังไม่เริ่ม
-                                </div>
-                              ) : (
-                                <div>{auctionData.currentBid.amount}</div>
-                              )}
-                            </div>
-                            <div>
-                              <hr className="my-2" />
-                            </div>
-                            {auctionData.bidHistories &&
-                            auctionData.bidHistories.length <= 0 ? (
-                              <div></div>
-                            ) : (
+                          <div>{auctionData.title}</div>
+                          {userData && (
+                            <div className="flex my-5 cursor-pointer">
                               <div>
-                                <div className="flex justify-end">
-                                  <div className="my-auto px-2 text-lg font-bold">
-                                    By
+                                <img
+                                  className="h-[40px] w-[40px] rounded-full"
+                                  src={`https://pix.adoppix.com/public/${userData.profileImage}`}
+                                />
+                              </div>
+                              <div className="my-auto">
+                                <p className="px-3 text-lg">
+                                  {userData.username}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                          <div className="ml-16 p-2">
+                            <span
+                              className=" w-[600px] text-sm whitespace-pre-wrap"
+                              style={{
+                                display: "inline-block",
+                                height: "25px",
+                              }}
+                            >
+                              {auctionData.description}
+                            </span>
+
+                            <div className="flex">
+                              <div className="w-full flex space-x-1 flex-wrap">
+                                {auctionData.tags.map((tag, index) => (
+                                  <div
+                                    key={index}
+                                    className="py-1 px-1  rounded-lg flex  "
+                                  >
+                                    <p className="text-sm cursor-pointer">
+                                      #{tag}
+                                    </p>
                                   </div>
-                                  <div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-5 mt-4 bg-adopsoftdark rounded-lg min-h-[300px] ">
+                    {auctionData && (
+                      <div>
+                        <div>
+                          <div>ประวัติการประมูล</div>
+                          <div className="m-4 max-h-[270px] overflow-y-scroll">
+                            {auctionData &&
+                              auctionData.bidHistories.map((bh, bhi) => (
+                                <div
+                                  key={bhi}
+                                  className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
+                                >
+                                  <div className="mx-3 w-[40%] flex">
                                     <img
                                       className="h-[30px] w-[30px] rounded-full "
-                                      src={`https://pix.adoppix.com/public/${auctionData.bidHistories[0].profileImage}`}
+                                      src={`https://pix.adoppix.com/public/${bh.profileImage}`}
                                     />
+                                    <div className="mx-3 "> {bh.username}</div>
                                   </div>
-                                  <div className="text-lg truncate w-[auto] my-auto px-2">
-                                    {auctionData.currentBid.username}
+                                  <div className="mx-3  w-[40%]">
+                                    {bh.amount}
                                   </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    {auctionData && (
-                      <div className="mt-14">
-                      <div className="flex justify-center">
-                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                          x1.2
-                        </div>
-                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                          x1.5
-                        </div>
-                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                          x2
-                        </div>
-                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                          x3
-                        </div>
-                        <div className="cursor-pointer w-14 h-9 py-2 text-center mx-1 text-sm font-bold px-4 rounded-lg  bg-adoppix text-adoplight ">
-                          x4
-                        </div>
-                      </div>
-                      <div>
-                        <div className="mt-4">
-                          <input
-                            onChange={handleBids}
-                            type="text"
-                            id="default-input"
-                            className="mt-2 mx-auto  bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-[70%] p-2.5 dark:bg-adopdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
-                          />
-                        </div>
-                        <div className=" flex justify-center">
-                          <button
-                            onClick={bids}
-                            className="rounded-lg bg-adoppix px-2 py-2 w-10/12 mx-auto my-2 "
-                          >
-                            บิด
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    )}
-                   
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="p-5 bg-adopsoftdark rounded-lg">
-                  {auctionData && (
-                    <div>
-                      <div>
-                        <div>{auctionData.title}</div>
-                        {userData && (
-                          <div className="flex my-5 cursor-pointer">
-                            <div>
-                              <img
-                                className="h-[40px] w-[40px] rounded-full"
-                                src={`https://pix.adoppix.com/public/${userData.profileImage}`}
-                              />
-                            </div>
-                            <div className="my-auto">
-                              <p className="px-3 text-lg">
-                                {userData.username}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                        <div className="ml-16 p-2">
-                          <span
-                            className=" w-[600px] text-sm whitespace-pre-wrap"
-                            style={{
-                              display: "inline-block",
-                              height: "25px",
-                            }}
-                          >
-                            {auctionData.description}
-                          </span>
-
-                          <div className="flex">
-                            <div className="w-full flex space-x-1 flex-wrap">
-                              {auctionData.tags.map((tag, index) => (
-                                <div
-                                  key={index}
-                                  className="py-1 px-1  rounded-lg flex  "
-                                >
-                                  <p className="text-sm cursor-pointer">
-                                    #{tag}
-                                  </p>
+                                  <div className="mx-3  w-[40%]">
+                                    {bh.created}
+                                  </div>
                                 </div>
                               ))}
-                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-                <div className="p-5 mt-4 bg-adopsoftdark rounded-lg min-h-[300px]">
-                  {auctionData && (
-                    <div>
-                      <div>
-                        <div>ประวัติการประมูล</div>
-                        <div className="m-4">
-                          {auctionData &&
-                            auctionData.bidHistories.map((bh, bhi) => (
-                              <div
-                                key={bhi}
-                                className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
-                              >
-                                <div className="mx-3 flex">
-                                  <img
-                                    className="h-[30px] w-[30px] rounded-full "
-                                    src={`https://pix.adoppix.com/public/${bh.profileImage}`}
-                                  />
-                                  <div className="mx-3"> {bh.username}</div>
-                                </div>
-                                <div className="mx-3">{bh.amount}</div>
-                                <div className="mx-3">{bh.created}</div>
-                              </div>
-                            ))}
+                <div className="bg-adopsoftdark h-auto  sm:h-[600px] w-full min-w-[300px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg p-5">
+                  <div className="text-2xl font-bold">เเนะนำเพิ่มเติม</div>
+                  <div className="p-3">
+                    {anotherReccommend &&
+                      anotherReccommend.map((rec, index) => (
+                        <div key={index} className="my-2">
+                        <div>
+                        <img
+                        draggable={false}
+                        className="h-[140px] object-cover w-full rounded-lg"
+                        src={`https://pix.adoppix.com/public/${rec.image}`}
+                        alt=""
+                      />
                         </div>
-                      </div>
-                    </div>
-                  )}
+                          <div className="text-sm font-bold">
+                           {rec.title}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -418,39 +309,4 @@ export const AuctionItem = () => {
       </div>
     </div>
   );
-};
-
-const Completionist = () => (
-  <span className="text-center">การประมูลจบลงแล้ว</span>
-);
-
-// Renderer callback with condition
-const renderer = ({ days, hours, minutes, seconds, completed }) => {
-  if (completed) {
-    // Render a complete state
-    return <Completionist />;
-  } else {
-    // Render a countdown
-    return (
-      <span>
-        <div className="">
-          <div className="flex m-auto justify-center">
-            {/*    <div className="p-4 bg-adopdark rounded-lg">{zeroPad(days)} </div>
-          <p className="my-auto mx-2">
-            :
-    </p> */}
-            <div className="p-4 bg-adopdark rounded-lg">{zeroPad(hours)} </div>
-            <p className="my-auto mx-2 font-black">:</p>
-            <div className="p-4 bg-adopdark rounded-lg">
-              {zeroPad(minutes)}{" "}
-            </div>
-            <p className="my-auto mx-2 font-black">:</p>
-            <div className="p-4 bg-adopdark rounded-lg">
-              {zeroPad(seconds)}{" "}
-            </div>
-          </div>
-        </div>
-      </span>
-    );
-  }
 };

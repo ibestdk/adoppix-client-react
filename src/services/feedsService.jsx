@@ -1,11 +1,40 @@
 import axios from "axios";
 import { getToken } from "./authorize";
 import { apiPath } from "./envService";
+import { getRelativeTime } from "./apiService";
 const token = getToken();
-const take = 20;
+const take = 10;
 
 
+export const getFeeds = async (page) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
 
+  let result = await axios({
+    method: "get",
+    url: `https://api.adoppix.com/api/Post?take=${take}&page=${page}`,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  console.log("new api coming 🔥🔥✨" , result)
+  if (result.data.data.postList[0].created !== null) {
+    const chatListWithRelativeTime = result.data.data.postList.map((feed) => {
+      try {
+        return {
+          ...feed,
+          relativeTime: getRelativeTime(feed.created),
+        };
+      } catch (error) {
+        return feed;
+      }
+    });
+    result.data.data.postList = chatListWithRelativeTime;
+    return result.data.data;
+  }
+  return [];
+};
 
 export const getFeedsComment = async (feedsId) => {
     const headers = {
@@ -38,6 +67,20 @@ export const putFeeds = async (feedsId ,bodyData) => {
     return response.data.message;
   };
   
+export const deleteFeeds = async (feedsId) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    };
+    let response = await axios({
+      method: "delete",
+      url: `${apiPath}api/Post/${feedsId}`,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    return response.data.message;
+  };
+
 
 
   export const postFeedsComment = async (feedsId , bodyData) => {

@@ -3,7 +3,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import Heart from "react-heart";
 import { getToken } from "../../../services/authorize";
-import { auctionLike, callAuctionCard } from "../../../services/auctionService";
+import { auctionLike, callAuctionCard, callAuctionFilterCard } from "../../../services/auctionService";
 import { LikeList } from "../like/like";
 
 export const CardFeed = ({
@@ -12,7 +12,8 @@ export const CardFeed = ({
   currentpage,
   setcurrentpage,
   seti,
-  istate
+  istate,
+  filterselected
 }) => {
   const [take, setTake] = useState(20);
   const [isloading, setIsloading] = useState(true);
@@ -46,8 +47,16 @@ export const CardFeed = ({
     event.preventDefault();
   }
 
+  // const callData = async () => {
+  //   const response = await callAuctionCard(currentpage);
+  //   setAuctionItems(response.auctionsList);
+  //   settotalpage(response.totalPages);
+  //   setTimeout(() => {
+  //     setIsloading(false);
+  //   }, 1000);
+  // };
   const callData = async () => {
-    const response = await callAuctionCard(currentpage);
+    const response = await callAuctionFilterCard(filterselected , currentpage);
     setAuctionItems(response.auctionsList);
     settotalpage(response.totalPages);
     setTimeout(() => {
@@ -59,6 +68,11 @@ export const CardFeed = ({
     setTimenow(new Date(Date.now()).toISOString());
     callData();
   }, []);
+
+
+  useEffect(() => {
+    callData();
+  }, [filterselected]);
 
   useEffect(() => {
     callData();

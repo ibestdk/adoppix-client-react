@@ -2,35 +2,9 @@ import axios from "axios";
 import { getToken } from "./authorize";
 import moment from "moment";
 const token = getToken();
-export const getFeeds = async () => {
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "multipart/form-data",
-    "Access-Control-Allow-Origin": "*",
-  };
 
-  let result = await axios({
-    method: "get",
-    url: `https://api.adoppix.com/api/Post?take=10&page=0`,
-    headers: headers,
-  }).catch((err) => console.log(err.response));
-  if (result.data.data[0].created !== null) {
-    const chatListWithRelativeTime = result.data.data.map((feed) => {
-      try {
-        return {
-          ...feed,
-          relativeTime: getRelativeTime(feed.created),
-        };
-      } catch (error) {
-        return feed;
-      }
-    });
-    return chatListWithRelativeTime;
-  }
-  return [];
-};
 
-const getRelativeTime = (datetime) => {
+export const getRelativeTime = (datetime) => {
   const now = moment();
   const then = moment(datetime);
   const duration = moment.duration(now.diff(then));

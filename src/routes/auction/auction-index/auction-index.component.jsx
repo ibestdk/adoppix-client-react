@@ -13,6 +13,8 @@ function valuetext(value) {
 
 export const AuctionIndex = () => {
   const [filtersList, setFilterList] = useState();
+  const [filterSelected, setFilterSelected] = useState();
+
   const [value, setValue] = useState([0, 10000]);
   const [i, setI] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
@@ -70,7 +72,7 @@ export const AuctionIndex = () => {
                           className="my-1 text-lg hover:brightness-110  duration-150 cursor-pointer text-adoplighticon hover:text-white"
                           key={tagIndex}
                         >
-                          <div className="flex justify-between">
+                          <div onClick={() => { filterSelected === tag.name ? setFilterSelected(null) :setFilterSelected(tag.name) }} className={`flex justify-between ${filterSelected === tag.name ? "font-bold text-white" : ""}`}>
                             <p>{tag.name}</p>
                             <p>{tag.amount}</p>
                           </div>
@@ -78,9 +80,7 @@ export const AuctionIndex = () => {
                       ))}
                   </div>
                 </div>
-                <div>
-                  <div className="m-4 text-lg text-adoplighticon">ยังไม่มี</div>
-                </div>
+                
                 <div>
                   <div className="border-b-2 border-dashed">
                     <p className="text-xl">ช่วงราคา</p>
@@ -107,6 +107,7 @@ export const AuctionIndex = () => {
                 setcurrentpage={setCurrentPage}
                 seti={setI}
                 istate={i}
+                filterselected={filterSelected}
               />
               <Pagination
                 totalpage={totalPage}

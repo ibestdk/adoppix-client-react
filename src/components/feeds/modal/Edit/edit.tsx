@@ -16,6 +16,7 @@ export default function ModalEditPost({
   visible,
   reloadFeeds,
 }) {
+  if (!visible) return null;
   const [emoji, setEmoji] = useState(false);
   const [confrimModal, setConfrimModal] = useState(false);
   const [bodyData, setBodyData] = useState({
@@ -91,7 +92,7 @@ export default function ModalEditPost({
     console.log(bodyData);
   }, [tagsData]);
 
-  if (!visible) return null;
+
   return (
     <div
       id="modal-card"

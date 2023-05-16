@@ -11,32 +11,35 @@ import {
 } from "react-icons/ai";
 import { BsFilePost } from "react-icons/bs";
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
 import ModalCreatePost from "../../../components/feeds/modal/create/modalCreate";
 import { NavLink } from "react-router-dom";
 import ModalPost from "../../../components/feeds/modal/post/modalPost";
-import { getToken } from "../../../services/authorize";
-import {
-  getFeeds,
-  getPostUpdate,
-  postLike,
-} from "../../../services/apiService";
+import { getPostUpdate, postLike } from "../../../services/apiService";
 import { getUser } from "../../../services/authorize";
 import ImagePreview from "../../../components/feeds/modal/imagePreview/imagePreview";
 import ModalEditPost from "../../../components/feeds/modal/Edit/edit";
+import ModalPostDelete from "../../../components/feeds/modal/Delete/delete";
+import { getFeeds } from "../../../services/feedsService";
+
 export const FeedsIndex = () => {
+  const [feeds, setFeeds] = useState({ postList: [] ,totalPages: 0, currentPage: 0 , searchResult: 0});
+  const [page, setPage] = useState(0);
+  // const [totalPage, setTotalPage] = useState(0);
+  // const [searchResult, setSearchResult] = useState();
+  const [endFeeds, setEndFeeds] = useState(false);
+
   const [profileImageModal, setProfileImageModal] = useState(false);
   const [postModal, setPostModal] = useState(false);
   const [postEdit, setPostEdit] = useState(false);
   const [modalComment, setModalComment] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
   const dropdownRef = useRef(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [feeds, setFeeds] = useState([]);
 
-  const handleOnClosePost = () => setPostModal(false);
+  // const handleOnClosePost = () => setPostModal(false);
   const handleOnClose = () => setProfileImageModal(false);
   const handleOnCloseEdit = () => setModalEdit(false);
   const handlePostEdit = (cardId) => {
@@ -53,27 +56,77 @@ export const FeedsIndex = () => {
       const updatedPost = await getPostUpdate(postId);
       console.log(updatedPost);
       setFeeds((feeds) => {
-        const newFeeds = [...feeds];
-        newFeeds[index] = updatedPost;
-        return newFeeds;
+        const newPostList = [...feeds.postList]; // spread the postList array instead
+        newPostList[index] = updatedPost;
+        return { ...feeds, postList: newPostList }; // update the postList property in the feeds object
       });
     })();
   };
 
   const reloadFeeds = async () => {
-    const results = await getFeeds();
+    const results = await getFeeds(page);
     console.log(results);
     setFeeds(results);
   };
+
+  const callFeeds = async () => {
+    const result = await getFeeds(page);
+    await setFeeds(result);
+  };
+
+
   const user = getUser();
-  // console.log("user", user)
+
+
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      console.log(feeds);
+      loadMoreItems();
+    }
+  };
+
+  const loadMoreItems = async () => {
+    console.log(feeds);
+    console.log(feeds.totalPages);
+    const nextPage = page + 1;
+    console.log("next page : ", nextPage);
+    console.log("total Page : ", feeds.totalPages);
+    if (nextPage >= feeds.totalPages) {
+      setEndFeeds(true);
+      console.log("nextPage >= totalPage");
+      console.log(nextPage > feeds.totalPages - 1);
+      console.log("Stopped");
+      return null;
+    } else if (nextPage < feeds.totalPages) {
+      console.log("nextPage < totalPage");
+      console.log(nextPage < feeds.totalPages - 1);
+
+      console.log("Played");
+      try {
+        const results = await getFeeds(nextPage);
+        const updatedItems = [...feeds.postList, ...results.postList];
+        setFeeds({ ...feeds, postList: updatedItems });
+        setPage(nextPage);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+
   useEffect(() => {
-    (async () => {
-      const results = await getFeeds();
-      // console.log(results);
-      setFeeds(results);
-    })();
+    callFeeds();
   }, []);
+
+
+  // useEffect(() => {
+  //   callFeeds();
+  //   console.log(totalPage);
+  // }, [totalPage]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -89,6 +142,15 @@ export const FeedsIndex = () => {
     };
   }, [dropdownRef]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [feeds]);
+
+
+
   return (
     <div className="">
       <div>
@@ -99,13 +161,30 @@ export const FeedsIndex = () => {
         />
         {selectedPost && (
           <ModalEditPost
-          onclose={handleOnCloseEdit}
-          postdata={selectedPost}
-          onclear={() => {setSelectedPost(null); setModalEdit(false);}}
-          visible={modalEdit}
-          reloadFeeds={reloadFeeds}/>
+            onclose={handleOnCloseEdit}
+            postdata={selectedPost}
+            onclear={() => {
+              setSelectedPost(null);
+              setModalEdit(false);
+            }}
+            visible={modalEdit}
+            reloadFeeds={reloadFeeds}
+          />
+        )}
+        {selectedPost && (
+          <ModalPostDelete
+            onclose={handleOnCloseEdit}
+            postdata={selectedPost}
+            onclear={() => {
+              setSelectedPost(null);
+              setModalDelete(false);
+            }}
+            visible={modalDelete}
+            reloadFeeds={reloadFeeds}
+          />
         )}
       </div>
+
       <div
         className="p-5 dark:bg-adopsoftdark m-4 rounded-lg"
         onClick={() => setProfileImageModal(true)}
@@ -114,10 +193,10 @@ export const FeedsIndex = () => {
           <div className="flex">
             <div className="relative">
               <img
-              className="rounded-full w-[50px] h-[50px] border-2 p-1 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
-              src={`https://pix.adoppix.com/public/${
-                user.profileImage ? user.profileImage : "brushsan.png"
-              }`}
+                className="rounded-full w-[50px] h-[50px] border-2 p-1 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
+                src={`https://pix.adoppix.com/public/${
+                  user.profileImage ? user.profileImage : "brushsan.png"
+                }`}
               />
             </div>
             <div className=" rounded-2xl bg-adopdark w-[80%] mx-4"></div>
@@ -127,9 +206,8 @@ export const FeedsIndex = () => {
           </div>
         </div>
       </div>
-
-      {feeds.length > 0 ? (
-        feeds.map((post, postIndex) => (
+      {feeds.postList.length > 0 ? (
+        feeds.postList.map((post, postIndex) => (
           <div key={postIndex}>
             <div className="p-5 m-4  rounded-lg  bg-adopsoftdark">
               <div>
@@ -160,10 +238,24 @@ export const FeedsIndex = () => {
                         {postEdit && selectedCardId === post.postId && (
                           <div className="relative" ref={dropdownRef}>
                             <div className="absolute  right-[-18px] w-[60px] flex flex-col items-center bg-adopdark p-2 rounded-lg  ">
-                              <div onClick={() => {setSelectedPost(post); setModalEdit(true); setPostEdit(false)}} className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1">
+                              <div
+                                onClick={() => {
+                                  setSelectedPost(post);
+                                  setModalEdit(true);
+                                  setPostEdit(false);
+                                }}
+                                className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1"
+                              >
                                 แก้ไข
                               </div>
-                              <div className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1">
+                              <div
+                                onClick={() => {
+                                  setSelectedPost(post);
+                                  setModalDelete(true);
+                                  setPostEdit(false);
+                                }}
+                                className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1"
+                              >
                                 ลบ
                               </div>
                             </div>
@@ -192,7 +284,6 @@ export const FeedsIndex = () => {
                 <div
                   onClick={() => {
                     setSelectedImage(post);
-                   
                   }}
                   className="hover:opacity-80 duration-500 hover:brightness-75 transition-all ease-linear"
                 >
@@ -220,7 +311,14 @@ export const FeedsIndex = () => {
                     </div>
                   </div>
                   <div className="mx-4 text-xl pt-1">
-                    <div onClick={() => {{setSelectedPost(post); setModalComment(true);}}}>
+                    <div
+                      onClick={() => {
+                        {
+                          setSelectedPost(post);
+                          setModalComment(true);
+                        }
+                      }}
+                    >
                       <BsChatSquare />
                     </div>
                   </div>
@@ -243,9 +341,20 @@ export const FeedsIndex = () => {
       ) : (
         <p className="text-center">No posts found.</p>
       )}
+      {
+        endFeeds && (
+          <div className="flex flex-col justify-center items-center mt-10 mb-10">
+          <div className="text-2xl font-bold">ฟีตของคุณสิ้นสุดลงเเล้ว</div>
+          <div className="text-xs">Tip : กดติดตามศิลปินเพิ่มเพื่อให้ฟีตของคุณมีจำนวนเยอะขึ้น</div>
+          </div>
+        )
+      }
       {selectedPost && (
         <ModalPost
-          onClose={() => {setSelectedPost(null);  setModalComment(false);}}
+          onClose={() => {
+            setSelectedPost(null);
+            setModalComment(false);
+          }}
           visible={modalComment}
           postData={selectedPost}
         />
@@ -254,8 +363,7 @@ export const FeedsIndex = () => {
         <ImagePreview
           onClose={() => {
             setSelectedImage(null);
-           
-          } }
+          }}
           visible={true}
           postData={selectedImage}
         />
