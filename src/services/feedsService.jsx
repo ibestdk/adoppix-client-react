@@ -47,7 +47,21 @@ export const getFeedsComment = async (feedsId) => {
       url: `${apiPath}api/Post/${feedsId}/comment`,
       headers: headers,
     }).catch((err) => console.log(err.response));
-    return response.data.data;
+    if (response.data.data[0].created !== null) {
+      const chatListWithRelativeTime = response.data.data.map((feed) => {
+        try {
+          return {
+            ...feed,
+            relativeTime: getRelativeTime(feed.created),
+          };
+        } catch (error) {
+          return feed;
+        }
+      });
+      response.data.data = chatListWithRelativeTime;
+      return response.data.data;
+    }
+    return [];
   };
   
 

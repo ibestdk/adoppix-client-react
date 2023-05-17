@@ -32,7 +32,7 @@
   
   .menu-trigger img{
     position: static;
-    right: 30px;
+    right: 20px;
     height: 45px;
     width: 45px;
     border-radius: 50%;
@@ -43,8 +43,8 @@
   
   .dropdown-menu-noti{
     position: absolute;
-    top: 80px;
-    right: 110px;
+    top: 80px !important;
+    right: 80px !important;
     background-color: #fff;
     border-radius: var(--border-radius);
     padding: 15px 5px 5px 5px;

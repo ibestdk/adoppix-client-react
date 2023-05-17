@@ -29,14 +29,14 @@ const Navigation = () => {
   return (
     <Fragment>
       <nav className="z-50 bg-white px-2 sm:px-4 py-0 duration-300 dark:bg-adopsoftdark w-full top-0 left-0  dark:border-gray-600  sticky">
-        <div className=" flex flex-wrap items-center justify-between mx-auto">
-          <div className="flex justify-between">
+        <div className=" flex items-center justify-between mx-auto">
+          <div className="flex justify-start  w-[30%]">
             <Link to="" className="logo text-adoppix font-bold text-3xl">
               AdopPix
             </Link>
-            <LiveSearch />
+            <LiveSearch  />
           </div>
-          <div className="flex  md:order-2 mx-auto sm:mx-10">
+          <div className="flex  md:order-2 mx-auto sm:mx-2 justify-end  w-[30%]">
             {!getToken() && (
               <div>
                 <Link to="login">
@@ -77,7 +77,7 @@ const Navigation = () => {
           </div>
 
           <div
-            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+            className="items-center justify-between hidden w-[40%] md:flex md:w-auto md:order-1  "
             id="navbar-sticky"
           >
             <ul className="flex flex-col p-4 mt-4 border  rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0   dark:border-gray-700">

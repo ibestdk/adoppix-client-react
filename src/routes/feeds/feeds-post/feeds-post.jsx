@@ -8,7 +8,10 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FiAlertTriangle } from "react-icons/fi";
 import { getUser } from "../../../services/authorize";
 import { getPostUpdate, postLike } from "../../../services/apiService";
-import { getFeedsComment, postFeedsComment } from "../../../services/feedsService";
+import {
+  getFeedsComment,
+  postFeedsComment,
+} from "../../../services/feedsService";
 
 export const FeedsPost = () => {
   const { postId } = useParams();
@@ -21,16 +24,14 @@ export const FeedsPost = () => {
   const [postEdit, setPostEdit] = useState(false);
 
   const handlePostEdit = () => {
-
     setPostEdit(!postEdit);
   };
 
   const likePost = async (postId) => {
     const result = await postLike(postId);
-    setPostData({ ...post , isLike: result });
+    setPostData({ ...post, isLike: result });
     callPost();
   };
-
 
   const callComment = async () => {
     const result = await getFeedsComment(postId);
@@ -62,12 +63,10 @@ export const FeedsPost = () => {
 
   const handleSubbmit = async () => {
     const result = await postFeedsComment(post.postId, bodyData);
-    if(result === "Successful"){
-
+    if (result === "Successful") {
       await callComment();
       setBodyData({ description: "" });
     }
-
   };
 
   useEffect(() => {
@@ -175,11 +174,11 @@ export const FeedsPost = () => {
                   className="text-red-500"
                 />
               ) : (
-                <AiOutlineHeart
-                  onClick={() => likePost(post.postId)}
-                />
+                <AiOutlineHeart onClick={() => likePost(post.postId)} />
               )}
-              <div className="text-lg">{post.likeCount > 0 && post.likeCount}</div>
+              <div className="text-lg">
+                {post.likeCount > 0 && post.likeCount}
+              </div>
             </div>
             <div className="mx-4 text-lg">
               <div className="flex items-center">
@@ -198,14 +197,25 @@ export const FeedsPost = () => {
               />
             </div>
             <div className="w-full">
-              <input    onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  handleSubbmit();
-                }
-              }} value={bodyData.description} onChange={handleInput} type="text" className="bg-adopdark rounded-lg w-[95%]"  />
+              <input
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleSubbmit();
+                  }
+                }}
+                value={bodyData.description}
+                onChange={handleInput}
+                type="text"
+                className="bg-adopdark rounded-lg w-[95%]"
+              />
             </div>
             <div className="">
-              <div onClick={handleSubbmit} className="text-base bg-adoppix px-6 py-3 rounded-full cursor-pointer"><BiSend/></div>
+              <div
+                onClick={handleSubbmit}
+                className="text-base bg-adoppix px-6 py-3 rounded-full cursor-pointer"
+              >
+                <BiSend />
+              </div>
             </div>
           </div>
           {comment &&
@@ -214,13 +224,14 @@ export const FeedsPost = () => {
                 <div className="flex">
                   <div className="mr-2">
                     <img
-                      className="rounded-full w-[50px] h-[50px]  cursor-pointer"
+                      className="rounded-full w-[45px] h-[45px]  cursor-pointer"
                       src={`https://pix.adoppix.com/public/${com.profileImage}`}
                     />
                   </div>
                   <div>
-                    <div className="text-lg font-bold cursor-pointer">
-                      {com.username}
+                    <div className="text-lg font-bold cursor-pointer flex items-center">
+                      <div>{com.username}</div>
+                      <div className="mx-2 text-sm">{com.relativeTime}</div>
                     </div>
                     <div className="text-base">{com.description}</div>
                   </div>

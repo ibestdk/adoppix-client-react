@@ -3,7 +3,11 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import Heart from "react-heart";
 import { getToken } from "../../../services/authorize";
-import { auctionLike, callAuctionCard, callAuctionFilterCard } from "../../../services/auctionService";
+import {
+  auctionLike,
+  callAuctionCard,
+  callAuctionFilterCard,
+} from "../../../services/auctionService";
 import { LikeList } from "../like/like";
 
 export const CardFeed = ({
@@ -13,7 +17,7 @@ export const CardFeed = ({
   setcurrentpage,
   seti,
   istate,
-  filterselected
+  filterselected,
 }) => {
   const [take, setTake] = useState(20);
   const [isloading, setIsloading] = useState(true);
@@ -39,8 +43,7 @@ export const CardFeed = ({
     const updatedItems = [...auctionItems];
     updatedItems[index] = { ...updatedItems[index], isLike: response };
     setAuctionItems(updatedItems);
-    seti(istate+1);
-    
+    seti(istate + 1);
   };
 
   function handleContextMenu(event) {
@@ -56,7 +59,7 @@ export const CardFeed = ({
   //   }, 1000);
   // };
   const callData = async () => {
-    const response = await callAuctionFilterCard(filterselected , currentpage);
+    const response = await callAuctionFilterCard(filterselected, currentpage);
     setAuctionItems(response.auctionsList);
     settotalpage(response.totalPages);
     setTimeout(() => {
@@ -68,7 +71,6 @@ export const CardFeed = ({
     setTimenow(new Date(Date.now()).toISOString());
     callData();
   }, []);
-
 
   useEffect(() => {
     callData();
@@ -85,7 +87,7 @@ export const CardFeed = ({
   return (
     <div
       onContextMenu={handleContextMenu}
-      className="grid sm:grid-cols-5 grid-cols-2 gap-4 " 
+      className="grid sm:grid-cols-5 grid-cols-2 gap-4 "
     >
       {auctionItems.length > 0 &&
         auctionItems.map((auctionItem, index) => (
@@ -166,12 +168,13 @@ export const CardFeed = ({
                       </div>
                     </div>
                   </div>
-                  <div className="w-full flex space-x-1 flex-wrap">
+                  <div className="w-full flex flex-wrap">
                     {auctionItem.tags &&
                       auctionItem.tags.map((tag, index) => (
                         <div
                           key={index}
-                          className="py-1 px-1  rounded-lg flex  "
+                          className="py-1 px-1 rounded-lg flex"
+                          style={{ flexBasis: "auto" }}
                         >
                           <p className="text-sm cursor-pointer">#{tag}</p>
                         </div>

@@ -69,7 +69,7 @@
 
     return (
       <div
-        className={` ${showResults ? "backdrop" : ""} z-50 w-6/12 sm:w-full`}
+        className={` ${showResults ? "backdrop" : ""} z-50 w-6/12 sm:w-[50%]`}
         id="dropdown-container"
         onFocus={handleOpenSearch}
         onClick={handleClick} 

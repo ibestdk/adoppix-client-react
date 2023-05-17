@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./authorize";
 import { apiPath } from "./envService";
 const token = getToken();
-const take = 5;
+const take = 20;
 
 
 export const callAuctionFilterCard = async (tags, page) => {

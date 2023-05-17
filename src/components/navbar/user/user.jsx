@@ -113,7 +113,7 @@ function UserDropDown() {
         >
           <Link to={userData.username}>
             <div
-              className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 object-cover bg-repeat-round bg-center"
+              className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage:
                   "url(" +
@@ -127,7 +127,7 @@ function UserDropDown() {
             >
               <p className="text-center pt-2 ">
                 <img
-                  className="rounded-full w-[60px] border-4 bg-adoplight dark:bg-adopsoftdark  border-adoppix outline-adoppix mx-auto shadow-lg"
+                  className="rounded-full w-[60px] h-[60px] object-cover border-4 bg-adoplight dark:bg-adopsoftdark  border-adoppix outline-adoppix mx-auto shadow-lg"
                   src={`https://pix.adoppix.com/public/${
                     userData.profileImage
                       ? userData.profileImage

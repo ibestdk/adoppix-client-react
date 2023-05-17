@@ -14,6 +14,7 @@ export const AuctionCreate = () => {
   const navigate = useNavigate();
   //froms states
   const [hotClose, setHotClose] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [commercialUse, setCommercialUse] = useState(false);
 
   //froms
@@ -71,6 +72,7 @@ export const AuctionCreate = () => {
   };
 
   const handleSubmit = async () => {
+    setSubmit(true)
     const bodyData = new FormData();
     if (commercialUse) bodyData.append("CanCommercial", commercialUse);
     if (images)
@@ -90,8 +92,9 @@ export const AuctionCreate = () => {
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
     console.log(FileList);
     console.log(bodyData);
-   const result = await auctionCreate(bodyData);
+    const result = await auctionCreate(bodyData);
     navigate(`/auction/${result}`);
+    // setSubmit(false)
   };
 
   return (
@@ -162,78 +165,87 @@ export const AuctionCreate = () => {
                     }) => (
                       // write your building UI
                       <div className="upload__image-wrapper">
-                        <div className="border-dashed overflow-y-hidden   border-[3px] w-full h-[300px] rounded-lg relative ">
-                          <button
-                            className={`hover:opacity-30 hover:bg-adopsoftdark hover:bg-opacity-70 duration-500  w-full h-full ${
-                              isDragging ? " opacity-30 " : ""
-                            }`}
-                            style={isDragging ? {} : null}
-                            onClick={onImageUpload}
-                            {...dragProps}
-                          >
-                            <div className="text-center mx-auto w-auto flex align-middle ">
+                        <div className="border-dashed overflow-y-hidden overflow-x-scroll border-[3px] w-full h-[300px] rounded-lg relative">
+                        <button
+                          className={`absolute top-0 hover:opacity-30 hover:bg-adopsoftdark hover:bg-opacity-70 duration-500 w-full h-full ${
+                            isDragging ? " opacity-30 " : ""
+                          }`}
+                          style={isDragging ? {} : null}
+                          onClick={onImageUpload}
+                          {...dragProps}
+                        >
+                          <div className="text-center mx-auto w-auto flex align-middle">
+                            {imageList.length === 0 && (
                               <div className="mx-auto flex">
                                 <div className="mx-3">
                                   <BsImage className="p-auto" />
                                 </div>
                                 <div className="">คลิกหรือลากวาง</div>
                               </div>
-                            </div>
-                          </button>
-
-                          <div className="absolute top-0 m-5 flex ">
-                            <div>
-                              <div
-                                className=" overflow-x-scroll  space-x-2 "
-                                style={{ display: "ruby" }}
-                              >
-                                {imageList.map((image, index) => (
-                                  <div key={index} className=" bg-red-400">
-                                    <div className="image-item relative">
-                                      <img
-                                        src={image.data_url}
-                                        alt=""
-                                        className="h-[220px] w-full  object-contain"
-                                      />
-                                      <div className="image-item__btn-wrapper absolute right-0 top-0">
-                                        <div>
-                                          <button
-                                            onClick={() => onImageUpdate(index)}
-                                          >
-                                            <BsPencil />
-                                          </button>
-                                        </div>
-                                        <div>
-                                          <button
-                                            onClick={() => onImageRemove(index)}
-                                          >
-                                            {" "}
-                                            <BsTrash />
-                                          </button>
-                                        </div>
-                                      </div>
+                            )}
+                          </div>
+                        </button>
+                      
+                        <div className="top-0 m-5 flex">
+                          <div className="flex overflow-x-auto overflow-y-hidden space-x-2">
+                            {imageList.map((image, index) => (
+                              <div key={index} className="flex-shrink-0">
+                                <div className="image-item relative">
+                                  <img
+                                    src={image.data_url}
+                                    alt="Thumbnail"
+                                    className="h-[220px] object-contain hover:opacity-80 duration-200"
+                                  />
+                                  <div className="image-item__btn-wrapper absolute right-0 top-0 flex">
+                                    <div>
+                                      <button
+                                        className="drop-shadow-lg p-2 bg-adopsoftdark rounded-full"
+                                        onClick={() => onImageUpdate(index)}
+                                      >
+                                        <BsPencil />
+                                      </button>
+                                    </div>
+                                    <div>
+                                      <button
+                                        className="drop-shadow-lg p-2 bg-adopsoftdark rounded-full"
+                                        onClick={() => onImageRemove(index)}
+                                      >
+                                        <BsTrash />
+                                      </button>
                                     </div>
                                   </div>
-                                ))}
+                                </div>
                               </div>
-                            </div>
+                            ))}
                           </div>
                         </div>
+                      </div>
                         &nbsp;
-                        <div className="w-full relative">
-                          <button
-                            className="right-0 text-lg absolute hover:opacity-50 duration-200"
-                            onClick={onImageRemoveAll}
+                        <div className="flex">
+                          <div
+                            className="flex  w-[300px] cursor-pointer hover:opacity-50 duration-200"
+                            onClick={onImageUpload}
                           >
-                            <div>
-                              <div className="flex ">
-                                <div className="m-auto">
-                                  <BsTrash />
-                                </div>
-                                <div>ลบทั้งหมด</div>
-                              </div>
+                            <div className="mx-2">
+                              <BsImage />
                             </div>
-                          </button>
+                            <div className="text-base">อัพโหลดรูป</div>
+                          </div>
+                          <div className="w-full relative">
+                            <button
+                              className="right-0 text-lg absolute hover:opacity-50 duration-200"
+                              onClick={onImageRemoveAll}
+                            >
+                              <div>
+                                <div className="flex ">
+                                  <div className="m-auto">
+                                    <BsTrash />
+                                  </div>
+                                  <div>ลบทั้งหมด</div>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -266,7 +278,7 @@ export const AuctionCreate = () => {
                     />
                   </div>
                   <div className="mt-4">
-                    <label htmlFor="">ระยะเวลาการประมูล</label>
+                    <label htmlFor="">ระยะเวลาการประมูล (ชั่วโมง)</label>
                     <input
                       onChange={handleHourCount}
                       type="number"
@@ -399,7 +411,7 @@ export const AuctionCreate = () => {
 
                   <div>
                     <p className="text-center">
-                      <button
+                      <button  disabled={submit}
                         onClick={handleSubmit}
                         className="bg-adoppix mx-auto mt-5 rounded-lg py-2 px-4 text-center hover:bg-[#2B6FA0] duration-200 text-lg"
                         type="submit"
