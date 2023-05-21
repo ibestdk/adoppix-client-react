@@ -6,7 +6,13 @@ import { getToken } from "../../services/authorize";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getProfileAuction, getProfilePost } from "../../services/apiService";
 
-const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUserPost ,setUserAuction }) => {
+const UserProfileInfomation = ({
+  setHasUser,
+  setProfilePage,
+  profilePage,
+  setUserPost,
+  setUserAuction,
+}) => {
   const token = localStorage.getItem("token");
   const { userprofile } = useParams();
   interface ProfileData {
@@ -158,8 +164,6 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
     })();
   }, [userprofile]);
 
-
-
   return (
     <div>
       <div>
@@ -261,15 +265,18 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
                         </div>
                       )}
                     </div>
-                    <span
-                      className=" sm:w-[600px] text-sm whitespace-pre-wrap"
-                      style={{
-                        display: "inline-block",
-                        height: "25px",
-                      }}
-                    >
-                      {data?.description}
-                    </span>
+                    {data?.description && (
+                      <span
+                        className="sm:w-[600px] text-sm whitespace-pre-wrap"
+                        style={{
+                          display: "inline-block",
+                          height: "25px",
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: addLinkToDescription(data?.description),
+                        }}
+                      ></span>
+                    )}
                   </div>
                 </div>
                 <div className="  ">
@@ -338,9 +345,30 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
           </div>
           <div className="shadow-xl py-5 mx-auto">
             <div className="flex w-[400px] m-auto">
-              <div onClick={() => handleChangeProfilePage(1)} className={`duration-200 m-auto cursor-pointer ${profilePage === 1 ? "text-adoppix": "text-adoplighticon"}`}>หน้าหลัก</div>
-              <div onClick={() => handleChangeProfilePage(2)} className={`duration-200 m-auto cursor-pointer ${profilePage === 2 ? "text-adoppix": "text-adoplighticon"}`}>feeds</div>
-              <div onClick={() => handleChangeProfilePage(3)} className={`duration-200 m-auto cursor-pointer ${profilePage === 3 ? "text-adoppix": "text-adoplighticon"}`}>auction</div>
+              <div
+                onClick={() => handleChangeProfilePage(1)}
+                className={`duration-200 m-auto cursor-pointer ${
+                  profilePage === 1 ? "text-adoppix" : "text-adoplighticon"
+                }`}
+              >
+                หน้าหลัก
+              </div>
+              <div
+                onClick={() => handleChangeProfilePage(2)}
+                className={`duration-200 m-auto cursor-pointer ${
+                  profilePage === 2 ? "text-adoppix" : "text-adoplighticon"
+                }`}
+              >
+                feeds
+              </div>
+              <div
+                onClick={() => handleChangeProfilePage(3)}
+                className={`duration-200 m-auto cursor-pointer ${
+                  profilePage === 3 ? "text-adoppix" : "text-adoplighticon"
+                }`}
+              >
+                auction
+              </div>
             </div>
           </div>
           <div className="absolute right-0"></div>
@@ -351,3 +379,14 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
 };
 
 export default UserProfileInfomation;
+function addLinkToDescription(description) {
+  // Use a regular expression to find URLs in the description
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  // Replace the URLs with <a> tags
+  const descriptionWithLink = description.replace(urlRegex, (url) => {
+    return `<a href="${url}" className="text-red-500" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  });
+
+  return descriptionWithLink;
+}

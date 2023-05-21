@@ -191,7 +191,7 @@ const Account = () => {
             />
           </div>
           <div>
-            <TextAreaMaker
+            <TextAreaMaker 
               value={description ? description : descriptionLocal}
               onClose={handleDescriptionOnClose}
               handleChange={(e) => setDescription(e.target.value)}

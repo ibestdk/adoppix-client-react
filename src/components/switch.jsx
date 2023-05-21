@@ -16,8 +16,8 @@ const Switch = ({ checked, onChange }) => {
       >
         <span
           className={`${
-            checked ? 'translate-x-6' : 'translate-x-1'
-          } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+            checked ? 'translate-x-6' : 'translate-x-0'
+          } inline-block w-6 h-6 transform shadow-lg bg-white rounded-full transition-transform`}
         />
       </span>
       <span className="text-sm font-medium text-gray-700">

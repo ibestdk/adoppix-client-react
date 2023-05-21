@@ -75,3 +75,22 @@ export const getUser = () => {
     }
   }
 };
+
+
+
+export const changePasswordAPI = async (bodyData) => {
+  const headers = {
+    Authorization: `Bearer ${getToken()}`,
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  let result = await axios({
+    method: "post",
+    url: `${apiPath}api/Auth/change-password`,
+    data: bodyData,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  console.log("Success", result.data.data);
+  return result.data.data;
+};

@@ -1,7 +1,7 @@
 import { GoVerified } from "react-icons/go";
 import { FaTrash } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
-export const CartCard = ({data}) => {
+export const CartCard = ({data , toWishlist, dataIndex , removeCartFromList}) => {
     return (
 
         <div
@@ -13,7 +13,7 @@ export const CartCard = ({data}) => {
           className="dark:bg-adopsoftdark bg-adoplighticon rounded-md w-60 h-40 mr-2 flex hover:opacity-75 cursor-pointer"
         >
           <img
-            className="rounded-md flex-shrink-0 object-cover min-w-full min-h-full"
+            className="rounded-md flex-shrink-0 object-contain min-w-full min-h-full"
             src={`https://pix.adoppix.com/public/${data.image}`}
             alt=""
           />

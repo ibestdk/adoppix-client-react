@@ -34,7 +34,7 @@ function TextAreaMaker(props, { onClose }) {
         ) : (
           <span
             onDoubleClick={props.handleDoubleClick}
-            className="ml-5 w-[600px] text-sm whitespace-pre-wrap"
+            className="ml-5 rounded-lg p-2 text-sm whitespace-pre-wrap bg-adopsoftdark w-[600px] min-h-[100px]"
             style={{
               display: "inline-block",
               height: "25px",

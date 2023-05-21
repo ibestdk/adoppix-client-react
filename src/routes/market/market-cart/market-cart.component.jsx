@@ -128,11 +128,11 @@ export const MarketCart = () => {
     <div>
       {isLogin == true && (
         <div
-          className="dark:bg-adopdark bg-adoplight min-h-screen"
+          className="dark:bg-adopdark bg-adoplight min-h-screen container duration-300  mx-auto"
           draggable="false"
         >
          
-          <div className="container px-14 m-auto grid grid-cols-4 gap-4 pb-10">
+          <div className="container px-2 m-auto grid grid-cols-4 gap-4 pb-10 w-[1200px]">
             <div className="col-span-3">
               <div className="text-3xl dark:text-adoplight text-adopdark my-4">
                 <b>ในตะกร้าสินค้า</b>
@@ -141,7 +141,7 @@ export const MarketCart = () => {
                 <div className="py-10">
                   {cart &&
                     cart.items.map((data, dataIndex) => (
-                      <CartCard data={data}  key={dataIndex}/>
+                      <CartCard data={data}  key={dataIndex} toWishlist={toWishlist} dataIndex={dataIndex} removeCartFromList={removeCartFromList}/>
                     ))}
                   {!cart && (
                    <CartCardSkeleton/>
@@ -197,31 +197,19 @@ export const MarketCart = () => {
                     <div className="px-4 pb-5 pt-3">
                       <div
                         onClick={() => setModal(true)}
-                        className="text-center text-adoplight text-lg py-1 px-20 w-fit rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer"
+                        className="rounded-lg bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
                       >
-                        <b>ซื้อสินค้าในตะกร้า</b>
+                        ซื้อ
                       </div>
+                      <div
+                        onClick={() => setModal(true)}
+                        className="rounded-lg mt-2 bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
+                      >
+                        ซื้อทั้งหมด
+                      </div>
+       
                     </div>
-                    <div className="shadow-md rounded-md dark:bg-adopsoftdark">
-                      <div className="text-2xl dark:text-adoplight text-adopdark my-4 pt-5 pb-2 px-8">
-                        <b>โค้ดส่วนลด</b>
-                      </div>
-                      <div className="grid grid-cols-3 px-4 pb-3">
-                        <div className="col-span-2">
-                          <input
-                            className="text-adopsoftdark rounded-md w-fit shadow-md"
-                            type="text"
-                            name=""
-                            id=""
-                          />
-                        </div>
-                        <div className="pb-3">
-                          <div className="text-center text-adoplight text-sm w-fit px-1 py-2 rounded-md bg-adoppix m-auto hover:bg-blue-500 hover:scale-105 duration-300 cursor-pointer">
-                            <b>ใช้รหัสส่วนลด</b>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                   
                   </div>
                 )}
                 {!cart && (
@@ -236,37 +224,7 @@ export const MarketCart = () => {
                         <div className="h-7 w-full dark:bg-adopdark bg-adoplighticon rounded-md"></div>
                       </div>
                     </div>
-                    <hr className="mx-5 text-adoplighticon" />
-                    <div className="py-3 px-5">
-                      <div className="grid grid-cols-4 gap-1 mb-2 text-lg text-red-400">
-                        <div className="text-start col-span-3">ส่วนลด</div>
-                        <div className="h-7 w-full dark:bg-adopdark bg-adoplighticon rounded-md animate-pulse"></div>
-                      </div>
-                      <div className="grid grid-cols-4 gap-1 text-lg dark:text-adoplight text-adopdark">
-                        <div className="text-start col-span-3">ยอดรวม</div>
-                        <div className="h-7 w-full dark:bg-adopdark bg-adoplighticon rounded-md animate-pulse"></div>
-                      </div>
-                    </div>
-                    <div className="px-4 pb-5 pt-3">
-                      <div className="text-center text-adoplight text-lg py-1 px-20 w-fit rounded-md bg-adoppix m-auto">
-                        <b>ซื้อสินค้าในตะกร้า</b>
-                      </div>
-                    </div>
-                    <div className="shadow-md rounded-md dark:bg-adopsoftdark">
-                      <div className="text-2xl dark:text-adoplight text-adopdark my-4 pt-5 pb-2 px-8">
-                        <b>โค้ดส่วนลด</b>
-                      </div>
-                      <div className="grid grid-cols-3 px-4 pb-3">
-                        <div className="col-span-2 animate-pulse">
-                          <div className="h-10 w-full dark:bg-adopdark bg-adoplighticon rounded-md"></div>
-                        </div>
-                        <div className="pb-3">
-                          <div className="text-center text-adoplight text-sm w-fit px-1 py-2 rounded-md bg-adoppix m-auto">
-                            <b>ใช้รหัสส่วนลด</b>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                   
                   </div>
                 )}
                 {cart && cart.items.length == 0 && (
