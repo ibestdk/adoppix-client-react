@@ -138,3 +138,21 @@ export const deleteFeeds = async (feedsId) => {
     getAuction();
     getUserMoney();
   };
+
+
+  export const createNewPost= async ( bodyData) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    };
+  
+    let result = await axios({
+      method: "post",
+      url: "https://api.adoppix.com/api/Post",
+      data: bodyData,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    console.log("Success", result.data.data);
+    return result.data.message;
+  };

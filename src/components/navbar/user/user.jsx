@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
 import { getToken, getUser, logout } from "../../../services/authorize";
 import { useNavigate, Link } from "react-router-dom";
-import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
 import {
   BsFillGearFill,
@@ -16,6 +15,8 @@ import {
 
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
+import { setDarkModeAPI } from "../../../services/apiService";
+import Switch from "../../switch";
 
 function UserDropDown() {
   const [userData, setUserData] = useState([]);
@@ -23,15 +24,10 @@ function UserDropDown() {
   const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
-  const setDarkMode = (darkMode) => {
-    console.log(
-      "loaded theme before change Ss : " + localStorage.getItem("theme")
-    );
-    console.log("loaded theme before change Ss : " + darkToggle);
-    console.log("theme will change to : " + darkMode);
+  const setDarkMode = async (darkMode) => {
+    const result = await setDarkModeAPI(darkMode);
+    console.log(result);
     setDarkToggle(darkMode);
-    localStorage.setItem("theme", darkMode);
-    console.log("set theme to session" + darkToggle && darkToggle);
   };
 
   const getUserMoney = async () => {
@@ -183,9 +179,14 @@ function UserDropDown() {
             />
 
             <li className="dropdownItem">
-              <BsMoonFill className="dark:text-adoplight  ml-3 mr-2 mt-2 text-xl" />
-              <Switch onClick={() => setDarkMode(!darkToggle)} />
-              <BsSun className="dark:text-adoplight  ml-2 mt-2 text-xl" />
+              <div className="flex justify-start items-center ml-3">
+                <BsSun className="dark:text-adoplight   text-2xl" />
+                <Switch
+                  checked={darkToggle}
+                  onChange={() => setDarkMode(!darkToggle)}
+                />
+                <BsMoonFill className="dark:text-adoplight  text-2xl" />
+              </div>
             </li>
 
             <DropdownItem

@@ -39,6 +39,9 @@ export const AuctionIndex = () => {
   useEffect(() => {
     callFilters();
   }, []);
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [filterSelected]);
   return (
     <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] relative ">
       <div className=" sticky pt-10 z-20">

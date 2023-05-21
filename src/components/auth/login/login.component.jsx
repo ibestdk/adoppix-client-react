@@ -45,7 +45,7 @@ const LoginCard = () => {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
           // console.log("sessionStroage was stored")
-          authenicate(res, () => navigate("/"));
+          authenicate(res, () => {navigate("/"); window.location.reload();});
        
           // localStorage.setItem("ut", res.data);
         }

@@ -69,7 +69,7 @@ export default function ModalPostDelete({
   return (
     <div
       id="modal-card"
-      onClick={handleOnConfrim}
+      onClick={() => onclear()}
       className="mt-10 animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300"
     >
       {confrimModal && (
@@ -113,20 +113,20 @@ export default function ModalPostDelete({
                 <div>
                   <img
                     className="rounded-full w-[40px] h-[40px] mx-2"
-                    src={`https://pix.adoppix.com/public/${postdata.profileImage}`}
+                    src={`https://pix.adoppix.com/public/${postdata.profileImage ? postdata.profileImage : "brushsan.png"}`}
                   />
                 </div>
               </div>
-              <div>
+              <div className="w-[280px]">
                 <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
                   {postdata.username}
                 </div>
-                <div className="text-lg px-2 py-3">{postdata.description}</div>
-                <div className="my-2">
+                <div className="text-lg px-2 py-3 break-words">{postdata.description}</div>
+                <div className="my-2 flex-wrap flex break-words w-full">
                   {postdata.tags.length > 0 && (
-                    <div className="flex">
+                    <div className="flex flex-wrap">
                       {postdata.tags.map((tag, tagindex) => (
-                        <div key={tagindex}>
+                        <div key={tagindex} className="inline-block">
                           <p className="text-sm px-2">#{tag}</p>
                         </div>
                       ))}
@@ -135,7 +135,7 @@ export default function ModalPostDelete({
                 </div>
               </div>
             </div>
-            <div className="hover:brightness-75 duration-300 flex justify-center">
+            <div className="hover:brightness-75 duration-300 flex justify-center items-center">
               <img
                 className="rounded-lg h-[130px] "
                 src={`https://pix.adoppix.com/public/${postdata.images[0]}`}
@@ -144,7 +144,7 @@ export default function ModalPostDelete({
           </div>
           <div className="flex mt-4 justify-end h-[40px] items-center">
            <div onClick={() => onclear()} className="cursor-pointer text-base px-8 py-2 rounded-lg border-2 border-white mr-2">ยกเลิก</div>
-           <div onClick={() => setConfrimModal(true)} className="cursor-pointer text-base px-8 py-2 rounded-lg bg-red-600 text-white">ลบ</div>
+           <div onClick={() => handleSubbmit()} className="cursor-pointer text-base px-8 py-2 rounded-lg bg-red-600 text-white">ลบ</div>
           </div>
         </div>
       </div>

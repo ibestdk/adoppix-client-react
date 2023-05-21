@@ -39,37 +39,21 @@ import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
 import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.component";
 import Storage from "./routes/storage/storage";
 import { StorageIndex } from "./routes/storage/storage-index";
+import { getUser, getUserDataApi } from "./services/authorize";
 
 export const DarkContext = createContext();
 
 function App() {
   // const [darkToggle, setDarkToggle] = React.useState(false);
   const [darkToggle, setDarkToggle] = useState(false);
-
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const loadedTheme = async () => {
+    const user = getUser();
+    console.log(user.isDark)
+    setDarkToggle(user.isDark)
+  };
   useEffect(() => {
-    const loadedTheme = async () => {
-      if (!localStorage.getItem("theme") && localStorage.getItem("user")) {
-        console.log("โหลดธีมใหม่จากผู้ใช้ เนื่องจากยังไม่มีธีมใน local");
-        const userData = JSON.parse(localStorage.getItem("user"));
-        localStorage.setItem("theme", userData.isDark);
-        setDarkToggle(userData.isDark);
-        console.log("theme is : " + userData.isDark);
-        console.log("======================================");
-        console.log(1);
-      } else if (localStorage.getItem("theme")) {
-        console.log("โหลดธีมจาก local");
-        const theme = JSON.parse(localStorage.getItem("theme"));
-        console.log(theme);
-        setDarkToggle(theme);
-        console.log(2);
-      } else {
-        console.log("หาไม่เจอ เซ็ตธีมใหม่แปป");
-        setDarkToggle(false);
-        console.log(3);
-      }
-    };
     loadedTheme();
-
     // // block right click
     // document.addEventListener("contextmenu", function (event) {
     //   event.preventDefault();
@@ -96,6 +80,20 @@ function App() {
     //   }
     // });
   }, []);
+
+  // useEffect(() => {
+  //   const newToken = localStorage.getItem("token");
+  //   if (newToken !== token) {
+  //     setToken(newToken);
+  //   }
+  // }, [token]);
+
+  // useEffect(() => {
+  //   if (token !== null) {
+  //     // Token exists, call getUserDataApi
+  //     getUserDataApi(token);
+  //   }
+  // }, [token]);
 
   return (
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
@@ -130,15 +128,15 @@ function App() {
                 />
               </Route>
               <Route path="market/" element={<Market />}>
-                <Route path="wishlist" element={<MarketWishList />} />
-                <Route path="cart" element={<MarketCart />} />
+                <Route path="wishlist" element={<ProtectedRoute><MarketWishList /></ProtectedRoute>} />
+                <Route path="cart" element={<ProtectedRoute><MarketCart /></ProtectedRoute>} />
                 <Route index element={<MarketIndex />} />
                 <Route path=":productId" element={<MarketItem />} />
-                <Route path="my-shop/:id" element={<MarketMyShopItem />}/>
-                <Route path="create" element={<MarketCreate />} />
-                <Route path="my-shop" element={<MarketMyShop />} />
+                <Route path="my-shop/:id" element={<ProtectedRoute><MarketMyShopItem /></ProtectedRoute>}/>
+                <Route path="create" element={<ProtectedRoute><MarketCreate /></ProtectedRoute>} />
+                <Route path="my-shop" element={<ProtectedRoute><MarketMyShop /></ProtectedRoute>} />
               </Route>
-              <Route exact path="feeds" element={<Feeds />}>
+              <Route exact path="feeds" element={<ProtectedRoute> <Feeds /></ProtectedRoute>}>
                 <Route index element={<FeedsIndex />} />
                 <Route path=":postId" element={<FeedsPost />} />
               </Route>

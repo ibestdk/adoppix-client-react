@@ -12,7 +12,7 @@ export const authenicate = (response, next) => {
   }
   setTimeout(() => {
     next();
-  }, 1000);
+  }, 500);
 };
 
 //get user data after login

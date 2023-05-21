@@ -102,8 +102,8 @@ export const MarketFeed = () => {
           <div className="mb-10">
             <div className="grid grid-cols-12 gap-4">
               {productItems && (
-                <div className="container col-span-3">
-                  <div>
+                <div className="ml-5 mr-5  col-span-3 h-full">
+                  <div className="sticky">
                     <div className="row h-7 pt-10 pb-5 mb-10">
                       <div className="flex relative">
                         <p className="text-left absolute left-6 text-3xl font-bold no-underline duration-300 text-adopdark dark:text-adoplight">
@@ -248,7 +248,7 @@ export const MarketFeed = () => {
                 </div>
               )}
               {productItems && (
-                <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[100px] col-span-9 h-fit w-full rounded-lg">
+                <div className="dark:bg-adopsoftdark shadow-md p-10 mt-[30px] col-span-9 h-fit w-full rounded-lg">
                   {productItems &&
                     productItems.auctionsList.length > 0 &&
                     tags == null && (

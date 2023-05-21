@@ -10,9 +10,9 @@ import {
   AiOutlineShareAlt,
 } from "react-icons/ai";
 import { BsFilePost } from "react-icons/bs";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ModalCreatePost from "../../../components/feeds/modal/create/modalCreate";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ModalPost from "../../../components/feeds/modal/post/modalPost";
 import { getPostUpdate, postLike } from "../../../services/apiService";
 import { getUser } from "../../../services/authorize";
@@ -22,6 +22,7 @@ import ModalPostDelete from "../../../components/feeds/modal/Delete/delete";
 import { getFeeds } from "../../../services/feedsService";
 
 export const FeedsIndex = () => {
+  const navigate = useNavigate();
   const [feeds, setFeeds] = useState({ postList: [] ,totalPages: 0, currentPage: 0 , searchResult: 0});
   const [page, setPage] = useState(0);
   // const [totalPage, setTotalPage] = useState(0);
@@ -122,7 +123,12 @@ export const FeedsIndex = () => {
     callFeeds();
   }, []);
 
-
+  const handleRoute = useCallback(
+    (username) => {
+      navigate("/" + username);
+    },
+    [navigate]
+  );
   // useEffect(() => {
   //   callFeeds();
   //   console.log(totalPage);
@@ -152,7 +158,7 @@ export const FeedsIndex = () => {
 
 
   return (
-    <div className="">
+    <div className="w-[600px] mx-auto">
       <div>
         <ModalCreatePost
           onClose={handleOnClose}
@@ -186,14 +192,14 @@ export const FeedsIndex = () => {
       </div>
 
       <div
-        className="p-5 dark:bg-adopsoftdark m-4 rounded-lg"
+        className="p-5 dark:bg-adopsoftdark m-4 rounded-lg "
         onClick={() => setProfileImageModal(true)}
       >
         <div>
           <div className="flex">
-            <div className="relative">
+            <div className="">
               <img
-                className="rounded-full w-[50px] h-[50px] border-2 p-1 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
+                className="rounded-full w-[50px] h-[50px] border-2 p-1 z-0 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
                 src={`https://pix.adoppix.com/public/${
                   user.profileImage ? user.profileImage : "brushsan.png"
                 }`}
@@ -209,19 +215,19 @@ export const FeedsIndex = () => {
       {feeds.postList.length > 0 ? (
         feeds.postList.map((post, postIndex) => (
           <div key={postIndex}>
-            <div className="p-5 m-4  rounded-lg  bg-adopsoftdark">
+            <div className="p-5 m-4  rounded-lg  bg-adopsoftdark ">
               <div>
                 <div className="flex justify-between items-center">
                   <div className="flex">
-                    <div>
-                      <img
-                        className="rounded-full w-[40px] h-[40px] "
-                        src={`https://pix.adoppix.com/public/${post.profileImage}`}
+                    <div onClick={() => handleRoute(post.username)} className="cursor-pointer">
+                      <img  
+                        className="rounded-full w-[40px] h-[40px]  "
+                        src={`https://pix.adoppix.com/public/${post.profileImage ? post.profileImage : "brushsan.png"}`}
                       />
                     </div>
                     <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
                       <div className="flex items-center">
-                        <div> {post.username}</div>
+                        <div className="cursor-pointer" onClick={() => handleRoute(post.username)}> {post.username}</div>
                         <div className="text-sm mx-3 font-light flex items-center">
                           <AiFillClockCircle className="mx-2" />
                           <div>{post.relativeTime}</div>
@@ -266,10 +272,10 @@ export const FeedsIndex = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="text-lg px-2 py-3">{post.description}</div>
+                  <div className="text-lg px-2 py-3 break-words max-w-[550px]">{post.description}</div>
                   <div className="my-2">
                     {post.tags.length > 0 && (
-                      <div className="grid grid-cols-4 ">
+                      <div className="flex flex-wrap ">
                         {post.tags.map((tag, tagindex) => (
                           <div key={tagindex}>
                             <p className="text-sm px-2">#{tag}</p>

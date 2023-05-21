@@ -19,6 +19,12 @@ import { ChatCard } from "./chatCard/chatCard";
 
 
 export const ChatList = () => {
+  if (localStorage.getItem("token") === null) {
+    return null; // Render nothing while redirecting
+  }
+
+
+
   const [adopLetter, setadopLetter] = useState(false);
   const [chatopen, setChatopen] = useState(false);
   const [chatList, setChatList] = useState(false);

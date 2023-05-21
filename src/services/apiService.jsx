@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getToken } from "./authorize";
 import moment from "moment";
+import { apiPath } from "./envService"
 const token = getToken();
 
 
@@ -53,6 +54,25 @@ export const postLike = async (postId) => {
   }).catch((err) => console.log(err.response));
   return result.data.data;
 };
+
+
+export const setDarkModeAPI = async (bool) => {
+  console.log(bool);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  let result = await axios({
+    method: "put",
+    url: `${apiPath}api/User/is-dark?isDark=${bool}`,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  return result.data.message;
+};
+
+
 
 export const getPostUpdate = async (postId) => {
   if (!postId) return null;

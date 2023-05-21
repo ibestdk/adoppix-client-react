@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import "./like.scss";
-import { AiOutlineHeart } from "react-icons/ai";
-import { getToken, logout } from "../../../services/authorize";
+import "./wishlist.scss";
+import { AiFillStar } from "react-icons/ai";
+
 import { useNavigate, Link } from "react-router-dom";
-import { Switch } from "@mui/material";
-import { DarkContext } from "../../../App";
 import {
   BsFillGearFill,
   BsFillQuestionCircleFill,
@@ -17,29 +15,27 @@ import {
 
 import { MdLogout } from "react-icons/md";
 import axios from "axios";
-import { getAuctionLike } from "../../../services/auctionService";
+import { getWishListsAPI } from "../../../../services/marketService";
 
-export const LikeList = ({istate}) => {
-  const [likeList, setLikeList] = useState([]);
+export const WishList = ({ istate }) => {
+  const [wishList, setWishList] = useState([]);
   const [sort, setSort] = useState(true);
   const [money, setMoney] = useState();
-  const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
   const fsort = (bool) => {
     setSort(bool);
-    setLikeList(likeList.reverse());
+    setWishList(wishList.reverse());
   };
 
   const [open, setOpen] = useState(false);
   let menuRef = useRef();
 
-  const callLikeList = async () => {
-    const result = await getAuctionLike();
-    console.log(result);
-
-    setLikeList(result);
+  const getWishLists = async () => {
+    const result = await getWishListsAPI();
+    setWishList(result);
   };
+
   useEffect(() => {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
@@ -52,8 +48,13 @@ export const LikeList = ({istate}) => {
     };
   }, []);
   useEffect(() => {
-    callLikeList();
+    getWishLists();
   }, [istate]);
+
+  if (localStorage.getItem("token") === null) {
+    return null; // Render nothing while redirecting
+  }
+
 
   return (
     <div className={`App`}>
@@ -65,20 +66,20 @@ export const LikeList = ({istate}) => {
           }}
         >
           <div className="bg-adopsoftdark p-2 rounded-full shadow-lg relative">
-            <AiOutlineHeart className="text-[2rem] " />
+            <AiFillStar className="text-[2rem] " />
             <div className="absolute left-8 top-8 text-xs bg-red-500 w-[25px] h-[25px] flex justify-center items-center rounded-full">
-            {likeList.length > 0 ? likeList.length : 0}
+              {wishList.length > 0 ? wishList.length : 0}
             </div>
           </div>
         </div>
 
         <div
-          className={`dropdown-like ${
+          className={`dropdown-wish ${
             open ? "active" : "inactive"
           }  dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg max-h-[600px] pr-[0px]`}
         >
           <div className="flex justify-between items-center">
-            <div className="text-lg font-bold mb-4">การประมูลที่คุณถูกใจ</div>
+            <div className="text-lg font-bold m-4">รายการโปรด</div>
             <div className="flex mr-2">
               <div
                 onClick={() => fsort(true)}
@@ -98,29 +99,36 @@ export const LikeList = ({istate}) => {
               </div>
             </div>
           </div>
-          <div className="overflow-y-scroll h-[400px]">
-            {likeList &&
-              likeList.map((like, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
-                >
-                  <div className="text-xs">
-                    <div className="text-lg font-bold">{like.title}</div>
-                    <div>{like.description}</div>
+          <div className="overflow-y-scroll h-[400px] flex flex-col justify-between">
+            <div>
+              {wishList &&
+                wishList.map((like, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
+                  >
+                    <div className="text-xs">
+                      <div className="text-lg font-bold">{like.title}</div>
+                      <div>{like.description}</div>
+                    </div>
+                    <div>
+                      <img
+                        className="w-[100px] h-[100px] rounded-lg object-cover "
+                        src={`https://pix.adoppix.com/public/${
+                          like.image ? like.image : "brushsan.png"
+                        }`}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <img
-                      className="w-[100px] h-[100px] rounded-lg object-cover "
-                      src={`https://pix.adoppix.com/public/${
-                        like.image ? like.image : "brushsan.png"
-                      }`}
-                    />
-                  </div>
-                </div>
-              ))}
-            <div className="text-lg font-bold flex justify-center items-center cursor-pointer">
-              ดูเพิ่มเติม
+                ))}
+            </div>
+            <div>
+              <Link
+                to="wishlist"
+                className="text-lg font-bold flex justify-center items-center cursor-pointer"
+              >
+                ดูเพิ่มเติม
+              </Link>
             </div>
           </div>
         </div>

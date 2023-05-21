@@ -12,6 +12,7 @@ import FileUploadSection from "../../../auction/auction-create/file-upload";
 import Chips from "../../../input/chips/chips";
 import { getToken } from "../../../../services/authorize";
 import axios from "axios";
+import { createNewPost } from "../../../../services/feedsService";
 
 function centerAspectCrop(
   mediaWidth: number,
@@ -33,25 +34,14 @@ function centerAspectCrop(
   );
 }
 
-export default function ModalCreatePost({
-  visible,
-  onClose,
-  reloadFeeds,
-}) {
-  const [imgSrc, setImgSrc] = useState("");
-  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const [crop, setCrop] = useState<Crop>();
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
-  const [scale, setScale] = useState(1);
-  const [rotate, setRotate] = useState(0);
-  const [aspect, setAspect] = useState<number | undefined>(1 / 1);
+export default function ModalCreatePost({ visible, onClose, reloadFeeds }) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   const [images, setImages] = useState<File[]>([]);
   const [tagsData, setTagsData] = useState([]);
   const [description, setDescription] = useState("");
+  const maxLength = 430;
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -80,38 +70,29 @@ export default function ModalCreatePost({
     setPreviewImages(updatedPreviewImages);
   };
 
-
-
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();
   };
 
   const handleSubmit = async () => {
     const bodyData = new FormData();
-    if (images)
-      images.forEach((image) => bodyData.append("Images", image));
+    if (images) images.forEach((image) => bodyData.append("Images", image));
 
     if (description) bodyData.append("Description", description);
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
     console.log(FileList);
     console.log(bodyData);
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-      "Access-Control-Allow-Origin": "*",
-    };
 
-    // ถ้าเป็น Promise (พวกใช้ .then ทั้งหลาย) แนะนำให้ใช้ await ไปเลย
-    let result = await axios({
-      method: "post",
-      url: "https://api.adoppix.com/api/Post",
-      data: bodyData,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
-    console.log(result);
-    onClose();
-    reloadFeeds();
+    const result = await createNewPost(bodyData);
+    if(result === "Successful"){
+      setImages([]);
+      setTagsData([]);
+      setDescription("");
+      setPreviewImages([]);
+      setSelectedFiles([]);
+      onClose();
+      reloadFeeds();
+    }
   };
 
   const handleDescription = (e) => {
@@ -123,25 +104,25 @@ export default function ModalCreatePost({
     <div
       id="modal-card"
       onClick={handleOnClose}
-      className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300"
+      className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center  duration-300"
     >
-      <div className=" dark:bg-adopsoftdark bg-adoplight w-[500px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
+      <div className=" dark:bg-adopsoftdark bg-adoplight w-[500px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite] max-h-[600px] overflow-y-scroll">
         <div className="py-1 ">
           <h2 className="dark:text-adoplight text-adopdark text-2xl font-bold p-2 text-center">
             สร้างโพสต์
           </h2>
         </div>
-        <div
-          id="body"
-          className="min-h-[250px] py-2 "
-        >
-          <div className="mt-2">
-            <textarea
-              onChange={handleDescription}
-              className="dark:bg-adopdark rounded-lg w-full h-auto focus:outline-none focus:border-none"
+        <div id="body" className="min-h-[250px] py-2 ">
+          <div className="mt-2 ">
+            <textarea placeholder="เขียนบางสิ่ง . . ." 
+              onChange={handleDescription} maxLength={maxLength}
+              className="dark:bg-adopdark rounded-lg w-full min-h-[150px] focus:outline-none focus:border-none"
               name=""
               id=""
             ></textarea>
+                  <p className="text-xs text-end">
+        {description.length}/{maxLength}
+      </p>
           </div>
           <div className="mt-2">
             <label htmlFor="">เเท็ก</label>
@@ -149,23 +130,20 @@ export default function ModalCreatePost({
               <Chips tagsData={tagsData} setTagsData={setTagsData} />
             </div>
           </div>
-          <div className="mt-2">
-            <div>
-              <div
-                className="overflow-y-hidden"
-                style={{ display: "flex", overflowX: "auto" }}
-              >
+          <div className="mt-2 ">
+            <div className="top-0 m-5 flex">
+              <div className="flex overflow-x-auto overflow-y-hidden space-x-2">
                 {previewImages.map((image, index) => (
-                  <div key={index} style={{ margin: "0 8px" }}>
-                    <div className="relative h-[120px] w-auto ">
+                  <div key={index} className="flex-shrink-0 rounded-lg w-auto" >
+                    <div className="relative">
                       <img
-                        className="rounded-lg h-full shadow-lg object-contain"
+                        className="h-[220px] w-auto rounded-lg  object-contain hover:opacity-80 duration-200"
                         src={image}
                         alt="Selected file preview"
                         width="200"
                       />
                       <div className="absolute top-1 right-1">
-                        <button onClick={() => handleRemoveImage(index)}>
+                        <button className="drop-shadow-lg p-1 text-lg bg-red-400 rounded-full" onClick={() => handleRemoveImage(index)}>
                           <BsXCircle />
                         </button>
                       </div>

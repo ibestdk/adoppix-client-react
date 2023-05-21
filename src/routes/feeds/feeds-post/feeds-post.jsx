@@ -84,7 +84,7 @@ export const FeedsPost = () => {
   }, [dropdownRef]);
 
   return (
-    <div className="bg-adoplight dark:bg-adopdark">
+    <div className="bg-adoplight dark:bg-adopdark w-[600px]">
       {deleteConfirm && (
         <div className="animation-custom fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center duration-300">
           <div className=" dark:bg-adopsoftdark bg-adoplight w-[350px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite]">
@@ -115,7 +115,7 @@ export const FeedsPost = () => {
                 <div>
                   <img
                     className="rounded-full w-[40px] h-[40px] "
-                    src={`https://pix.adoppix.com/public/${post.profileImage}`}
+                    src={`https://pix.adoppix.com/public/${post.profileImage ? post.profileImage : "brushsan.png"}`}
                   />
                 </div>
                 <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
@@ -145,19 +145,22 @@ export const FeedsPost = () => {
                 )}
               </div>
             </div>
-            <div>
-              <div className="text-lg px-2 py-3">{post.description}</div>
-              <div className="my-2">
-                {post.tags.length > 0 && (
-                  <div className="flex">
-                    {post.tags.map((tag, tagindex) => (
-                      <div key={tagindex}>
-                        <p className="text-sm px-2">#{tag}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div className="w-[100%]">
+              <div className="text-lg px-2 py-3 break-words">{post.description}</div>
+
+              <div className="my-2 flex-wrap flex break-words w-full">
+              {post.tags.length > 0 && (
+                <div className="flex flex-wrap">
+                  {post.tags.map((tag, tagindex) => (
+                    <div key={tagindex} className="inline-block">
+                      <p className="text-sm px-2">#{tag}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+     
+
+            </div>
             </div>
           </div>
           <div className="hover:brightness-75 duration-300">

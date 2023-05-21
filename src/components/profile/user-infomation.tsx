@@ -124,6 +124,7 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
       });
   };
   useEffect(() => {
+    setyourSelf(false);
     setIsLoading(true);
 
     const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -134,6 +135,7 @@ const UserProfileInfomation = ({ setHasUser, setProfilePage, profilePage, setUse
     console.log(userprofile);
     setTimeout(() => {
       getProfileData();
+
       getProfilefollow();
     }, 1000);
   }, [userprofile]);

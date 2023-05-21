@@ -44,7 +44,8 @@ const UserProfile = () => {
                   {userPost.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4">
                       {userPost.map((post, index) => (
-                        <Link to={`/feeds/${post.postId}`}
+                        <Link
+                          to={`/feeds/${post.postId}`}
                           className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:scale-105 duration-300"
                           key={index}
                         >
@@ -68,21 +69,22 @@ const UserProfile = () => {
                   {userAuction.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4">
                       {userAuction.map((auction, index) => (
-                        <Link to={`/auction/${auction.auctionId}`}
+                        <Link
+                          to={`/auction/${auction.auctionId}`}
                           className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:scale-105 duration-300"
                           key={index}
                         >
-                    { /***    <ReactWaterMark
+                          {/***    <ReactWaterMark
                         waterMarkText={userprofile}
                             openSecurityDefense
                             options={options}
                           >
                         </ReactWaterMark>*/}
-                            <img
-                              className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:h-[340px] hover:w-[340px] object-cover  "
-                              src={`https://pix.adoppix.com/public/${auction.image}`}
-                              alt=""
-                            />
+                          <img
+                            className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:h-[340px] hover:w-[340px] object-cover  "
+                            src={`https://pix.adoppix.com/public/${auction.image}`}
+                            alt=""
+                          />
                         </Link>
                       ))}
                     </div>
@@ -98,6 +100,9 @@ const UserProfile = () => {
         ) : (
           <div>ไม่พบผู้ใช้</div>
         )}
+      </div>
+      <div>
+      <img className="mx-auto mt-20" src="https://media.discordapp.net/attachments/681151360305201169/1032635055169871913/adopchan.png" alt="" />
       </div>
     </div>
   );

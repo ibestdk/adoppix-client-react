@@ -1,29 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import "./like.scss";
-import { AiOutlineHeart } from "react-icons/ai";
-import { getToken, logout } from "../../../services/authorize";
+import "./cart.scss";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useNavigate, Link } from "react-router-dom";
-import { Switch } from "@mui/material";
-import { DarkContext } from "../../../App";
-import {
-  BsFillGearFill,
-  BsFillQuestionCircleFill,
-  BsMoonFill,
-  BsSun,
-  BsImages,
-  BsFillCreditCard2FrontFill,
-  BsBank2,
-} from "react-icons/bs";
 
-import { MdLogout } from "react-icons/md";
 import axios from "axios";
-import { getAuctionLike } from "../../../services/auctionService";
+import { getCartAPI } from "../../../../services/marketService";
 
-export const LikeList = ({istate}) => {
+export const CartList = ({ istate }) => {
   const [likeList, setLikeList] = useState([]);
   const [sort, setSort] = useState(true);
   const [money, setMoney] = useState();
-  const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
   const fsort = (bool) => {
@@ -35,10 +21,10 @@ export const LikeList = ({istate}) => {
   let menuRef = useRef();
 
   const callLikeList = async () => {
-    const result = await getAuctionLike();
-    console.log(result);
+    const result = await getCartAPI();
+    console.log(result.items);
 
-    setLikeList(result);
+    setLikeList(result.items);
   };
   useEffect(() => {
     let handler = (e) => {
@@ -55,6 +41,10 @@ export const LikeList = ({istate}) => {
     callLikeList();
   }, [istate]);
 
+  if (localStorage.getItem("token") === null) {
+    return null; // Render nothing while redirecting
+  }
+
   return (
     <div className={`App`}>
       <div className="menu-container" ref={menuRef}>
@@ -65,9 +55,9 @@ export const LikeList = ({istate}) => {
           }}
         >
           <div className="bg-adopsoftdark p-2 rounded-full shadow-lg relative">
-            <AiOutlineHeart className="text-[2rem] " />
+            <AiOutlineShoppingCart className="text-[2rem] " />
             <div className="absolute left-8 top-8 text-xs bg-red-500 w-[25px] h-[25px] flex justify-center items-center rounded-full">
-            {likeList.length > 0 ? likeList.length : 0}
+              {likeList.length > 0 ? likeList.length : 0}
             </div>
           </div>
         </div>
@@ -98,29 +88,36 @@ export const LikeList = ({istate}) => {
               </div>
             </div>
           </div>
-          <div className="overflow-y-scroll h-[400px]">
-            {likeList &&
-              likeList.map((like, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
-                >
-                  <div className="text-xs">
-                    <div className="text-lg font-bold">{like.title}</div>
-                    <div>{like.description}</div>
+          <div className="overflow-y-scroll h-[400px] flex flex-col justify-between">
+            <div>
+              {likeList &&
+                likeList.map((like, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
+                  >
+                    <div className="text-xs">
+                      <div className="text-lg font-bold">{like.title}</div>
+                      <div>{like.description}</div>
+                    </div>
+                    <div>
+                      <img
+                        className="w-[100px] h-[100px] rounded-lg object-cover "
+                        src={`https://pix.adoppix.com/public/${
+                          like.image ? like.image : "brushsan.png"
+                        }`}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <img
-                      className="w-[100px] h-[100px] rounded-lg object-cover "
-                      src={`https://pix.adoppix.com/public/${
-                        like.image ? like.image : "brushsan.png"
-                      }`}
-                    />
-                  </div>
-                </div>
-              ))}
-            <div className="text-lg font-bold flex justify-center items-center cursor-pointer">
-              ดูเพิ่มเติม
+                ))}
+            </div>
+            <div>
+              <Link
+                to="cart"
+                className="text-lg font-bold flex justify-center items-center cursor-pointer"
+              >
+                ดูเพิ่มเติม
+              </Link>
             </div>
           </div>
         </div>

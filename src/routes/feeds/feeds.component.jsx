@@ -1,10 +1,11 @@
-import { Outlet } from "react-router-dom";
-import BackToTopButton from "../../components/backToTop/backToTop";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getToken } from "../../services/authorize";
 export const Feeds = () => {
+
+
   return (
     <div>
       <div>
-        <BackToTopButton />
         <div className="sm:px-[25%]   pt-5 bg-adopdark">
           <div className="container rounded-lg  mx-auto ">
             <div className="flex">
