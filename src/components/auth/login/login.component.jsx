@@ -110,16 +110,16 @@ const LoginCard = () => {
           </div>
           <div className="flex items-center gap-2">
             <input className="rounded-md" type="checkbox" name="" id="" />
-            <Label htmlFor="remember">Remember me</Label>
+            <Label htmlFor="remember">จดจำฉัน</Label>
           </div>
           <Button type="submit">Login</Button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
+            ยังไม่มีรหัสอย่างงั้นหรอ?{" "}
             <Link
               to="/signup"
               className="text-blue-700 hover:underline dark:text-blue-500"
             >
-              Create account
+              คลิกเพื่อสมัครสมาชิก
             </Link>
           </div>
         </form>
