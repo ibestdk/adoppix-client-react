@@ -36,7 +36,7 @@ export const LikeList = ({istate}) => {
 
   const callLikeList = async () => {
     const result = await getAuctionLike();
-    console.log(result);
+    //console.log(result);
 
     setLikeList(result);
   };

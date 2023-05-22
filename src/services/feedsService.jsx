@@ -18,7 +18,7 @@ export const getFeeds = async (page) => {
     url: `https://api.adoppix.com/api/Post?take=${take}&page=${page}`,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  console.log("new api coming 🔥🔥✨" , result)
+  //console.log("new api coming 🔥🔥✨" , result)
   if (result.data.data.postList[0].created !== null) {
     const chatListWithRelativeTime = result.data.data.postList.map((feed) => {
       try {
@@ -110,7 +110,7 @@ export const deleteFeeds = async (feedsId) => {
       data: JSON.stringify(bodyData),
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log("Success", result.data.data);
+    //console.log("Success", result.data.data);
     return result.data.message;
   };
 
@@ -120,7 +120,7 @@ export const deleteFeeds = async (feedsId) => {
       amount: 0,
     };
     if (bidsAuction) bodyData.amount = bidsAuction;
-    console.log(bodyData);
+    //console.log(bodyData);
     const token = getToken();
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ export const deleteFeeds = async (feedsId) => {
       data: JSON.stringify(bodyData),
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(result);
+    //console.log(result);
     getAuction();
     getUserMoney();
   };
@@ -153,6 +153,6 @@ export const deleteFeeds = async (feedsId) => {
       data: bodyData,
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log("Success", result.data.data);
+    //console.log("Success", result.data.data);
     return result.data.message;
   };

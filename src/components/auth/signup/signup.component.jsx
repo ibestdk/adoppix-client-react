@@ -19,12 +19,12 @@ const SignUpCard = () => {
 
   const handleCheck = () => {
     setChecked(!checked);
-    console.log(checked);
+    //console.log(checked);
   };
 
   const handleChange = (e) => {
-    console.log("handleChange");
-    console.log("formErrors" + formErrors);
+    //console.log("handleChange");
+    //console.log("formErrors" + formErrors);
     const { name, value } = e.currentTarget;
     setFormValues({ ...formValues, [name]: value });
     // console.table(initialValues);
@@ -34,25 +34,25 @@ const SignUpCard = () => {
     event.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true); //ปิดด้วย
-    console.log("handlesubmit");
-    console.log("formErrors" + JSON.stringify(formErrors));
-    console.log(checked);
+    //console.log("handlesubmit");
+    //console.log("formErrors" + JSON.stringify(formErrors));
+    //console.log(checked);
     if (JSON.stringify(formErrors) === "{}") {
       const data = new FormData(event.currentTarget);
 
       if (checked === true) {
-        console.log({
-          email: data.get("email"),
-          password: data.get("password"),
-          username: data.get("username"),
-        });
+        // //console.log({
+        //   email: data.get("email"),
+        //   password: data.get("password"),
+        //   username: data.get("username"),
+        // });
 
         const jsonData = {
           email: data.get("email"),
           password: data.get("password"),
           username: data.get("username"),
         };
-        // console.log("data for api : " + JSON.parse(jsonData));
+        // //console.log("data for api : " + JSON.parse(jsonData));
         fetch("https://api.adoppix.com/api/Auth/register", {
           method: "POST",
           headers: {
@@ -63,17 +63,17 @@ const SignUpCard = () => {
         })
           .then((response) => response.json())
           .then((res) => {
-            console.log("Success:", res);
+            //console.log("Success:", res);
             if (res.status) {
               //sent data to authen services
               // sessionStorage.setItem("token", response.data)
-              // console.log("sessionStroage was stored")
+              // //console.log("sessionStroage was stored")
               // authenicate(res, () => navigate("/"));
-              console.log("complete register");
+              //console.log("complete register");
               setSubmitSuccess(true);
               // localStorage.setItem("ut", res.data);
             } else {
-              console.log("call validate");
+              //console.log("call validate");
               setFormErrors(validateApi(res));
             }
           })
@@ -82,16 +82,16 @@ const SignUpCard = () => {
           });
       } else if (checked === false) {
         setFormErrors(validateChecked(checked));
-        console.log("case false");
+        //console.log("case false");
       }
     }
   };
 
   useEffect(() => {
-    console.log("call useEffect")
-    // console.log(formErrors);
+    //console.log("call useEffect")
+    // //console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      // console.log(formValues);
+      // //console.log(formValues);
     }
   }, [formErrors]);
   const validate = (values) => {

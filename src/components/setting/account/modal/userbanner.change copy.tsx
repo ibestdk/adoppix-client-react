@@ -50,14 +50,14 @@ export default function ModalBannerChange({
   const canvasToBase64 = () => {
     const base64 = previewCanvasRef.current?.toDataURL("image/jpeg");
     // const canvas = document.createElement("canvas");
-    console.log(base64);
+    //console.log(base64);
     // const base64Image = canvas.toDataURL("image/jpeg");
     // setImageOutput(canvas);
-    // console.log(base64Image);
+    // //console.log(base64Image);
     const file = dataURLtoFile(base64, "test.jpg");
     setCoverImageCrop(file);
     setCoverImageCrop64(base64);
-    console.log(file);
+    //console.log(file);
     onClose();
   };
 
@@ -125,10 +125,10 @@ export default function ModalBannerChange({
     }
   }
   const handleSave = () => {
-    console.log(completedCrop);
-    console.log(previewCanvasRef);
-    console.log(imgSrc);
-    console.log(imgRef);
+    //console.log(completedCrop);
+    //console.log(previewCanvasRef);
+    //console.log(imgSrc);
+    //console.log(imgRef);
   };
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();

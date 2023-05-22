@@ -48,7 +48,7 @@ const Security = () => {
 
       try {
         const response = await changePasswordAPI(bodyData);
-        console.log("Success", response);
+        //console.log("Success", response);
         // Perform any necessary actions upon successful password change
         setOldPassword("");
         setNewPassword("");
@@ -57,7 +57,7 @@ const Security = () => {
         setEmptyInputError(false);
         setShowSuccessPopup(true); // Show success popup
       } catch (error) {
-        console.log("Error", error);
+        //console.log("Error", error);
         // Handle any error occurred during password change
       }
     }

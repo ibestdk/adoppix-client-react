@@ -8,108 +8,96 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ConfirmModal from "../../../components/market/market-modal/confirm-modal";
 import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy";
-import { getCartAPI } from "../../../services/marketService";
+import {
+  getCartAPI,
+  postBuyALLCarts,
+  postToWishList,
+} from "../../../services/marketService";
 import { CartCard } from "./cart-card";
 import { CartCardSkeleton } from "./cart-card-skeleton";
+import { stringify } from 'qs';
+
 
 export const MarketCart = () => {
   const navigate = useNavigate();
-
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState([]);
   const [modal, setModal] = useState(false);
-  const handleOnClose = () => setModal(false);
   const [price, setPrice] = useState();
   const [succese, setSuccese] = useState(false);
-
-  const navigateToWishList = () => {
-    navigate(`../wishlist`);
-  };
-
-  const navigateToCart = () => {
-    navigate(`../`);
-  };
-
   const [cart, setCart] = useState();
-  const getCart = async () => {
-    const result = await getCartAPI();
-    setCart(result);
-    setPrice(result.total);
+  const [isLogin, setIsLogin] = useState(false);
+
+  const handleOnClose = () => setModal(false);
+
+  const handleCheckboxChange = (data) => {
+    // Check if the selectedProduct array contains the data
+    const existingIndex = selectedProduct.findIndex(item => item.productId === data.productId);
+    
+    if (existingIndex !== -1) {
+      // Remove the data from the selectedProduct array
+      const updatedSelectedProduct = [...selectedProduct];
+      updatedSelectedProduct.splice(existingIndex, 1);
+      setSelectedProduct(updatedSelectedProduct);
+    } else {
+      // Add the data to the selectedProduct array
+      setSelectedProduct([...selectedProduct, data]);
+    }
   };
 
-  const removeFromList = function (index) {
-    setCart({
-      discount: cart.discount,
-      items: cart.items.filter((item, i) => i != index),
-      total: cart.total - cart.items[index].price,
-    });
-    console.log(cart.total);
+  
+  const handleClick = () => {
+    const serializedData = encodeURIComponent(stringify(selectedProduct));
+    navigate(`../Summary/${serializedData}`);
   };
 
-  const removeCartFromList = function (id, index) {
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "*",
-    };
 
-    axios
-      .post(`https://api.adoppix.com/api/Product/${id}/toggle-cart`, {
-        headers,
-      })
-      .then((res) => {
-        removeFromList(index);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const handleAllCardCheckOut = () => {
+    const serializedData = encodeURIComponent(stringify(cart.items));
+    navigate(`../Summary/${serializedData}`);
   };
 
-  const toWishlist = (id, index) => {
-    console.log(id);
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "*",
-    };
 
-    axios({
-      method: "patch",
-      url: `https://api.adoppix.com/api/Product/${id}/wishlist`,
-      headers: headers,
-    })
-      .then((res) => {
-        console.log(res);
-        removeFromList(index);
-      })
-      .catch((err) => console.log(err));
+  const submitSelectedItems = () => {
+    //console.log(selectedProduct)
   };
 
-  const naviagteToItem = function (id) {
+  const removeFromList = (index) => {
+    setCart((prevCart) => ({
+      ...prevCart,
+      items: prevCart.items.filter((item, i) => i !== index),
+      total: prevCart.total - prevCart.items[index].price,
+    }));
+  };
+
+  const removeCartFromList = async (id, index) => {
+    const result = await postBuyALLCarts();
+    if (result === "Successful") {
+      removeFromList(index);
+    }
+  };
+
+  const naviagteToItem = (id) => {
     navigate(`../${id}`);
   };
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const buyOnCarts = function () {
-    const token = getToken();
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "*",
-    };
-
-    axios
-      .post(`https://api.adoppix.com/api/Product/buys`, { headers })
-      .then(async (res) => {
-        setModal(false);
-        setSuccese(true);
-        await delay(3000);
-        navigate(`../`);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const toWishlist = async (id, index) => {
+    const result = await postToWishList(id);
+    if (result === "Successful") {
+      removeFromList(index);
+    }
   };
 
-  const [isLogin, setIsLogin] = useState(false);
+  const buyOnCarts = async () => {
+    const result = await postBuyALLCarts();
+    if (result === "Successful") {
+      //console.log(result);
+      // navigate(`../`);
+    }
+  };
+
   const userOrGuest = async () => {
     const token = getToken();
     if (token === false || token === undefined) {
@@ -120,18 +108,23 @@ export const MarketCart = () => {
     }
   };
 
+  const getCart = async () => {
+    const result = await getCartAPI();
+    setCart(result);
+    setPrice(result.total);
+  };
+
   useEffect(() => {
     userOrGuest();
   }, []);
 
   return (
     <div>
-      {isLogin == true && (
+      {isLogin && (
         <div
-          className="dark:bg-adopdark bg-adoplight min-h-screen container duration-300  mx-auto"
+          className="dark:bg-adopdark bg-adoplight min-h-screen container duration-300 mx-auto"
           draggable="false"
         >
-         
           <div className="container px-2 m-auto grid grid-cols-4 gap-4 pb-10 w-[1200px]">
             <div className="col-span-3">
               <div className="text-3xl dark:text-adoplight text-adopdark my-4">
@@ -141,12 +134,17 @@ export const MarketCart = () => {
                 <div className="py-10">
                   {cart &&
                     cart.items.map((data, dataIndex) => (
-                      <CartCard data={data}  key={dataIndex} toWishlist={toWishlist} dataIndex={dataIndex} removeCartFromList={removeCartFromList}/>
+                      <CartCard
+                        data={data}
+                        key={dataIndex}
+                        toWishlist={toWishlist}
+                        dataIndex={dataIndex}
+                        removeCartFromList={removeCartFromList}
+                        handleCheckboxChange={handleCheckboxChange}
+                      />
                     ))}
-                  {!cart && (
-                   <CartCardSkeleton/>
-                  )}
-                  {cart && cart.items.length == 0 && (
+                  {!cart && <CartCardSkeleton />}
+                  {cart && cart.items.length === 0 && (
                     <div className="px-8 py-5 place-items-center text-center">
                       ยังไม่มีสินค้าในตะกร้าสินค้า{" "}
                       <div
@@ -165,11 +163,11 @@ export const MarketCart = () => {
                 <b>สรุปการชำระเงิน</b>
               </div>
               <div className="shadow-md rounded-md dark:bg-adopsoftdark">
-                {cart && cart.items.length != 0 && (
+                {cart && cart.items.length !== 0 && (
                   <div>
                     <div className=" py-3">
-                      {cart &&
-                        cart.items.map((data, dataIndex) => (
+                      {selectedProduct &&
+                        selectedProduct.map((data, dataIndex) => (
                           <div
                             key={dataIndex}
                             className="grid grid-cols-4 gap-1 text-lg pb-2 px-5  dark:text-adoplight text-adopdark"
@@ -185,31 +183,35 @@ export const MarketCart = () => {
                     <div className="py-3 px-5">
                       <div className="grid grid-cols-4 gap-1 text-lg text-red-400">
                         <div className="text-start col-span-3">ส่วนลด</div>
-                        <div className="text-end">{cart && cart.discount}</div>
+                        <div className="text-end">{cart.discount}</div>
                       </div>
                       <div className="grid grid-cols-4 gap-1 text-lg dark:text-adoplight text-adopdark">
                         <div className="text-start col-span-3">ยอดรวม</div>
                         <div className="text-end">
-                          {cart && cart.total - cart.discount}
+                          {cart.total - cart.discount}
                         </div>
                       </div>
                     </div>
                     <div className="px-4 pb-5 pt-3">
                       <div
-                        onClick={() => setModal(true)}
+                        onClick={() => handleClick()}
                         className="rounded-lg bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
                       >
                         ซื้อ
                       </div>
                       <div
-                        onClick={() => setModal(true)}
+                        onClick={() => handleAllCardCheckOut()}
                         className="rounded-lg mt-2 bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
                       >
                         ซื้อทั้งหมด
                       </div>
-       
+                      <div
+                        onClick={submitSelectedItems}
+                        className="rounded-lg mt-2 bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
+                      >
+                        Submit Selected
+                      </div>
                     </div>
-                   
                   </div>
                 )}
                 {!cart && (
@@ -224,45 +226,92 @@ export const MarketCart = () => {
                         <div className="h-7 w-full dark:bg-adopdark bg-adoplighticon rounded-md"></div>
                       </div>
                     </div>
-                   
                   </div>
                 )}
-                {cart && cart.items.length == 0 && (
-                  <div className="text-center place-items-center p-[76px]">
-                    ไม่มีสินค้า
+                {cart && cart.items.length === 0 && (
+                  <div>
+                    <div className=" px-8 py-5 place-items-center text-center">
+                      ยังไม่มีสินค้าในตะกร้าสินค้า{" "}
+                      <div
+                        onClick={() => navigate(`../`)}
+                        className="text-adoppix mt-2 hover:opacity-75 cursor-pointer"
+                      >
+                        ค้นหาสินค้า?
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
             </div>
           </div>
-          <SuccesefullBuy visible={succese} />
-          <ConfirmModal
-            onClose={handleOnClose}
-            visible={modal}
-            price={price}
-            method={buyOnCarts}
-          />
         </div>
       )}
-      {isLogin == false && (
-        <div className="w-full dark:bg-adopdark bg-adoplight min-h-screen content-center grid">
-          <h2 className="dark:text-adoplight text-adopdark text-3xl p-2 text-center">
-            โปรดลงชื่อเข้าใช้ก่อนทำรายการ
-            <div
-              onClick={() => navigate("../../login")}
-              className="text-adoppix text-xl mt-2 hover:opacity-75 cursor-pointer w-fit text-center m-auto"
-            >
-              ไปลงชื่อเข้าใช้งาน?
+      {!isLogin && (
+        <div
+          className="dark:bg-adopdark bg-adoplight min-h-screen container duration-300 mx-auto"
+          draggable="false"
+        >
+          <div className="container px-2 m-auto grid grid-cols-4 gap-4 pb-10 w-[1200px]">
+            <div className="col-span-3">
+              <div className="text-3xl dark:text-adoplight text-adopdark my-4">
+                <b>ในตะกร้าสินค้า</b>
+              </div>
+              <div className="shadow-md rounded-md dark:bg-adopsoftdark">
+                <div className="py-10">
+                  <div className="px-8 py-5 place-items-center text-center">
+                    กรุณาเข้าสู่ระบบเพื่อดูสินค้าในตะกร้าสินค้า{" "}
+                    <div
+                      onClick={() => navigate(`/login`)}
+                      className="text-adoppix mt-2 hover:opacity-75 cursor-pointer"
+                    >
+                      เข้าสู่ระบบ
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div
-              onClick={() => navigate("../../signup")}
-              className="text-adoppix text-xl mt-2 hover:opacity-75 cursor-pointer w-fit text-center m-auto"
-            >
-              ไปลงทะเบียนเข้าใช้งาน?
+            <div className="">
+              <div className="text-3xl dark:text-adoplight text-adopdark my-4">
+                <b>สรุปการชำระเงิน</b>
+              </div>
+              <div className="shadow-md rounded-md dark:bg-adopsoftdark">
+                <div className="py-3 px-5">
+                  <div className="grid grid-cols-4 gap-1 text-lg text-red-400">
+                    <div className="text-start col-span-3">ส่วนลด</div>
+                    <div className="text-end">0</div>
+                  </div>
+                  <div className="grid grid-cols-4 gap-1 text-lg dark:text-adoplight text-adopdark">
+                    <div className="text-start col-span-3">ยอดรวม</div>
+                    <div className="text-end">0</div>
+                  </div>
+                </div>
+                <div className="px-4 pb-5 pt-3">
+                  <div
+                    onClick={() => navigate(`/login`)}
+                    className="rounded-lg bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
+                  >
+                    ซื้อ
+                  </div>
+                </div>
+              </div>
             </div>
-          </h2>
+          </div>
         </div>
+      )}
+      {modal && (
+        <ConfirmModal
+          onClose={handleOnClose}
+          removeCartFromList={removeCartFromList}
+          setModal={setModal}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          selectedItems={selectedItems}
+          setCart={setCart}
+          setPrice={setPrice}
+          buyOnCarts={buyOnCarts}
+        />
       )}
     </div>
   );
 };
+

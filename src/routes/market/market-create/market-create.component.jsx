@@ -28,8 +28,8 @@ export const MarketCreate = () => {
         setImages();
         setCover();
 
-        // console.log("typeProductState "+typeProductState);
-        // console.log("productType "+productType);
+        // //console.log("typeProductState "+typeProductState);
+        // //console.log("productType "+productType);
     }
 
     // commercial button
@@ -91,7 +91,7 @@ export const MarketCreate = () => {
         }
         if (price) bodyData.append("Price", price);
         if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
-        console.log(bodyData);
+        //console.log(bodyData);
         const token = getToken();
         const headers = {
             Authorization: `Bearer ${token}`,
@@ -122,8 +122,8 @@ export const MarketCreate = () => {
 
     useEffect(() => {
         userOrGuest();
-        // console.log("typeProductState "+typeProductState);
-        // console.log("productType "+productType);
+        // //console.log("typeProductState "+typeProductState);
+        // //console.log("productType "+productType);
     }, []);
 
 

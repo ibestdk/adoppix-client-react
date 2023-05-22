@@ -20,7 +20,7 @@ const UserProfile = () => {
     fillStyle: "#1f1f1f",
   };
   useEffect(() => {
-    console.log(userPost);
+    //console.log(userPost);
   }, [userPost]);
 
   return (

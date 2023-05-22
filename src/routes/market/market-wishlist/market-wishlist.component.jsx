@@ -24,7 +24,7 @@ export const MarketWishList = () => {
 
   const getWishLists = async () => {
     const result = await getWishListsAPI();
-    console.log(result)
+    //console.log(result)
     setWishList(result);
   };
 
@@ -51,7 +51,7 @@ export const MarketWishList = () => {
       headers: headers,
     })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         removeWishlistFromList(index);
       })
       .catch((err) => console.log(err));
@@ -71,7 +71,7 @@ export const MarketWishList = () => {
       headers: headers,
     })
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         removeWishlistFromList(index);
       })
       .catch((err) => console.log(err));

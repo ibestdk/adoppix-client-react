@@ -9,7 +9,7 @@ export const ArtRecommend = () => {
       method: "get",
       url: `https://mockapi.adoppix.com/api/Mock/GetArtFollowing`,
     }).catch((err) => console.log(err.response));
-    // console.log(response.data.data);
+    // //console.log(response.data.data);
     setArtPending(response.data.data);
   };
 

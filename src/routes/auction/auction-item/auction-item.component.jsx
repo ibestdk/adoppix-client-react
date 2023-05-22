@@ -23,7 +23,7 @@ export const AuctionItem = () => {
 
   const text = `${auctionData && auctionData.owner}`;
   const beginAlarm = function () {
-    console.log("start alarm");
+    //console.log("start alarm");
   };
   const options = {
     chunkWidth: 200,
@@ -41,10 +41,10 @@ export const AuctionItem = () => {
     axios
       .get(`https://api.adoppix.com/api/User/${username}/user-info`)
       .then( async (res) => {
-        console.log("Success:", res.data.data);
+        //console.log("Success:", res.data.data);
         setUserData(res.data.data);
         const result = await callrecommentOnItems(res.data.data.username);
-        console.log(result);
+        //console.log(result);
         setAnotherReccommend(result);
       })
       .catch((error) => {
@@ -90,7 +90,7 @@ export const AuctionItem = () => {
       amount: 0,
     };
     if (bidsAuction) bodyData.amount = bidsAuction;
-    console.log(bodyData);
+    //console.log(bodyData);
     const token = getToken();
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ export const AuctionItem = () => {
       data: JSON.stringify(bodyData),
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(result);
+    //console.log(result);
     getAuction();
     getUserMoney();
     setBidsAuction("");
@@ -126,12 +126,12 @@ export const AuctionItem = () => {
       connection
         .start()
         .then(() => {
-          console.log("hub SignalR Connected!");
+          //console.log("hub SignalR Connected!");
         })
         .catch((error) => console.log(`SignalR error: ${error}`));
 
       connection.on(`${auctionId}`, (message) => {
-        console.log("New message received: ", message);
+        //console.log("New message received: ", message);
         getAuction();
       });
     }

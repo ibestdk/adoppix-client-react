@@ -6,7 +6,7 @@ export default function FileUploadSection({ fileList, setFileList }) {
     const newFileList = e.target.files;
     const newList = { name: listName, files: newFileList };
     setFileList([...fileList, newList]);
-    console.log(newFileList);
+    //console.log(newFileList);
   };
 
   return (

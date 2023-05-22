@@ -37,9 +37,9 @@ export default function ModalEditPost({
     });
   }
 
-  console.log(postdata);
+  //console.log(postdata);
   const userData = getUser();
-  // console.log(userData.profileImage)
+  // //console.log(userData.profileImage)
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onclose();
   };
@@ -50,7 +50,7 @@ export default function ModalEditPost({
     if (e.target.id === "modal-card") setConfrimModal(!confrimModal);
   };
   // const handleCloseConfrim = (e) => {
-  //   console.log("handleCloseConfrim called")
+  //   //console.log("handleCloseConfrim called")
   //   if (e.target.id === "modal-confirm") setConfrimModal(false);
   // };
 
@@ -63,10 +63,10 @@ export default function ModalEditPost({
       ...prevState,
       Tags: tagsData,
     }));
-    // console.log("submit", bodyData);
+    // //console.log("submit", bodyData);
     const result = await putFeeds(postdata.postId, bodyData);
     if(result === "Successful"){
-      console.log("Success")
+      //console.log("Success")
       onclose();
       reloadFeeds();
     }
@@ -80,7 +80,7 @@ export default function ModalEditPost({
       newImages: [],
     });
     setTagsData(postdata.tags);
-    console.log(bodyData);
+    //console.log(bodyData);
   }, [postdata]);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function ModalEditPost({
       Tags: tagsData,
     }));
 
-    console.log(bodyData);
+    //console.log(bodyData);
   }, [tagsData]);
 
 

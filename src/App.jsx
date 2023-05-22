@@ -40,6 +40,8 @@ import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.componen
 import Storage from "./routes/storage/storage";
 import { StorageIndex } from "./routes/storage/storage-index";
 import { getUser, getUserDataApi } from "./services/authorize";
+import { SummaryPage } from "./routes/market/market-index/buySummary/summary";
+import { BuySuccess } from "./routes/market/market-index/buySummary/success/success";
 
 export const DarkContext = createContext();
 
@@ -49,7 +51,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const loadedTheme = async () => {
     const user = getUser();
-    console.log(user.isDark)
+    //console.log(user.isDark)
     setDarkToggle(user.isDark)
   };
   useEffect(() => {
@@ -135,6 +137,8 @@ function App() {
                 <Route path="my-shop/:id" element={<ProtectedRoute><MarketMyShopItem /></ProtectedRoute>}/>
                 <Route path="create" element={<ProtectedRoute><MarketCreate /></ProtectedRoute>} />
                 <Route path="my-shop" element={<ProtectedRoute><MarketMyShop /></ProtectedRoute>} />
+                <Route path="Summary/:data" element={<ProtectedRoute><SummaryPage /></ProtectedRoute>} />
+                <Route path="transaction-sccess" element={<ProtectedRoute><BuySuccess /></ProtectedRoute>} />
               </Route>
               <Route exact path="feeds" element={<ProtectedRoute> <Feeds /></ProtectedRoute>}>
                 <Route index element={<FeedsIndex />} />

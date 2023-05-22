@@ -35,9 +35,9 @@ export default function ModalPostDelete({
     bodyDataRef.current.description += emoji;
   }
 
-  console.log(postdata);
+  //console.log(postdata);
   const userData = getUser();
-  // console.log(userData.profileImage)
+  // //console.log(userData.profileImage)
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onclose();
   };
@@ -48,7 +48,7 @@ export default function ModalPostDelete({
     if (e.target.id === "modal-card") setConfrimModal(!confrimModal);
   };
   // const handleCloseConfrim = (e) => {
-  //   console.log("handleCloseConfrim called")
+  //   //console.log("handleCloseConfrim called")
   //   if (e.target.id === "modal-confirm") setConfrimModal(false);
   // };
 
@@ -59,7 +59,7 @@ export default function ModalPostDelete({
   const handleSubbmit = async () => {
    const result = await deleteFeeds(postdata.postId);
     if(result === "Successful"){
-      console.log("Success")
+      //console.log("Success")
       onclear();
       reloadFeeds();
     }

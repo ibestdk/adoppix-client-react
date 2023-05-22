@@ -31,9 +31,9 @@ export default function ModalPost({ visible, onClose, postData }) {
     bodyDataRef.current.description += emoji;
   }
 
-  console.log(postData);
+  //console.log(postData);
   const userData = getUser();
-  // console.log(userData.profileImage)
+  // //console.log(userData.profileImage)
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();
   };
@@ -44,7 +44,7 @@ export default function ModalPost({ visible, onClose, postData }) {
     if (e.target.id === "modal-card") setConfrimModal(!confrimModal);
   };
   // const handleCloseConfrim = (e) => {
-  //   console.log("handleCloseConfrim called")
+  //   //console.log("handleCloseConfrim called")
   //   if (e.target.id === "modal-confirm") setConfrimModal(false);
   // };
 

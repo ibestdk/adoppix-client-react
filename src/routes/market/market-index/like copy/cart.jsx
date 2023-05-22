@@ -22,7 +22,7 @@ export const CartList = ({ istate }) => {
 
   const callLikeList = async () => {
     const result = await getCartAPI();
-    console.log(result.items);
+    //console.log(result.items);
 
     setLikeList(result.items);
   };
@@ -68,7 +68,7 @@ export const CartList = ({ istate }) => {
           }  dark:bg-adopsoftdark dark:before:bg-adopsoftdark duration-75 shadow-lg max-h-[600px] pr-[0px]`}
         >
           <div className="flex justify-between items-center">
-            <div className="text-lg font-bold mb-4">การประมูลที่คุณถูกใจ</div>
+            <div className="text-lg font-bold m-4">การประมูลที่คุณถูกใจ</div>
             <div className="flex mr-2">
               <div
                 onClick={() => fsort(true)}
@@ -88,7 +88,7 @@ export const CartList = ({ istate }) => {
               </div>
             </div>
           </div>
-          <div className="overflow-y-scroll h-[400px] flex flex-col justify-between">
+          <div className="overflow-y-scroll h-[350px] flex flex-col justify-between">
             <div>
               {likeList &&
                 likeList.map((like, index) => (
@@ -96,11 +96,13 @@ export const CartList = ({ istate }) => {
                     key={index}
                     className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
                   >
-                    <div className="text-xs">
-                      <div className="text-lg font-bold">{like.title}</div>
-                      <div>{like.description}</div>
+                    <div className="text-xs w-[220px] h-[100px] break-words overflow-hidden text-ellipsis p-2">
+                      <div className="text-lg font-bold truncate">
+                        {like.title}
+                      </div>
+                      <div className="line-clamp-3">{like.description}</div>
                     </div>
-                    <div>
+                    <div className="w-[120px]">
                       <img
                         className="w-[100px] h-[100px] rounded-lg object-cover "
                         src={`https://pix.adoppix.com/public/${
@@ -111,14 +113,14 @@ export const CartList = ({ istate }) => {
                   </div>
                 ))}
             </div>
-            <div>
-              <Link
-                to="cart"
-                className="text-lg font-bold flex justify-center items-center cursor-pointer"
-              >
-                ดูเพิ่มเติม
-              </Link>
-            </div>
+          </div>
+          <div>
+            <Link
+              to="cart"
+              className="text-lg font-bold flex justify-center items-center cursor-pointer p-2"
+            >
+            ดูทั้งหมด
+            </Link>
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@ export const StorageIndex = () => {
   useEffect(() => {
     (async () => {
       const results = await getMyStorage();
-      console.log("==========================");
-      console.log(results);
+      //console.log("==========================");
+      //console.log(results);
       setInventory(results);
     })();
   }, []);

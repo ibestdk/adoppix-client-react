@@ -145,7 +145,7 @@ export default function AddCardModal({ visible, onClose }) {
       data: JSON.stringify(bodyData),
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(result);
+    //console.log(result);
   };
 
   if (!visible) return null;

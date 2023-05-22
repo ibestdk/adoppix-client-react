@@ -52,7 +52,7 @@ export const AuctionCreate = () => {
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    //console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 
@@ -90,8 +90,8 @@ export const AuctionCreate = () => {
     if (minimumBid) bodyData.append("MinimumBid", minimumBid);
     if (hotClose) bodyData.append("HotClose", hotClosePrice);
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
-    console.log(FileList);
-    console.log(bodyData);
+    //console.log(FileList);
+    //console.log(bodyData);
     const result = await auctionCreate(bodyData);
     navigate(`/auction/${result}`);
     // setSubmit(false)

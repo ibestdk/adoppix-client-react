@@ -9,7 +9,7 @@ export const ArtPending = () => {
       method: "get",
       url: `https://mockapi.adoppix.com/api/Mock/GetArtPending`,
     }).catch((err) => console.log(err.response));
-    // console.log(response.data.data);
+    // //console.log(response.data.data);
     setArtPending(response.data.data);
   };
 

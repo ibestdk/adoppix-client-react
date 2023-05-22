@@ -40,7 +40,7 @@ export const getRelativeTime = (datetime) => {
 };
 
 export const postLike = async (postId) => {
-  console.log(postId);
+  //console.log(postId);
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "multipart/form-data",
@@ -57,7 +57,7 @@ export const postLike = async (postId) => {
 
 
 export const setDarkModeAPI = async (bool) => {
-  console.log(bool);
+  //console.log(bool);
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "multipart/form-data",
@@ -89,7 +89,7 @@ export const getPostUpdate = async (postId) => {
       }
     );
     if (response?.data?.status) {
-      console.log(response.data.data)
+      //console.log(response.data.data)
       return response?.data?.data;
     }
   } catch (error) {}
@@ -111,7 +111,7 @@ export const getSearchUser = async (defaultValue) => {
 };
 
 export const getNotification = async () => {
-  console.log("getNotification called");
+  //console.log("getNotification called");
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
@@ -136,9 +136,9 @@ export const getNotification = async () => {
           return noti;
         }
       });
-      console.log("=========================================")
-      console.log(chatListWithRelativeTime)
-      console.log("=========================================")
+      //console.log("=========================================")
+      //console.log(chatListWithRelativeTime)
+      //console.log("=========================================")
       return chatListWithRelativeTime;
     }
     return [];
@@ -146,7 +146,7 @@ export const getNotification = async () => {
 };
 
 export const getProfilePost = async (username) => {
-  console.log("called profilePost", username)
+  //console.log("called profilePost", username)
   try {
     const response = await axios.get(
       `https://api.adoppix.com/api/User/${username}/post`,
@@ -159,7 +159,7 @@ export const getProfilePost = async (username) => {
   } catch (error) {}
 };
 export const getProfileAuction = async (username) => {
-  console.log("called profile Auction", username)
+  //console.log("called profile Auction", username)
   try {
     const response = await axios.get(
       `https://api.adoppix.com/api/User/${username}/auction`,
@@ -212,7 +212,7 @@ export const getMyStorage = async () => {
       }
     );
     if (response?.data?.status) {
-      console.log(response.data.data)
+      //console.log(response.data.data)
       return response?.data?.data;
     }
   } catch (error) {}
@@ -223,7 +223,7 @@ export const handleSubmitNewMessage = async (message ,selectUsername) => {
   if (message) bodyData.append("Message", message);
   if (selectUsername) bodyData.append("Username", selectUsername);
   bodyData.append("Type", "text");
-  console.log(bodyData);
+  //console.log(bodyData);
   if (!message || !selectUsername) return null;
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -236,6 +236,6 @@ export const handleSubmitNewMessage = async (message ,selectUsername) => {
     data: bodyData,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  // console.log(result);
+  // //console.log(result);
   return result.data.status;
 };

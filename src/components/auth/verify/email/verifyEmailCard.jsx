@@ -21,21 +21,21 @@ const VerifyEmailCard = () => {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log("Success:", res);
+        //console.log("Success:", res);
         if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
-          // console.log("sessionStroage was stored")
+          // //console.log("sessionStroage was stored")
           //   navigate("/");
           setisLoading(false);
           setisSuccess(true);
-          console.log("สำเร็จ");
+          //console.log("สำเร็จ");
 
           // localStorage.setItem("ut", res.data);
         } else {
             setisLoading(false);
             setisSuccess(false);
-          console.log("ไม่สำเร็จ");
+          //console.log("ไม่สำเร็จ");
         }
       })
       .catch((error) => {
@@ -46,7 +46,7 @@ const VerifyEmailCard = () => {
   useEffect(() => {
     
 
-    console.log("useEffect")
+    //console.log("useEffect")
  
     verifyEmailWithToken();
   }, []);

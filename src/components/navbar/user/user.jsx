@@ -26,7 +26,7 @@ function UserDropDown() {
 
   const setDarkMode = async (darkMode) => {
     const result = await setDarkModeAPI(darkMode);
-    console.log(result);
+    //console.log(result);
     setDarkToggle(darkMode);
   };
 
@@ -43,7 +43,7 @@ function UserDropDown() {
       url: `https://api.adoppix.com/api/User/money`,
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
+    //console.log(response.data.data);
     setMoney(response.data.data);
   };
 
@@ -58,24 +58,24 @@ function UserDropDown() {
   let menuRef = useRef();
 
   useEffect(() => {
-    // console.log("ข้อมูลผู้ใช้: "+userData)
-    console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
+    // //console.log("ข้อมูลผู้ใช้: "+userData)
+    //console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
     getUserMoney();
     const user = getUser();
     if (user) {
-      console.log("มีข้อมูล");
-      console.log(user);
+      //console.log("มีข้อมูล");
+      //console.log(user);
       setUserData(user);
     }
 
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpen(false);
-        // console.log(menuRef.current);
+        // //console.log(menuRef.current);
       }
     };
 
-    console.log(userData);
+    //console.log(userData);
     document.addEventListener("mousedown", handler);
 
     return () => {

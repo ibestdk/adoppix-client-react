@@ -36,7 +36,7 @@ export const callAuctionFilterCard = async (tags, page) => {
     );
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
     return null;
   }
 };
@@ -83,7 +83,7 @@ export const auctionLike = async (auctionId) => {
     url: `${apiPath}api/Auction/${auctionId}/like`,
     headers: headers,
   }).catch((err) => console.log(err.response));
-  console.log("Success", result.data.data);
+  //console.log("Success", result.data.data);
   return result.data.data;
 };
 

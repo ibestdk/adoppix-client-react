@@ -7,7 +7,7 @@ const textBorderStyle = {
 
 export default function MarketOwlObject({ object, testClick }) {
   // const cardClicked = (title) => {
-  //   console.log("card title : "+title);
+  //   //console.log("card title : "+title);
   // }
   const randomPastelColor = () => {
     const hue = Math.floor(Math.random() * 360);

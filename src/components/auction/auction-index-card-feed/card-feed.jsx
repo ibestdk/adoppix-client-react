@@ -39,7 +39,7 @@ export const CardFeed = ({
 
   const like = async (auctionId, index) => {
     const response = await auctionLike(auctionId);
-    console.log(response);
+    //console.log(response);
     const updatedItems = [...auctionItems];
     updatedItems[index] = { ...updatedItems[index], isLike: response };
     setAuctionItems(updatedItems);

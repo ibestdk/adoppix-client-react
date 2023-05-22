@@ -13,7 +13,7 @@ import FileUploadSection from "../../../auction/auction-create/file-upload";
 import Chips from "../../../input/chips/chips";
 
 export default function ImagePreview({ visible, onClose, postData }) {
-  console.log(postData);
+  //console.log(postData);
 
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();

@@ -5,7 +5,7 @@ import { BsFillEmojiSmileFill } from "react-icons/bs";
 // Create an ElementMaker component
 function TextAreaMaker(props, { onClose }) {
   const handleOnClose = (e) => {
-    console.log("ข้างนอก");
+    //console.log("ข้างนอก");
     if (e.target.id === "text-area") onClose();
   };
 

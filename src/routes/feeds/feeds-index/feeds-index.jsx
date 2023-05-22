@@ -49,13 +49,13 @@ export const FeedsIndex = () => {
   };
 
   const likePost = async (postId, index) => {
-    console.log("like");
+    //console.log("like");
 
     postLike(postId);
     await setTimeout(1000);
     (async () => {
       const updatedPost = await getPostUpdate(postId);
-      console.log(updatedPost);
+      //console.log(updatedPost);
       setFeeds((feeds) => {
         const newPostList = [...feeds.postList]; // spread the postList array instead
         newPostList[index] = updatedPost;
@@ -66,7 +66,7 @@ export const FeedsIndex = () => {
 
   const reloadFeeds = async () => {
     const results = await getFeeds(page);
-    console.log(results);
+    //console.log(results);
     setFeeds(results);
   };
 
@@ -85,28 +85,28 @@ export const FeedsIndex = () => {
       window.innerHeight + document.documentElement.scrollTop ===
       document.documentElement.offsetHeight
     ) {
-      console.log(feeds);
+      //console.log(feeds);
       loadMoreItems();
     }
   };
 
   const loadMoreItems = async () => {
-    console.log(feeds);
-    console.log(feeds.totalPages);
+    //console.log(feeds);
+    //console.log(feeds.totalPages);
     const nextPage = page + 1;
-    console.log("next page : ", nextPage);
-    console.log("total Page : ", feeds.totalPages);
+    //console.log("next page : ", nextPage);
+    //console.log("total Page : ", feeds.totalPages);
     if (nextPage >= feeds.totalPages) {
       setEndFeeds(true);
-      console.log("nextPage >= totalPage");
-      console.log(nextPage > feeds.totalPages - 1);
-      console.log("Stopped");
+      //console.log("nextPage >= totalPage");
+      //console.log(nextPage > feeds.totalPages - 1);
+      //console.log("Stopped");
       return null;
     } else if (nextPage < feeds.totalPages) {
-      console.log("nextPage < totalPage");
-      console.log(nextPage < feeds.totalPages - 1);
+      //console.log("nextPage < totalPage");
+      //console.log(nextPage < feeds.totalPages - 1);
 
-      console.log("Played");
+      //console.log("Played");
       try {
         const results = await getFeeds(nextPage);
         const updatedItems = [...feeds.postList, ...results.postList];
@@ -131,7 +131,7 @@ export const FeedsIndex = () => {
   );
   // useEffect(() => {
   //   callFeeds();
-  //   console.log(totalPage);
+  //   //console.log(totalPage);
   // }, [totalPage]);
 
   useEffect(() => {

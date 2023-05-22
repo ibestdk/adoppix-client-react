@@ -22,7 +22,7 @@ export const AuctionTags = () => {
       method: "get",
       url: `  https://api.adoppix.com/api/Auction/filters`,
     }).catch((err) => console.log(err.response));
-    console.log(response.data.data);
+    //console.log(response.data.data);
     setFilterList(response.data.data);
   };
 

@@ -24,11 +24,11 @@ const Payment = () => {
       url: "https://api.adoppix.com/api/User/credit-card",
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(result.data.data);
+    //console.log(result.data.data);
     const transformedData = result.data.data.map((card) => {
-      console.log("1: ", card.cardNumber);
+      //console.log("1: ", card.cardNumber);
       const lastDigits = card.cardNumber.slice(-4);
-      console.log("2: ", lastDigits);
+      //console.log("2: ", lastDigits);
       const maskedCardNumber = card.cardNumber.replace(
         /\d(?=\d{4})/g,
         (match, index) => {
@@ -39,9 +39,9 @@ const Payment = () => {
           }
         }
       );
-      console.log("3: ", maskedCardNumber);
+      //console.log("3: ", maskedCardNumber);
       const formattedCardNumber = maskedCardNumber.replace(/(.{4})/g, "$1");
-      console.log("4: ", formattedCardNumber);
+      //console.log("4: ", formattedCardNumber);
       return { cardNumber: formattedCardNumber, cardType: card.cardType };
     });
 

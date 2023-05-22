@@ -71,7 +71,7 @@ export const ChatList = () => {
 
     let result = await axios({
       method: "get",
-      url: "https://api.adoppix.com/api/Chat/rooms",
+      url: "https://api.adoppix.com/api/Chat/rooms",  
       headers: headers,
     }).catch((err) => console.log(err.response));
 

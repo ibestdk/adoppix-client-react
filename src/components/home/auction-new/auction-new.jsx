@@ -38,11 +38,11 @@ export const OwlAuctionNew = () => {
           "https://mockapi.adoppix.com/api/Mock/GetNewAuction"
         );
         setNewAuction(response.data.data);
-        console.log("newAuction");
-        console.log(newAuction);
+        //console.log("newAuction");
+        //console.log(newAuction);
         setOnload(false);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getNewAuction();

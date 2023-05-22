@@ -50,21 +50,21 @@ const Banner2 = () => {
 
   useEffect(() => {
     const fetchData = async() => {
-      console.log(2)
+      //console.log(2)
       // res
       //   .json()
       //   .then((res) => setData(res.data))
       //   .catch((err) => setErrors(err));
       const res = await axios.get("https://mockapi.adoppix.com/api/Mock/GetBanner");
       setData(res.data.data)
-      // console.log(res)
+      // //console.log(res)
     }
 
-    // console.log("useEffect")
-    console.log(1)
+    // //console.log("useEffect")
+    //console.log(1)
     fetchData();
-    console.log("banner list");
-    console.log(banners && banners);
+    //console.log("banner list");
+    //console.log(banners && banners);
 
     
   }, []);

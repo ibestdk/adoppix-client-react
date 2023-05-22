@@ -11,19 +11,19 @@ const LoginCard = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const handleCheck = () => {
-    console.log("called func handleCheck")
+    //console.log("called func handleCheck")
     setIsShowPassword(!isShowPassword);
-    console.log(isShowPassword);
+    //console.log(isShowPassword);
   };
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // //console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
 
     const jsonData = {
       email: data.get("email"),
@@ -40,11 +40,11 @@ const LoginCard = () => {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log("Success:", res);
+        //console.log("Success:", res);
         if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
-          // console.log("sessionStroage was stored")
+          // //console.log("sessionStroage was stored")
           authenicate(res, () => {navigate("/"); window.location.reload();});
        
           // localStorage.setItem("ut", res.data);

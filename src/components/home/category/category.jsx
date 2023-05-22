@@ -9,7 +9,7 @@ export const Category = () => {
         method: "get",
         url: `  https://mockapi.adoppix.com/api/Mock/GetCategory`,
       }).catch((err) => console.log(err.response));
-      // console.log(response.data.data);
+      // //console.log(response.data.data);
       setCategory(response.data.data);
     };
   

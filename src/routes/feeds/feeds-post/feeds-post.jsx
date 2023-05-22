@@ -35,12 +35,12 @@ export const FeedsPost = () => {
 
   const callComment = async () => {
     const result = await getFeedsComment(postId);
-    console.log(result);
+    //console.log(result);
     setComment(result);
   };
   const callPost = async () => {
     const results = await getPostUpdate(postId);
-    console.log(results);
+    //console.log(results);
     setPostData(results);
   };
 

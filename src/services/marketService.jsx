@@ -18,7 +18,7 @@ export const callAuctionCard = async (page) => {
     });
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
     return null;
   }
 };
@@ -45,7 +45,7 @@ export const CallMarketFilter = async () => {
     });
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
     return null;
   }
 };
@@ -78,7 +78,7 @@ export const CallApiMarketList = async (tags, value, page) => {
     });
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
     return null;
   }
 };
@@ -96,7 +96,7 @@ export const getWishListsAPI = async () => {
     });
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
     return null;
   }
 };
@@ -112,10 +112,105 @@ export const getCartAPI = async () => {
       url: `${apiPath}api/User/cart`,
       headers: headers,
     });
-    console.log(response)
+    //console.log(response);
     return response.data.data;
   } catch (error) {
-    console.log(error.response);
+    //console.log(error.response);
+    return null;
+  }
+};
+
+export const postBuyALLCarts = function () {
+  const token = getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  axios
+    .post(`https://api.adoppix.com/api/Product/buys`, { headers })
+    .then(async (res) => {
+      return res.data.message;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
+export const postToWishList = (id) => {
+  //console.log(id);
+  const token = getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  axios({
+    method: "patch",
+    url: `https://api.adoppix.com/api/Product/${id}/wishlist`,
+    headers: headers,
+  })
+    .then((res) => {
+      return res.data.message;
+    })
+    .catch((err) => console.log(err));
+};
+
+export const removeCartFromList = function (id, index) {
+  const token = getToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  axios
+    .post(`https://api.adoppix.com/api/Product/${id}/toggle-cart`, {
+      headers,
+    })
+    .then((res) => {
+      removeFromList(index);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
+export const postBuySigle = async (productId) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${apiPath}api/Product/${productId}/buy`,
+      headers: headers,
+    });
+    return response.data.message;
+  } catch (error) {
+    //console.log(error.response);
+    return null;
+  }
+};
+
+export const postBuyMulti = async (json) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  };
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${apiPath}api/Product/buy/cart`,
+      headers: headers,
+      data: json,
+    });
+    return response.data.message;
+  } catch (error) {
+    //console.log(error.response);
     return null;
   }
 };

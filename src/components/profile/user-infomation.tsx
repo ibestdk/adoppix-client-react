@@ -46,9 +46,9 @@ const UserProfileInfomation = ({
     axios
       .get(`https://api.adoppix.com/api/User/${userprofile}/user-info`)
       .then((res) => {
-        console.log("Success:", res.data);
+        //console.log("Success:", res.data);
         if (res.data.status) {
-          // console.log(res.data.data);
+          // //console.log(res.data.data);
           setTimeout(() => {
             profileData.username = res.data.data.username;
             profileData.description = res.data.data.description;
@@ -57,15 +57,15 @@ const UserProfileInfomation = ({
             setData(res.data.data);
           }, 1000);
           setTimeout(() => {
-            console.log("data :");
-            console.log(data);
+            //console.log("data :");
+            //console.log(data);
             setIsLoading(false);
           }, 1000);
           setHasUser(true);
-          console.log("complete Get User data");
+          //console.log("complete Get User data");
         } else {
           setHasUser(false);
-          console.log("fail to get user data");
+          //console.log("fail to get user data");
         }
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ const UserProfileInfomation = ({
         headers,
       })
       .then((res) => {
-        console.log("Follower:", res.data);
+        //console.log("Follower:", res.data);
         if (res.data.status) {
           setTimeout(() => {
             setFollowStatus(res.data.data);
@@ -94,9 +94,9 @@ const UserProfileInfomation = ({
 
           getProfileData();
 
-          console.log("complete Get User data");
+          //console.log("complete Get User data");
         } else {
-          console.log("fail to get user data");
+          //console.log("fail to get user data");
         }
       })
       .catch((error) => {
@@ -105,7 +105,7 @@ const UserProfileInfomation = ({
       });
   };
   const getProfilefollow = () => {
-    console.log(token);
+    //console.log(token);
     const headers = {
       Authorization: `Bearer ${token}`,
       "Access-Control-Allow-Origin": "*",
@@ -115,14 +115,14 @@ const UserProfileInfomation = ({
         headers,
       })
       .then((res) => {
-        console.log("Follower:", res.data);
+        //console.log("Follower:", res.data);
         if (res.data.status) {
           setTimeout(() => {
             setFollowStatus(res.data.data);
           }, 1000);
-          console.log("complete Get User data");
+          //console.log("complete Get User data");
         } else {
-          console.log("fail to get user data");
+          //console.log("fail to get user data");
         }
       })
       .catch((error) => {
@@ -138,7 +138,7 @@ const UserProfileInfomation = ({
       setyourSelf(true);
     }
 
-    console.log(userprofile);
+    //console.log(userprofile);
     setTimeout(() => {
       getProfileData();
 
@@ -149,8 +149,8 @@ const UserProfileInfomation = ({
   useEffect(() => {
     (async () => {
       const results = await getProfilePost(userprofile);
-      console.log("profilePost ======================");
-      console.log(results);
+      //console.log("profilePost ======================");
+      //console.log(results);
       setUserPost(results);
     })();
   }, [userprofile]);
@@ -158,8 +158,8 @@ const UserProfileInfomation = ({
   useEffect(() => {
     (async () => {
       const results = await getProfileAuction(userprofile);
-      console.log("profileAuction ======================");
-      console.log(results);
+      //console.log("profileAuction ======================");
+      //console.log(results);
       setUserAuction(results);
     })();
   }, [userprofile]);

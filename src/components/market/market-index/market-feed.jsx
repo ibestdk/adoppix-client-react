@@ -26,7 +26,7 @@ export const MarketFeed = () => {
 
   const tagOwlClicked = (tag) => {
     setTags(tag);
-    console.log("TagOwlCol : " + tag);
+    //console.log("TagOwlCol : " + tag);
     callProductCard();
   };
 
@@ -38,7 +38,7 @@ export const MarketFeed = () => {
     } else {
       setTags(tag);
     }
-    console.log(tag);
+    //console.log(tag);
   };
 
   const [isLogin, setIsLogin] = useState(false);
@@ -68,7 +68,7 @@ export const MarketFeed = () => {
   const [productItems, setProductItems] = useState();
   const callProductCard = async () => {
     const result = await CallApiMarketList(tags, value, currentPage);
-    console.log(result);
+    //console.log(result);
     setProductItems(result);
     setTotalPage(result.totalPages);
     setSearchResult(result.searchResult);
@@ -78,7 +78,7 @@ export const MarketFeed = () => {
   const [filterOptions, setfilterOption] = useState();
   const callFilterOption = async () => {
     const result = await CallMarketFilter();
-    console.log(result);
+    //console.log(result);
     setfilterOption(result);
     setValue([result.minimumAmount, result.maximumAmount]);
   };

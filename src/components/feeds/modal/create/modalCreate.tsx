@@ -45,7 +45,7 @@ export default function ModalCreatePost({ visible, onClose, reloadFeeds }) {
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(files);
+    //console.log(files);
     if (files) {
       const fileList = Array.from(files);
       setImages(fileList);
@@ -80,8 +80,8 @@ export default function ModalCreatePost({ visible, onClose, reloadFeeds }) {
 
     if (description) bodyData.append("Description", description);
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
-    console.log(FileList);
-    console.log(bodyData);
+    //console.log(FileList);
+    //console.log(bodyData);
 
     const result = await createNewPost(bodyData);
     if(result === "Successful"){

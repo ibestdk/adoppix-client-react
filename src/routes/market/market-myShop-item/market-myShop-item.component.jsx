@@ -48,7 +48,7 @@ export const MarketMyShopItem = () => {
         axios
             .get(`https://api.adoppix.com/api/User/${username}/user-info`)
             .then((res) => {
-                console.log("Owner data : ", res.data.data);
+                //console.log("Owner data : ", res.data.data);
                 setOwnerData(res.data.data);
             })
             .catch((error) => {
@@ -90,7 +90,7 @@ export const MarketMyShopItem = () => {
         axios
             .get(`https://api.adoppix.com/api/User/${id}/product-owner`)
             .then((res) => {
-                console.log("Success:", res.data.data);
+                //console.log("Success:", res.data.data);
                 setProductData(res.data.data);
                 const createdDate = new Date(res.data.data.created);
                 setCreated(createdDate.toLocaleDateString("en-GB"))
@@ -98,7 +98,7 @@ export const MarketMyShopItem = () => {
                 const lastSoldDate = new Date(res.data.data.lastSale);
                 setLastSold(lastSoldDate.toLocaleDateString("en-GB"))
                 // setPrice(res.data.data.price);
-                // console.log("owner " + res.data.data.ownerUsername);
+                // //console.log("owner " + res.data.data.ownerUsername);
                 // ownerData(res.data.data.ownerUsername);
             })
             .catch((error) => {

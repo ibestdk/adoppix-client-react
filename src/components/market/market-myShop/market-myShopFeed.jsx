@@ -50,7 +50,7 @@ export const MarketMyShopFeed = () => {
             headers: headers
         })
             .then(response => {
-                console.log(response.data.data);
+                //console.log(response.data.data);
                 setProductItems(response.data.data.products);
                 setProductCount(response.data.data.productCount);
                 setOnSaleCount(response.data.data.onSaleCount);
