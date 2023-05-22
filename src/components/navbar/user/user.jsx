@@ -131,7 +131,7 @@ function UserDropDown() {
                   }`}
                 ></img>
               </p>
-              <h3 className="text-adoplight pt-0 shadow-lg">
+              <h3 className="text-adoplight pt-0 shadow-lg drop-shadow-xl">
                 {userData.username}
                 <br className="dark:text-adoplight" />
                 <span className="dark:text-adoplight shadow-xl">Artist</span>
