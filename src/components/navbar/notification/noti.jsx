@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
 import "./noti.scss";
-import { getToken } from "../../../services/authorize";
+import { getToken, getUser } from "../../../services/authorize";
 import { Link } from "react-router-dom";
 import { BsFillBellFill } from "react-icons/bs";
 import { getNotification } from "../../../services/apiService";
-import { HubConnectionBuilder } from "@microsoft/signalr";
 
-function NotiDropDown() {
-const token = getToken();
+function NotiDropDown(props) {
+  const { notiTrigger } = props;
+  const token = getToken();
+  const user = getUser();
   const [open, setOpen] = useState(false);
   const [notiPage, setNotiPage] = useState(1);
   const [notiData, setNotiData] = useState([]);
@@ -35,10 +36,7 @@ const token = getToken();
 
   useEffect(() => {
     (async () => {
-      const results = await getNotification();
-      console.log("==========================");
-      console.log(results);
-      setNotiData(results);
+      setNotiData(await props.notifications);
     })();
   }, []);
 
@@ -56,9 +54,12 @@ const token = getToken();
     };
   });
 
-
-
-
+  useEffect(() => {
+    if (notiTrigger) {
+      const newNotifications = [notiTrigger, ...notiData];
+      setNotiData(newNotifications);
+    }
+  }, [notiTrigger]);
 
   return (
     <div className="App text-adopdark dark:text-adoplight">

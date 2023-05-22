@@ -1,6 +1,6 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Outlet, Link, useNavigate, NavLink } from "react-router-dom";
-import { logout, getToken } from "../../services/authorize";
+import { logout, getToken, getUser } from "../../services/authorize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
@@ -9,14 +9,20 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import "./navigation.style.scss";
-import React from "react";
+import React, { useRef } from "react";
 import UserDropDown from "../../components/navbar/user/user";
 import NotiDropDown from "../../components/navbar/notification/noti";
 import CreateDropDown from "../../components/navbar/create/create";
+import { getNotification } from "../../services/apiService";
 
 import LiveSearch from "../search/search";
+import * as signalR from "@microsoft/signalr";
 
 const Navigation = () => {
+  const [notiTrigger, setNotiTrigger] = useState(null);
+
+  const user = getUser();
+  let notifications;
 
   let activeStyle = {
     textDecoration: "underline",
@@ -25,6 +31,24 @@ const Navigation = () => {
 
   let activeClassName = "text-adoppix";
   let unActiveClassName = "text-adoplighticon";
+  
+  notifications = getNotification();
+
+  const notiHub = new signalR.HubConnectionBuilder()
+    .withUrl('https://api.adoppix.com/hub/notification')
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+  notiHub.start().then(() => {
+    console.log('SignalR Connected!');
+    console.log(user.username);
+  }).catch((err) => {
+    console.error('SignalR connection error: ', err);
+  });
+
+  notiHub.on(user.username, (notificationData) => {
+    setNotiTrigger(notificationData);
+  });
 
   return (
     <Fragment>
@@ -67,7 +91,7 @@ const Navigation = () => {
                   <CreateDropDown />
                 </div>
                 <div className="pr-7">
-                  <NotiDropDown />
+                  <NotiDropDown notifications={notifications} notiTrigger={notiTrigger}/>
                 </div>
                 <div>
                   <UserDropDown />
