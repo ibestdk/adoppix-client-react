@@ -1,36 +1,111 @@
 import React, { useState, useRef, useEffect } from "react";
-import { HubConnectionBuilder } from "@microsoft/signalr";
+import * as signalR from "@microsoft/signalr";
 
 export const ChatCard = ({ list, index, openChat }) => {
-  const [connection, setConnection] = useState(null);
-  useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl(`https://api.adoppix.com/hub/chat`)
-      .withAutomaticReconnect()
-      .build();
+  //const [connection, setConnection] = useState(null);
 
-    setConnection(newConnection);
+  // useEffect(() => {
+  //   const newConnection = new HubConnectionBuilder()
+  //     .withUrl(`https://api.adoppix.com/hub/chat`)
+  //     .withAutomaticReconnect()
+  //     .build();
+
+  //   setConnection(newConnection);
+  // }, []);
+  const [lastMessage, setLastMessage] = useState(list);
+
+  useEffect(() => {
+    console.log(list)
+    setLastMessage(list);
+    console.log(lastMessage)
   }, []);
 
-  useEffect(() => {
-    if (list.chatRoomId) {
-      if (connection) {
-        connection
-          .start()
-          .then(() => {
-            console.log("hub SignalR Chat Connected! ✨");
-          })
-          .catch((error) => console.log(`SignalR error: ${error}`));
+  const chatHub = new signalR.HubConnectionBuilder()
+    .withUrl('https://api.adoppix.com/hub/chat')
+    .withAutomaticReconnect()
+    .build();
+  
+  chatHub.start().then(() => {
+    console.log('Hub chat connect')
+  }).catch(err => console.log(err));
 
-        connection.on(`${list.chatRoomId}`, (message) => {
-          console.log("received heart beat from chat 💖");
-          console.log("New message received: ", message);
+  let count = 0;
+  chatHub.on(list.chatRoomId, (messageData) => {;
+    if (count === 0) {
+      console.log('---------------------');
+      console.log(lastMessage)
 
-          // Do something with the received message
-        });
-      }
+      let newLastMessage = lastMessage;
+      newLastMessage.lastMessage = messageData.message;
+      newLastMessage.lastMessageType = messageData.type;
+      newLastMessage.lastTime = messageData.created;
+      // newLastMessage.relativeTime = getRelativeTime(messageData.created);
+
+      console.log(messageData);
+      console.log('---------------------');
+      setLastMessage(newLastMessage);
+      count++;
     }
-  }, [connection]);
+  });
+
+  const getRelativeTime = (datetime) => {
+    const now = moment();
+    const then = moment(datetime);
+    const duration = moment.duration(now.diff(then));
+
+    if (duration.asSeconds() < 60) {
+      return "ตอนนี้";
+    } else if (duration.asMinutes() < 60) {
+      return `${Math.floor(duration.asMinutes())} นาที${
+        duration.asMinutes() > 1 ? "" : ""
+      }`;
+    } else if (duration.asHours() < 24) {
+      return `${Math.floor(duration.asHours())} ชม.${
+        duration.asHours() > 1 ? "" : ""
+      }`;
+    } else if (duration.asDays() < 7) {
+      return `${Math.floor(duration.asDays())} วัน${
+        duration.asDays() > 1 ? "" : ""
+      }`;
+    } else if (duration.asDays() < 30) {
+      return `${Math.floor(duration.asDays() / 7)} สัปดาห์${
+        duration.asDays() > 7 ? "" : ""
+      }`;
+    } else if (duration.asDays() < 365) {
+      return `${Math.floor(duration.asDays() / 30)} เดือน${
+        duration.asDays() > 30 ? "" : ""
+      }`;
+    } else {
+      return `${Math.floor(duration.asDays() / 365)} ปี${
+        duration.asDays() > 365 ? "" : ""
+      }`;
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(list)
+  //   if (list.chatRoomId) {
+  //     if (connection) {
+  //       connection
+  //         .start()
+  //         .then(() => {
+  //           //console.log("hub SignalR Chat Connected! ✨");
+  //         })
+  //         .catch((error) => console.log(`SignalR error: ${error}`));
+
+  //       connection.on(`${list.chatRoomId}`, (message) => {
+  //         // Do something with the received message
+  //         let newLastMessage = lastMessage;
+  //         newLastMessage.lastMessage = message.message;
+  //         newLastMessage.lastMessageType = message.type;
+  //         newLastMessage.lastTime = message.created;
+  //         setLastMessage(newLastMessage);
+  //         console.log(list);
+  //         console.log(message);
+  //       });
+  //     }
+  //   }
+  // }, [connection]);
 
   return (
     <div
@@ -40,15 +115,15 @@ export const ChatCard = ({ list, index, openChat }) => {
       <div
         className="flex"
         onClick={() => {
-          openChat( list.chatRoomId , list.name);
+          openChat( lastMessage.chatRoomId , lastMessage.name);
         }}
       >
         <div className="mx-2">
           <img
             className=" rounded-full w-[50px] h-[50px]"
             src={
-              list.profileImage
-                ? `https://pix.adoppix.com/public/${list.profileImage}`
+              lastMessage.profileImage
+                ? `https://pix.adoppix.com/public/${lastMessage.profileImage}`
                 : "https://pix.adoppix.com/image/adop.png"
             }
             alt=""
@@ -56,10 +131,10 @@ export const ChatCard = ({ list, index, openChat }) => {
         </div>
         <div>
           <div className="text-adopdark dark:text-adoplight text-lg text-left">
-            {list.name}
+            {lastMessage.name}
           </div>
           <div className="text-adoplighticon text-sm text-left">
-            {list.lastMessage} - {list.relativeTime}
+            {lastMessage.lastMessage} - {lastMessage.relativeTime}
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ import soundFile from "./pop.wav";
 import moment from "moment";
 import axios from "axios";
 import "./chatList.scss";
-import { HubConnectionBuilder } from "@microsoft/signalr";
+import * as signalR from "@microsoft/signalr";
 import ModalAddChat from "./create/modalCreate";
 import { ChatCard } from "./chatCard/chatCard";
 
@@ -23,13 +23,11 @@ export const ChatList = () => {
     return null; // Render nothing while redirecting
   }
 
-
-
   const [adopLetter, setadopLetter] = useState(false);
   const [chatopen, setChatopen] = useState(false);
   const [chatList, setChatList] = useState(false);
   const [addModal, setAddModal] = useState(false);
-  const [chatMessage, setChatMessage] = useState();
+  const [chatMessage, setChatMessage] = useState([]);
   const [roomId, setRoomId] = useState(null);
   const [userData, setUserData] = useState();
   const [chatSelect, setChatSelect] = useState();
@@ -42,7 +40,6 @@ export const ChatList = () => {
     audio.play();
   };
 
-
   const token = getToken();
 
   const handleOpenAdopLetter = () => {
@@ -50,7 +47,6 @@ export const ChatList = () => {
   };
   const handleOpenChat = (roomkey, name) => {
     setRoomId(roomkey);
-    console.log(roomkey);
     getChat(roomkey);
     setChatopen(true);
     setChatSelect(name);
@@ -58,13 +54,14 @@ export const ChatList = () => {
   const handleCloseChat = () => {
     setRoomId(null);
     setChatopen(false);
-    setChatMessage();
+    setChatMessage([]);
     setChatSelect();
     getChatList();
   };
 
   if (token == null) return null;
 
+  // ดึงข้อมูลผู้ใช้ที่เราแชทด้วย
   const getChatList = async () => {
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -89,8 +86,6 @@ export const ChatList = () => {
   };
 
   const getChat = async (roomkey) => {
-    console.log("roomId :" + roomkey);
-
     setRoomId(roomkey);
     // if (roomkey !== null) return null;
 
@@ -105,29 +100,28 @@ export const ChatList = () => {
       url: `https://api.adoppix.com/api/Chat?chatRoomId=${roomkey}&take=20&page=0`,
       headers: headers,
     }).catch((err) => console.log(err.response));
-
-    console.log(result.data.data);
-    setChatMessage(result.data.data);
+    
+    setChatMessage([...result.data.data]);
   };
 
-  const getChatSignalR = async () => {
-    console.log("roomId :" + roomId);
-    // if (roomkey !== null) return null;
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    };
+  // const getChatSignalR = async () => {
+  //   console.log("roomId :" + roomId);
+  //   // if (roomkey !== null) return null;
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/json",
+  //     "Access-Control-Allow-Origin": "*",
+  //   };
 
-    let result = await axios({
-      method: "get",
-      url: `https://api.adoppix.com/api/Chat?chatRoomId=${roomId}&take=20&page=0`,
-      headers: headers,
-    }).catch((err) => console.log(err.response));
+  //   let result = await axios({
+  //     method: "get",
+  //     url: `https://api.adoppix.com/api/Chat?chatRoomId=${roomId}&take=20&page=0`,
+  //     headers: headers,
+  //   }).catch((err) => console.log(err.response));
 
-    console.log(result.data.data);
-    setChatMessage(result.data.data);
-  };
+  //   console.log(result.data.data);
+  //   setChatMessage(result.data.data);
+  // };
 
   const getRelativeTime = (datetime) => {
     const now = moment();
@@ -165,8 +159,6 @@ export const ChatList = () => {
 
   const [inputMessageBox, setInputMessageBox] = useState();
 
-
-
   const handleInputChat = (event) => {
     setInputMessageBox(event.target.value);
   };
@@ -176,7 +168,6 @@ export const ChatList = () => {
     if (inputMessageBox) bodyData.append("Message", inputMessageBox);
     bodyData.append("Type", "text");
     if (roomId) bodyData.append("ChatRoomId", roomId);
-    console.log("roomId", roomId);
     bodyData.append("Username", userData.username);
 
     const headers = {
@@ -191,42 +182,68 @@ export const ChatList = () => {
       data: bodyData,
       headers: headers,
     }).catch((err) => console.log(err.response));
-    console.log(result);
-    getChat(roomId);
+    //getChat(roomId);
+    const newMessages = [result.data.data, ...chatMessage];
+    setChatMessage(newMessages);
     setInputMessageBox("");
     document.getElementById("chatInput").value = "";
   };
 
-  const [connection, setConnection] = useState(null);
+  //const [connection, setConnection] = useState(null);
+
+  // useEffect(() => {
+  //   const newConnection = new HubConnectionBuilder()
+  //     .withUrl(`https://api.adoppix.com/hub/chat`)
+  //     .withAutomaticReconnect()
+  //     .build();
+
+  //   setConnection(newConnection);
+  // }, []);
+
+  const [newMessage, setNewMessage] = useState({});
+  useEffect(() => {
+    const chatHub = new signalR.HubConnectionBuilder()
+    .withUrl('https://api.adoppix.com/hub/chat')
+    .withAutomaticReconnect()
+    .build();
+
+    chatHub.start().then(() => {}).catch((err) => { console.log(err); });
+
+    chatHub.on(roomId, (messageData) => {
+      setNewMessage(messageData);
+    });
+  }, [roomId]);
 
   useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl(`https://api.adoppix.com/hub/chat`)
-      .withAutomaticReconnect()
-      .build();
-
-    setConnection(newConnection);
-  }, []);
+    const newListMessages = [newMessage, ...chatMessage];
+    setChatMessage([...newListMessages]);
+  }, [newMessage]);
 
   useEffect(() => {
-    if (roomId) {
-      if (connection) {
-        connection
-          .start()
-          .then(() => {
-            console.log("hub SignalR Chat Connected! ✨");
-          })
-          .catch((error) => console.log(`SignalR error: ${error}`));
+;
+  }, [chatMessage]);
 
-        connection.on(`${roomId}`, (message) => {
-          console.log("received heart beat from chat 💖");
-          console.log("New message received: ", message);
-          getChatSignalR();
-          // Do something with the received message
-        });
-      }
-    }
-  }, [connection]);
+  // useEffect(() => {
+  //   console.log(roomId);
+  //   if (roomId) {
+  //     if (connection) {
+  //       connection
+  //         .start()
+  //         .then(() => {
+  //           // console.log("hub SignalR Chat Connected! ✨");
+  //         })
+  //         .catch((error) => console.log(`SignalR error: ${error}`));
+
+  //       connection.on(`${roomId}`, (message) => {
+  //         getChatSignalR();
+
+  //         let newChatArray = [message, ...chatMessage]
+  //         setChatMessage(newChatArray);
+  //         // Do something with the received message
+  //       });
+  //     }
+  //   }
+  // }, [connection]);
 
   useEffect(() => {
     getChatList();
