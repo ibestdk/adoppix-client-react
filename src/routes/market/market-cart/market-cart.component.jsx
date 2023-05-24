@@ -58,10 +58,7 @@ export const MarketCart = () => {
   };
 
 
-  const submitSelectedItems = () => {
-    //console.log(selectedProduct)
-  };
-
+  
   const removeFromList = (index) => {
     setCart((prevCart) => ({
       ...prevCart,
@@ -205,12 +202,7 @@ export const MarketCart = () => {
                       >
                         ซื้อทั้งหมด
                       </div>
-                      <div
-                        onClick={submitSelectedItems}
-                        className="rounded-lg mt-2 bg-adoppix text-white w-full text-center py-2 text-lg cursor-pointer hover:opacity-70 duration-200"
-                      >
-                        Submit Selected
-                      </div>
+                     
                     </div>
                   </div>
                 )}

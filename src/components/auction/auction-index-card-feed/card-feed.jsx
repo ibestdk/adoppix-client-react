@@ -14,8 +14,7 @@ export const CardFeed = ({
   totalpage,
   settotalpage,
   currentpage,
-  setcurrentpage,
-  seti,
+  handleplus,
   istate,
   filterselected,
 }) => {
@@ -43,7 +42,7 @@ export const CardFeed = ({
     const updatedItems = [...auctionItems];
     updatedItems[index] = { ...updatedItems[index], isLike: response };
     setAuctionItems(updatedItems);
-    seti(istate + 1);
+    handleplus();
   };
 
   function handleContextMenu(event) {
