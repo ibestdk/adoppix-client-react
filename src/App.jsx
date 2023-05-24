@@ -42,6 +42,7 @@ import { StorageIndex } from "./routes/storage/storage-index";
 import { getUser, getUserDataApi } from "./services/authorize";
 import { SummaryPage } from "./routes/market/market-index/buySummary/summary";
 import { BuySuccess } from "./routes/market/market-index/buySummary/success/success";
+import { QuestionAndAnswer } from "./routes/Q&A/q&a";
 
 export const DarkContext = createContext();
 
@@ -52,7 +53,7 @@ function App() {
   const loadedTheme = async () => {
     const user = getUser();
     //console.log(user.isDark)
-    setDarkToggle(user.isDark)
+    setDarkToggle(user.isDark);
   };
   useEffect(() => {
     loadedTheme();
@@ -130,17 +131,75 @@ function App() {
                 />
               </Route>
               <Route path="market/" element={<Market />}>
-                <Route path="wishlist" element={<ProtectedRoute><MarketWishList /></ProtectedRoute>} />
-                <Route path="cart" element={<ProtectedRoute><MarketCart /></ProtectedRoute>} />
+                <Route
+                  path="wishlist"
+                  element={
+                    <ProtectedRoute>
+                      <MarketWishList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="cart"
+                  element={
+                    <ProtectedRoute>
+                      <MarketCart />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route index element={<MarketIndex />} />
                 <Route path=":productId" element={<MarketItem />} />
-                <Route path="my-shop/:id" element={<ProtectedRoute><MarketMyShopItem /></ProtectedRoute>}/>
-                <Route path="create" element={<ProtectedRoute><MarketCreate /></ProtectedRoute>} />
-                <Route path="my-shop" element={<ProtectedRoute><MarketMyShop /></ProtectedRoute>} />
-                <Route path="Summary/:data" element={<ProtectedRoute><SummaryPage /></ProtectedRoute>} />
-                <Route path="transaction-sccess" element={<ProtectedRoute><BuySuccess /></ProtectedRoute>} />
+                <Route
+                  path="my-shop/:id"
+                  element={
+                    <ProtectedRoute>
+                      <MarketMyShopItem />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <MarketCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="my-shop"
+                  element={
+                    <ProtectedRoute>
+                      <MarketMyShop />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="Summary/:data"
+                  element={
+                    <ProtectedRoute>
+                      <SummaryPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="transaction-sccess"
+                  element={
+                    <ProtectedRoute>
+                      <BuySuccess />
+                    </ProtectedRoute>
+                  }
+                />
               </Route>
-              <Route exact path="feeds" element={<ProtectedRoute> <Feeds /></ProtectedRoute>}>
+              <Route
+                exact
+                path="feeds"
+                element={
+                  <ProtectedRoute>
+                    {" "}
+                    <Feeds />
+                  </ProtectedRoute>
+                }
+              >
                 <Route index element={<FeedsIndex />} />
                 <Route path=":postId" element={<FeedsPost />} />
               </Route>
@@ -174,6 +233,7 @@ function App() {
                 <Route exact path="bank" element={<Bank />}></Route>
               </Route>
 
+              <Route exact path="Q&A" element={<QuestionAndAnswer />} />
               <Route exact path=":userprofile" element={<UserProfile />} />
             </Route>
             <Route exact element={<WithOutNav />}>

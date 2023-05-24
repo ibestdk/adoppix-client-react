@@ -239,3 +239,15 @@ export const handleSubmitNewMessage = async (message ,selectUsername) => {
   // //console.log(result);
   return result.data.status;
 };
+
+
+
+export const getQandA = async () => {
+
+  let result = await axios({
+    method: "get",
+    url: "https://api.backoffice.adoppix.com/api/QA",
+  }).catch((err) => console.log(err.response));
+
+return result.data.data
+};

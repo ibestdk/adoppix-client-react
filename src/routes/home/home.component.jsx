@@ -10,9 +10,9 @@ const Home = () => {
   return (
     <div className="bg-white dark:bg-adopdark duration-300">
       <Banner2></Banner2>
-      <OwlAuction></OwlAuction>
       <OwlAuctionNew/>
-      <Category/>
+      <OwlAuction></OwlAuction>
+  { /**<Category/> **/}
       <MarketInterView/>
       <ArtPending/>
       <ArtRecommend/>

@@ -12,6 +12,7 @@ const UserProfileInfomation = ({
   profilePage,
   setUserPost,
   setUserAuction,
+  setUserAll
 }) => {
   const token = localStorage.getItem("token");
   const { userprofile } = useParams();
@@ -161,6 +162,21 @@ const UserProfileInfomation = ({
       //console.log("profileAuction ======================");
       //console.log(results);
       setUserAuction(results);
+    })();
+  }, [userprofile]);
+
+  useEffect(() => {
+    (async () => {
+      const resultsAuction = await getProfileAuction(userprofile);
+      // console.log(resultsAuction);
+      const resultsPost = await getProfilePost(userprofile);
+      // console.log(resultsPost);
+      const results = resultsAuction.concat(resultsPost);
+      // console.log(results);
+      //console.log("profileAuction ======================");
+
+      //console.log(results);
+      setUserAll(results);
     })();
   }, [userprofile]);
 
@@ -359,7 +375,7 @@ const UserProfileInfomation = ({
                   profilePage === 2 ? "text-adoppix" : "text-adoplighticon"
                 }`}
               >
-                feeds
+                ฟีต
               </div>
               <div
                 onClick={() => handleChangeProfilePage(3)}
@@ -367,7 +383,7 @@ const UserProfileInfomation = ({
                   profilePage === 3 ? "text-adoppix" : "text-adoplighticon"
                 }`}
               >
-                auction
+                การประมูล
               </div>
             </div>
           </div>

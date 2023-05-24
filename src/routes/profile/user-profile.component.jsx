@@ -8,6 +8,7 @@ const UserProfile = () => {
   const [profilePage, setProfilePage] = useState(1);
   const [userPost, setUserPost] = useState([]);
   const [userAuction, setUserAuction] = useState([]);
+  const [userAll, setUserAll] = useState([]);
   const { userprofile } = useParams();
   const options = {
     chunkWidth: 200,
@@ -35,10 +36,58 @@ const UserProfile = () => {
                 profilePage={profilePage}
                 setUserPost={setUserPost}
                 setUserAuction={setUserAuction}
+                setUserAll={setUserAll}
               />
             </div>
             <div>
-              {profilePage === 1 && <OwlAuction />}
+              {profilePage === 1 && (
+                <div className=" flex justify-center">
+                  {userAll.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4">
+                      {userAll.map((all, index) => (
+                        <div>
+                        {
+                          all.postId ? 
+                          <Link
+                          to={`/feeds/${all.postId}`}
+                          className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:scale-105 duration-300"
+                          key={index}
+                          >
+                          <img
+                          className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:h-[340px] hover:w-[340px] object-cover  "
+                          src={`https://pix.adoppix.com/public/${all.images[0]}`}
+                          alt=""
+                          />
+                          </Link>
+                          :
+                          <Link
+                          to={`/auction/${all.auctionId}`}
+                          className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:scale-105 duration-300"
+                          key={index}
+                        >
+                          {/***    <ReactWaterMark
+                        waterMarkText={userprofile}
+                            openSecurityDefense
+                            options={options}
+                          >
+                        </ReactWaterMark>*/}
+                          <img
+                            className="h-[180px] w-[180px] lg:h-[240px] lg:w-[240px] hover:h-[340px] hover:w-[340px] object-cover  "
+                            src={`https://pix.adoppix.com/public/${all.image}`}
+                            alt=""
+                          />
+                        </Link>
+                        }
+                          </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center mt-20 opacity-50">
+                      ผู้ใช้ยังไม่ได้โพสต์รูปภาพ
+                    </div>
+                  )}
+                </div>
+              )}
               {profilePage === 2 && (
                 <div className=" flex justify-center">
                   {userPost.length > 0 ? (
@@ -102,12 +151,14 @@ const UserProfile = () => {
         )}
       </div>
       <div>
-      <img className="mx-auto mt-20" src="https://media.discordapp.net/attachments/681151360305201169/1032635055169871913/adopchan.png" alt="" />
+        <img
+          className="mx-auto mt-20"
+          src="https://media.discordapp.net/attachments/681151360305201169/1032635055169871913/adopchan.png"
+          alt=""
+        />
       </div>
     </div>
   );
 };
 
 export default UserProfile;
-
-
