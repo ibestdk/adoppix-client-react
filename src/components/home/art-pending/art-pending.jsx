@@ -19,7 +19,7 @@ export const ArtPending = () => {
   }, []);
   return (
     <div className="container mx-auto mt-5">
-      <div className="bg-adoplight shadow-section-center dark:bg-adopsoftdark py-10 px-60 rounded-lg">
+      <div className="bg-adoplight shadow-section-center dark:bg-adopsoftdark py-10 px-10 rounded-lg">
         <div className="text-center mb-10 dark:text-white text-adopdark">
           Pending Art
         </div>
