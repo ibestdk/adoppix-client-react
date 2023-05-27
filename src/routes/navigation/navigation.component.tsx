@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Outlet, Link, useNavigate, NavLink } from "react-router-dom";
 import { logout, getToken, getUser } from "../../services/authorize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,10 +19,10 @@ import LiveSearch from "../search/search";
 import * as signalR from "@microsoft/signalr";
 
 const Navigation = () => {
+  const [notifications, setNotifications] = useState([]);
   const [notiTrigger, setNotiTrigger] = useState(null);
 
   const user = getUser();
-  let notifications;
 
   let activeStyle = {
     textDecoration: "underline",
@@ -31,8 +31,17 @@ const Navigation = () => {
 
   let activeClassName = "text-adoppix";
   let unActiveClassName = "text-adoplighticon";
-  
-  notifications = getNotification();
+   
+  useEffect(() => {
+    fetchNotification();
+  }, [])
+
+  const fetchNotification = async () => {
+    const result = await getNotification();
+    setNotifications(result);
+
+    console.log(result);
+  }
 
   const notiHub = new signalR.HubConnectionBuilder()
     .withUrl('https://api.adoppix.com/hub/notification')
@@ -40,8 +49,6 @@ const Navigation = () => {
     .build();
 
   notiHub.start().then(() => {
-    console.log('SignalR Connected!');
-    console.log(user.username);
   }).catch((err) => {
     console.error('SignalR connection error: ', err);
   });

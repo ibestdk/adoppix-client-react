@@ -20,24 +20,8 @@ function NotiDropDown(props) {
   };
   let menuRef = useRef();
 
-  // useEffect(() => {
-  //   const filteredAuctions = notiData.filter(
-  //     (notification) => notification.type === "auction"
-  //   );
-  //   setNotiAuction(filteredAuctions); // save filtered auction notifications to notiAuction state
-  // }, [notiData]);
-
-  // useEffect(() => {
-  //   const filteredNormal = notiData.filter(
-  //     (notification) => notification.type === "post"
-  //   );
-  //   setNotiNormal(filteredNormal); // save filtered normal notifications to notiNormal state
-  // }, [notiData]);
-
   useEffect(() => {
-    (async () => {
-      setNotiData(await props.notifications);
-    })();
+    setNotiData(props.notifications);
   }, []);
 
   useEffect(() => {
@@ -141,9 +125,13 @@ function NotiDropDown(props) {
                               <div>
                                 <div className="text-lg">{noti.name}</div>
                                 <div className="text-xs">
-                                  {noti.event === "like"
-                                    ? "ได้ถูกใจการประมูล"
-                                    : ""}
+                                  {noti.event === "like" ? (
+                                    "ได้ถูกใจการประมูล"
+                                  ) : noti.event === "lose bid" ? (
+                                    "ลงเงินมากกว่าคุณ !"
+                                  ) : (
+                                    <div></div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -214,122 +202,128 @@ function NotiDropDown(props) {
                 )}
               </div>
             )}
-            {notiPage === 2 && <div>
-              <div className=" ">
-                {notiData && notiData.length > 0 ? (
-                  <div>
-                    {notiData.map((noti, index) => (
-                      <div key={index}>
-                        {noti.type === "auction" && (
-                          <Link
-                            to={`auction/${noti.auctionId}`}
-                            key={index}
-                            className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:dark:bg-adopdark duration-200 cursor-pointer"
-                          >
-                            <div className="flex">
-                              <div className="mr-2">
+            {notiPage === 2 && (
+              <div>
+                <div className=" ">
+                  {notiData && notiData.length > 0 ? (
+                    <div>
+                      {notiData.map((noti, index) => (
+                        <div key={index}>
+                          {noti.type === "auction" && (
+                            <Link
+                              to={`auction/${noti.auctionId}`}
+                              key={index}
+                              className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:dark:bg-adopdark duration-200 cursor-pointer"
+                            >
+                              <div className="flex">
+                                <div className="mr-2">
+                                  <img
+                                    className="w-[45px] h-[45px] rounded-full"
+                                    src={
+                                      noti.image
+                                        ? `https://pix.adoppix.com/public/${noti.image}`
+                                        : "https://pix.adoppix.com/image/adop.png"
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <div className="text-lg">{noti.name}</div>
+                                  <div className="text-xs">
+                                    {noti.event === "like" ? (
+                                      "ได้ถูกใจการประมูล"
+                                    ) : noti.event === "lose bid" ? (
+                                      "ลงเงินมากกว่าคุณ !"
+                                    ) : (
+                                      <div></div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-col justify-center">
                                 <img
-                                  className="w-[45px] h-[45px] rounded-full"
+                                  className="w-[50px] h-[50px] rounded-lg mx-auto object-cover"
                                   src={
-                                    noti.image
-                                      ? `https://pix.adoppix.com/public/${noti.image}`
+                                    noti.auctionImage
+                                      ? `https://pix.adoppix.com/public/${noti.auctionImage}`
                                       : "https://pix.adoppix.com/image/adop.png"
                                   }
                                 />
-                              </div>
-                              <div>
-                                <div className="text-lg">{noti.name}</div>
-                                <div className="text-xs">
-                                  {noti.event === "like"
-                                    ? "ได้ถูกใจการประมูล"
-                                    : ""}
+                                <div className="text-xs text-center">
+                                  {noti.relativeTime}
                                 </div>
                               </div>
-                            </div>
-                            <div className="flex flex-col justify-center">
-                              <img
-                                className="w-[50px] h-[50px] rounded-lg mx-auto object-cover"
-                                src={
-                                  noti.auctionImage
-                                    ? `https://pix.adoppix.com/public/${noti.auctionImage}`
-                                    : "https://pix.adoppix.com/image/adop.png"
-                                }
-                              />
-                              <div className="text-xs text-center">
-                                {noti.relativeTime}
-                              </div>
-                            </div>
-                          </Link>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex justify-center items-center opacity-30 mt-32 ">
-                    ไม่มีการเเจ้งเตือน
-                  </div>
-                )}
-              </div>
-              
-              </div>}
-            {notiPage === 3 && <div>
-              <div className=" ">
-              {notiData && notiData.length > 0 ? (
-                <div>
-                  {notiData.map((noti, index) => (
-                    <div key={index}>
-
-                      {noti.type === "post" && (
-                        <Link
-                          to={`feeds/${noti.postId}`}
-                          key={index}
-                          className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:dark:bg-adopdark duration-200 cursor-pointer"
-                        >
-                          <div className="flex">
-                            <div className="mr-2">
-                              <img
-                                className="w-[45px] h-[45px] rounded-full object-cover"
-                                src={
-                                  noti.image
-                                    ? `https://pix.adoppix.com/public/${noti.image}`
-                                    : "https://pix.adoppix.com/image/adop.png"
-                                }
-                              />
-                            </div>
-                            <div>
-                              <div className="text-lg">{noti.name}</div>
-                              <div className="text-xs">
-                                {noti.event === "like"
-                                  ? "ได้ถูกใจรูปภาพของคุณ"
-                                  : ""}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col justify-center">
-                            <img
-                              className="w-[50px] h-[50px] rounded-lg mx-auto"
-                              src={
-                                noti.postImage
-                                  ? `https://pix.adoppix.com/public/${noti.postImage}`
-                                  : "https://pix.adoppix.com/image/adop.png"
-                              }
-                            />
-                            <div className="text-xs text-center">
-                              {noti.relativeTime}
-                            </div>
-                          </div>
-                        </Link>
-                      )}
+                            </Link>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div className="flex justify-center items-center opacity-30 mt-32 ">
+                      ไม่มีการเเจ้งเตือน
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="flex justify-center items-center opacity-30 mt-32 ">
-                  ไม่มีการเเจ้งเตือน
+              </div>
+            )}
+            {notiPage === 3 && (
+              <div>
+                <div className=" ">
+                  {notiData && notiData.length > 0 ? (
+                    <div>
+                      {notiData.map((noti, index) => (
+                        <div key={index}>
+                          {noti.type === "post" && (
+                            <Link
+                              to={`feeds/${noti.postId}`}
+                              key={index}
+                              className="flex justify-between items-center hover:opacity-60 p-1 rounded-lg hover:dark:bg-adopdark duration-200 cursor-pointer"
+                            >
+                              <div className="flex">
+                                <div className="mr-2">
+                                  <img
+                                    className="w-[45px] h-[45px] rounded-full object-cover"
+                                    src={
+                                      noti.image
+                                        ? `https://pix.adoppix.com/public/${noti.image}`
+                                        : "https://pix.adoppix.com/image/adop.png"
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <div className="text-lg">{noti.name}</div>
+                                  <div className="text-xs">
+                                    {noti.event === "like"
+                                      ? "ได้ถูกใจรูปภาพของคุณ"
+                                      : ""}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-col justify-center">
+                                <img
+                                  className="w-[50px] h-[50px] rounded-lg mx-auto"
+                                  src={
+                                    noti.postImage
+                                      ? `https://pix.adoppix.com/public/${noti.postImage}`
+                                      : "https://pix.adoppix.com/image/adop.png"
+                                  }
+                                />
+                                <div className="text-xs text-center">
+                                  {noti.relativeTime}
+                                </div>
+                              </div>
+                            </Link>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center opacity-30 mt-32 ">
+                      ไม่มีการเเจ้งเตือน
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-              </div>}
+              </div>
+            )}
           </div>
         </div>
       </div>
