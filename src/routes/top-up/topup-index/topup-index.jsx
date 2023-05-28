@@ -4,14 +4,20 @@ import { getToken } from "../../../services/authorize";
 import { ChipCard } from "../../setting/payment/payment.component";
 import { getTopUpLogs } from "../../../services/bankService";
 import MoneyNumber from "../../../services/moneyService";
+import { SuccessCard } from "../../../components/success-card/success-card";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlineReload } from "react-icons/ai";
+
 export const TopUpIndex = () => {
-  const [userMoney, setUserMoney] = useState("4242-4242-4242-4242");
+  const [userMoney, setUserMoney] = useState("");
   const [myCard, setMyCard] = useState([]);
   const [logs, setLogs] = useState([]);
   const [myCardApi, setMyCardApi] = useState([]);
   const [cardNumber, setCardNumber] = useState("");
   const [cardSelect, setCardSelect] = useState();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [success, setSuccess] = useState(false);
+  const handleOnClose = () => setSuccess(false);
 
   const getUserMoney = async () => {
     const token = getToken();
@@ -93,7 +99,7 @@ export const TopUpIndex = () => {
     });
 
     console.log(convertedData);
-    setLogs(convertedData);
+    setLogs(convertedData.reverse());
   };
 
   const maskCardNumber = (cardNumber) => {
@@ -135,6 +141,7 @@ export const TopUpIndex = () => {
     setAmount("");
     setCardSelect();
     getLogs();
+    setSuccess(true);
   };
 
   useEffect(() => {
@@ -146,12 +153,22 @@ export const TopUpIndex = () => {
     <div className="container m-auto overflow-y-hidden">
       <div className="p-10 mx-20">
         <div className="flex">
+          <SuccessCard
+            visible={success}
+            onClose={handleOnClose}
+            title={"เติมเงินสำเร็จ"}
+            text={"จำนวนเงินเข้าสู่ระบบเรียบร้อยสามารถตรวจสอบยอดเงินได้ทันที"}
+          />
           <div className="w-full">
-            <div className="flex">
+            <div className="flex text-xl">
               <p>ยอดเงินคงเหลือของฉัน</p>
-              <div className="px-2">
-                <MoneyNumber amount={userMoney} />
+              <div className="px-2 flex space-x-2 items-center">
+              <MoneyNumber amount={userMoney} />
+              <div className="flex relative">
+              <GiTwoCoins className="text-adoppix" />
+              <AiOutlineReload onClick={getUserMoney} className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"/>
               </div>
+            </div>
             </div>
             <div>
               <div className="w-[350px] mx-10 mt-20 dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
@@ -219,25 +236,37 @@ export const TopUpIndex = () => {
             </div>
           </div>
 
-          <div className="w-8/12">
+          <div className="w-8/12 ">
             <div>ประวัติการเติมเงิน</div>
-            <div className="m-3">
+            <div className="m-3 text-lg">
               {logs && (
-                <div>
-                  {logs.length > 0 ? (
-                    <div>
-                      {logs.map((log, index) => (
-                        <div className="flex space-x-3 text-lg justify-around" key={index}>
-                          <div>{log.money}</div>
-                          <div>{log.cardNumber}</div>
-                          <div>{log.created}</div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="w-[20%]">Money</th>
+                      <th className="w-[40%]">Card Number</th>
+                      <th className="w-[40%]">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {logs.length > 0 ? (
+                      logs.map((log, index) => (
+                        <tr
+                          key={index}
+                          className={ `p-2 rounded-lg ${index % 2 === 0 ? "bg-adopdark" : "bg-adopsoftdark"}`}
+                        >
+                          <td className="w-[20%] text-start">{log.money}</td>
+                          <td className="w-[40%] text-center">{log.cardNumber}</td>
+                          <td className="w-[40%] text-end">{log.created}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3">No logs found</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               )}
             </div>
           </div>

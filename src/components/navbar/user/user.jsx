@@ -17,6 +17,7 @@ import { MdLogout } from "react-icons/md";
 import axios from "axios";
 import { setDarkModeAPI } from "../../../services/apiService";
 import Switch from "../../switch";
+import MoneyNumber from "../../../services/moneyService";
 
 function UserDropDown() {
   const [userData, setUserData] = useState([]);
@@ -146,7 +147,7 @@ function UserDropDown() {
             </div>
             <div>
               <h5 className="text-xl duration-300 text-adopdark dark:text-adoplight font-bold">
-                {money && money}
+                {money && <MoneyNumber amount={money} />}
               </h5>
             </div>
           </div>

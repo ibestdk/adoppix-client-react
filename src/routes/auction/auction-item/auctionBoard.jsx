@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import { AiFillFire } from "react-icons/ai";
+import MoneyNumber from "../../../services/moneyService";
 export const AuctionBoard = ({
   money,
   auctionData,
@@ -79,7 +80,7 @@ export const AuctionBoard = ({
                     :
                     <div className="px-1">
                       {auctionData.hotClose >= 0
-                        ? auctionData.hotClose
+                        ?  <MoneyNumber amount={auctionData.hotClose}/>
                         : "ไม่มี"}
                       {auctionData.hotClose === null && "ไม่มี"}
                     </div>
@@ -95,7 +96,7 @@ export const AuctionBoard = ({
                   {auctionData.currentBid == null ? (
                     <div className="text-lg">การประมูลยังไม่เริ่ม</div>
                   ) : (
-                    <div>{auctionData.currentBid.amount}</div>
+                    <div><MoneyNumber amount={auctionData.currentBid.amount}/> </div>
                   )}
                 </div>
                 <div>

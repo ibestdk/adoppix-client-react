@@ -9,6 +9,7 @@ import {
   callAuctionFilterCard,
 } from "../../../services/auctionService";
 import { LikeList } from "../like/like";
+import MoneyNumber from "../../../services/moneyService";
 
 export const CardFeed = ({
   totalpage,
@@ -138,7 +139,9 @@ export const CardFeed = ({
                       </div>
                       <div className="text-adoppix font-semibold text-lg">
                         {auctionItem.currentAmoutBid > 0
-                          ? auctionItem.currentAmoutBid
+                          ? (
+                            <MoneyNumber amount={auctionItem.currentAmoutBid}/>
+                          )
                           : "-"}
                       </div>
                     </div>

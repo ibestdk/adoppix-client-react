@@ -7,6 +7,10 @@ import {
 } from "../../services/bankService";
 import { getUser } from "../../services/authorize";
 import { SuccessCard } from "../../components/success-card/success-card";
+import { getAPIBalance } from "../../services/userService";
+import MoneyNumber from "../../services/moneyService";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlineReload } from "react-icons/ai";
 
 export const WithDrawn = () => {
   const [bank, setBank] = useState([]);
@@ -24,6 +28,13 @@ export const WithDrawn = () => {
     number: "",
     name: "",
   });
+
+  const [userMoney, setUserMoney] = useState(0);
+
+  const callUsermoney = async () => {
+    const result = await getAPIBalance();
+    setUserMoney(result);
+  }
 
   const typeAmount = (e) => {
     setNewBank((prevBank) => ({
@@ -71,6 +82,7 @@ export const WithDrawn = () => {
     setBankSelect();
     callLogs();
     setSuccess(true);
+    callUsermoney();
   };
 
   const callLogs = async () => {
@@ -96,6 +108,7 @@ export const WithDrawn = () => {
   useEffect(() => {
     callBank();
     callLogs();
+    callUsermoney();
   }, []);
 
   useEffect(() => {}, []);
@@ -103,10 +116,25 @@ export const WithDrawn = () => {
   return (
     <div className="container m-auto overflow-y-hidden">
       <div className="p-10 mx-20 flex flex-col space-x-5">
-        <SuccessCard visible={success} onClose={handleOnClose} title={"ส่งคำขอถอนเงินสำเร็จ"} text={"เงินจะเข้าบัญชีหลังจากทางระบบยืนยัน"}  />
+        <SuccessCard
+          visible={success}
+          onClose={handleOnClose}
+          title={"ส่งคำขอถอนเงินสำเร็จ"}
+          text={"เงินจะเข้าบัญชีหลังจากทางระบบยืนยัน"}
+        />
         <div className="p-10 flex space-x-5">
           <div className="flex flex-col">
             <div>
+              <div className="flex mb-5 text-xl">
+                <p>ยอดเงินคงเหลือของฉัน</p>
+                <div className="px-2 flex space-x-2 items-center">
+                  <MoneyNumber amount={userMoney} />
+                  <div className="flex relative">
+                  <GiTwoCoins className="text-adoppix" />
+                  <AiOutlineReload onClick={callUsermoney} className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"/>
+                  </div>
+                </div>
+              </div>
               <div className=" dark:bg-adopsoftdark bg-adoplight w-[500px] p-4 rounded-lg animate-[wiggle_1s_ease-in-out_infinite] max-h-[600px] overflow-y-scroll">
                 <div>ถอนเงิน</div>
                 <div className="flex flex-col space-y-4 m-2">
@@ -185,39 +213,45 @@ export const WithDrawn = () => {
         </div>
         <div>
           <div>ประวัติการถอนเงิน</div>
-          <div className="m-3 w-[600px]">
+          <div className="m-3 w-[600px] text-lg">
             {logs.length > 0 ? (
-              <div>
-                <div className="flex justify-between space-x-3 text-lg">
-                  <div>จำนวนเงิน</div>
-                  <div>เลขบัญชี</div>
-                  <div>สถานะ</div>
-                </div>
-                {logs.map((log, index) => (
-                  <div
-                    className="flex space-x-3 text-lg justify-between  hover:bg-adopsoftdark p-2 rounded-lg"
-                    key={index}
-                  >
-                    <div className="text-start">{log.money}</div>
-                    <div className="text-center">{log.number}</div>
-                    <div
-                      className={`${
-                        log.status === 0
-                          ? "text-adoplighticon"
-                          : log.status === 1
-                          ? "text-green-400"
-                          : "text-red-400"
+              <table>
+                <thead>
+                  <tr>
+                    <th className="w-[20%]">จำนวนเงิน</th>
+                    <th className="w-[40%]">เลขบัญชี</th>
+                    <th className="w-[40%]">สถานะ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {logs.map((log, index) => (
+                    <tr
+                      key={index}
+                      className={`p-2 rounded-lg ${
+                        index % 2 === 0 ? "bg-adopdark" : "bg-adopsoftdark"
                       }`}
                     >
-                      {log.status === 0
-                        ? "รอดำเนินการ"
-                        : log.status === 1
-                        ? "ยันยันเเล้ว"
-                        : "ถูกปฏิเสธ"}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                      <td className="w-[20%] text-start">{log.money}</td>
+                      <td className="w-[40%] text-center">{log.number}</td>
+                      <td
+                        className={`w-[40%] text-end ${
+                          log.status === 0
+                            ? "text-adoplighticon"
+                            : log.status === 1
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {log.status === 0
+                          ? "รอดำเนินการ"
+                          : log.status === 1
+                          ? "ยันยันแล้ว"
+                          : "ถูกปฏิเสธ"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             ) : (
               <div></div>
             )}

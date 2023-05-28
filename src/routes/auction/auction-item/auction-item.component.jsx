@@ -14,6 +14,7 @@ import { AuctionBoard } from "./auctionBoard";
 import { getAPIBalance } from "../../../services/userService";
 import { callrecommentOnItems } from "../../../services/auctionService";
 import { LikeList } from "../../../components/auction/like/like";
+import MoneyNumber from "../../../services/moneyService";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
 
@@ -173,14 +174,16 @@ export const AuctionItem = () => {
           <LikeList istate={i} />
         </div>
         <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center ">
+        {balance && (
           <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
-            <div>{balance}</div>
+            <MoneyNumber amount={balance} />
             <GiTwoCoins />
             <AiOutlinePlusCircle
               onClick={() => navigate("../topup")}
               className="  text-white"
             />
           </div>
+        )}
         </div>
       </div>
       <div className="mt-[-100px] mx-[400px]">
@@ -307,7 +310,7 @@ export const AuctionItem = () => {
                                     <div className="mx-3 "> {bh.username}</div>
                                   </div>
                                   <div className="mx-3  w-[40%]">
-                                    {bh.amount}
+                                     <MoneyNumber amount={bh.amount}/>
                                   </div>
                                   <div className="mx-3  w-[40%]">
                                     {bh.created}

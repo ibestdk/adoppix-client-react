@@ -12,6 +12,7 @@ import { LikeList } from "../../../components/auction/like/like";
 import { useNavigate } from "react-router-dom";
 import { getAPIBalance } from "../../../services/userService";
 import { getToken } from "../../../services/authorize";
+import MoneyNumber from "../../../services/moneyService";
 function valuetext(value) {
   return `{value}`;
 }
@@ -22,11 +23,9 @@ export const AuctionIndex = ({ plus }) => {
   const [filterSelected, setFilterSelected] = useState();
   const [maxValue, setMaxValue] = useState(10000);
 
-
   const [i, setI] = useState(0);
   const [balance, setBalance] = useState();
 
-  
   const getBalance = async () => {
     const result = await getAPIBalance();
     setBalance(result);
@@ -78,7 +77,6 @@ export const AuctionIndex = ({ plus }) => {
   }, [filterSelected]);
   useEffect(() => {
     setCurrentPage(0);
-    
   }, [value]);
   return (
     <div className="bg-adoplight dark:bg-adopdark min-h-screen h-[1500px] relative ">
@@ -87,14 +85,16 @@ export const AuctionIndex = ({ plus }) => {
           <LikeList istate={i} />
         </div>
         <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center ">
-          <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
-            <div>{balance}</div>
-            <GiTwoCoins />
-            <AiOutlinePlusCircle
-              onClick={() => navigate("../topup")}
-              className="  text-white"
-            />
-          </div>
+          {balance && (
+            <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+              <MoneyNumber amount={balance} />
+              <GiTwoCoins />
+              <AiOutlinePlusCircle
+                onClick={() => navigate("../topup")}
+                className="  text-white"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="relative top-2">
@@ -102,7 +102,7 @@ export const AuctionIndex = ({ plus }) => {
           <div className="sm:grid sm:grid-cols-12 sm:gap-4 ">
             <div className="bg-adopsoftdark ml-5 mr-5 col-span-3  max-h-[540px] rounded-lg">
               <div className="p-5">
-                { /** <div className="mb-6">
+                {/** <div className="mb-6">
                   <div>
                     <div className="mb-2 block"></div>
                     <div className="flex  rounded-lg py-2 px-4 bg-adopdark">
