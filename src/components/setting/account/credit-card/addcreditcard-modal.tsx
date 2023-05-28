@@ -14,7 +14,7 @@ import Chips from "../../../input/chips/chips";
 import { getToken } from "../../../../services/authorize";
 import axios from "axios";
 
-export default function AddCardModal({ visible, onClose }) {
+export default function AddCardModal({ visible, onClose, reload }) {
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiration, setExpiration] = useState("");
   const [cardCvv, setCvv] = useState("");
@@ -122,7 +122,7 @@ export default function AddCardModal({ visible, onClose }) {
       cvc: "",
       name: "",
     };
-  
+
     if (cardNumber) {
       const formattedCardNumber = cardNumber.replace(/-/g, "");
       bodyData.cardNumber = formattedCardNumber;
@@ -131,20 +131,25 @@ export default function AddCardModal({ visible, onClose }) {
     if (cardExpirationYear) bodyData.expireYear = cardExpirationYear;
     if (cardCvv) bodyData.cvc = cardCvv;
     if (cardHolder) bodyData.name = cardHolder;
-  
+
     const token = getToken();
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
     };
-  
+
     let result = await axios({
       method: "post",
       url: "https://api.adoppix.com/api/Payment/add",
       data: JSON.stringify(bodyData),
       headers: headers,
     }).catch((err) => console.log(err.response));
+
+    if (result) {
+      reload();
+      onClose();
+    }
     //console.log(result);
   };
 

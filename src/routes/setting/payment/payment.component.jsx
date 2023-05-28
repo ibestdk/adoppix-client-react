@@ -55,7 +55,7 @@ const Payment = () => {
   return (
     <div className="text-adopdark dark:text-adoplight">
       <div>
-        <AddCardModal onClose={handleOnClose} visible={addCardModal} />
+        <AddCardModal onClose={handleOnClose} visible={addCardModal} reload={callCreditCard}/>
       </div>
 
       <div className="flex">
