@@ -24,10 +24,6 @@ export const SummaryPage = () => {
   const [i, setI] = useState(0);
   const [balance, setBalance] = useState();
 
-  const getBalance = async () => {
-    const result = await getAPIBalance();
-    setBalance(result);
-  };
 
   const decodeData = (encodedData) => {
     const decodedData = decodeURIComponent(encodedData);
