@@ -2,6 +2,7 @@ import { GoVerified } from "react-icons/go";
 import { FaTrash } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { useState } from "react";
+import MoneyNumber from "../../../services/moneyService";
 export const CartCard = ({
   data,
   toWishlist,
@@ -66,7 +67,7 @@ export const CartCard = ({
         </div>
       </div>
       <div>
-        <b className=" dark:text-adoplight text-adopdark">{data.price}</b>
+        <b className=" dark:text-adoplight text-adopdark"> <MoneyNumber amount={data.price}/></b>
       </div>
     </div>
   );

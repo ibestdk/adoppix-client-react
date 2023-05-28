@@ -7,6 +7,7 @@ import { getAPIBalance } from "../../../../services/userService";
 import { postBuyMulti, postBuySigle } from "../../../../services/marketService";
 import { WishList } from "../like/wishlist";
 import { CartList } from "../like copy/cart";
+import MoneyNumber from "../../../../services/moneyService";
 
 export const SummaryPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ export const SummaryPage = () => {
 
   const [i, setI] = useState(0);
   const [balance, setBalance] = useState();
-
 
   const decodeData = (encodedData) => {
     const decodedData = decodeURIComponent(encodedData);
@@ -76,14 +76,16 @@ export const SummaryPage = () => {
           <CartList istate={i} />
         </div>{" "}
         <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
-          <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
-            <div>{balance}</div>
-            <GiTwoCoins />
-            <AiOutlinePlusCircle
-              onClick={() => navigate("../topup")}
-              className="  text-white"
-            />
-          </div>
+          {balance && (
+            <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+              <MoneyNumber amount={balance} />
+              <GiTwoCoins />
+              <AiOutlinePlusCircle
+                onClick={() => navigate("../topup")}
+                className="  text-white"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="text-white mt-20 w-auto container mx-auto h-auto flex justify-center">
@@ -114,7 +116,9 @@ export const SummaryPage = () => {
                         <div>{data.title}</div>
                         <div className="text-xs">{data.description}</div>
                       </div>
-                      <div>{data.price}</div>
+                      <div>
+                        <MoneyNumber amount={data.price} />
+                      </div>
                     </div>
                   </div>
                 ))
@@ -137,7 +141,11 @@ export const SummaryPage = () => {
                       <div>{productDatas.title}</div>
                       <div className="text-xs">{productDatas.description}</div>
                     </div>
-                    <div>{productDatas.price}</div>
+                    <div>
+                      {productDatas.price && (
+                        <MoneyNumber amount={productDatas.price} />
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -153,13 +161,19 @@ export const SummaryPage = () => {
                     className="flex justify-between text-xl items-end"
                   >
                     <div className="text-sm truncate">{data.title}</div>
-                    <div>{data.price}</div>
+                    <div>
+                      <MoneyNumber amount={data.price} />
+                    </div>
                   </div>
                 ))
               ) : (
                 <div className="flex justify-between text-xl">
                   <div>{productDatas.title}</div>
-                  <div>{productDatas.price}</div>
+                  <div>
+                    {productDatas.price && (
+                      <MoneyNumber amount={productDatas.price} />
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -169,50 +183,59 @@ export const SummaryPage = () => {
                   <div>ยอดรวม</div>
                   <div>
                     {productDatas.length > 0 ? (
-                      productDatas.reduce(
-                        (total, data) => total + parseFloat(data.price),
-                        0
-                      )
+                      <MoneyNumber
+                        amount={productDatas.reduce(
+                          (total, data) => total + parseFloat(data.price),
+                          0
+                        )}
+                      />
                     ) : (
-                      <div>{productDatas.price}</div>
+                      <div>
+                        {productDatas.price && (
+                          <MoneyNumber
+                            amount={parseFloat(productDatas.price)}
+                          />
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
                 <div className="flex justify-between text-xl mt-2 text-adoppix">
                   <div>เงินในบัญชี</div>
-                  <div>{userMoney}</div>
+                  <div>{userMoney && <MoneyNumber amount={userMoney} />} </div>
                 </div>
                 <div className="flex justify-between text-xl mt-2">
-                  <div>เงินคงเหลือ</div>
-                  <div>
-                    {parseFloat(userMoney) >=
-                    (productDatas.length > 0
-                      ? productDatas.reduce(
-                          (total, data) => total + parseFloat(data.price),
-                          0
-                        )
-                      : productDatas.price) ? (
-                      <div className="flex justify-between text-xl mt-2">
-                        <div>
-                          {(
-                            parseFloat(userMoney) -
-                            (productDatas.length > 0
-                              ? productDatas.reduce(
-                                  (total, data) =>
-                                    total + parseFloat(data.price),
-                                  0
-                                )
-                              : productDatas.price)
-                          ).toFixed(2)}
-                        </div>
+                <div>เงินคงเหลือ</div>
+                <div>
+                  {parseFloat(userMoney) >=
+                  (productDatas.length > 0
+                    ? productDatas.reduce(
+                        (total, data) => total + parseFloat(data.price),
+                        0
+                      )
+                    : parseFloat(productDatas.price)) ? (
+                    <div className="flex justify-between text-xl mt-2">
+                      <div>
+                        {(
+                          parseFloat(userMoney) -
+                          (productDatas.length > 0
+                            ? productDatas.reduce(
+                                (total, data) => total + parseFloat(data.price),
+                                0
+                              )
+                            : parseFloat(productDatas.price))
+                        ).toLocaleString()}
                       </div>
-                    ) : (
-                      <div className="text-red-500 text-sm mt-2">
-                        ยอดเงินไม่เพียงพอ โปรดเติมเงิน
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="text-red-500 text-sm mt-2">
+                      ยอดเงินไม่เพียงพอ โปรดเติมเงิน
+                    </div>
+                  )}
                 </div>
+              </div>
+              
+
                 <hr />
                 <hr className="mt-1" />
 

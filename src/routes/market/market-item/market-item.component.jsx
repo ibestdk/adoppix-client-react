@@ -19,6 +19,7 @@ import { stringify } from "qs";
 import { WishList } from "../market-index/like/wishlist";
 import { CartList } from "../market-index/like copy/cart";
 import { getAPIBalance } from "../../../services/userService";
+import MoneyNumber from "../../../services/moneyService";
 
 export const MarketItem = () => {
   const { productId } = useParams();
@@ -282,14 +283,16 @@ export const MarketItem = () => {
           <CartList istate={i} />
         </div>{" "}
         <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
-        <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
-        <div>{balance}</div>
-        <GiTwoCoins />
-        <AiOutlinePlusCircle
-          onClick={() => navigate("../topup")}
-          className="  text-white"
-        />
-      </div>
+          {balance && (
+            <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+              <MoneyNumber amount={balance} />
+              <GiTwoCoins />
+              <AiOutlinePlusCircle
+                onClick={() => navigate("../topup")}
+                className="  text-white"
+              />
+            </div>
+          )}
         </div>
       </div>
       {productDatas && isLogin == true && (
@@ -458,7 +461,7 @@ export const MarketItem = () => {
                           ราคา
                         </b>
                         <b className="inline-block text-4xl text-right text-adoppix w-full">
-                          {productDatas.price}
+                          <MoneyNumber amount={productDatas.price} />
                         </b>
                       </div>
                       <div className="flex justify-between">
@@ -696,7 +699,7 @@ export const MarketItem = () => {
                           ราคา
                         </b>
                         <b className="inline-block text-4xl text-right text-adoppix w-full">
-                          {productDatas.price}
+                          <MoneyNumber amount={productDatas.price} />
                         </b>
                       </div>
                       <div className="flex justify-end items-end mt-1">

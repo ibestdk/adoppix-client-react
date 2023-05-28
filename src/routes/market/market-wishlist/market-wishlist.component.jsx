@@ -12,6 +12,7 @@ import { WishListCardSkeleton } from "./wishListSkeleton";
 import { getAPIBalance } from "../../../services/userService";
 import { WishList } from "../market-index/like/wishlist";
 import { CartList } from "../market-index/like copy/cart";
+import MoneyNumber from "../../../services/moneyService";
 
 export const MarketWishList = () => {
   const navigate = useNavigate();
@@ -113,14 +114,16 @@ export const MarketWishList = () => {
           <CartList istate={i} />
         </div>{" "}
         <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
+        {balance && (
           <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
-            <div>{balance}</div>
+            <MoneyNumber amount={balance} />
             <GiTwoCoins />
             <AiOutlinePlusCircle
               onClick={() => navigate("../topup")}
               className="  text-white"
             />
           </div>
+        )}
         </div>
       </div>
       {isLogin == true && (

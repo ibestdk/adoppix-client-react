@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from '../market-modal/confirm-modal';
 import SuccesefullBuy from '../market-modal/succesefull-buy';
 import LoginFirst from '../market-modal/login-first-modal';
+import MoneyNumber from '../../../services/moneyService';
 
 export const MarketFeedCard = ( {data , setI, istate }) => {
 console.log(data);
@@ -168,7 +169,7 @@ console.log(data);
                                 </div>
                                 <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                     <b>
-                                        {data.price}
+                                      <MoneyNumber amount={data.price} />
                                     </b>
                                 </div>
                                 <div className="flex">

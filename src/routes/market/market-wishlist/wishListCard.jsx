@@ -3,6 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import MoneyNumber from "../../../services/moneyService";
 
 export const WishListCard = ({ data, naviagteToItem, toCart , dataIndex ,wishList }) => {
     const navigate = useNavigate();
@@ -75,7 +76,7 @@ export const WishListCard = ({ data, naviagteToItem, toCart , dataIndex ,wishLis
         </div>
       </div>
       <div>
-        <b className=" dark:text-adoplight text-adopdark">{data.price}</b>
+        <b className=" dark:text-adoplight text-adopdark"><MoneyNumber amount={data.price} /> </b>
       </div>
     </div>
   );
