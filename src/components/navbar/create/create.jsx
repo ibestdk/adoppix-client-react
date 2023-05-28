@@ -51,7 +51,7 @@ function CreateDropDown() {
           <ul>
             <DropdownItem route={"auction/create"} text={"Auction"} />
             <DropdownItem route={"market/create"} text={"Market"} />
-            <DropdownItem route={""} text={"Post"} />
+
           </ul>
         </div>
       </div>

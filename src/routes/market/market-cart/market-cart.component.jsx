@@ -3,6 +3,8 @@ import { FaTrash } from "react-icons/fa";
 import { AiFillStar } from "react-icons/ai";
 import { getToken } from "../../../services/authorize";
 import { useState, useEffect } from "react";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -15,8 +17,10 @@ import {
 } from "../../../services/marketService";
 import { CartCard } from "./cart-card";
 import { CartCardSkeleton } from "./cart-card-skeleton";
-import { stringify } from 'qs';
-
+import { stringify } from "qs";
+import { getAPIBalance } from "../../../services/userService";
+import { WishList } from "../market-index/like/wishlist";
+import { CartList } from "../market-index/like copy/cart";
 
 export const MarketCart = () => {
   const navigate = useNavigate();
@@ -28,12 +32,22 @@ export const MarketCart = () => {
   const [cart, setCart] = useState();
   const [isLogin, setIsLogin] = useState(false);
 
+  const [i, setI] = useState(0);
+  const [balance, setBalance] = useState();
+
+  const getBalance = async () => {
+    const result = await getAPIBalance();
+    setBalance(result);
+  };
+
   const handleOnClose = () => setModal(false);
 
   const handleCheckboxChange = (data) => {
     // Check if the selectedProduct array contains the data
-    const existingIndex = selectedProduct.findIndex(item => item.productId === data.productId);
-    
+    const existingIndex = selectedProduct.findIndex(
+      (item) => item.productId === data.productId
+    );
+
     if (existingIndex !== -1) {
       // Remove the data from the selectedProduct array
       const updatedSelectedProduct = [...selectedProduct];
@@ -45,20 +59,16 @@ export const MarketCart = () => {
     }
   };
 
-  
   const handleClick = () => {
     const serializedData = encodeURIComponent(stringify(selectedProduct));
     navigate(`../Summary/${serializedData}`);
   };
-
 
   const handleAllCardCheckOut = () => {
     const serializedData = encodeURIComponent(stringify(cart.items));
     navigate(`../Summary/${serializedData}`);
   };
 
-
-  
   const removeFromList = (index) => {
     setCart((prevCart) => ({
       ...prevCart,
@@ -102,6 +112,7 @@ export const MarketCart = () => {
     } else {
       setIsLogin(true);
       getCart();
+      getBalance();
     }
   };
 
@@ -117,6 +128,22 @@ export const MarketCart = () => {
 
   return (
     <div>
+      <div className="sticky top-8 pt-10 z-20">
+        <div className="flex mr-10 justify-end items-end space-x-4">
+          <WishList istate={i} />
+          <CartList istate={i} />
+        </div>{" "}
+        <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
+          <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+            <div>{balance}</div>
+            <GiTwoCoins />
+            <AiOutlinePlusCircle
+              onClick={() => navigate("../topup")}
+              className="  text-white"
+            />
+          </div>
+        </div>
+      </div>
       {isLogin && (
         <div
           className="dark:bg-adopdark bg-adoplight min-h-screen container duration-300 mx-auto"
@@ -202,7 +229,6 @@ export const MarketCart = () => {
                       >
                         ซื้อทั้งหมด
                       </div>
-                     
                     </div>
                   </div>
                 )}
@@ -306,4 +332,3 @@ export const MarketCart = () => {
     </div>
   );
 };
-

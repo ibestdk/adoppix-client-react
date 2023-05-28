@@ -103,7 +103,7 @@ export const WishList = ({ istate }) => {
             <div>
               {wishList &&
                 wishList.map((like, index) => (
-                  <div
+                  <Link to={`../../../market/${like.productId}`}
                     key={index}
                     className="flex justify-between mx-2 my-2 py-2 hover:brightness-75 duration-200"
                   >
@@ -119,13 +119,13 @@ export const WishList = ({ istate }) => {
                         }`}
                       />
                     </div>
-                  </div>
+                  </Link>
                 ))}
             </div>
             </div>
             <div>
               <Link
-                to="wishlist"
+                to="../../../market/wishlist"
                 className="text-lg font-bold flex justify-center items-center cursor-pointer p-2"
               >
                 ดูทั้งหมด

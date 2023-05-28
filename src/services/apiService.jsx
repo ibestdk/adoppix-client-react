@@ -218,22 +218,18 @@ export const getMyStorage = async () => {
   } catch (error) {}
 };
 
-export const handleSubmitNewMessage = async (message ,selectUsername) => {
-  const bodyData = new FormData();
-  if (message) bodyData.append("Message", message);
-  if (selectUsername) bodyData.append("Username", selectUsername);
-  bodyData.append("Type", "text");
-  //console.log(bodyData);
-  if (!message || !selectUsername) return null;
+export const handleSubmitNewMessage = async (username) => {
+ 
+  // if ( !selectUsername) return null;
   const headers = {
     Authorization: `Bearer ${token}`,
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   };
   let result = await axios({
     method: "post",
     url: "https://api.adoppix.com/api/Chat/create",
-    data: bodyData,
+    data: username,
     headers: headers,
   }).catch((err) => console.log(err.response));
   // //console.log(result);
@@ -242,12 +238,3 @@ export const handleSubmitNewMessage = async (message ,selectUsername) => {
 
 
 
-export const getQandA = async () => {
-
-  let result = await axios({
-    method: "get",
-    url: "https://api.backoffice.adoppix.com/api/QA",
-  }).catch((err) => console.log(err.response));
-
-return result.data.data
-};

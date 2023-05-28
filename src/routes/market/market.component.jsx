@@ -37,7 +37,7 @@ export const Market = () => {
 
   return (
     <div>
-      <div className="sticky top-8 pt-10 z-20">
+     {/* <div className="sticky top-8 pt-10 z-20">
         <div className="flex mr-10 justify-end items-end space-x-4">
           <WishList istate={i} />
           <CartList istate={i} />
@@ -50,7 +50,7 @@ export const Market = () => {
             className="  text-white"
           />
         </div>
-      </div>
+  </div> */}
       <div className="mt-[-5rem]">
         <Outlet />
       </div>

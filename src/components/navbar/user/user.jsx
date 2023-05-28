@@ -158,10 +158,10 @@ function UserDropDown() {
               </Link>
             </div>
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
+              <Link className="flex text-lg" to={"withdraw"}>
                 <BsBank2 className="m-1" />
                 ถอนเงิน
-              </a>
+              </Link>
             </div>
           </div>
           <ul>
@@ -188,11 +188,11 @@ function UserDropDown() {
                 <BsMoonFill className="dark:text-adoplight  text-2xl" />
               </div>
             </li>
-
             <DropdownItem
+            click={() => navigate("/Q&A")}
               icon={
                 <BsFillQuestionCircleFill className="dark:text-adoplight  ml-3 mt-[4px]" />
-              }
+              } 
               text={"การช่วยเหลือ"}
             />
             <DropdownItem

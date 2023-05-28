@@ -38,7 +38,7 @@ export const OwlAuctionNew = () => {
     const getNewAuction = async () => {
       try {
         const response = await axios.get(
-          "https://api.adoppix.com/api/Auction?Take=10&Page=0"
+          "https://api.adoppix.com/api/Auction?Take=10&Page=3"
         );
         setNewAuction(response.data.data.auctionsList);
         // console.log(response.data.data);

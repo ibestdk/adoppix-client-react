@@ -11,11 +11,13 @@ import ConfirmModal from '../market-modal/confirm-modal';
 import SuccesefullBuy from '../market-modal/succesefull-buy';
 import LoginFirst from '../market-modal/login-first-modal';
 
-export const MarketFeedCard = ( data) => {
-
+export const MarketFeedCard = ( {data , setI, istate }) => {
+console.log(data);
     // wishlist ฟังชั่นที่ยังไม่รู้ว่าใช้เปลี่ยนข้อมูลจาก api isWishList ยังไง
     const wishlistClicked = (productId) => {
         wishList(productId);
+        setI(istate + 1 );
+
     }
 
     const delay = ms => new Promise(
@@ -40,6 +42,7 @@ export const MarketFeedCard = ( data) => {
                 if (isOnCart) {
                     setIsOnCart(false);
                 }
+                
             })
             .catch((err) => console.log(err));
         // axios.patch(`https://api.adoppix.com/api/Product/${productId}/wishlist`)
@@ -49,6 +52,7 @@ export const MarketFeedCard = ( data) => {
 
     const cartClicked = (productId) => {
         cart(productId);
+           setI(istate + 1 );
     }
 
     const cart = async (productId) => {
@@ -83,7 +87,7 @@ export const MarketFeedCard = ( data) => {
         // API Caller
         axios({
             method: 'post',
-            url: `https://api.adoppix.com/api/Product/${data.data.productId}/buy`,
+            url: `https://api.adoppix.com/api/Product/${data.productId}/buy`,
             headers: headers
         })
             .then(async (res) => {
@@ -123,9 +127,9 @@ export const MarketFeedCard = ( data) => {
 
     useEffect(() => {
         userOrGuest();
-        setIsWishLists(data.data.isWishlist);
-        setIsOnCart(data.data.isOnCart);
-        setIsBought(data.data.isBought);
+        setIsWishLists(data.isWishlist);
+        setIsOnCart(data.isOnCart);
+        setIsBought(data.isBought);
     }, []);
 
     return (
@@ -133,8 +137,8 @@ export const MarketFeedCard = ( data) => {
             {isLogin == true && (
                 <div>
                     <div className="relative overflow-hidden">
-                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${data.data.productId}`}>
-                            <img className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${data.data.image}`} />
+                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${data.productId}`}>
+                            <img className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${data.image}`} />
                         </NavLink>
                         <div className="absolute top-2 right-2">
                             <div>
@@ -142,17 +146,17 @@ export const MarketFeedCard = ( data) => {
                                     <FaStar className="mb-[8px] text-adoppix" />
                                 )}
                                 {isWishLists && !isBought && (
-                                    <FaStar onClick={() => wishlistClicked(data.data.productId)} className="mb-[8px] text-yellow-300" />
+                                    <FaStar onClick={() => wishlistClicked(data.productId)} className="mb-[8px] text-yellow-300" />
                                 )}
                                 {!isWishLists && !isBought && (
-                                    <FaRegStar onClick={() => wishlistClicked(data.data.productId)} className="mb-[8px] text-yellow-300" />
+                                    <FaRegStar onClick={() => wishlistClicked(data.productId)} className="mb-[8px] text-yellow-300" />
                                 )}
                             </div>
                             <div>
-                                {data.data.canCommercial == true && (
+                                {data.canCommercial == true && (
                                     <TbBusinessplan className="bg-green-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
                                 )}
-                                {data.data.canCommercial == false && (
+                                {data.canCommercial == false && (
                                     <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
                                 )}
                             </div>
@@ -160,31 +164,31 @@ export const MarketFeedCard = ( data) => {
                         <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
                             <div className="relative">
                                 <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
-                                    {data.data.title}
+                                    {data.title}
                                 </div>
                                 <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                     <b>
-                                        {data.data.price}
+                                        {data.price}
                                     </b>
                                 </div>
                                 <div className="flex">
                                     <div>
-                                        <img className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${data.data.ownerProfileImage}`} />
+                                        <img className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${data.ownerProfileImage}`} />
                                     </div>
                                     <div className="text-xs font-bold my-auto truncate max-w-[70%]">
-                                        {data.data.ownerUsername}
+                                        {data.ownerUsername}
                                     </div>
                                     <div className=" top-[2px] right-[-15px] cursor-default">
                                         <GoVerified className="h-4 text-green-400" />
                                     </div>
                                 </div>
-                                {data.data.amount > 0 && (
+                                {data.amount > 0 && (
 
                                     <div className="absolute text-xs right-1 top-5">
-                                        เหลือ {data.data.amount} ชิ้น
+                                        เหลือ {data.amount} ชิ้น
                                     </div>
                                 )}
-                                {data.data.amount == null && (
+                                {data.amount == null && (
 
                                     <div className="absolute text-xs right-1 top-5">
                                         ไม่จำกัดจำนวน
@@ -214,36 +218,36 @@ export const MarketFeedCard = ( data) => {
                                         </div>
                                     )}
                                     {!isBought && !isOnCart && (
-                                        <div onClick={() => cartClicked(data.data.productId)} className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
+                                        <div onClick={() => cartClicked(data.productId)} className="text-xs px-1 py-[1px] w-[8] bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500 duration-300 hover:scale-105 text-adoplight">
                                             เพิ่มลงตะกร้า
                                         </div>
                                     )}
                                     {!isBought && isOnCart && (
-                                        <div onClick={() => cartClicked(data.data.productId)} className="text-xs px-1 py-[1px] bg-green-500 rounded-md cursor-pointer hover:opacity-75 duration-300 hover:scale-105 text-adoplight">
+                                        <div onClick={() => cartClicked(data.productId)} className="text-xs px-1 py-[1px] bg-green-500 rounded-md cursor-pointer hover:opacity-75 duration-300 hover:scale-105 text-adoplight">
                                             เพิ่มลงตะกร้า
                                         </div>
                                     )}
                                 </div>
                                 <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                    {data.data.description}
+                                    {data.description}
                                 </div>
                                 <div className="flex ml-1 max-w-[100%] overflow-hidden">
                                     <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                        {data.data.tag}
+                                        {data.tag}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <SuccesefullBuy visible={succese} />
-                    <ConfirmModal onClose={handleOnClose} visible={modal} price={data.data.price} method={buy} />
+                    <ConfirmModal onClose={handleOnClose} visible={modal} price={data.price} method={buy} />
                 </div>
             )}
             {isLogin == false && (
                 <div>
                     <div className="relative overflow-hidden">
-                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${data.data.productId}`}>
-                            <img className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${data.data.image}`} />
+                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${data.productId}`}>
+                            <img className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${data.image}`} />
                         </NavLink>
                         <div className="absolute top-2 right-2">
                             <div>
@@ -252,10 +256,10 @@ export const MarketFeedCard = ( data) => {
                                     }} className="mb-[8px] text-yellow-300" />
                             </div>
                             <div>
-                                {data.data.canCommercial == true && (
+                                {data.canCommercial == true && (
                                     <TbBusinessplan className="bg-green-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
                                 )}
-                                {data.data.canCommercial == false && (
+                                {data.canCommercial == false && (
                                     <TbBusinessplan className="bg-red-500 rounded-full p-[3px] h-6 w-6 text-adoplight" />
                                 )}
                             </div>
@@ -263,31 +267,31 @@ export const MarketFeedCard = ( data) => {
                         <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
                             <div className="relative">
                                 <div className="text-sm h-10 overflow-y-hidden w-[66%] inline-block">
-                                    {data.data.title}
+                                    {data.title}
                                 </div>
                                 <div className="absolute text-sm right-1 inline-block text-center m-auto text-adoppix">
                                     <b>
-                                        {data.data.price}
+                                        {data.price}
                                     </b>
                                 </div>
                                 <div className="flex">
                                     <div>
-                                        <img className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${data.data.ownerProfileImage}`} />
+                                        <img className="h-4 rounded-full w-4 object-cover mx-1" src={`https://pix.adoppix.com/public/${data.ownerProfileImage}`} />
                                     </div>
                                     <div className="text-xs font-bold my-auto truncate max-w-[70%]">
-                                        {data.data.ownerUsername}
+                                        {data.ownerUsername}
                                     </div>
                                     <div className=" top-[2px] right-[-15px] cursor-default">
                                         <GoVerified className="h-4 text-green-400" />
                                     </div>
                                 </div>
-                                {data.data.amount > 0 && (
+                                {data.amount > 0 && (
 
                                     <div className="absolute text-xs right-1 top-5">
-                                        เหลือ {data.data.amount} ชิ้น
+                                        เหลือ {data.amount} ชิ้น
                                     </div>
                                 )}
-                                {data.data.amount == null && (
+                                {data.amount == null && (
 
                                     <div className="absolute text-xs right-1 top-5">
                                         ไม่จำกัดจำนวน
@@ -308,11 +312,11 @@ export const MarketFeedCard = ( data) => {
                                         </div>
                                 </div>
                                 <div className=" text-xs w-[50%] overflow-y-hidden h-[50px] mt-1 ml-1">
-                                    {data.data.description}
+                                    {data.description}
                                 </div>
                                 <div className="flex ml-1 max-w-[100%] overflow-hidden">
                                     <div className="text-xs text-adopsoftdark py-[3px] px-2 bg-adoplighticon rounded-md cursor-default mr-1">
-                                        {data.data.tag}
+                                        {data.tag}
                                     </div>
                                 </div>
                             </div>

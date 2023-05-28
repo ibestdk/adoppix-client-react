@@ -4,8 +4,7 @@ import { apiPath } from "./envService";
 const token = getToken();
 const take = 20;
 
-
-export const callAuctionFilterCard = async (tags, page) => {
+export const callAuctionFilterCard = async (tags, page, value) => {
   let headers = {};
   if (token === false || token === undefined) {
     headers = {
@@ -20,27 +19,28 @@ export const callAuctionFilterCard = async (tags, page) => {
     };
   }
 
+  const params = {
+    Tag: tags,
+    Take: take,
+    Page: page,
+  };
+
+  if (value !== null && value !== undefined) {
+    params.MinimumAmount = value[0];
+    params.MaximumAmount = value[1];
+  }
+
   try {
-    const response = await axios.get(
-      `${apiPath}api/auction`,
-      {
-        params: {
-          Tag: tags,
-          // MinimumAmount: value[0],
-          // MaximumAmount: value[1],
-          Take: take,
-          Page: page,
-        },
-        headers: headers,
-      }
-    );
+    const response = await axios.get(`${apiPath}api/auction`, {
+      params: params,
+      headers: headers,
+    });
     return response.data.data;
   } catch (error) {
-    //console.log(error.response);
+    // console.log(error.response);
     return null;
   }
 };
-
 
 export const callAuctionCard = async (page) => {
   const headers = {
@@ -55,7 +55,6 @@ export const callAuctionCard = async (page) => {
   }).catch((err) => console.log(err.response));
   return response.data.data;
 };
-
 
 export const getAuctionLike = async () => {
   const headers = {
@@ -104,7 +103,6 @@ export const auctionCreate = async (bodyData) => {
   return result.data.data;
 };
 
-
 export const getAuctionId = (auctionId) => {
   axios
     .get(`https://api.adoppix.com/api/Auction/${auctionId}`)
@@ -123,8 +121,6 @@ export const getAuctionId = (auctionId) => {
       console.error("Error:", error);
     });
 };
-
-
 
 export const callrecommentOnItems = async (username) => {
   const headers = {

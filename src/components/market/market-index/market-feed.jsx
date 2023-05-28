@@ -19,7 +19,7 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export const MarketFeed = () => {
+export const MarketFeed = ({setI , istate}) => {
   const navigate = useNavigate();
 
   const [value, setValue] = useState([30, 10000]);
@@ -271,13 +271,13 @@ export const MarketFeed = () => {
                   )}
                   <hr className="mt-5 mb-6 text-adopdark dark:text-adoplight" />
                   <div className="mb-4">
-                    <MarketOwl testClick={tagOwlClicked} />
+                  { /** <MarketOwl testClick={tagOwlClicked} /> */ }
                   </div>
                   <div className="grid grid-cols-5 gap-4">
                     {productItems &&
                       productItems.auctionsList.map((productItem, index) => (
                         <div key={index}>
-                          <MarketFeedCard data={productItem} />
+                          <MarketFeedCard data={productItem} setI={setI} istate={istate} />
                         </div>
                       ))}
                   </div>

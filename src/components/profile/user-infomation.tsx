@@ -155,6 +155,9 @@ const UserProfileInfomation = ({
       setUserPost(results);
     })();
   }, [userprofile]);
+  useEffect(() => {
+    setProfilePage(1)
+  }, [userprofile]);
 
   useEffect(() => {
     (async () => {

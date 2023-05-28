@@ -1,6 +1,8 @@
 import Countdown, { zeroPad } from "react-countdown";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import React from "react";
@@ -11,10 +13,11 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { AuctionBoard } from "./auctionBoard";
 import { getAPIBalance } from "../../../services/userService";
 import { callrecommentOnItems } from "../../../services/auctionService";
+import { LikeList } from "../../../components/auction/like/like";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
 
-  const [anotherReccommend, setAnotherReccommend] = useState();
+  const [anotherReccommend, setAnotherReccommend] = useState([]);
   const [auctionData, setAuctionData] = useState();
   const [userData, setUserData] = useState();
   const [money, setMoney] = useState();
@@ -36,11 +39,26 @@ export const AuctionItem = () => {
     fillStyle: "#1f1f1f",
   };
 
+  const [i, setI] = useState(0);
+  const [balance, setBalance] = useState();
+
+  const getBalance = async () => {
+    const result = await getAPIBalance();
+    setBalance(result);
+  };
+
+  const userOrGuest = async () => {
+    const token = getToken();
+    if (token === false || token === undefined) {
+    } else {
+      getBalance();
+    }
+  };
 
   const ownerData = async (username) => {
     axios
       .get(`https://api.adoppix.com/api/User/${username}/user-info`)
-      .then( async (res) => {
+      .then(async (res) => {
         //console.log("Success:", res.data.data);
         setUserData(res.data.data);
         const result = await callrecommentOnItems(res.data.data.username);
@@ -65,6 +83,7 @@ export const AuctionItem = () => {
           setTimeExpire(time);
         }
         ownerData(res.data.data.owner);
+        console.log(res.data.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -108,6 +127,7 @@ export const AuctionItem = () => {
     getAuction();
     getUserMoney();
     setBidsAuction("");
+    getBalance();
   };
 
   const [connection, setConnection] = useState(null);
@@ -133,11 +153,13 @@ export const AuctionItem = () => {
       connection.on(`${auctionId}`, (message) => {
         //console.log("New message received: ", message);
         getAuction();
+        getBalance();
       });
     }
   }, [connection]);
 
   useEffect(() => {
+    userOrGuest();
     setTimeout(() => {
       getAuction();
       getUserMoney();
@@ -145,8 +167,23 @@ export const AuctionItem = () => {
   }, [auctionId]);
 
   return (
-    <div className="bg-adoplight dark:bg-adopdark">
-      <div className="py-14 mx-[400px]">
+    <div className="bg-adoplight dark:bg-adopdark ">
+      <div className="sticky top-8 pt-10 z-20">
+        <div className="flex mr-10 justify-end items-end space-x-4">
+          <LikeList istate={i} />
+        </div>
+        <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center ">
+          <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+            <div>{balance}</div>
+            <GiTwoCoins />
+            <AiOutlinePlusCircle
+              onClick={() => navigate("../topup")}
+              className="  text-white"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="mt-[-100px] mx-[400px]">
         <div className="container m-auto min-h-screen">
           <div className="grid grid-cols-12 gap-4">
             <div className=" ml-5 mr-5 col-span-12 space-y-3  ">
@@ -194,6 +231,7 @@ export const AuctionItem = () => {
                   bids={bids}
                   bidsAuction={bidsAuction}
                   multiple={multiple}
+                  
                 />
               </div>
               <div className="flex flex-col sm:flex-row justify-between ">
@@ -254,11 +292,12 @@ export const AuctionItem = () => {
                         <div>
                           <div>ประวัติการประมูล</div>
                           <div className="m-4 max-h-[270px] overflow-y-scroll">
-                            {auctionData &&
+                            {auctionData.bidHistories.length > 0 ? (
+
                               auctionData.bidHistories.map((bh, bhi) => (
                                 <div
-                                  key={bhi}
-                                  className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
+                                key={bhi}
+                                className="flex text-lg justify-between hover:brightness-90 duration-300 cursor-pointer px-4 py-2 rounded-lg bg-adoplight dark:bg-adopsoftdark"
                                 >
                                   <div className="mx-3 w-[40%] flex">
                                     <img
@@ -273,33 +312,47 @@ export const AuctionItem = () => {
                                   <div className="mx-3  w-[40%]">
                                     {bh.created}
                                   </div>
-                                </div>
-                              ))}
+                                  </div>
+                                  ))
+                                  ) : 
+                                  (
+<div className="flex justify-center items-center pt-[70px] h-full text-lg">
+ยังไม่มีประวัติการประมูล
+</div>
+                                  )
+                                }
                           </div>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="bg-adopsoftdark h-auto  sm:h-[600px] w-full min-w-[300px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg p-5">
+                <div className="bg-adopsoftdark h-auto  w-full min-w-[300px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg p-5">
                   <div className="text-2xl font-bold">เเนะนำเพิ่มเติม</div>
                   <div className="p-3">
-                    {anotherReccommend &&
+                    {anotherReccommend.length > 0 ?
+                      (
                       anotherReccommend.map((rec, index) => (
                         <div key={index} className="my-2">
-                        <div>
-                        <img
-                        draggable={false}
-                        className="h-[140px] object-cover w-full rounded-lg"
-                        src={`https://pix.adoppix.com/public/${rec.image}`}
-                        alt=""
-                      />
-                        </div>
-                          <div className="text-sm font-bold">
-                           {rec.title}
+                          <div>
+                            <img
+                              draggable={false}
+                              className="h-[140px] object-cover w-full rounded-lg"
+                              src={`https://pix.adoppix.com/public/${rec.image}`}
+                              alt=""
+                            />
                           </div>
+                          <div className="text-sm font-bold">{rec.title}</div>
                         </div>
-                      ))}
+                      ))
+                      )
+                    :
+                  (
+                    <div className="flex justify-center items-center mt-[50%]">
+                    ไม่พบ
+                    </div>
+                  )
+                  }
                   </div>
                 </div>
               </div>

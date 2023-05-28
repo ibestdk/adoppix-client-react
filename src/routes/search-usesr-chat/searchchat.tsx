@@ -22,9 +22,13 @@
     const handleCloseSearch = () => {
       setShowResults(false);
     };
-    const selectUserName = (username) => {
+    const selectUserName = (newusername) => {
       setShowResults(false);
-      setSelectUsername(username);
+      // setSelectUsername(username);
+      setSelectUsername((prevBank) => ({
+        ...prevBank,
+        username: newusername,
+      }));
     }
   
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,15 +38,18 @@
 
     type changeHandler = React.ChangeEventHandler<HTMLInputElement>;
     const handleChange: changeHandler = (e) => {
-      setSelectUsername(e.target.value);
+      setSelectUsername((prevBank) => ({
+        ...prevBank,
+        username: e.target.value,
+      }));
     };
 
     useEffect(() => {
       (async () => {
-        const results = await getSearchUser(selectUsername);
+        const results = await getSearchUser(selectUsername.username);
         setResult(results);
       })();
-    }, [selectUsername]);
+    }, [selectUsername.username]);
 
     useEffect(() => {
       const handleDocumentClick = (event: MouseEvent) => {
@@ -77,7 +84,7 @@
           >
   
             <input
-              value={selectUsername}
+              value={selectUsername.username}
               onChange={handleChange}
               className="bg-transparent w-6/12 sm:w-auto text-adopsoftdark dark:text-adoplight"
               type="text"

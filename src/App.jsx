@@ -15,7 +15,6 @@ import Setting from "./routes/setting/setting.component";
 import Account from "./routes/setting/account/account.component";
 import Security from "./routes/setting/security/security.component";
 import Payment from "./routes/setting/payment/payment.component";
-import Bank from "./routes/setting/bank/bank.component";
 import { AuctionItem } from "./routes/auction/auction-item/auction-item.component";
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
 import ForgetPassword from "./routes/authentication/forget-password/forget-password.component";
@@ -42,7 +41,9 @@ import { StorageIndex } from "./routes/storage/storage-index";
 import { getUser, getUserDataApi } from "./services/authorize";
 import { SummaryPage } from "./routes/market/market-index/buySummary/summary";
 import { BuySuccess } from "./routes/market/market-index/buySummary/success/success";
-import { QuestionAndAnswer } from "./routes/Q&A/q&a";
+import { QuestionAndAnswer } from "./routes/QnA/qna";
+import { Bank } from "./routes/setting/bank/bank.component";
+import { WithDrawn } from "./routes/bank/withdraw";
 
 export const DarkContext = createContext();
 
@@ -233,6 +234,7 @@ function App() {
                 <Route exact path="bank" element={<Bank />}></Route>
               </Route>
 
+              <Route exact path="withdraw" element={<WithDrawn />} />
               <Route exact path="Q&A" element={<QuestionAndAnswer />} />
               <Route exact path=":userprofile" element={<UserProfile />} />
             </Route>

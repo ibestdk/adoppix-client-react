@@ -8,7 +8,7 @@ export const ArtPending = () => {
   const getArtPending = async () => {
     let response = await axios({
       method: "get",
-      url: `https://api.adoppix.com/api/Post?take=30&page=0`,
+      url: `https://api.adoppix.com/api/Post?take=28&page=0`,
     }).catch((err) => console.log(err.response));
     // //console.log(response.data.data);
     setArtPending(response.data.data.postList);
@@ -23,17 +23,17 @@ export const ArtPending = () => {
         <div className="text-center mb-10 dark:text-white text-adopdark">
           Pending Art
         </div>
-        <div className=" flex flex-wrap space-x-1 space-y-1 justify-center items-center">
+        <div className=" grid  grid-cols-2 sm:grid-cols-7 gap-5">
           {artPending &&
             artPending.map((art, artIndex) => (
               <div
                 key={artIndex}
-                className="w-[180px] h-[180px] hover:scale-105 duration-300 rounded-lg"
+                className="w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] hover:scale-105 duration-300 rounded-lg"
               >
                 <NavLink to={`feeds/${art.postId}`}>
                   <img
                     src={`https://pix.adoppix.com/public/${art.images[0]}`}
-                    className="w-[180px] h-[180px] object-cover rounded-lg"
+                    className="w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] object-cover rounded-lg"
                     alt=""
                   />
                 </NavLink>

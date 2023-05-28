@@ -4,22 +4,37 @@ import { AiOutlineStar } from "react-icons/ai";
 import { AiFillStar } from "react-icons/ai";
 import ReactWaterMark from "react-watermark-component";
 import { useParams } from "react-router-dom";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getToken } from "../../../services/authorize";
-import { useNavigate ,NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { BsCartCheck } from "react-icons/bs";
 import { BsCartPlus } from "react-icons/bs";
 import ConfirmModal from "../../../components/market/market-modal/confirm-modal";
 import SuccesefullBuy from "../../../components/market/market-modal/succesefull-buy";
 import LoginFirst from "../../../components/market/market-modal/login-first-modal";
-import { stringify } from 'qs';
+import { stringify } from "qs";
+import { WishList } from "../market-index/like/wishlist";
+import { CartList } from "../market-index/like copy/cart";
+import { getAPIBalance } from "../../../services/userService";
 
 export const MarketItem = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
 
-  
+  const [i, setI] = useState(0);
+  const [balance, setBalance] = useState();
+  const getBalance = async () => {
+    const result = await getAPIBalance();
+    setBalance(result);
+  };
+
+  useEffect(() => {
+    userOrGuest();
+  }, []);
+
   const [modal, setModal] = useState(false);
   const handleOnClose = () => setModal(false);
   const [price, setPrice] = useState();
@@ -32,17 +47,13 @@ export const MarketItem = () => {
     }
     setWishlistState(!wishlistState);
     wishList();
+    setI(i + 1);
   };
-
-
-
 
   const handleClick = () => {
     const serializedData = encodeURIComponent(stringify(productDatas));
     navigate(`../Summary/${serializedData}`);
   };
-
-  
 
   const [cartState, setCartState] = useState(false);
   const addCartClicked = () => {
@@ -51,6 +62,7 @@ export const MarketItem = () => {
     }
     setCartState(!cartState);
     cart();
+    setI(i + 1);
   };
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -247,6 +259,7 @@ export const MarketItem = () => {
       setIsLogin(false);
       getProduct();
     } else {
+      getBalance();
       setIsLogin(true);
       getProduct();
       checkIsWishListed();
@@ -256,13 +269,29 @@ export const MarketItem = () => {
 
   useEffect(() => {
     userOrGuest();
-  }, []);
+  }, [productId]);
 
   return (
     <div
       className="dark:bg-adopdark bg-adoplight min-h-screen pt--10 "
       draggable="false"
     >
+      <div className="sticky top-8 pt-10 z-20">
+        <div className="flex mr-10 justify-end items-end space-x-4">
+          <WishList istate={i} />
+          <CartList istate={i} />
+        </div>{" "}
+        <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
+        <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+        <div>{balance}</div>
+        <GiTwoCoins />
+        <AiOutlinePlusCircle
+          onClick={() => navigate("../topup")}
+          className="  text-white"
+        />
+      </div>
+        </div>
+      </div>
       {productDatas && isLogin == true && (
         <div className="relative">
           <div className="container m-auto  w-[900px]">
@@ -385,36 +414,42 @@ export const MarketItem = () => {
                           <b>ศิลปิน</b>
                         </div>
                         <div className="pl-3">
-                        <div className="bg-adopdark rounded-lg p-3 w-[220px] flex justify-start items-center">
-                          {productDatas.ownerProfileImage != null && (
-                            <img
-                              className="rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-[35px] w-[35px]"
-                              src={`https://pix.adoppix.com/public/${productDatas.ownerProfileImage ? productDatas.ownerProfileImage : "adop.png"}`}
-                              alt=""
-                              draggable="false"
-                            />
-                          )}
-                          {productDatas.ownerProfileImage == null && (
-                            <img
-                              className="rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-[35px] w-[35px]"
-                              src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`}
-                              alt=""
-                              draggable="false"
-                            />
-                          )}
-                          <div
-                            onClick={() => {
-                              navigate(`../../${productDatas.ownerUsername}`);
-                            }}
-                            className="inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75"
-                          >
-                            <b className="text-lg">{productDatas.ownerUsername}</b>
-                          </div>
-                          <div className="inline-block bg-adoppix text-adoplight hover:bg-blue-500 duration-300 rounded-2xl py-1 px-3 text-xs ml-4 cursor-pointer">
-                            <b>Follow</b>
+                          <div className="bg-adopdark rounded-lg p-3 w-[220px] flex justify-start items-center">
+                            {productDatas.ownerProfileImage != null && (
+                              <img
+                                className="rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-[35px] w-[35px]"
+                                src={`https://pix.adoppix.com/public/${
+                                  productDatas.ownerProfileImage
+                                    ? productDatas.ownerProfileImage
+                                    : "adop.png"
+                                }`}
+                                alt=""
+                                draggable="false"
+                              />
+                            )}
+                            {productDatas.ownerProfileImage == null && (
+                              <img
+                                className="rounded-full outline outline-2 outline-offset-2 outline-adoppix dark:outline-adoplight inline-block h-[35px] w-[35px]"
+                                src={`https://inspireddentalcare.co.uk/wp-content/uploads/2016/05/Facebook-default-no-profile-pic.jpg`}
+                                alt=""
+                                draggable="false"
+                              />
+                            )}
+                            <div
+                              onClick={() => {
+                                navigate(`../../${productDatas.ownerUsername}`);
+                              }}
+                              className="inline-block pl-5 max-w-md dark:text-adoplight text-adopsoftdark cursor-pointer hover:opacity-75"
+                            >
+                              <b className="text-lg">
+                                {productDatas.ownerUsername}
+                              </b>
+                            </div>
+                            <div className="inline-block bg-adoppix text-adoplight hover:bg-blue-500 duration-300 rounded-2xl py-1 px-3 text-xs ml-4 cursor-pointer">
+                              <b>Follow</b>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
                     </div>
                     <div className="pl-6 cursor-default">
@@ -473,7 +508,7 @@ export const MarketItem = () => {
                       {!productDatas.isBought && (
                         <div className=" mt-2 flex justify-center items-center space-x-2">
                           <div
-                          onClick={handleClick}
+                            onClick={handleClick}
                             className="text-lg px-16 py-2 bg-adoppix rounded-md text-adoplight text-center cursor-pointer hover:opacity-80  duration-300"
                           >
                             ซื้อ

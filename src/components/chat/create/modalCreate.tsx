@@ -4,18 +4,27 @@ import "./modalCreate.scss";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function ModalAddChat({ visible, onClose }) {
-  const [selectUsername, setSelectUsername] = useState("");
+  const [selectUsername, setSelectUsername] = useState({
+    username : ""
+  });
   const [message, setMessage] = useState("");
   const handleOnClose = (e) => {
     if (e.target.id === "modal-card") onClose();
   };
+
+  // const typeTitle = (e) => {
+  //   setSelectUsername((prevBank) => ({
+  //     ...prevBank,
+  //     username: e.target.value,
+  //   }));
+  // };
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
   const sendMessage = async () => {
-    const result = await handleSubmitNewMessage(message, selectUsername);
+    const result = await handleSubmitNewMessage(selectUsername);
     if (result) {
       onClose()
     }
@@ -48,12 +57,7 @@ export default function ModalAddChat({ visible, onClose }) {
             </div>
           </div>
           <div>
-            <textarea
-              value={message}
-              onChange={handleMessageChange}
-              id="default-input"
-              className="mt-2 h-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5 dark:bg-adopsoftdark dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-400 dark:focus:border-gray-400"
-            />
+       
           </div>
         </div>
         <div id="footer" className="flex mt-2 relative min-h-[40px]">

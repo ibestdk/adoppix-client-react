@@ -1,13 +1,17 @@
-
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { getToken } from "../../../services/authorize";
 import { useState, useEffect } from "react";
+import { GiTwoCoins } from "react-icons/gi";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiFillStar } from "react-icons/ai";
 import { getWishListsAPI } from "../../../services/marketService";
 import { WishListCard } from "./wishListCard";
 import { WishListCardSkeleton } from "./wishListSkeleton";
+import { getAPIBalance } from "../../../services/userService";
+import { WishList } from "../market-index/like/wishlist";
+import { CartList } from "../market-index/like copy/cart";
 
 export const MarketWishList = () => {
   const navigate = useNavigate();
@@ -18,6 +22,14 @@ export const MarketWishList = () => {
 
   const navigateToCart = () => {
     navigate(`../cart`);
+  };
+
+  const [i, setI] = useState(0);
+  const [balance, setBalance] = useState();
+
+  const getBalance = async () => {
+    const result = await getAPIBalance();
+    setBalance(result);
   };
 
   const [wishlist, setWishList] = useState();
@@ -85,6 +97,7 @@ export const MarketWishList = () => {
     } else {
       setIsLogin(true);
       getWishLists();
+      getBalance();
     }
   };
 
@@ -94,12 +107,27 @@ export const MarketWishList = () => {
 
   return (
     <div>
+      <div className="sticky top-8 pt-10 z-20">
+        <div className="flex mr-10 justify-end items-end space-x-4">
+          <WishList istate={i} />
+          <CartList istate={i} />
+        </div>{" "}
+        <div className="text-adoppix duration-300 justify-end mr-10 pt-4 flex items-center space-x-2">
+          <div className=" bg-adopsoftdark rounded-lg p-2 flex space-x-2">
+            <div>{balance}</div>
+            <GiTwoCoins />
+            <AiOutlinePlusCircle
+              onClick={() => navigate("../topup")}
+              className="  text-white"
+            />
+          </div>
+        </div>
+      </div>
       {isLogin == true && (
         <div
           className="dark:bg-adopdark bg-adoplight min-h-screen"
           draggable="false"
         >
-         
           <div className="container m-auto px-80 py-14">
             <div className="text-3xl dark:text-adoplight text-adopdark">
               <b>รายการที่อยากได้</b>
@@ -108,11 +136,16 @@ export const MarketWishList = () => {
             <div className="rounded-md p-10 bg-adopsoftdark py-10 mt-5">
               {wishlist &&
                 wishlist.map((data, dataIndex) => (
-                 <WishListCard data={data} naviagteToItem={naviagteToItem} toCart={toCart} dataIndex={dataIndex} wishList={wishList}  key={dataIndex} />
+                  <WishListCard
+                    data={data}
+                    naviagteToItem={naviagteToItem}
+                    toCart={toCart}
+                    dataIndex={dataIndex}
+                    wishList={wishList}
+                    key={dataIndex}
+                  />
                 ))}
-              {!wishlist && (
-               <WishListCardSkeleton />
-              )}
+              {!wishlist && <WishListCardSkeleton />}
               {wishlist && wishlist.length == 0 && (
                 <div className="text-center">
                   ไม่มีสินค้าที่อยากได้ ลองค้นหาสินค้าที่สนใจดูหน่อยไหม?
