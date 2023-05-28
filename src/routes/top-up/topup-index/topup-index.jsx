@@ -7,6 +7,7 @@ import MoneyNumber from "../../../services/moneyService";
 import { SuccessCard } from "../../../components/success-card/success-card";
 import { GiTwoCoins } from "react-icons/gi";
 import { AiOutlineReload } from "react-icons/ai";
+import AddCardModal from "../../../components/setting/account/credit-card/addcreditcard-modal";
 
 export const TopUpIndex = () => {
   const [userMoney, setUserMoney] = useState("");
@@ -19,6 +20,9 @@ export const TopUpIndex = () => {
   const [success, setSuccess] = useState(false);
   const handleOnClose = () => setSuccess(false);
 
+  const [addCardModal, setAddCardModal] = useState(false);
+
+  const handleOnCloseAddCard = () => setAddCardModal(false);
   const getUserMoney = async () => {
     const token = getToken();
     const headers = {
@@ -153,6 +157,9 @@ export const TopUpIndex = () => {
     <div className="container m-auto overflow-y-hidden">
       <div className="p-10 mx-20">
         <div className="flex">
+          <div>
+            <AddCardModal onClose={handleOnCloseAddCard} visible={addCardModal} />
+          </div>
           <SuccessCard
             visible={success}
             onClose={handleOnClose}
@@ -163,12 +170,15 @@ export const TopUpIndex = () => {
             <div className="flex text-xl">
               <p>ยอดเงินคงเหลือของฉัน</p>
               <div className="px-2 flex space-x-2 items-center">
-              <MoneyNumber amount={userMoney} />
-              <div className="flex relative">
-              <GiTwoCoins className="text-adoppix" />
-              <AiOutlineReload onClick={getUserMoney} className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"/>
+                <MoneyNumber amount={userMoney} />
+                <div className="flex relative">
+                  <GiTwoCoins className="text-adoppix" />
+                  <AiOutlineReload
+                    onClick={getUserMoney}
+                    className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"
+                  />
+                </div>
               </div>
-            </div>
             </div>
             <div>
               <div className="w-[350px] mx-10 mt-20 dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
@@ -253,10 +263,14 @@ export const TopUpIndex = () => {
                       logs.map((log, index) => (
                         <tr
                           key={index}
-                          className={ `p-2 rounded-lg ${index % 2 === 0 ? "bg-adopdark" : "bg-adopsoftdark"}`}
+                          className={`p-2 rounded-lg ${
+                            index % 2 === 0 ? "bg-adopdark" : "bg-adopsoftdark"
+                          }`}
                         >
                           <td className="w-[20%] text-start">{log.money}</td>
-                          <td className="w-[40%] text-center">{log.cardNumber}</td>
+                          <td className="w-[40%] text-center">
+                            {log.cardNumber}
+                          </td>
                           <td className="w-[40%] text-end">{log.created}</td>
                         </tr>
                       ))

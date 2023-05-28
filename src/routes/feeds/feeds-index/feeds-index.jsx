@@ -20,10 +20,16 @@ import ImagePreview from "../../../components/feeds/modal/imagePreview/imagePrev
 import ModalEditPost from "../../../components/feeds/modal/Edit/edit";
 import ModalPostDelete from "../../../components/feeds/modal/Delete/delete";
 import { getFeeds } from "../../../services/feedsService";
+import ModalReport from "../../../components/feeds/modal/Report/report";
 
 export const FeedsIndex = () => {
   const navigate = useNavigate();
-  const [feeds, setFeeds] = useState({ postList: [] ,totalPages: 0, currentPage: 0 , searchResult: 0});
+  const [feeds, setFeeds] = useState({
+    postList: [],
+    totalPages: 0,
+    currentPage: 0,
+    searchResult: 0,
+  });
   const [page, setPage] = useState(0);
   // const [totalPage, setTotalPage] = useState(0);
   // const [searchResult, setSearchResult] = useState();
@@ -35,6 +41,7 @@ export const FeedsIndex = () => {
   const [modalComment, setModalComment] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [modalReport, setModalReport] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
   const dropdownRef = useRef(null);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -43,6 +50,7 @@ export const FeedsIndex = () => {
   // const handleOnClosePost = () => setPostModal(false);
   const handleOnClose = () => setProfileImageModal(false);
   const handleOnCloseEdit = () => setModalEdit(false);
+  const handleOnCloseReport = () => setModalReport(false);
   const handlePostEdit = (cardId) => {
     setSelectedCardId(cardId);
     setPostEdit(!postEdit);
@@ -75,10 +83,7 @@ export const FeedsIndex = () => {
     await setFeeds(result);
   };
 
-
   const user = getUser();
-
-
 
   const handleScroll = () => {
     if (
@@ -118,7 +123,6 @@ export const FeedsIndex = () => {
     }
   };
 
-
   useEffect(() => {
     callFeeds();
   }, []);
@@ -155,8 +159,6 @@ export const FeedsIndex = () => {
     };
   }, [feeds]);
 
-
-
   return (
     <div className="w-[600px] mx-auto">
       <div>
@@ -174,6 +176,18 @@ export const FeedsIndex = () => {
               setModalEdit(false);
             }}
             visible={modalEdit}
+            reloadFeeds={reloadFeeds}
+          />
+        )}
+        {selectedPost && (
+          <ModalReport
+            onclose={handleOnCloseReport}
+            postdata={selectedPost}
+            onclear={() => {
+              setSelectedPost(null);
+              setModalEdit(false);
+            }}
+            visible={modalReport}
             reloadFeeds={reloadFeeds}
           />
         )}
@@ -219,15 +233,26 @@ export const FeedsIndex = () => {
               <div>
                 <div className="flex justify-between items-center">
                   <div className="flex">
-                    <div onClick={() => handleRoute(post.username)} className="cursor-pointer">
-                      <img  
+                    <div
+                      onClick={() => handleRoute(post.username)}
+                      className="cursor-pointer"
+                    >
+                      <img
                         className="rounded-full w-[40px] h-[40px]  "
-                        src={`https://pix.adoppix.com/public/${post.profileImage ? post.profileImage : "brushsan.png"}`}
+                        src={`https://pix.adoppix.com/public/${
+                          post.profileImage ? post.profileImage : "brushsan.png"
+                        }`}
                       />
                     </div>
                     <div className="text-lg font-bold inline-block align-middle my-auto mx-2">
                       <div className="flex items-center">
-                        <div className="cursor-pointer" onClick={() => handleRoute(post.username)}> {post.username}</div>
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => handleRoute(post.username)}
+                        >
+                          {" "}
+                          {post.username}
+                        </div>
                         <div className="text-sm mx-3 font-light flex items-center">
                           <AiFillClockCircle className="mx-2" />
                           <div>{post.relativeTime}</div>
@@ -236,7 +261,7 @@ export const FeedsIndex = () => {
                     </div>
                   </div>
                   <div className="flex justify-end items-center">
-                    {user.username === post.username && (
+                    {user.username === post.username ? (
                       <div>
                         <BsThreeDotsVertical
                           onClick={() => handlePostEdit(post.postId)}
@@ -268,11 +293,35 @@ export const FeedsIndex = () => {
                           </div>
                         )}
                       </div>
+                    ) : (
+                      <div>
+                       <BsThreeDotsVertical
+                          onClick={() => handlePostEdit(post.postId)}
+                        />
+                        {postEdit && selectedCardId === post.postId && (
+                          <div className="relative" ref={dropdownRef}>
+                            <div className="absolute  right-[-18px] w-[60px] flex flex-col items-center bg-adopdark p-2 rounded-lg  ">
+                              <div
+                                onClick={() => {
+                                  setSelectedPost(post);
+                                  setModalReport(true);
+                                  setPostEdit(false);
+                                }}
+                                className="text-sm cursor-pointer hover:bg-adopsoftdark rounded-lg px-2 py-1"
+                              >
+                                รายงาน
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
                 <div>
-                  <div className="text-lg px-2 py-3 break-words max-w-[550px]">{post.description}</div>
+                  <div className="text-lg px-2 py-3 break-words max-w-[550px]">
+                    {post.description}
+                  </div>
                   <div className="my-2">
                     {post.tags.length > 0 && (
                       <div className="flex flex-wrap ">
@@ -347,14 +396,14 @@ export const FeedsIndex = () => {
       ) : (
         <p className="text-center">No posts found.</p>
       )}
-      {
-        endFeeds && (
-          <div className="flex flex-col justify-center items-center mt-10 mb-10">
+      {endFeeds && (
+        <div className="flex flex-col justify-center items-center mt-10 mb-10">
           <div className="text-2xl font-bold">ฟีตของคุณสิ้นสุดลงเเล้ว</div>
-          <div className="text-xs">Tip : กดติดตามศิลปินเพิ่มเพื่อให้ฟีตของคุณมีจำนวนเยอะขึ้น</div>
+          <div className="text-xs">
+            Tip : กดติดตามศิลปินเพิ่มเพื่อให้ฟีตของคุณมีจำนวนเยอะขึ้น
           </div>
-        )
-      }
+        </div>
+      )}
       {selectedPost && (
         <ModalPost
           onClose={() => {

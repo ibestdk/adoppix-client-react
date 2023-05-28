@@ -115,6 +115,24 @@ export const deleteFeeds = async (feedsId) => {
   };
 
 
+  export const postReport = async (feedsId , bodyData) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    };
+  
+    let result = await axios({
+      method: "post",
+      url: `https://api.backoffice.adoppix.com/api/Report/${feedsId}/post`,
+      data: bodyData,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    console.log("Success", result.data);
+    return result.data.message;
+  };
+
+
   const bids = async () => {
     const bodyData = {
       amount: 0,
