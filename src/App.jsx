@@ -44,6 +44,7 @@ import { BuySuccess } from "./routes/market/market-index/buySummary/success/succ
 import { QuestionAndAnswer } from "./routes/QnA/qna";
 import { Bank } from "./routes/setting/bank/bank.component";
 import { WithDrawn } from "./routes/bank/withdraw";
+import { AuctionHistory } from "./routes/auction/auction-history/auction-history";
 
 export const DarkContext = createContext();
 
@@ -108,6 +109,7 @@ function App() {
               <Route exact index element={<Home />} />
               <Route exact path="auction/" element={<Auction />}>
                 <Route exact index element={<AuctionIndex />} />
+                <Route exact path="history" element={<AuctionHistory />} />
                 <Route exact path="tags/:tagId" element={<AuctionTags />} />
                 <Route exact path=":auctionId" element={<AuctionItem />} />
                 <Route

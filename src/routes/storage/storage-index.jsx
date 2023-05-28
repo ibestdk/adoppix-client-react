@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { getMyStorage } from "../../services/apiService";
 import ImagePreview from "./imagePreview/imagePreview";
 import { BsImages } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export const StorageIndex = () => {
+  const navigate = useNavigate();
   const [inventory, setInventory] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
@@ -32,7 +34,11 @@ export const StorageIndex = () => {
   return (
     <div>
       <div className="p-4 mt-4 bg-adoplight dark:bg-adopsoftdark  rounded-lg min-h-[200px] w-[75%] mx-auto">
-        <div className="text-2xl font-bold">คลังรูปภาพ</div>
+        <div className="text-2xl font-bold flex justify-between">
+          <div>คลังรูปภาพ</div>
+          <div className="text-lg cursor-pointer hover:opacity-75 duration-300" onClick={() => navigate("../auction/history")}>ดูประวัติการประมูล</div>
+          
+        </div>
         <div className="text-lg p-2">มีทั้งหมด {inventory.length} รายการ</div>
         <div className="">
           {inventory.length > 0 ? (

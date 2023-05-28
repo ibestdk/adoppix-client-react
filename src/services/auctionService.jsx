@@ -70,6 +70,21 @@ export const getAuctionLike = async () => {
   return response.data.data;
 };
 
+
+export const getAuctionHistory = async () => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
+  let response = await axios({
+    method: "get",
+    url: `${apiPath}api/User/auction/histories?take=100&page=0`,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  return response.data.data;
+};
+
 export const auctionLike = async (auctionId) => {
   const headers = {
     Authorization: `Bearer ${token}`,
