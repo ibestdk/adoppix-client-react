@@ -158,7 +158,7 @@ export const TopUpIndex = () => {
       <div className="p-10 mx-20">
         <div className="flex">
           <div>
-            <AddCardModal onClose={handleOnCloseAddCard} visible={addCardModal} />
+            <AddCardModal onClose={handleOnCloseAddCard} visible={addCardModal} reload={callCreditCard} />
           </div>
           <SuccessCard
             visible={success}

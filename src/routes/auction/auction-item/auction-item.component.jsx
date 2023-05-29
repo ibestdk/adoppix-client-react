@@ -1,5 +1,5 @@
 import Countdown, { zeroPad } from "react-countdown";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GiTwoCoins } from "react-icons/gi";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -17,7 +17,7 @@ import { LikeList } from "../../../components/auction/like/like";
 import MoneyNumber from "../../../services/moneyService";
 export const AuctionItem = () => {
   const { auctionId } = useParams();
-
+  const navigate = useNavigate();
   const [anotherReccommend, setAnotherReccommend] = useState([]);
   const [auctionData, setAuctionData] = useState();
   const [userData, setUserData] = useState();
@@ -245,7 +245,7 @@ export const AuctionItem = () => {
                         <div>
                           <div>{auctionData.title}</div>
                           {userData && (
-                            <div className="flex my-5 cursor-pointer">
+                            <div onClick={()=> navigate(`../../${userData.username}`)} className="flex my-5 cursor-pointer">
                               <div>
                                 <img
                                   className="h-[40px] w-[40px] rounded-full"

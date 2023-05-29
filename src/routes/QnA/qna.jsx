@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import { getQandA } from "../../services/questionService";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import AddQnA from "./create/modalCreate";
+import ReplayQnA from "./commend/modalreply";
 export const QuestionAndAnswer = () => {
   const [qAndA, setQAndA] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [openModalCommend, setOpenModalCommend] = useState(false);
+  const [select, setSelect] = useState(false);
+
 
   const handleOnClose = () => setOpenModal(false);
+  const handleOnCloseCommend = () => setOpenModalCommend(false);
 
 
 
@@ -34,7 +39,7 @@ export const QuestionAndAnswer = () => {
             {qAndA.length > 0 ? (
               <div className="flex flex-col space-y-4">
                 {qAndA.map((question, index) => (
-                  <div
+                  <div onClick={() => {setSelect(question); setOpenModalCommend(true);}}
                     key={index}
                     className="bg-adopsoftdark p-4  rounded-lg w-[600px] cursor-pointer "
                   >
@@ -74,6 +79,12 @@ export const QuestionAndAnswer = () => {
         onClose={handleOnClose}
         visible={openModal}
         reloadFeeds={callQA}
+      />
+      <ReplayQnA
+        onClose={handleOnCloseCommend}
+        visible={openModalCommend}
+        reloadFeeds={callQA}
+        data={select}
       />
     </div>
   );

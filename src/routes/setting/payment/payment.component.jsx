@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddCardModal from "../../../components/setting/account/credit-card/addcreditcard-modal";
 import { getToken } from "../../../services/authorize";
 import axios from "axios";
+import { deleteCard } from "../../../services/questionService";
 const Payment = () => {
   const [cardNumber, setCardNumber] = useState("4242-4242-4242-4242");
   const [myCard, setMyCard] = useState([]);
@@ -48,6 +49,14 @@ const Payment = () => {
     setMyCard(transformedData);
   };
 
+  const removeCard = async () => {
+    const result = await deleteCard();
+    if (result) {
+      await callCreditCard();
+    }
+    await callCreditCard();
+  };
+
   useEffect(() => {
     callCreditCard();
   }, []);
@@ -55,7 +64,11 @@ const Payment = () => {
   return (
     <div className="text-adopdark dark:text-adoplight">
       <div>
-        <AddCardModal onClose={handleOnClose} visible={addCardModal} reload={callCreditCard}/>
+        <AddCardModal
+          onClose={handleOnClose}
+          visible={addCardModal}
+          reload={callCreditCard}
+        />
       </div>
 
       <div className="flex">
@@ -77,6 +90,9 @@ const Payment = () => {
             {myCard.length > 0 ? (
               myCard.map((card, cardIndex) => (
                 <div key={cardIndex} className="">
+                  <div className="flex justify-end">
+                  <div onClick={removeCard} className="text-sm px-3 py-1 bg-red-500 text-white rounded-sm cursor-pointer"> ลบ
+                  </div> </div>
                   <div className="m-3 bg-gradient-to-r from-[#2193B0] to-[#6DD5ED] p-5 rounded-xl text-adopdark w-[295px] h-[188px]">
                     <div className=" flex justify-between">
                       <div>

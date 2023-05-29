@@ -30,7 +30,7 @@ export const Bank = () => {
           เพิ่มธนาคาร
         </div>
       </div>
-      <div className="mt-5 mx-10">
+      <div className="mt-5 flex flex-col space-y-2 mx-10">
         {bank.length > 0
           ? bank.map((bank, index) => (
               <div key={index} className="bg-adopsoftdark p-4 rounded-lg text-lg w-[300px]">

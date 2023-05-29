@@ -98,7 +98,7 @@ export default function AddQnA({ visible, onClose, reloadFeeds }) {
         </div>
         <div className="flex justify-end items-center space-x-2">
           <div
-            onClick={handleOnClose}
+            onClick={onClose}
             className="py-2 px-6 border-2 border-white rounded-lg text-white text-lg hover:opacity-75 duration-300"
           >
             ยกเลิก

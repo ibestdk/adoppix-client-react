@@ -1,4 +1,5 @@
 import "./modalCreate.scss";
+import bankData from "./bank.json";
 import React, { useState, useRef } from "react";
 import ReactCrop, {
   centerCrop,
@@ -104,15 +105,22 @@ export default function AddNewBank({ visible, onClose, reloadFeeds }) {
             />
           </div>
           <div className="flex flex-col">
-            <label className="text-lg" htmlFor="">
+            <label className="text-lg" htmlFor="bankName">
               ชื่อธนาคาร
             </label>
-            <input
-              type="text"
+            <select
+              id="bankName"
               className="bg-adopdark rounded-lg text-white my-2"
               value={newBank.bankName}
               onChange={typeBankName}
-            />
+            >
+              <option value="">เลือกธนาคาร</option>
+              {bankData.banks.map((bank) => (
+                <option key={bank.abbreviation} value={bank.name}>
+                  {bank.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex flex-col">
             <label className="text-lg" htmlFor="">

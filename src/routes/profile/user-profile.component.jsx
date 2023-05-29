@@ -45,7 +45,7 @@ const UserProfile = () => {
                   {userAll.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-4">
                       {userAll.map((all, index) => (
-                        <div>
+                        <div key={index}>
                         {
                           all.postId ? 
                           <Link

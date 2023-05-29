@@ -34,7 +34,7 @@ export const WithDrawn = () => {
   const callUsermoney = async () => {
     const result = await getAPIBalance();
     setUserMoney(result);
-  }
+  };
 
   const typeAmount = (e) => {
     setNewBank((prevBank) => ({
@@ -130,8 +130,11 @@ export const WithDrawn = () => {
                 <div className="px-2 flex space-x-2 items-center">
                   <MoneyNumber amount={userMoney} />
                   <div className="flex relative">
-                  <GiTwoCoins className="text-adoppix" />
-                  <AiOutlineReload onClick={callUsermoney} className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"/>
+                    <GiTwoCoins className="text-adoppix" />
+                    <AiOutlineReload
+                      onClick={callUsermoney}
+                      className="absolute text-sm right-0 mr-[-7px] mt-[-5px] cursor-pointer"
+                    />
                   </div>
                 </div>
               </div>
@@ -185,30 +188,32 @@ export const WithDrawn = () => {
             >
               กรุณาเลือกธนาคาร
             </div>
-            {bank.length > 0
-              ? bank.map((bank, index) => (
-                  <div
-                    onClick={() => selectBank(bank, index)}
-                    key={index}
-                    className={`${
-                      bankSelect === index ? "border-2 border-adoppix" : ""
-                    } bg-adopsoftdark p-4 rounded-lg text-lg w-[300px]`}
-                  >
-                    <div className="flex space-x-4">
-                      <div>เลขที่บัญชี :</div>
-                      <div>{bank.number}</div>
+            <div className="flex flex-col space-y-2">
+              {bank.length > 0
+                ? bank.map((bank, index) => (
+                    <div
+                      onClick={() => selectBank(bank, index)}
+                      key={index}
+                      className={`${
+                        bankSelect === index ? "border-2 border-adoppix" : ""
+                      } bg-adopsoftdark p-4 rounded-lg text-lg w-[300px]`}
+                    >
+                      <div className="flex space-x-4">
+                        <div>เลขที่บัญชี :</div>
+                        <div>{bank.number}</div>
+                      </div>
+                      <div className="flex space-x-4">
+                        <div>ธนาคาร :</div>
+                        <div>{bank.name}</div>
+                      </div>
+                      <div className="flex space-x-4">
+                        <div>ชื่อบัญชี :</div>
+                        <div>{bank.fullname}</div>
+                      </div>
                     </div>
-                    <div className="flex space-x-4">
-                      <div>ธนาคาร :</div>
-                      <div>{bank.name}</div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div>ชื่อบัญชี :</div>
-                      <div>{bank.fullname}</div>
-                    </div>
-                  </div>
-                ))
-              : "ยังไม่มีธนาคาร"}
+                  ))
+                : "ยังไม่มีธนาคาร"}
+            </div>
           </div>
         </div>
         <div>
