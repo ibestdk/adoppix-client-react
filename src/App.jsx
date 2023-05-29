@@ -25,6 +25,7 @@ import { MarketIndex } from "./routes/market/market-index/market-index.component
 import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
+import { MarketDashBord } from "./routes/market/market-dashbord/market-dash.component";
 import { ProtectedRoute } from "./routes/denied/denied.component";
 import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
 import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
@@ -165,6 +166,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <MarketCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="dashbord"
+                  element={
+                    <ProtectedRoute>
+                      <MarketDashBord/>
                     </ProtectedRoute>
                   }
                 />
