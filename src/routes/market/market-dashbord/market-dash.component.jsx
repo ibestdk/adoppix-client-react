@@ -27,7 +27,7 @@ export const MarketDashBord = () => {
     const [datas, setDatas] = useState();
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://localhost:7226/api/Dashbord');
+            const response = await axios.get('https://api.adoppix.com/api/Dashbord');
             setDatas(response.data);
             console.log(response.data);
         } catch (error) {
@@ -38,7 +38,7 @@ export const MarketDashBord = () => {
     const [all, setall] = useState();
     const allDash = async () => {
         try {
-            const response = await axios.get('https://localhost:7226/api/Dashbord/All');
+            const response = await axios.get('https://api.adoppix.com/api/Dashbord/All');
             setall(response.data);
             console.log(response.data);
         } catch (error) {
@@ -49,7 +49,7 @@ export const MarketDashBord = () => {
     const [dataNs, setDataNs] = useState();
     const dashByName = async (name) => {
         try {
-            const response = await axios.get(`https://localhost:7226/api/Dashbord/${name}`);
+            const response = await axios.get(`https://api.adoppix.com/api/Dashbord/${name}`);
             setDataNs(response.data);
             console.log(data);
         } catch (error) {
