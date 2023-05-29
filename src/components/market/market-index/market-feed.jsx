@@ -131,6 +131,17 @@ export const MarketFeed = ({setI , istate}) => {
                           </button>
                         </div>
                       )}
+                      <div className="row mt-4">
+                          <button
+                            onClick={() => {
+                              navigate("dashbord");
+                            }}
+                            className="text-center text-base w-full px-4 py-1 rounded-md bg-white dark:bg-gray-700 dark:text-adoplight hover:dark:bg-adoppix 
+                hover:bg-adoppix hover:text-white duration-300 text-adopsoftdark shadow-md"
+                          >
+                            Market Graph
+                          </button>
+                        </div>
                       <div className="row">
                         <div className="dark:bg-adopsoftdark dark:text-adoplight dark:shadow-md m-[1rem_0] shadow-[0_0_5px_lightgray] p-[1rem] rounded-[.5rem]">
                           <div className="">
