@@ -30,6 +30,7 @@ export const WithDrawn = () => {
   });
 
   const [userMoney, setUserMoney] = useState(0);
+  const [willGetMoney, setWillGetMoney] = useState(0);
 
   const callUsermoney = async () => {
     const result = await getAPIBalance();
@@ -43,6 +44,8 @@ export const WithDrawn = () => {
     }));
     setBwithdrawAmountError(false);
     setNotengouth(false);
+
+    setWillGetMoney((e.target.value * 0.07).toFixed(2));
   };
 
   const selectBank = (bank, index) => {
@@ -168,6 +171,14 @@ export const WithDrawn = () => {
                   </div>
                 </div>
                 <div className="flex justify-end items-center space-x-2">
+                  <div className="text-right">
+                    <p className="font-light text-sm text-red-400">
+                      คุณจะถูกหัก (7%): {willGetMoney}
+                    </p>
+                    <p className="font-light text-sm text-green-400">
+                      คุณจะได้รับ: {newBank.amount - willGetMoney}
+                    </p>
+                  </div>
                   <div
                     onClick={handleSubmit}
                     className="py-2 px-6 bg-adoppix rounded-lg text-white text-lg cursor-pointer hover:opacity-75 duration-300"
