@@ -126,7 +126,7 @@ export const MarketMyShopFeedCard = (data) => {
             {isLogin == true && (
                 <div>
                     <div className="relative overflow-hidden">
-                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`${data.data.id}`}>
+                        <NavLink className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear" to={`../${data.data.id}`}>
                             <img className="h-[280px] rounded-lg w-[240px] object-cover overflow-hidden m-0" src={`https://pix.adoppix.com/public/${data.data.imageName}`} />
                         </NavLink>
                         <div className="absolute bottom-0 h-16 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
