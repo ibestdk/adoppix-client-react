@@ -72,7 +72,7 @@ export const MarketDashBord = () => {
                                 สินค้าที่ขายออกทั้งหมด 3 เดือน
                             </div>
                             <div className="max-h-[600px]">
-                                <BarChart datas={datas} />
+                                <BarChart datas={datas} labels={"ยอดขายสินค้าทั้งหมดในเว็บประจำเดือน"} />
                             </div>
                         </div>
                         <div className="my-20">
@@ -87,7 +87,7 @@ export const MarketDashBord = () => {
                             </div>
                             {dataNs && (
                                 <div className="max-h-[600px]">
-                                    <BarChart datas={dataNs} />
+                                    <BarChart datas={dataNs} labels={"ยอดขายประจำเดือนของผู้ใช้"} />
                                 </div>
                             )}
                         </div>

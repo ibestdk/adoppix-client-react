@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
-const BarChart = ({datas}) => {
+const BarChart = ({datas,labels}) => {
   // Sample data for the chart
     const monthFinder = (month) => {
         switch (month) {
@@ -26,7 +26,7 @@ const BarChart = ({datas}) => {
     labels: [monthFinder(datas.data.date1), monthFinder(datas.data.date2), monthFinder(datas.data.date3)],
     datasets: [
       {
-        label: 'ยอดขายสินค้าทั้งหมดในเว็บประจำเดือน',
+        label: labels,
         //datas.Total1, datas.Total2, datas.Total3
         data: [datas.data.total1, datas.data.total2, datas.data.total3],
         backgroundColor: 'rgba(54, 162, 235, 0.5)', // Bar color
