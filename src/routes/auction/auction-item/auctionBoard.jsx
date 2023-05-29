@@ -2,7 +2,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import { AiFillFire } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import MoneyNumber from "../../../services/moneyService";
+import ModalDropDown from "./dropdown/dropdown";
+import { callDelete } from "../../../services/auctionService";
+import { useNavigate } from "react-router-dom";
+import ModalRemoveConfirm from "./dropdown/dropdown";
+import { getUser } from "../../../services/authorize";
 export const AuctionBoard = ({
   money,
   auctionData,
@@ -12,14 +18,75 @@ export const AuctionBoard = ({
   bids,
   bidsAuction,
   multiple,
+  auctionId,
 }) => {
+  const navigate = useNavigate();
+  const user = getUser();
+  console.log("user", user);
+  console.log("auctionData", auctionData);
   const [timenow, setTimenow] = useState();
+  const [dropdown, setDropDown] = useState(false);
+  const [modalDropDown, setModalDropDown] = useState(false);
+  const handleOnClose = () => setModalDropDown(false);
+
+  const handleCloseDropdown = (e) => {
+    if (e.target.id !== "dropdown") {
+      setDropDown(false);
+    }
+  };
+
+  const callRemoveAuction = async () => {
+    const result = await callDelete(auctionId);
+    console.log(result);
+    navigate(`../../auction`);
+
+    handleOnClose();
+  };
   useEffect(() => {
     setTimenow(new Date(Date.now()).toISOString());
   }, []);
   return (
-    <div className="bg-adopsoftdark h-auto  sm:h-[500px] w-full min-w-[300px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
-      <div className="p-4 flex flex-col justify-between h-full">
+    <div className="bg-adopsoftdark h-auto  sm:h-[550px] w-full min-w-[300px]  sm:w-[350px] mt-4 sm:mt-0 rounded-lg">
+      <ModalRemoveConfirm
+        onclose={handleOnClose}
+        auctionData={auctionData}
+        onclear={() => {
+          setSelectedPost(null);
+          setModalEdit(false);
+        }}
+        visible={modalDropDown}
+        remove={callRemoveAuction}
+      />
+      {auctionData.owner === user.username && (
+        <div className="relative">
+          <div className="flex justify-end items-center p-2">
+            <BsThreeDotsVertical
+              className="cursor-pointer"
+              onClick={() => {
+                setDropDown(!dropdown);
+                console.log("Drop Down");
+              }}
+            />
+          </div>
+          {dropdown && (
+            <div
+              id="dropdown"
+              className="bg-adopdark p-2 rounded-lg text-lg absolute right-0"
+              onClick={handleCloseDropdown}
+            >
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setModalDropDown(true);
+                }}
+              >
+                ลบการประมูล
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      <div className="p-4 flex flex-col justify-around h-full">
         <div>
           {auctionData && (
             <div>
@@ -79,9 +146,11 @@ export const AuctionBoard = ({
                   <div className="text-sm flex">
                     :
                     <div className="px-1">
-                      {auctionData.hotClose >= 0
-                        ?  <MoneyNumber amount={auctionData.hotClose}/>
-                        : "ไม่มี"}
+                      {auctionData.hotClose >= 0 ? (
+                        <MoneyNumber amount={auctionData.hotClose} />
+                      ) : (
+                        "ไม่มี"
+                      )}
                       {auctionData.hotClose === null && "ไม่มี"}
                     </div>
                   </div>
@@ -96,7 +165,9 @@ export const AuctionBoard = ({
                   {auctionData.currentBid == null ? (
                     <div className="text-lg">การประมูลยังไม่เริ่ม</div>
                   ) : (
-                    <div><MoneyNumber amount={auctionData.currentBid.amount}/> </div>
+                    <div>
+                      <MoneyNumber amount={auctionData.currentBid.amount} />{" "}
+                    </div>
                   )}
                 </div>
                 <div>
@@ -130,7 +201,7 @@ export const AuctionBoard = ({
             {auctionData.currentBid === null ? (
               <div>
                 {auctionData && (
-                  <div className="mt-7">
+                  <div className="mt-[-50px]">
                     <div className="flex justify-center">
                       <div
                         onClick={() => multiple(1.2)}
@@ -180,7 +251,7 @@ export const AuctionBoard = ({
                 ) : (
                   <div>
                     {auctionData && (
-                      <div className="mt-7">
+                      <div className="mt-[-50px]">
                         <div className="flex justify-center">
                           <div
                             onClick={() => multiple(1.2)}

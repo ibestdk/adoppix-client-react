@@ -28,6 +28,12 @@ export const AuctionCreate = () => {
   const [hotClosePrice, setHotClosePrice] = useState();
   const [tagsData, setTagsData] = useState([]);
   const [FileList, setFileList] = useState([]);
+  const today = new Date().toISOString().split('T')[0];
+  const [selectedDate, setSelectedDate] = useState('');
+
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+  };
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -90,6 +96,7 @@ export const AuctionCreate = () => {
     if (minimumBid) bodyData.append("MinimumBid", minimumBid);
     if (hotClose) bodyData.append("HotClose", hotClosePrice);
     if (tagsData) tagsData.forEach((tag) => bodyData.append("Tags", tag));
+    if (selectedDate) bodyData.append("ExpireDate", selectedDate);
     //console.log(FileList);
     //console.log(bodyData);
     const result = await auctionCreate(bodyData);
@@ -354,6 +361,17 @@ export const AuctionCreate = () => {
                       <Chips tagsData={tagsData} setTagsData={setTagsData} />
                     </div>
                   </div>
+
+                  <div className="mt-4 flex flex-col">
+                  <label htmlFor="datePicker">วันหมดอายุการประมูล:</label>
+                  <input
+                    type="date" className="w-2/4 mt-2 bg-adopsoftdark p-2 rounded-lg border-dashed border-2 border-white"
+                    id="datePicker"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    min={today}
+                  />
+                </div>
 
                   <div className="mt-4">
                     <label htmlFor="">กฎและข้อตกลงของเว็บไซต์</label>

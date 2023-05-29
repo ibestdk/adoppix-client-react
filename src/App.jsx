@@ -45,6 +45,7 @@ import { QuestionAndAnswer } from "./routes/QnA/qna";
 import { Bank } from "./routes/setting/bank/bank.component";
 import { WithDrawn } from "./routes/bank/withdraw";
 import { AuctionHistory } from "./routes/auction/auction-history/auction-history";
+import { AuctionRemoved } from "./routes/auction/auction-item/auction-removed";
 
 export const DarkContext = createContext();
 
@@ -110,6 +111,7 @@ function App() {
               <Route exact path="auction/" element={<Auction />}>
                 <Route exact index element={<AuctionIndex />} />
                 <Route exact path="history" element={<AuctionHistory />} />
+                <Route exact path="auction404" element={<AuctionRemoved />} />
                 <Route exact path="tags/:tagId" element={<AuctionTags />} />
                 <Route exact path=":auctionId" element={<AuctionItem />} />
                 <Route
