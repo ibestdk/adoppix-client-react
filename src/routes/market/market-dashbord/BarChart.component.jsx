@@ -19,16 +19,16 @@ const BarChart = ({datas,labels}) => {
             case 12: return "December";
         }
     }
-    console.log(datas.data.date1)
+    console.log(datas.data)
 
   const data = {
     // 
-    labels: [monthFinder(datas.data.date1), monthFinder(datas.data.date2), monthFinder(datas.data.date3)],
+    labels: [monthFinder(datas.data[0].date), monthFinder(datas.data[1].date), monthFinder(datas.data[2].date), monthFinder(datas.data[3].date), monthFinder(datas.data[4].date), monthFinder(datas.data[5].date), monthFinder(datas.data[6].date), monthFinder(datas.data[7].date), monthFinder(datas.data[8].date), monthFinder(datas.data[9].date), monthFinder(datas.data[10].date), monthFinder(datas.data[11].date)],
     datasets: [
       {
         label: labels,
-        //datas.Total1, datas.Total2, datas.Total3
-        data: [datas.data.total1, datas.data.total2, datas.data.total3],
+        //
+        data: [datas.data[0].total, datas.data[1].total, datas.data[2].total, datas.data[3].total, datas.data[4].total, datas.data[5].total, datas.data[6].total, datas.data[7].total, datas.data[8].total, datas.data[9].total, datas.data[10].total, datas.data[11].total],
         backgroundColor: 'rgba(54, 162, 235, 0.5)', // Bar color
       },
     ],

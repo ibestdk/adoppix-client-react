@@ -27,7 +27,8 @@ export const MarketDashBord = () => {
     const [datas, setDatas] = useState();
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://api.adoppix.com/api/Dashbord');
+            //https://api.adoppix.com/
+            const response = await axios.get('https://localhost:7226/api/Dashbord');
             setDatas(response.data);
             console.log(response.data);
         } catch (error) {
@@ -38,7 +39,7 @@ export const MarketDashBord = () => {
     const [all, setall] = useState();
     const allDash = async () => {
         try {
-            const response = await axios.get('https://api.adoppix.com/api/Dashbord/All');
+            const response = await axios.get('https://localhost:7226/api/Dashbord/All');
             setall(response.data);
             console.log(response.data);
         } catch (error) {
@@ -49,7 +50,7 @@ export const MarketDashBord = () => {
     const [dataNs, setDataNs] = useState();
     const dashByName = async (name) => {
         try {
-            const response = await axios.get(`https://api.adoppix.com/api/Dashbord/${name}`);
+            const response = await axios.get(`https://localhost:7226/api/Dashbord/${name}`);
             setDataNs(response.data);
             console.log(data);
         } catch (error) {
@@ -69,7 +70,7 @@ export const MarketDashBord = () => {
                         </div>
                         <div>
                             <div className="text-white">
-                                สินค้าที่ขายออกทั้งหมด 3 เดือน
+                                สินค้าที่ขายออกทั้งหมดประจำปี
                             </div>
                             <div className="max-h-[600px]">
                                 <BarChart datas={datas} labels={"ยอดขายสินค้าทั้งหมดในเว็บประจำเดือน"} />
@@ -77,7 +78,7 @@ export const MarketDashBord = () => {
                         </div>
                         <div className="my-20">
                             <div className="text-white">
-                                สินค้าที่ขายออกทั้งหมด 3 เดือน ของผู้ใช้
+                                สินค้าที่ขายออกทั้งหมดประจำปี ของผู้ใช้
                                 <div className="ml-5 inline-block rounded-md">
                                     <input onChange={userSet} className="text-adopdark rounded-md outline outline-adoplighticon focus:outline-adoplighticon focus:scale-105 duration-300 focus:border-adoplighticon" type="text" />
                                 </div>
