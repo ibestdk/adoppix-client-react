@@ -150,3 +150,18 @@ export const callrecommentOnItems = async (username) => {
   }).catch((err) => console.log(err.response));
   return response.data.data;
 };
+
+
+export const callDelete = async (auctionId) => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Origin": "*",
+  };
+  let response = await axios({
+    method: "delete",
+    url: `${apiPath}api/Auction/${auctionId}`,
+    headers: headers,
+  }).catch((err) => console.log(err.response));
+  return response.data.data;
+};
