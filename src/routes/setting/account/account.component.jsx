@@ -37,7 +37,7 @@ const Account = () => {
     setisSave(true);
     // event.preventDefault();
     // const data = new FormData(event.currentTarget);
-    // console.log({
+    // //console.log({
     //   Username: userName,
     //   Description: description,
     //   // ProfileImage: data.get("password"),
@@ -71,7 +71,7 @@ const Account = () => {
     if (coverImage) {
       jsonData.CoverImage = coverImage;
     }
-    console.log(jsonData);
+    //console.log(jsonData);
     const token = getToken();
     const body = jsonData;
     const headers = {
@@ -101,11 +101,11 @@ const Account = () => {
     // })
     //   .then((response) => response.json())
     //   .then((res) => {
-    //     console.log("Success:", res);
+    //     //console.log("Success:", res);
     //     if (res.status) {
     //       //sent data to authen services
     //       // sessionStorage.setItem("token", response.data)
-    //       // console.log("sessionStroage was stored")
+    //       // //console.log("sessionStroage was stored")
     //       authenicate(res, () => navigate("/"));
 
     //       // localStorage.setItem("ut", res.data);
@@ -119,17 +119,17 @@ const Account = () => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      console.log("มีข้อมูล");
-      console.log(user);
+      //console.log("มีข้อมูล");
+      //console.log(user);
       setUserNameLocal(user.username);
       setDescriptionLocal(user.description);
       setProfileImageLocal(user.profileImage);
       setCoverImageLocal(user.coverImage);
       setTimeout(() => {
-        console.log(userNameLocal);
-        console.log(descriptionLocal);
-        console.log(profileImageLocal);
-        console.log(coverImageLocal);
+        //console.log(userNameLocal);
+        //console.log(descriptionLocal);
+        //console.log(profileImageLocal);
+        //console.log(coverImageLocal);
       }, 1000);
     }
   }, [coverImage]);
@@ -191,7 +191,7 @@ const Account = () => {
             />
           </div>
           <div>
-            <TextAreaMaker
+            <TextAreaMaker 
               value={description ? description : descriptionLocal}
               onClose={handleDescriptionOnClose}
               handleChange={(e) => setDescription(e.target.value)}

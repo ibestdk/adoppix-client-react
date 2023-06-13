@@ -26,9 +26,9 @@ const ResetPasswordCard = () => {
     setIsSubmit(true); //ปิดด้วย
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("password"),
-    });
+    // //console.log({
+    //   email: data.get("password"),
+    // });
 
     if (JSON.stringify(formErrors) === "{}") {
       const jsonData = {
@@ -36,7 +36,7 @@ const ResetPasswordCard = () => {
       };
 
       //https://api.adoppix.com/api/Auth/f53493d7-78e1-4261-8b5c-fa4c6ce8da0c/forget-password  PUT METHOD  RESET PASSWORD Pess New Password Two Time
-      // console.log(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`)
+      // //console.log(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`)
       fetch(`https://api.adoppix.com/api/Auth/${token}/forget-password`, {
         method: "GET",
         headers: {
@@ -47,11 +47,11 @@ const ResetPasswordCard = () => {
       })
         .then((response) => response.json())
         .then((res) => {
-          console.log("Success:", res);
+          //console.log("Success:", res);
           if (res.status) {
             //sent data to authen services
             // sessionStorage.setItem("token", response.data)
-            // console.log("sessionStroage was stored")
+            // //console.log("sessionStroage was stored")
             navigate("/forgetpassword/mailsended");
 
             // localStorage.setItem("ut", res.data);
@@ -63,10 +63,10 @@ const ResetPasswordCard = () => {
     }
   };
   useEffect(() => {
-    console.log("call useEffect");
-    // console.log(formErrors);
+    //console.log("call useEffect");
+    // //console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      // console.log(formValues);
+      // //console.log(formValues);
     }
   }, [formErrors]);
 

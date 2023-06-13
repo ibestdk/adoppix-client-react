@@ -15,7 +15,6 @@ import Setting from "./routes/setting/setting.component";
 import Account from "./routes/setting/account/account.component";
 import Security from "./routes/setting/security/security.component";
 import Payment from "./routes/setting/payment/payment.component";
-import Bank from "./routes/setting/bank/bank.component";
 import { AuctionItem } from "./routes/auction/auction-item/auction-item.component";
 import { AuctionIndex } from "./routes/auction/auction-index/auction-index.component";
 import ForgetPassword from "./routes/authentication/forget-password/forget-password.component";
@@ -26,41 +25,42 @@ import { MarketIndex } from "./routes/market/market-index/market-index.component
 import { MarketItem } from "./routes/market/market-item/market-item.component";
 import VerifyEmail from "./routes/authentication/verify/email/verify-email.component";
 import { MarketCreate } from "./routes/market/market-create/market-create.component";
+import { MarketDashBord } from "./routes/market/market-dashbord/market-dash.component";
 import { ProtectedRoute } from "./routes/denied/denied.component";
 import { AuctionCreate } from "./routes/auction/auction-create/auction-create.component";
 import { MarketWishList } from "./routes/market/market-wishlist/market-wishlist.component";
 import { MarketCart } from "./routes/market/market-cart/market-cart.component";
+import { FeedsIndex } from "./routes/feeds/feeds-index/feeds-index";
+import { FeedsPost } from "./routes/feeds/feeds-post/feeds-post";
+import { MarketMyShop } from "./routes/market/market-myShop/market-myShop.component";
+import { MarketMyShopItem } from "./routes/market/market-myShop-item/market-myShop-item.component";
+import { TopUp } from "./routes/top-up/topup";
+import { TopUpIndex } from "./routes/top-up/topup-index/topup-index";
+import { AuctionTags } from "./routes/auction/auction-tags/auction-tags.component";
+import Storage from "./routes/storage/storage";
+import { StorageIndex } from "./routes/storage/storage-index";
+import { getUser, getUserDataApi } from "./services/authorize";
+import { SummaryPage } from "./routes/market/market-index/buySummary/summary";
+import { BuySuccess } from "./routes/market/market-index/buySummary/success/success";
+import { QuestionAndAnswer } from "./routes/QnA/qna";
+import { Bank } from "./routes/setting/bank/bank.component";
+import { WithDrawn } from "./routes/bank/withdraw";
+import { AuctionHistory } from "./routes/auction/auction-history/auction-history";
+import { AuctionRemoved } from "./routes/auction/auction-item/auction-removed";
 
 export const DarkContext = createContext();
 
 function App() {
   // const [darkToggle, setDarkToggle] = React.useState(false);
   const [darkToggle, setDarkToggle] = useState(false);
-
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const loadedTheme = async () => {
+    const user = getUser();
+    //console.log(user.isDark)
+    setDarkToggle(user.isDark);
+  };
   useEffect(() => {
-    const loadedTheme = async () => {
-      if (!localStorage.getItem("theme") && localStorage.getItem("user")) {
-        console.log("โหลดธีมใหม่จากผู้ใช้ เนื่องจากยังไม่มีธีมใน local");
-        const userData = JSON.parse(localStorage.getItem("user"));
-        localStorage.setItem("theme", userData.isDark);
-        setDarkToggle(userData.isDark);
-        console.log("theme is : " + userData.isDark);
-        console.log("======================================");
-        console.log(1);
-      } else if (localStorage.getItem("theme")) {
-        console.log("โหลดธีมจาก local");
-        const theme = JSON.parse(localStorage.getItem("theme"));
-        console.log(theme);
-        setDarkToggle(theme);
-        console.log(2);
-      } else {
-        console.log("หาไม่เจอ เซ็ตธีมใหม่แปป");
-        setDarkToggle(false);
-        console.log(3);
-      }
-    };
     loadedTheme();
-
     // // block right click
     // document.addEventListener("contextmenu", function (event) {
     //   event.preventDefault();
@@ -88,72 +88,191 @@ function App() {
     // });
   }, []);
 
+  // useEffect(() => {
+  //   const newToken = localStorage.getItem("token");
+  //   if (newToken !== token) {
+  //     setToken(newToken);
+  //   }
+  // }, [token]);
+
+  // useEffect(() => {
+  //   if (token !== null) {
+  //     // Token exists, call getUserDataApi
+  //     getUserDataApi(token);
+  //   }
+  // }, [token]);
+
   return (
     <DarkContext.Provider value={{ darkToggle, setDarkToggle }}>
       <div className={`App ${darkToggle ? "dark" : ""}`}>
-        <Routes>
-          <Route exact path="/" element={<WithNav />}>
-            <Route exact index element={<Home />} />
-            <Route exact path="auction/" element={<Auction />}>
-              <Route exact index element={<AuctionIndex />} />
-              <Route exact path=":auctionId" element={<AuctionItem />} />
+        <div className="bg-adoplight dark:bg-adopdark">
+          <Routes>
+            <Route exact path="/" element={<WithNav />}>
+              <Route exact index element={<Home />} />
+              <Route exact path="auction/" element={<Auction />}>
+                <Route exact index element={<AuctionIndex />} />
+                <Route exact path="history" element={<AuctionHistory />} />
+                <Route exact path="auction404" element={<AuctionRemoved />} />
+                <Route exact path="tags/:tagId" element={<AuctionTags />} />
+                <Route exact path=":auctionId" element={<AuctionItem />} />
+                <Route
+                  exact
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <AuctionCreate />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route exact path="topup/" element={<TopUp />}>
+                <Route
+                  exact
+                  index
+                  element={
+                    <ProtectedRoute>
+                      <TopUpIndex />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route path="market/" element={<Market />}>
+                <Route
+                  path="wishlist"
+                  element={
+                    <ProtectedRoute>
+                      <MarketWishList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="cart"
+                  element={
+                    <ProtectedRoute>
+                      <MarketCart />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route index element={<MarketIndex />} />
+                <Route path=":productId" element={<MarketItem />} />
+                <Route
+                  path="my-shop/:id"
+                  element={
+                    <ProtectedRoute>
+                      <MarketMyShopItem />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="create"
+                  element={
+                    <ProtectedRoute>
+                      <MarketCreate />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="dashbord"
+                  element={
+                    <ProtectedRoute>
+                      <MarketDashBord/>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="my-shop"
+                  element={
+                    <ProtectedRoute>
+                      <MarketMyShop />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="Summary/:data"
+                  element={
+                    <ProtectedRoute>
+                      <SummaryPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="transaction-sccess"
+                  element={
+                    <ProtectedRoute>
+                      <BuySuccess />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
               <Route
                 exact
-                path="create"
+                path="feeds"
                 element={
                   <ProtectedRoute>
-                    <AuctionCreate />
+                    {" "}
+                    <Feeds />
                   </ProtectedRoute>
                 }
+              >
+                <Route index element={<FeedsIndex />} />
+                <Route path=":postId" element={<FeedsPost />} />
+              </Route>
+
+              <Route
+                exact
+                path="setting/"
+                element={
+                  <ProtectedRoute>
+                    <Setting />
+                  </ProtectedRoute>
+                }
+              >
+                <Route exact path="account" element={<Account />}></Route>
+                <Route exact path="security" element={<Security />}></Route>
+                <Route exact path="payment" element={<Payment />}></Route>
+                <Route exact path="bank" element={<Bank />}></Route>
+              </Route>
+              <Route
+                exact
+                path="inventories/"
+                element={
+                  <ProtectedRoute>
+                    <Storage />
+                  </ProtectedRoute>
+                }
+              >
+                <Route exact index element={<StorageIndex />}></Route>
+                <Route exact path="security" element={<Security />}></Route>
+                <Route exact path="payment" element={<Payment />}></Route>
+                <Route exact path="bank" element={<Bank />}></Route>
+              </Route>
+
+              <Route exact path="withdraw" element={<WithDrawn />} />
+              <Route exact path="Q&A" element={<QuestionAndAnswer />} />
+              <Route exact path=":userprofile" element={<UserProfile />} />
+            </Route>
+            <Route exact element={<WithOutNav />}>
+              <Route exact path="login" element={<SignIn />} />
+              <Route exact path="signup" element={<SignUp />} />
+              <Route exact path="forgetpassword" element={<ForgetPassword />} />
+              <Route
+                exact
+                path="forgetpassword/mailsended"
+                element={<MailPasswordSended />}
+              />
+              <Route
+                exact
+                path="password/reset/:token"
+                element={<ResetPasswordCard />}
+              />
+              <Route
+                exact
+                path="verify/emailaddress/:token"
+                element={<VerifyEmail />}
               />
             </Route>
-            <Route path="market/" element={<Market />} >
-              <Route path="wishlist" element={<MarketWishList/>}/>
-              <Route path="cart" element={<MarketCart/>}/>
-              <Route index element={<MarketIndex/>} />
-              <Route path=":productId" element={<MarketItem/>} />
-              <Route path="create" element={<MarketCreate/>} />
-            </Route>
-            <Route exact path="feeds" element={<Feeds />} />
-
-            <Route
-              exact
-              path="setting/"
-              element={
-                <ProtectedRoute>
-                  <Setting />
-                </ProtectedRoute>
-              }
-            >
-              <Route exact path="account" element={<Account />}></Route>
-              <Route exact path="security" element={<Security />}></Route>
-              <Route exact path="payment" element={<Payment />}></Route>
-              <Route exact path="bank" element={<Bank />}></Route>
-            </Route>
-
-            <Route exact path=":userprofile" element={<UserProfile />} />
-          </Route>
-          <Route exact element={<WithOutNav />}>
-            <Route exact path="login" element={<SignIn />} />
-            <Route exact path="signup" element={<SignUp />} />
-            <Route exact path="forgetpassword" element={<ForgetPassword />} />
-            <Route
-              exact
-              path="forgetpassword/mailsended"
-              element={<MailPasswordSended />}
-            />
-            <Route
-              exact
-              path="password/reset/:token"
-              element={<ResetPasswordCard />}
-            />
-            <Route
-              exact
-              path="verify/emailaddress/:token"
-              element={<VerifyEmail />}
-            />
-          </Route>
-        </Routes>
+          </Routes>
+        </div>
       </div>
     </DarkContext.Provider>
   );

@@ -17,7 +17,7 @@ function CreateDropDown() {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpen(false);
-        // console.log(menuRef.current);
+        // //console.log(menuRef.current);
       }
     };
 
@@ -51,7 +51,7 @@ function CreateDropDown() {
           <ul>
             <DropdownItem route={"auction/create"} text={"Auction"} />
             <DropdownItem route={"market/create"} text={"Market"} />
-            <DropdownItem route={""} text={"Post"} />
+
           </ul>
         </div>
       </div>

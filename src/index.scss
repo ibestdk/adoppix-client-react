@@ -11,7 +11,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #171717;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -34,7 +34,9 @@
   img {
     pointer-events: none;
   }
-
+textarea{
+  resize: none; 
+}
 
   img {
     -webkit-touch-callout: none;
@@ -48,6 +50,14 @@
   }
 
   -webkit-tap-highlight-color:rgba(255, 255, 255, 0);
+
+  .hide-native-scrollbar {
+    scrollbar-width: none; /* Firefox 64 */
+    -ms-overflow-style: none; /* Internet Explorer 11 */
+  }
+  .hide-native-scrollbar::-webkit-scrollbar { /** WebKit */
+    display: none;
+  }
 
 
 }

@@ -46,7 +46,7 @@ const Banner = () => {
       .then((res) => setData(res))
       .catch((err) => setErrors(err));
 
-    console.log(banner);
+    //console.log(banner);
   }
 
   useEffect(() => {

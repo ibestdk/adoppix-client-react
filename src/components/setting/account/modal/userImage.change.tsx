@@ -47,14 +47,14 @@ export default function ModalChangeImage({ visible, onClose ,setProfileImage,set
   const canvasToBase64 = () => {
     const base64 = previewCanvasRef.current?.toDataURL("image/jpeg");
     // const canvas = document.createElement("canvas");
-    console.log(base64);
+    //console.log(base64);
     // const base64Image = canvas.toDataURL("image/jpeg");
     // setImageOutput(canvas);
-    // console.log(base64Image);
+    // //console.log(base64Image);
     const file = dataURLtoFile(base64, "test.jpg");
     setProfileImage(file);
     setProfileImage64(base64);
-    console.log(file);
+    //console.log(file);
     onClose();
   };
 

@@ -14,18 +14,13 @@ function ElementMaker(props) {
             onChange={props.handleChange}
             onBlur={props.handleBlur}
             autoFocus
-            className="text-adopdark rounded-lg dark:bg-adopsoftdark dark:text-adoplight border-none outline-none m-3"
+            className="text-adopdark rounded-lg dark:bg-adopsoftdark dark:text-adoplight border-none outline-none w-[200px] m-3 ml-5"
           />
         ) : (
           <span
             onDoubleClick={props.handleDoubleClick}
-            className="m-5"
-            style={{
-              display: "inline-block",
-              height: "25px",
-              minWidth: "300px",
-        
-            }}
+            className="m-5 bg-adopsoftdark p-2 rounded-lg inline-block text-lg w-[200px]"
+           
           >
             {props.value}
           </span>

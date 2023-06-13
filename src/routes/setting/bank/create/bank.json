@@ -1,0 +1,65 @@
+{
+    "banks": [
+      {
+        "name": "Bank of Thailand",
+        "abbreviation": "BOT",
+        "website": "https://www.bot.or.th/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Kasikornbank",
+        "abbreviation": "KBANK",
+        "website": "https://www.kasikornbank.com/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Siam Commercial Bank",
+        "abbreviation": "SCB",
+        "website": "https://www.scb.co.th/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Bangkok Bank",
+        "abbreviation": "BBL",
+        "website": "https://www.bangkokbank.com/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Krung Thai Bank",
+        "abbreviation": "KTB",
+        "website": "https://www.ktb.co.th/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "TMB Bank",
+        "abbreviation": "TMB",
+        "website": "https://www.tmbbank.com/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Bank of Ayudhya",
+        "abbreviation": "Krungsri",
+        "website": "https://www.krungsri.com/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "CIMB Thai Bank",
+        "abbreviation": "CIMB",
+        "website": "https://www.cimbthai.com/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "Thanachart Bank",
+        "abbreviation": "TBank",
+        "website": "https://www.tbank.co.th/",
+        "headquarters": "Bangkok"
+      },
+      {
+        "name": "United Overseas Bank (Thai)",
+        "abbreviation": "UOB",
+        "website": "https://www.uob.co.th/",
+        "headquarters": "Bangkok"
+      }
+    ]
+  }
+  

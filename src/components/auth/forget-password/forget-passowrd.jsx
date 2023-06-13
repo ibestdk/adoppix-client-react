@@ -9,16 +9,16 @@ const ForgetPasswordCard = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-    });
+    // //console.log({
+    //   email: data.get("email"),
+    // });
     
     const jsonData = {
         email: data.get("email"),
     };
 
 //https://api.adoppix.com/api/Auth/f53493d7-78e1-4261-8b5c-fa4c6ce8da0c/forget-password  PUT METHOD  RESET PASSWORD Pess New Password Two Time
-    // console.log(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`)
+    // //console.log(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`)
     fetch(`https://api.adoppix.com/api/Auth/${jsonData.email}/forget-password`, {
       method: "GET",
       headers: {
@@ -28,11 +28,11 @@ const ForgetPasswordCard = () => {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log("Success:", res);
+        //console.log("Success:", res);
         if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
-          // console.log("sessionStroage was stored")
+          // //console.log("sessionStroage was stored")
           navigate("/forgetpassword/mailsended");
 
           // localStorage.setItem("ut", res.data);

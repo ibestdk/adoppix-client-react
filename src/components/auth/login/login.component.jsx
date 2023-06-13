@@ -9,19 +9,21 @@ import { useState, useEffect } from "react";
 const LoginCard = () => {
   const navigate = useNavigate();
   const [isShowPassword, setIsShowPassword] = useState(false);
+
   const handleCheck = () => {
+    //console.log("called func handleCheck")
     setIsShowPassword(!isShowPassword);
-    console.log(isShowPassword)
+    //console.log(isShowPassword);
   };
 
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    // //console.log({
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
 
     const jsonData = {
       email: data.get("email"),
@@ -38,12 +40,12 @@ const LoginCard = () => {
     })
       .then((response) => response.json())
       .then((res) => {
-        console.log("Success:", res);
+        //console.log("Success:", res);
         if (res.status) {
           //sent data to authen services
           // sessionStorage.setItem("token", response.data)
-          // console.log("sessionStroage was stored")
-          authenicate(res, () => navigate("/"));
+          // //console.log("sessionStroage was stored")
+          authenicate(res, () => {navigate("/"); window.location.reload();});
        
           // localStorage.setItem("ut", res.data);
         }
@@ -55,7 +57,7 @@ const LoginCard = () => {
 
   return (
     <div className="max-w-sm m-auto flex items-center justify-center h-screen ">
-      <div className="w-[350px] dark:bg-adopsoftdark pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
+      <div className="w-[350px] dark:bg-adopsoftdark bg-adoplight pt-8 pb-16 px-5 shadow-[0px_0px_1px_black] rounded-lg">
         <div>
           <Link to="/">
             <div className="logo text-adoppix font-bold text-3xl text-center cursor-pointer">
@@ -96,28 +98,28 @@ const LoginCard = () => {
                 className="dark:text-adoplight  text-adopsoftdark"
                 icon={<BsEyeFill />}
                 checkedIcon={<BsEyeSlashFill />}
-                onChange={handleCheck}
+                onClick={handleCheck}
               />
              
             </div>
           </div>
           <div>
-            <Link to="/forgetpassword" className="float-right text-sm">
+            <Link to="/forgetpassword" className="float-right text-sm dark:text-adoplight text-adopdark">
               ลืมรหัสผ่าน?
             </Link>
           </div>
           <div className="flex items-center gap-2">
             <input className="rounded-md" type="checkbox" name="" id="" />
-            <Label htmlFor="remember">Remember me</Label>
+            <Label htmlFor="remember">จดจำฉัน</Label>
           </div>
           <Button type="submit">Login</Button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
+            ยังไม่มีรหัสอย่างงั้นหรอ?{" "}
             <Link
               to="/signup"
               className="text-blue-700 hover:underline dark:text-blue-500"
             >
-              Create account
+              คลิกเพื่อสมัครสมาชิก
             </Link>
           </div>
         </form>

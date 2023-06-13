@@ -1,0 +1,284 @@
+.login-card{
+    background:#ECF0F1;
+    padding: 2em 3em 4em 3em;
+    border-radius: 1rem;
+
+
+    box-shadow: 0px 0px 15px gray;
+  }
+
+
+
+  //================================================
+
+hr{
+    opacity: 1 !important;
+}
+
+  body{background:#ECF0F1}
+
+  .load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+    /*change these sizes to fit into your project*/
+    width:100px;
+    height:100px;
+  }
+  .load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+
+  .load :first-child{background:#19A68C;animation-delay:-1.5s}
+  .load :nth-child(2){background:#F63D3A;animation-delay:-1s}
+  .load :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+  .load :last-child{background:#193B48}
+
+  @keyframes spin{
+    0%,100%{transform:translate(0)}
+    25%{transform:translate(160%)}
+    50%{transform:translate(160%, 160%)}
+    75%{transform:translate(0, 160%)}
+  }
+
+
+  //==============================================================
+// HTML font size can define checkbox size
+html,
+body {
+	font-size: 24px;
+}
+
+// Sample container
+.main-container {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+}
+
+// Main CSS
+.check-container {
+	width: 6.25rem;
+	height: 7.5rem;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: space-between;
+
+	.check-background {
+		width: 100%;
+		height: calc(100% - 1.25rem);
+		background: linear-gradient(to bottom right, #5de593, #41d67c);
+		box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+		transform: scale(0.84);
+		border-radius: 50%;
+		animation: animateContainer 0.75s ease-out forwards 0.75s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+
+		svg {
+			width: 65%;
+			transform: translateY(0.25rem);
+			stroke-dasharray: 80;
+			stroke-dashoffset: 80;
+			animation: animateCheck 0.35s forwards 1.25s ease-out;
+		}
+	}
+
+	.check-shadow {
+		bottom: calc(-15% - 5px);
+		left: 0;
+		border-radius: 50%;
+		background: radial-gradient(closest-side, rgba(73, 218, 131, 1), transparent);
+		animation: animateShadow 0.75s ease-out forwards 0.75s;
+	}
+}
+
+@keyframes animateContainer {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+		box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+	}
+	25% {
+		opacity: 1;
+		transform: scale(0.9);
+		box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+	}
+	43.75% {
+		transform: scale(1.15);
+		box-shadow: 0px 0px 0px 43.334px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+	}
+	62.5% {
+		transform: scale(1);
+		box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 21.667px rgba(255, 255, 255, 0.25) inset;
+	}
+	81.25% {
+		box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+	}
+	100% {
+		opacity: 1;
+		box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset,
+			0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+	}
+}
+
+@keyframes animateCheck {
+	from {
+		stroke-dashoffset: 80;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes animateShadow {
+	0% {
+		opacity: 0;
+		width: 100%;
+		height: 15%;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	43.75% {
+		width: 40%;
+		height: 7%;
+		opacity: 0.35;
+	}
+	100% {
+		width: 85%;
+		height: 15%;
+		opacity: 0.25;
+	}
+}
+
+
+
+//fail
+
+
+
+/*=======================
+       O-Circle
+=========================*/
+
+.o-circle {
+    display: flex;
+    width: 10.555rem; height: 10.555rem;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 50%;
+    animation: circle-appearance .8s ease-in-out 1 forwards, set-overflow .1s 1.1s forwards;
+  }
+
+  .c-container__circle {
+    margin: 0 auto 2.5rem;
+  }
+
+  /*=======================
+      C-Circle Sign
+  =========================*/
+
+  .o-circle__sign {
+    position: relative;
+    opacity: 0;
+    background: #fff;
+    animation-duration: .8s;
+    animation-delay: .2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+
+  .o-circle__sign::before,
+  .o-circle__sign::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+  }
+
+
+
+  /*=======================
+        Sign Failure
+  =========================*/
+
+  .o-circle__sign--failure {
+    background: rgb(236, 78, 75);
+  }
+
+  .o-circle__sign--failure .o-circle__sign {
+    width: 1rem; height: 7rem;
+    transform: translateY(25%) rotate(45deg) scale(.1);
+    border-radius: 50% 50% 50% 50% / 10%;
+    animation-name: failure-sign-appearance;
+  }
+
+  .o-circle__sign--failure .o-circle__sign::before {
+     top: 50%;
+     width: 100%; height: 100%;
+     transform: translateY(-50%) rotate(90deg);
+     border-radius: inherit;
+  }
+
+  /*--shadow--*/
+  .o-circle__sign--failure .o-circle__sign::after {
+     background: rgba(175, 57, 55, .8);
+  }
+
+
+  /*-----------------------
+        @Keyframes
+  --------------------------*/
+
+  /*CIRCLE*/
+  @keyframes circle-appearance {
+    0% { transform: scale(0); }
+
+    50% { transform: scale(1.5); }
+
+    60% { transform: scale(1); }
+
+    100% { transform: scale(1); }
+  }
+
+  /*SIGN*/
+  @keyframes failure-sign-appearance {
+    50% { opacity: 1;  transform: translateY(25%) rotate(45deg) scale(1.7); }
+
+    100% { opacity: 1; transform: translateY(25%) rotate(45deg) scale(1); }
+  }
+
+  @keyframes success-sign-appearance {
+    50% { opacity: 1;  transform: translateX(130%) translateY(35%) rotate(45deg) scale(1.7); }
+
+    100% { opacity: 1; transform: translateX(130%) translateY(35%) rotate(45deg) scale(1); }
+  }
+
+
+  @keyframes set-shaddow {
+    to { opacity: 1; }
+  }
+
+  @keyframes set-overflow {
+    to { overflow: hidden; }
+  }
+
+
+
+  /*+++++++++++++++++++
+      @Media Queries
+  +++++++++++++++++++++*/
+
+  @media screen and (min-width: 1300px) {
+
+    HTML { font-size: 1.5625em; } /* 25 / 16 = 1.5625 */
+
+  }

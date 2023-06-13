@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import "./user.scss";
-import { logout } from "../../../services/authorize";
+import { getToken, getUser, logout } from "../../../services/authorize";
 import { useNavigate, Link } from "react-router-dom";
-import { Switch } from "@mui/material";
 import { DarkContext } from "../../../App";
 import {
   BsFillGearFill,
@@ -15,46 +14,69 @@ import {
 } from "react-icons/bs";
 
 import { MdLogout } from "react-icons/md";
+import axios from "axios";
+import { setDarkModeAPI } from "../../../services/apiService";
+import Switch from "../../switch";
+import MoneyNumber from "../../../services/moneyService";
 
 function UserDropDown() {
   const [userData, setUserData] = useState([]);
+  const [money, setMoney] = useState();
   const { darkToggle, setDarkToggle } = useContext(DarkContext);
   const navigate = useNavigate();
 
-  const setDarkMode = (darkMode) => {
-    console.log(
-      "loaded theme before change Ss : " + localStorage.getItem("theme")
-    );
-    console.log("loaded theme before change Ss : " + darkToggle);
-    console.log("theme will change to : " + darkMode);
+  const setDarkMode = async (darkMode) => {
+    const result = await setDarkModeAPI(darkMode);
+    //console.log(result);
     setDarkToggle(darkMode);
-    localStorage.setItem("theme", darkMode);
-    console.log("set theme to session" + darkToggle && darkToggle);
+  };
+
+  const getUserMoney = async () => {
+    const token = getToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    };
+
+    let response = await axios({
+      method: "get",
+      url: `https://api.adoppix.com/api/User/money`,
+      headers: headers,
+    }).catch((err) => console.log(err.response));
+    //console.log(response.data.data);
+    setMoney(response.data.data);
+  };
+
+  const resetRoute = () => {
+    navigate("/");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
   };
 
   const [open, setOpen] = useState(false);
   let menuRef = useRef();
 
   useEffect(() => {
-    // console.log("ข้อมูลผู้ใช้: "+userData)
-    console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
-
-    const user = JSON.parse(localStorage.getItem('user'));
+    // //console.log("ข้อมูลผู้ใช้: "+userData)
+    //console.log("ข้อมูลผู้ใช้: " + JSON.parse(localStorage.getItem("user")));
+    getUserMoney();
+    const user = getUser();
     if (user) {
-      console.log("มีข้อมูล")
-      console.log(user)
+      //console.log("มีข้อมูล");
+      //console.log(user);
       setUserData(user);
     }
-
 
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
         setOpen(false);
-        // console.log(menuRef.current);
+        // //console.log(menuRef.current);
       }
     };
 
-    console.log( userData );
+    //console.log(userData);
     document.addEventListener("mousedown", handler);
 
     return () => {
@@ -74,7 +96,9 @@ function UserDropDown() {
           <div>
             <img
               className="rounded-full border-2 p-1 bg-adoplight dark:bg-adopsoftdark border-adoppix outline-adoppix"
-              src={`https://pix.adoppix.com/public/${userData.profileImage ? userData.profileImage: "brushsan.png" }`}
+              src={`https://pix.adoppix.com/public/${
+                userData.profileImage ? userData.profileImage : "brushsan.png"
+              }`}
             ></img>
           </div>
         </div>
@@ -86,21 +110,29 @@ function UserDropDown() {
         >
           <Link to={userData.username}>
             <div
-              className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 object-cover bg-repeat-round bg-center"
+              className="hover:opacity-70 mt-4 cursor-pointer rounded-lg duration-300 bg-cover bg-center bg-no-repeat"
               style={{
                 backgroundImage:
                   "url(" +
-                  `https://pix.adoppix.com/public/${userData.coverImage ? userData.coverImage : "6d3ed0c6-f9f7-41f8-8142-2e8c0d71a3a5.jpg"}` +
+                  `https://pix.adoppix.com/public/${
+                    userData.coverImage
+                      ? userData.coverImage
+                      : "6d3ed0c6-f9f7-41f8-8142-2e8c0d71a3a5.jpg"
+                  }` +
                   ")",
               }}
             >
               <p className="text-center pt-2 ">
                 <img
-                  className="rounded-full w-[60px] border-4 bg-adoplight dark:bg-adopsoftdark  border-adoppix outline-adoppix mx-auto shadow-lg"
-                  src={`https://pix.adoppix.com/public/${userData.profileImage ? userData.profileImage: "brushsan.png"}`}
+                  className="rounded-full w-[60px] h-[60px] object-cover border-4 bg-adoplight dark:bg-adopsoftdark  border-adoppix outline-adoppix mx-auto shadow-lg"
+                  src={`https://pix.adoppix.com/public/${
+                    userData.profileImage
+                      ? userData.profileImage
+                      : "brushsan.png"
+                  }`}
                 ></img>
               </p>
-              <h3 className="text-adoplight pt-0 shadow-lg">
+              <h3 className="text-adoplight pt-0 shadow-lg drop-shadow-xl">
                 {userData.username}
                 <br className="dark:text-adoplight" />
                 <span className="dark:text-adoplight shadow-xl">Artist</span>
@@ -115,27 +147,27 @@ function UserDropDown() {
             </div>
             <div>
               <h5 className="text-xl duration-300 text-adopdark dark:text-adoplight font-bold">
-                3650.34
+                {money && <MoneyNumber amount={money} />}
               </h5>
             </div>
           </div>
           <div className="flex mt-1">
-            <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
+            <div className="cursor-pointer m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
+              <Link className="flex text-lg" to={"topup"}>
                 <BsFillCreditCard2FrontFill className="m-1" />
                 เติมเงิน
-              </a>
+              </Link>
             </div>
             <div className="m-auto hover:bg-gray-200 text-adopdark dark:text-adoplight dark:hover:bg-adopdark w-full text-center p-2 rounded-lg duration-300">
-              <a className="flex text-lg">
+              <Link className="flex text-lg" to={"withdraw"}>
                 <BsBank2 className="m-1" />
                 ถอนเงิน
-              </a>
+              </Link>
             </div>
           </div>
           <ul>
             <DropdownItem
-              click={() => navigate("/setting/account")}
+              click={() => navigate("/inventories")}
               icon={<BsImages className="dark:text-adoplight  ml-3 mt-[4px]" />}
               text={"คลังรูปภาพ"}
             />
@@ -144,25 +176,30 @@ function UserDropDown() {
               icon={
                 <BsFillGearFill className="dark:text-adoplight  ml-3 mt-[4px]" />
               }
-              text={"Settings"}
+              text={"ตั้งค่า"}
             />
 
             <li className="dropdownItem">
-              <BsMoonFill className="dark:text-adoplight  ml-3 mr-2 mt-2 text-xl" />
-              <Switch onClick={() => setDarkMode(!darkToggle)} />
-              <BsSun className="dark:text-adoplight  ml-2 mt-2 text-xl" />
+              <div className="flex justify-start items-center ml-3">
+                <BsSun className="dark:text-adoplight   text-2xl" />
+                <Switch
+                  checked={darkToggle}
+                  onChange={() => setDarkMode(!darkToggle)}
+                />
+                <BsMoonFill className="dark:text-adoplight  text-2xl" />
+              </div>
             </li>
-
             <DropdownItem
+            click={() => navigate("/Q&A")}
               icon={
                 <BsFillQuestionCircleFill className="dark:text-adoplight  ml-3 mt-[4px]" />
-              }
-              text={"Helps"}
+              } 
+              text={"การช่วยเหลือ"}
             />
             <DropdownItem
               icon={<MdLogout className="dark:text-adoplight  ml-3 mt-[4px]" />}
-              click={() => logout(() => navigate("/"))}
-              text={"Logout"}
+              click={() => logout(() => resetRoute())}
+              text={"ออกจากระบบ"}
             />
           </ul>
         </div>
@@ -175,8 +212,10 @@ function DropdownItem(props) {
   return (
     <li className="dropdownItem dark:hover:bg-adopdark hover:bg-gray-200 duration-300 rounded-lg">
       {props.icon}
-      <a className="dark:text-adoplight text-lg" onClick={props.click}>
-
+      <a
+        className="dark:text-adoplight text-lg w-[150px]"
+        onClick={props.click}
+      >
         {props.text}
       </a>
     </li>

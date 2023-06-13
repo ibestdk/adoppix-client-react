@@ -42,13 +42,13 @@
   }
   
   .dropdown-menu{
-    position: absolute;
-    top: 80px;
-    right: 50px;
+    position: absolute !important; 
+    top: 80px !important;
+    right: 20px !important;
     background-color: #fff;
     border-radius: var(--border-radius);
-    padding: 10px 20px;
-    width: 270px;
+    padding: 10px 20px !important;
+    width: 270px !important;
     z-index: 100;
   }
   
@@ -124,7 +124,7 @@
   }
   
   .dropdownItem a{
-    max-width: 100px;
+    max-width: 150px;
     margin-left: 10px;
     transition: var(--speed);
   }

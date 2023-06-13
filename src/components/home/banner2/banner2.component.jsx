@@ -10,10 +10,6 @@ import { Carousel } from "flowbite-react";
 import { render } from "react-dom";
 import axios from "axios";
 
-
-
-
-
 const Banner2 = () => {
   const [hasError, setErrors] = useState(false);
   const [banners, setData] = useState();
@@ -47,40 +43,39 @@ const Banner2 = () => {
     setCurrentIndex(slideIndex);
   };
 
-
   useEffect(() => {
-    const fetchData = async() => {
-      console.log(2)
+    const fetchData = async () => {
+      //console.log(2)
       // res
       //   .json()
       //   .then((res) => setData(res.data))
       //   .catch((err) => setErrors(err));
-      const res = await axios.get("https://mockapi.adoppix.com/api/Mock/GetBanner");
-      setData(res.data.data)
-      // console.log(res)
-    }
+      const res = await axios.get(
+        "https://api.backoffice.adoppix.com/api/Banner"
+      );
+      setData(res.data.data);
+      // //console.log(res)
+    };
 
-    // console.log("useEffect")
-    console.log(1)
+    // //console.log("useEffect")
+    //console.log(1)
     fetchData();
-    console.log("banner list");
-    console.log(banners && banners);
-
-    
+    //console.log("banner list");
+    //console.log(banners && banners);
   }, []);
 
   return (
     <div className="h-96 sm:h-96 xl:h-96 2xl:h-96">
-    <Carousel slideInterval={10000}>
-    {banners&&banners.map((banner, bannerIndex) => (
-        <img  key={bannerIndex}
-        src={banners&&banner.image}
-    
-        />
-    ))}
-     
-    </Carousel>
-  </div>
+      <Carousel slideInterval={10000}>
+        {banners &&
+          banners.map((banner, bannerIndex) => (
+            <img
+              key={bannerIndex}
+              src={`https://pix.adoppix.com/public/${banner.name}`}
+            />
+          ))}
+      </Carousel>
+    </div>
   );
 };
 

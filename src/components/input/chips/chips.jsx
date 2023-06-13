@@ -27,7 +27,7 @@ export default function Chips({ tagsData , setTagsData }) {
     const handleKeyDown = (newChip ) => {
         if (newChip.key === 'Enter') {
           // 👇 Get input value
-          console.log(newChip.target.value);
+          // //console.log(newChip.target.value);
           setTagsData([...tagsData, newChip.target.value]);
           newChip.target.value = '';
         }

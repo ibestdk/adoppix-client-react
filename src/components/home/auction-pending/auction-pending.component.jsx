@@ -1,91 +1,14 @@
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
 
-const OwlAuction = () => {
-  const pendingLists = [
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://i-ogp.pximg.net/c/w1200_q80_a2_g1_u1_cr0:0.038:1:0.777/img-master/img/2020/08/06/17/43/06/83484044_p0_master1200.jpg",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://media.discordapp.net/attachments/801331667586383872/1034379383978328134/100950847_p0.png?width=671&height=671",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://media.discordapp.net/attachments/801331667586383872/1034379386704646194/101003773_p0.png?width=865&height=671",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1048957316810158100/17d8dc92ec65e33c617489f9ebe91abf.jpg",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1048957317024063568/72ffa6766c07cb1cd8cd8722f30c9fc1.jpg",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1048957317275734036/103239814_p0.jpg",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1048957317586104421/103338368_p0.png",
-      price: 4564,
-    },
-    {
-      title: "title name",
-      description: "description",
-      profileimage:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1033781143578873927/302418608_1757199631279919_4575167264398495042_n.jpg",
-      username: "ibestdk",
-      image:
-        "https://cdn.discordapp.com/attachments/681151360305201169/1048957317921644595/103289577_p0_master1200.jpg",
-      price: 4564,
-    },
-  ];
-
+ const OwlAuction = () => {
+  const [newAuction, setNewAuction] = useState([]);
+  const [onload, setOnload] = useState(true);
+  const [timenow, setTimenow] = useState();
   const options = {
     loop: true,
     center: true,
@@ -93,8 +16,8 @@ const OwlAuction = () => {
     margin: 0,
     autoplay: true,
     dots: true,
-    autoplayTimeout: 8500,
-    smartSpeed: 450,
+    autoplayTimeout: 6000,
+    smartSpeed: 800,
     nav: false,
     responsive: {
       0: {
@@ -108,24 +31,124 @@ const OwlAuction = () => {
       },
     },
   };
-
+  function handleContextMenu(event) {
+    event.preventDefault();
+  }
+  useEffect(() => {
+    const getNewAuction = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.adoppix.com/api/Auction?Take=10&Page=1"
+        );
+        setNewAuction(response.data.data.auctionsList);
+        //console.log("newAuction");
+        //console.log(newAuction);
+        setOnload(false);
+      } catch (error) {
+        //console.log(error);
+      }
+    };
+    getNewAuction();
+  }, [setNewAuction]);
+  useEffect(() => {
+    setTimenow(new Date(Date.now()).toISOString());
+  }, []);
   return (
-    <div className=" mt-5 p-5 container m-auto bg-adoplight dark:bg-adopsoftdark rounded-lg">
-      <div>
-        <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">Pending Auction</h2>
-      </div>
-      <div className="mt-3">
-        <OwlCarousel {...options}>
-          {pendingLists.map((card, cardIndex) => (
-            <div key={cardIndex} className="item m-3  w-[260px] ">
-              <img className="w-[250px] h-[300px] object-cover rounded-lg shadow-lg" src={card.image} />
-              <h4 className="text-adopsoftdark dark:text-adoplight duration-300">{card.title}</h4>
-            </div>
-          ))}
-        </OwlCarousel>
-      </div>
+    <div className=" mt-5 p-5 container m-auto bg-adoplight shadow-section-center dark:bg-adopsoftdark rounded-lg">
+    <div>
+      <h2 className="text-adopsoftdark text-center text-2xl font-bold dark:text-adoplight duration-300">
+        การประมูลใหม่
+      </h2>
     </div>
+    <div className="mt-3">
+      { !onload &&
+        <OwlCarousel {...options}>
+          {newAuction.length > 0 &&
+            newAuction.map((auctionItem, index) => (
+              <div key={index} className="w-[240px]">
+              <div className="relative overflow-hidden">
+                <NavLink
+                  className="hover:scale-95 duration-100 hover:brightness-75 transition-all ease-linear"
+                  to={`auction/${auctionItem.auctionId}`}
+                >
+                  <img
+                    onContextMenu={handleContextMenu}
+                    className="h-[320px] rounded-lg w-[240px] object-cover overflow-hidden "
+                    src={`https://pix.adoppix.com/public/${auctionItem.image}`}
+                  />
+                </NavLink>
+
+
+                <div className="absolute bottom-0 h-16 hover:h-36 hover:bg-opacity-90 w-full bg-adopsoftdark bg-opacity-60 duration-300 transition-all ease-in-out p-1">
+                  <div className="text-lg flex justify-between items-center">
+                    <div className="truncate w-[ุ50%] text-lg">
+                      {auctionItem.title}
+                    </div>
+                    <div className="text-adoppix font-semibold text-lg">
+                      {auctionItem.currentAmoutBid > 0
+                        ? auctionItem.currentAmoutBid
+                        : "-"}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex">
+                      <div>
+                        <img
+                          onContextMenu={handleContextMenu}
+                          className="h-[30px] rounded-full w-[30px] object-cover mx-1"
+                          src={`https://pix.adoppix.com/public/${auctionItem.profileImage}`}
+                        />
+                      </div>
+                      <div className="text-sm font-bold my-auto truncate w-[60%]">
+                        {auctionItem.username}
+                      </div>
+                    </div>
+                    <div className="w-[35%]">
+                      <div style={{ width: "1.5rem" }}>
+                        {auctionItem && (
+                          <div>
+                            {auctionItem.stopTime !== null ? (
+                              <div>
+                                {timenow > auctionItem.stopTime ? (
+                                  <div className="bg-red-500 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                    สิ้นสุด
+                                  </div>
+                                ) : (
+                                  <div className="bg-green-500 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                    ประมูลอยู่
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="bg-yellow-200 rounded-md w-[60px] h-[22px] text-sm text-center">
+                                ยังไม่เริ่ม
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full flex flex-wrap">
+                    {auctionItem.tags &&
+                      auctionItem.tags.map((tag, index) => (
+                        <div
+                          key={index}
+                          className="py-1 px-1 rounded-lg flex"
+                          style={{ flexBasis: "auto" }}
+                        >
+                          <p className="text-sm cursor-pointer">#{tag}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            ))}
+        </OwlCarousel>
+      }
+    </div>
+  </div>
   );
 };
-
 export default OwlAuction;

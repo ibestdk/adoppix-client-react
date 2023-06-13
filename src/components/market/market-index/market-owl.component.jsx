@@ -3,21 +3,21 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import MarketOwlObject from "./market-owl-object";
 
-const MarketOwl = () => {
+const MarketOwl = ({ testClick }) => {
   const categoryData =[
     {
-        image: "https://t4.ftcdn.net/jpg/01/56/14/43/360_F_156144336_s2Zogfcqap2E3WUm7CaduUA0JKpdt6xb.jpg",
-        title: "แฟนตาซี",
+        image: "https://media.discordapp.net/attachments/681151360305201169/1098721073190666390/mori-fantasy-ios-android-img-4.webp",
+        title: "AI",
         link: ""
     },
     {
         image: "https://cdn.wallpapersafari.com/9/10/c0yL9u.jpg",
-        title: "ต่างโลก",
+        title: "girl",
         link: ""
     },
     {
         image: "https://t3.ftcdn.net/jpg/03/67/25/32/360_F_367253281_GdsfPiBPOvCFpG1HyLIxNCZxLu5DeInl.jpg",
-        title: "ดราม่า",
+        title: "selfie",
         link: ""
     },
     {
@@ -42,20 +42,24 @@ const MarketOwl = () => {
     },
     {
         image: "https://paperpirateship.files.wordpress.com/2017/03/img_0183.png?w=1920",
-        title: "การออกแบบ",
+        title: "ดีไซน์",
         link: ""
     }
 ]
 
+  // const tagCardClicked = (name) => {
+  //   setTagOwlCol(name);
+  // }
+
   const options = {
     loop: true,
     center: true,
-    items: 3,
+    items: 1,
     margin: 0,
     autoplay: true,
     dots: true,
-    autoplayTimeout: 8500,
-    smartSpeed: 450,
+    autoplayTimeout: 5000,
+    smartSpeed: 600,
     nav: false,
     responsive: {
       0: {
@@ -75,7 +79,7 @@ const MarketOwl = () => {
       <div className="">
         <OwlCarousel {...options}>
           {categoryData.map((card, cardIndex) => (
-           <MarketOwlObject key={cardIndex} object={card} />
+           <MarketOwlObject key={cardIndex} object={card} testClick={testClick} />
           ))}
         </OwlCarousel>
       </div>
